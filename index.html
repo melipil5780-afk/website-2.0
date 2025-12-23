@@ -1,212 +1,213 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalmSites | Elite Practice Design</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Professional Web Design for Therapists</title>
+    
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <style>
         :root { 
             --ink: #1a1c1e; 
             --sage: #7d8c80; 
             --stone: #f4f2ef; 
-            --gold: #c5a38d; 
+            --gold: #b2937d; 
             --white: #ffffff; 
-            --accent: #b44545; 
-            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); 
+            --accent: #9b4d4d;
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* RESET & BASE */
+        /* --- GLOBAL RESET --- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: var(--stone); 
             color: var(--ink); 
-            line-height: 1.6; 
-            text-align: center; /* Centers everything by default */
+            line-height: 1.7; 
+            text-align: center; /* Ensures everything is centered by default */
         }
         
         h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; margin: 0 auto; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 25px; }
-        .text-limiter { max-width: 750px; margin: 0 auto; } /* Keeps text from stretching too wide */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 30px; }
+        .text-limiter { max-width: 800px; margin: 0 auto; }
 
-        /* LOGO ONLY NAV */
-        nav { padding: 40px 20px; position: absolute; width: 100%; z-index: 100; }
-        .logo { 
-            font-family: 'Playfair Display'; 
-            font-size: 1.8rem; 
-            font-style: italic; 
-            color: var(--white); 
-            text-decoration: none; 
-            letter-spacing: 1px; 
-        }
+        /* --- NAVIGATION (MINIMAL) --- */
+        nav { padding: 50px 0; display: flex; justify-content: center; position: absolute; width: 100%; z-index: 100; }
+        nav a { text-decoration: none; color: var(--white); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; }
 
-        /* HERO - MOBILE OPTIMIZED */
+        /* --- HERO SECTION --- */
         header { 
             height: 100vh; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+            background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), 
                         url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; 
             color: var(--white); 
             padding: 0 20px;
         }
         .hero-content h1 { 
-            font-size: clamp(2.2rem, 8vw, 4.8rem); 
-            margin-bottom: 20px; 
+            font-size: clamp(2.4rem, 8vw, 4.8rem); 
+            margin-bottom: 25px; 
             line-height: 1.1; 
-            max-width: 900px;
+            max-width: 1000px;
         }
         .hero-content p { 
-            font-size: clamp(0.9rem, 2.5vw, 1.2rem); 
-            letter-spacing: 3px; 
-            text-transform: uppercase; 
-            margin-bottom: 40px; 
-            opacity: 0.9; 
+            font-size: clamp(1rem, 2.5vw, 1.3rem); 
+            max-width: 700px;
+            margin: 0 auto 50px;
+            opacity: 0.95; 
+            font-weight: 300;
         }
 
-        .cta-intense { 
-            padding: 20px 45px; 
+        .cta-button { 
+            padding: 22px 50px; 
             background: var(--white); 
             color: var(--ink); 
             text-decoration: none; 
             text-transform: uppercase; 
-            letter-spacing: 2px; 
+            letter-spacing: 3px; 
             font-weight: 600; 
-            font-size: 0.85rem; 
+            font-size: 0.9rem; 
             display: inline-block; 
             transition: var(--transition); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .cta-intense:hover { background: var(--gold); color: white; transform: scale(1.05); }
+        .cta-button:hover { background: var(--gold); color: white; transform: translateY(-5px); }
 
-        /* PORTFOLIO GRID */
-        #work { padding: 100px 0; background: var(--white); }
+        /* --- PORTFOLIO GALLERY --- */
+        #portfolio { padding: 140px 0; background: var(--white); }
         .portfolio-grid { 
             display: grid; 
-            grid-template-columns: repeat(2, 1fr); /* 2 columns on desktop */
-            gap: 30px; 
-            margin-top: 50px;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 40px; 
+            margin-top: 80px;
         }
         .portfolio-item { 
             cursor: pointer; 
             background: var(--stone); 
-            padding: 15px; 
-            border: 1px solid #eee; 
+            padding: 25px; 
+            border: 1px solid #f0f0f0; 
             transition: var(--transition);
             overflow: hidden;
+            display: flex;
+            align-items: flex-start;
         }
-        .portfolio-item img { width: 100%; height: auto; display: block; }
-        .portfolio-item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .portfolio-item img { width: 100%; height: auto; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+        .portfolio-item:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); }
 
-        /* PILLARS / EXPERIENCE */
-        .experience { padding: 100px 0; background: var(--stone); }
-        .pillars { 
+        /* --- CAREER GROWTH SECTION --- */
+        .benefits { padding: 140px 0; background: var(--stone); }
+        .benefit-grid { 
             display: grid; 
-            grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
-            gap: 40px; 
-            margin-top: 60px;
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 60px; 
+            margin-top: 80px;
         }
-        .pillar h3 { color: var(--sage); font-size: 1.5rem; margin-bottom: 15px; }
-        .pillar p { font-size: 0.95rem; color: #444; margin: 0 auto; max-width: 300px; }
+        .benefit-card h3 { color: var(--sage); font-size: 1.6rem; margin-bottom: 20px; font-style: italic; }
+        .benefit-card p { font-size: 1rem; color: #444; font-weight: 400; max-width: 320px; margin: 0 auto; }
 
-        /* OFFER BOX */
-        .offer { background: var(--ink); color: white; padding: 120px 20px; }
-        .price-tag { 
-            font-size: clamp(4rem, 15vw, 7rem); 
+        /* --- INTENSE OFFER --- */
+        .offer { background: var(--ink); color: white; padding: 140px 20px; }
+        .price-hero { 
+            font-size: clamp(4.5rem, 18vw, 8rem); 
             font-family: 'Playfair Display'; 
-            margin: 20px 0; 
+            margin: 25px 0; 
+            line-height: 1;
         }
-        .price-tag span { text-decoration: line-through; opacity: 0.2; font-size: 0.3em; margin-right: 10px; }
+        .price-hero span { text-decoration: line-through; opacity: 0.2; font-size: 0.3em; margin-right: 15px; }
         .badge { 
-            background: var(--accent); 
-            padding: 6px 15px; 
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 20px; 
             font-size: 0.75rem; 
-            letter-spacing: 2px; 
-            margin-bottom: 25px; 
+            letter-spacing: 3px; 
+            margin-bottom: 30px; 
             display: inline-block; 
-            font-weight: 600; 
         }
 
-        /* LIGHTBOX */
+        /* --- LIGHTBOX (FULL PREVIEW) --- */
         #lightbox { 
             position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(26,28,30,0.98); display: none; align-items: center; justify-content: center; 
         }
-        .lb-container { 
-            width: 90%; 
-            max-width: 1000px; 
-            height: 80vh; 
+        .lb-content { 
+            width: 85%; 
+            max-width: 1100px; 
+            height: 85vh; 
             overflow-y: auto; 
             background: white; 
-            padding: 5px; 
+            padding: 10px; 
+            position: relative;
         }
-        .lb-container img { width: 100%; height: auto; display: block; }
-        .close-lb { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
+        .lb-content img { width: 100%; height: auto; display: block; }
+        .close-lb { position: absolute; top: 25px; right: 35px; color: white; font-size: 3rem; cursor: pointer; font-weight: 200; }
 
-        footer { padding: 60px; opacity: 0.3; font-size: 0.7rem; letter-spacing: 2px; }
+        footer { padding: 100px 0; background: var(--stone); opacity: 0.4; font-size: 0.75rem; letter-spacing: 3px; }
 
-        /* MOBILE FIXES (Phones) */
-        @media (max-width: 800px) {
-            .portfolio-grid, .pillars { 
-                grid-template-columns: 1fr; /* Stacks everything in one column */
-                gap: 40px;
-            }
-            .hero-content h1 { font-size: 2.5rem; }
-            .experience { padding: 60px 20px; }
-            .portfolio-item { padding: 10px; }
-            .pillar p { max-width: 100%; } /* Allows text to use full width on mobile */
+        /* --- SCROLL ANIMATION --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 850px) {
+            .portfolio-grid, .benefit-grid { grid-template-columns: 1fr; gap: 50px; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .portfolio-item { padding: 15px; }
+            .price-hero { font-size: 5rem; }
         }
     </style>
 </head>
 <body>
 
-    <nav><a href="index.html" class="logo">CALMSITES</a></nav>
+    <nav><a href="contact.html">Begin A Project</a></nav>
 
     <header>
-        <div class="hero-content">
-            <h1>Websites Built for<br>Clinical Authority.</h1>
-            <p>Attract More Clients. Grow Your Practice.</p>
-            <a href="#work" class="cta-intense">View Our Work</a>
+        <div class="hero-content reveal">
+            <h1>Professional Websites for Therapists</h1>
+            <p>Beautiful, calming, and client-focused websites — custom-built to grow your practice and elevate your career.</p>
+            <a href="#portfolio" class="cta-button">View Selected Works</a>
         </div>
     </header>
 
-    <section id="work">
+    <section id="portfolio">
         <div class="container">
-            <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Portfolio</h2>
-            <div class="text-limiter">
-                <p style="color: var(--sage); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">Selected Case Studies</p>
+            <div class="text-limiter reveal">
+                <h2 style="font-size: 3.5rem; margin-bottom: 20px;">The Gallery</h2>
+                <p style="text-transform: uppercase; letter-spacing: 3px; color: var(--sage); font-size: 0.8rem; font-weight: 600;">Clinical Aesthetics & Functional Design</p>
             </div>
             
             <div class="portfolio-grid">
-                <div class="portfolio-item" onclick="openLightbox('second.png')"><img src="second.png"></div>
-                <div class="portfolio-item" onclick="openLightbox('ok.png')"><img src="ok.png"></div>
-                <div class="portfolio-item" onclick="openLightbox('wbsi.png')"><img src="wbsi.png"></div>
-                <div class="portfolio-item" onclick="openLightbox('web.png')"><img src="web.png"></div>
+                <div class="portfolio-item reveal" onclick="openLightbox('second.png')"><img src="second.png"></div>
+                <div class="portfolio-item reveal" onclick="openLightbox('ok.png')"><img src="ok.png"></div>
+                <div class="portfolio-item reveal" onclick="openLightbox('wbsi.png')"><img src="wbsi.png"></div>
+                <div class="portfolio-item reveal" onclick="openLightbox('web.png')"><img src="web.png"></div>
             </div>
         </div>
     </section>
 
-    <section class="experience">
+    <section class="benefits">
         <div class="container">
-            <div class="text-limiter">
-                <h2 style="font-size: 2.8rem; margin-bottom: 20px;">The CalmSites Standard</h2>
-                <p>We combine psychological safety with modern digital architecture to ensure your practice stands out.</p>
+            <div class="text-limiter reveal">
+                <h2 style="font-size: 3rem; margin-bottom: 20px;">Built to Grow Your Practice</h2>
+                <p>We don't just create "fancy" designs. We build clinical tools that remove the friction between you and your future clients.</p>
             </div>
             
-            <div class="pillars">
-                <div class="pillar">
-                    <h3>Built for Inquiries</h3>
-                    <p>We design with one goal: turning website visitors into new patient consultations.</p>
+            <div class="benefit-grid">
+                <div class="benefit-card reveal">
+                    <h3>Command Authority</h3>
+                    <p>First impressions are clinical. We ensure your digital presence communicates expertise, safety, and immediate credibility.</p>
                 </div>
-                <div class="pillar">
-                    <h3>Established Trust</h3>
-                    <p>First impressions happen in milliseconds. We ensure yours communicates expert authority.</p>
+                <div class="benefit-card reveal">
+                    <h3>Attract Ideal Referrals</h3>
+                    <p>Stop losing potential clients to outdated, confusing sites. We design for clarity that turns visitors into consultation calls.</p>
                 </div>
-                <div class="pillar">
-                    <h3>Zero Fees</h3>
-                    <p>One-time investment. You own 100% of your site forever with no monthly maintenance costs.</p>
+                <div class="benefit-card reveal">
+                    <h3>Career Investment</h3>
+                    <p>Own your digital real estate. One-time payment, zero monthly fees, and a platform that scales with your growing career.</p>
                 </div>
             </div>
         </div>
@@ -214,26 +215,36 @@
 
     <section class="offer">
         <div class="container">
-            <div class="badge">INTRODUCTORY RATE</div>
-            <div class="text-limiter">
-                <h2 style="font-size: clamp(2rem, 6vw, 3.5rem);">Secure Your Digital Office</h2>
-                <div class="price-tag"><span>$1,799</span>$500</div>
-                <p style="margin-bottom: 40px; opacity: 0.8; font-size: 1.1rem;">Full custom build. Mobile-first design. SEO foundation. No technical stress.</p>
-                <a href="contact.html" class="cta-intense" style="background: var(--gold); color: white;">Press Now to Secure Rate</a>
+            <div class="badge">LIMITED TIME INTRODUCTORY RATE</div>
+            <div class="text-limiter reveal">
+                <h2 style="font-size: 3.5rem; color: white;">A Foundation for Your Success</h2>
+                <div class="price-hero"><span>$1,799</span>$500</div>
+                <p style="margin-bottom: 50px; opacity: 0.8; font-size: 1.2rem; font-weight: 300;">
+                    Complete professional build. SEO-tuned. Mobile optimized. <br>One payment. Lifetime ownership.
+                </p>
+                <a href="contact.html" class="cta-button" style="background: var(--gold); color: white; border: none;">Press Now to Secure This Rate</a>
             </div>
         </div>
     </section>
 
-    <footer>&copy; 2025 CALMSITES. EXPERT WEB DESIGN FOR THERAPISTS.</footer>
+    <footer>&copy; 2025 PROFESSIONAL WEB ARCHITECTURE FOR THERAPISTS.</footer>
 
+    <!-- LIGHTBOX -->
     <div id="lightbox" onclick="closeLightbox()">
         <span class="close-lb">&times;</span>
-        <div class="lb-container" onclick="event.stopPropagation()">
+        <div class="lb-content" onclick="event.stopPropagation()">
             <img id="lightbox-img" src="">
         </div>
     </div>
 
     <script>
+        // Reveal on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Lightbox
         const lb = document.getElementById('lightbox'); 
         const lbImg = document.getElementById('lightbox-img');
         function openLightbox(src) { 
