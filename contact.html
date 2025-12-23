@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | CalmSites</title>
+<style>
+:root {
+    --ink: #1e2b36;
+    --sage: #6f8f8a;
+    --bone: #fbfaf7;
+    --accent: #b44545;
+    --white: #ffffff;
+    --shadow: rgba(0,0,0,0.08);
+}
+
+/* Global */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: var(--bone);
+    color: var(--ink);
+    line-height: 1.6;
+}
+
+/* Navigation */
+nav {
+    background: var(--white);
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px var(--shadow);
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: var(--sage);
+}
+
+/* Contact */
+.contact {
+    background: var(--white);
+    padding: 60px;
+    max-width: 600px;
+    margin: 100px auto;
+    border-radius: 8px;
+    box-shadow: 0 30px 60px var(--shadow);
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.contact p {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.field {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--sage);
+    margin-bottom: 5px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    background: var(--ink);
+    color: var(--white);
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: var(--sage);
+}
+
+footer {
+    text-align: center;
+    padding: 50px;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .contact { padding: 40px; margin: 80px auto; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<div class="contact">
+    <h2>Contact Us</h2>
+    <p>Tell us about your practice. We keep it private.</p>
+    <form action="https://formspree.io/f/xkowpowd" method="POST">
+        <input type="hidden" name="_next" value="https://melipil5780-afk.github.io/website-2.0/thanks.html">
+        <div class="field">
+            <label>Name</label>
+            <input type="text" name="name" required>
+        </div>
+        <div class="field">
+            <label>Email</label>
+            <input type="email" name="email" required>
+        </div>
+        <div class="field">
+            <label>Phone</label>
+            <input type="tel" name="phone" required>
+        </div>
+        <div class="field">
+            <label>Message</label>
+            <textarea name="message" required></textarea>
+        </div>
+        <button type="submit">Send Request</button>
+    </form>
+</div>
+
+<footer>
+&copy; 2025 CalmSites — Modern Web Design for Therapists
+</footer>
+
+</body>
+</html>
