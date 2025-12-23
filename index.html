@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -22,14 +22,22 @@
         h2 { font-size: 3rem; margin-bottom: 2rem; color: #5a8a8a; }
 
         .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px; margin: 60px 0; }
-        .mockup-frame { background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); position: relative; overflow: hidden; }
-        .browser-bar { height: 40px; background: #f0f0f0; border-radius: 10px 10px 0 0; margin: -20px -20px 20px; display: flex; align-items: center; padding: 0 15px; }
+        .mockup-frame { background: #fff; padding: 20px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .browser-bar { height: 40px; background: #f0f0f0; border-radius: 10px 10px 0 0; margin: -20px -20px 0px; display: flex; align-items: center; padding: 0 15px; }
         .dots { display: flex; gap: 8px; }
         .dot { width: 12px; height: 12px; border-radius: 50%; background: #ccc; }
         .dot:nth-child(1) { background: #ff5f56; }
         .dot:nth-child(2) { background: #ffbd2e; }
         .dot:nth-child(3) { background: #27c93f; }
-        .mockup-frame img { border-radius: 8px; width: 100%; height: 250px; object-fit: cover; }
+        
+        /* THIS FIXES THE CUT OFF ISSUE */
+        .mockup-frame img { 
+            border-radius: 0 0 8px 8px; 
+            width: 100%; 
+            height: auto; 
+            object-fit: contain; 
+            margin-top: 10px;
+        }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 50px; }
         .feature { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); transition: transform 0.3s; }
@@ -127,14 +135,22 @@
         <div class="contact-info">
             <p><strong>Phone:</strong> 256-540-9488</p>
             <p><strong>Email:</strong> <a href="mailto:info@strongertogetherrelationships.com">info@strongertogetherrelationships.com</a></p>
+            <p><strong>Address:</strong> 190 Lime Quarry Rd., Ste. 107, Madison, AL 35758</p>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2025 CalmSites Therapy.</p>
+        <p>&copy; 2025 CalmSites Therapy. Helping therapists build meaningful online presences.</p>
     </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
 
 </body>
 </html>
-
-
