@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CalmSites | Modern Web Design for Private Therapists</title>
-
 <style>
 :root {
     --ink: #1e2b36;
@@ -23,6 +22,25 @@ body {
     background: var(--bone);
     color: var(--ink);
     line-height: 1.6;
+}
+
+/* Navigation */
+nav {
+    background: var(--white);
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 5px var(--shadow);
+}
+
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: var(--sage);
 }
 
 /* Animations */
@@ -188,48 +206,22 @@ h2 {
 
 .pricing p {
     font-size: 1rem;
+    margin-bottom: 30px;
 }
 
-/* Contact */
-.contact {
-    background: var(--white);
-    padding: 60px;
-    max-width: 600px;
-    margin: -150px auto 40px;
-    border-radius: 8px;
-    box-shadow: 0 30px 60px var(--shadow);
-}
-
-.field {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--sage);
-    margin-bottom: 5px;
-}
-
-input, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    background: #fafafa;
-}
-
-button {
-    width: 100%;
-    padding: 15px;
-    background: var(--ink);
-    color: var(--white);
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-button:hover {
+.pricing-cta {
+    padding: 15px 40px;
     background: var(--sage);
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.pricing-cta:hover {
+    background: var(--accent);
+    transform: scale(1.05);
 }
 
 footer {
@@ -242,18 +234,21 @@ footer {
 @media (max-width: 768px) {
     .hero h1 { font-size: 2rem; }
     section { padding: 80px 15px; }
-    .contact { padding: 40px; }
 }
 </style>
 </head>
-
 <body>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="contact.html">Contact</a>
+</nav>
 
 <header>
     <div class="hero">
         <h1>Create Stunning, Modern Websites That Attract More Clients</h1>
         <p>Custom Web Design for Private Therapists – Boost Traffic and Grow Your Practice</p>
-        <a href="#contact" class="cta">Book a Consultation</a>
+        <a href="contact.html" class="cta">Book a Consultation</a>
     </div>
 </header>
 
@@ -315,34 +310,8 @@ footer {
             <div class="old">$1,799</div>
             <div class="price">$500</div>
             <p>One payment for a modern site that boosts traffic and attracts clients. No monthly fees.</p>
+            <a href="contact.html" class="pricing-cta">Get Started Now</a>
         </div>
-    </div>
-</section>
-
-<section id="contact">
-    <div class="contact">
-        <h2>Start Your Project</h2>
-        <p>Tell us about your practice. We keep it private.</p>
-        <form action="https://formspree.io/f/xkowpowd" method="POST">
-            <input type="hidden" name="_next" value="https://melipil5780-afk.github.io/website-2.0/thanks.html">
-            <div class="field">
-                <label>Name</label>
-                <input type="text" name="name" required>
-            </div>
-            <div class="field">
-                <label>Email</label>
-                <input type="email" name="email" required>
-            </div>
-            <div class="field">
-                <label>Phone</label>
-                <input type="tel" name="phone" required>
-            </div>
-            <div class="field">
-                <label>Message</label>
-                <textarea name="message" required></textarea>
-            </div>
-            <button type="submit">Send Request</button>
-        </form>
     </div>
 </section>
 
