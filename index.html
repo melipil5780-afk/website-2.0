@@ -1,133 +1,78 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalmSites | Private Practice Web Design</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>CalmSites | High-End Web Design for Private Practice</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --ink: #1e2b36; 
-            --sage: #6f8f8a; 
-            --stone: #fbfaf7; 
-            --gold: #b2937d; 
-            --white: #ffffff; 
-            --accent: #b44545;
-            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
+        :root { --ink: #1a1c1e; --sage: #7d8c80; --stone: #f4f2ef; --gold: #c5a38d; --white: #ffffff; --accent: #b44545; --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; background-color: var(--stone); color: var(--ink); line-height: 1.6; }
         
-        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+        /* Navigation - NO WORDS, JUST LOGO */
+        nav { padding: 40px; display: flex; justify-content: center; position: absolute; width: 100%; z-index: 100; }
+        .logo { font-family: 'Playfair Display'; font-size: 1.8rem; font-style: italic; color: var(--white); text-decoration: none; letter-spacing: 1px; }
 
-        /* Navigation */
-        nav { padding: 30px 0; display: flex; justify-content: space-between; align-items: center; position: absolute; width: 100%; z-index: 100; }
-        nav a { text-decoration: none; color: var(--white); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 30px; }
-        .logo { font-family: 'Playfair Display'; font-size: 1.5rem; margin-left: 0 !important; font-style: italic; color: var(--white); }
-
-        /* Hero - Focus on Clinical Presence */
+        /* Hero - Direct & Punchy */
         header { 
-            height: 95vh; display: flex; align-items: center; justify-content: center; 
-            background: linear-gradient(rgba(30,43,54,0.6), rgba(30,43,54,0.6)), url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; 
+            height: 100vh; display: flex; align-items: center; justify-content: center; 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; 
             color: var(--white); text-align: center; 
         }
-        .hero-content { max-width: 850px; }
-        .hero-content h1 { font-size: clamp(2.5rem, 6vw, 4.2rem); margin-bottom: 25px; line-height: 1.1; }
-        .hero-content p { font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 45px; opacity: 0.9; }
+        .hero-content h1 { font-size: clamp(2.5rem, 7vw, 5rem); margin-bottom: 20px; line-height: 1; }
+        .hero-content p { font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 50px; opacity: 0.9; }
 
-        /* Intense CTA */
         .cta-intense { 
-            padding: 22px 50px; background: var(--white); color: var(--ink); text-decoration: none; 
+            padding: 22px 55px; background: var(--white); color: var(--ink); text-decoration: none; 
             text-transform: uppercase; letter-spacing: 3px; font-weight: 600; font-size: 0.9rem; 
-            display: inline-block; transition: 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: inline-block; transition: 0.3s; 
         }
-        .cta-intense:hover { background: var(--sage); color: white; transform: translateY(-3px); }
+        .cta-intense:hover { background: var(--gold); color: white; transform: scale(1.05); }
 
-        /* Portfolio - FULL IMAGE VISIBILITY */
-        #work { padding: 120px 0; background: var(--white); }
-        .section-header { text-align: center; margin-bottom: 80px; }
-        .section-header h2 { font-size: 3rem; margin-bottom: 10px; }
-        .section-header p { color: var(--sage); text-transform: uppercase; letter-spacing: 2px; }
-
+        /* Portfolio Grid */
+        #work { padding: 140px 0; background: var(--white); }
         .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
-        
-        .portfolio-item { 
-            cursor: pointer; 
-            background: var(--stone); 
-            border: 1px solid #eee; 
-            padding: 20px; /* Creates a frame */
-            transition: var(--transition);
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            height: 550px; /* Fixed height for the grid */
-            overflow: hidden; /* Clips only for the grid view, lightbox shows all */
-        }
-        
-        .portfolio-item img { 
-            width: 100%; 
-            height: auto; /* Shows the image naturally */
-            display: block;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
+        .portfolio-item { cursor: pointer; background: var(--stone); padding: 25px; border: 1px solid #eee; height: 600px; overflow: hidden; transition: 0.5s; }
+        .portfolio-item img { width: 100%; height: auto; display: block; }
+        .portfolio-item:hover { transform: translateY(-10px); }
 
-        .portfolio-item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-
-        /* Experience Section - Restored Wording */
+        /* Experience - To the Point */
         .experience { padding: 120px 0; background: var(--stone); }
-        .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-bottom: 80px; }
-        .pillar h3 { color: var(--sage); font-size: 1.5rem; margin-bottom: 15px; }
-        .pillar p { font-size: 1rem; color: #444; }
+        .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; }
+        .pillar h3 { color: var(--sage); font-size: 1.6rem; margin-bottom: 15px; }
+        .pillar p { font-size: 1rem; color: #333; font-weight: 400; }
 
-        /* Intense Offer Section */
-        .offer { background: var(--ink); color: white; padding: 120px 0; text-align: center; }
-        .price-tag { font-size: 6rem; font-family: 'Playfair Display'; margin: 20px 0; }
-        .price-tag span { text-decoration: line-through; opacity: 0.2; font-size: 2rem; margin-right: 15px; }
-        .badge { background: var(--accent); padding: 5px 15px; font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; display: inline-block; font-weight: 600; }
+        /* Pricing Box */
+        .offer { background: var(--ink); color: white; padding: 140px 0; text-align: center; }
+        .price-tag { font-size: 7rem; font-family: 'Playfair Display'; margin: 20px 0; }
+        .price-tag span { text-decoration: line-through; opacity: 0.2; font-size: 2rem; margin-right: 20px; }
+        .badge { background: var(--accent); padding: 6px 18px; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 30px; display: inline-block; font-weight: 600; }
 
-        /* Lightbox - Full Image Preview */
-        #lightbox { 
-            position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(30, 43, 54, 0.98); display: none; align-items: center; justify-content: center; 
-        }
-        .lb-container { width: 90%; max-width: 1100px; height: 85vh; overflow-y: auto; background: white; padding: 10px; }
+        /* Lightbox - Full View */
+        #lightbox { position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26,28,30,0.98); display: none; align-items: center; justify-content: center; }
+        .lb-container { width: 85%; max-width: 1100px; height: 85vh; overflow-y: auto; background: white; padding: 5px; }
         .lb-container img { width: 100%; height: auto; display: block; }
-        .close-lb { position: absolute; top: 30px; right: 40px; color: white; font-size: 2.5rem; cursor: pointer; }
+        .close-lb { position: absolute; top: 30px; right: 40px; color: white; font-size: 3rem; cursor: pointer; }
 
-        footer { padding: 60px; text-align: center; opacity: 0.4; font-size: 0.8rem; letter-spacing: 1px; }
-
-        @media (max-width: 800px) {
-            .portfolio-grid, .pillars { grid-template-columns: 1fr; }
-            .price-tag { font-size: 4rem; }
-        }
+        footer { padding: 80px; text-align: center; opacity: 0.3; font-size: 0.75rem; letter-spacing: 2px; }
+        @media (max-width: 800px) { .portfolio-grid, .pillars { grid-template-columns: 1fr; } .price-tag { font-size: 4.5rem; } }
     </style>
 </head>
 <body>
 
-    <nav class="container">
-        <a href="index.html" class="logo">CALMSITES</a>
-        <div>
-            <a href="#work">Portfolio</a>
-            <a href="contact.html">Contact</a>
-        </div>
-    </nav>
+    <nav><a href="index.html" class="logo">CALMSITES</a></nav>
 
     <header>
         <div class="hero-content">
-            <h1>A Website That Reflects<br>Your Clinical Presence.</h1>
-            <p>Private Web Design for Established Therapists</p>
-            <a href="#offer" class="cta-intense">Claim Introductory Rate</a>
+            <h1>Websites Built for<br>Clinical Authority.</h1>
+            <p>Attract More Clients. Grow Your Practice.</p>
+            <a href="#work" class="cta-intense">View Our Work</a>
         </div>
     </header>
 
     <section id="work" class="container">
-        <div class="section-header">
-            <p>Selected Client Work</p>
-            <h2>Clinical Excellence</h2>
-        </div>
         <div class="portfolio-grid">
             <div class="portfolio-item" onclick="openLightbox('second.png')"><img src="second.png"></div>
             <div class="portfolio-item" onclick="openLightbox('ok.png')"><img src="ok.png"></div>
@@ -139,53 +84,39 @@
     <section class="experience container">
         <div class="pillars">
             <div class="pillar">
-                <h3>Designed for Credibility</h3>
-                <p>Your site quietly communicates safety, authority, and containment before a single word is read by your prospective clients.</p>
+                <h3>Built for Inquiries</h3>
+                <p>We don't just design; we build tools that turn website visitors into scheduled consultations.</p>
             </div>
             <div class="pillar">
-                <h3>Strategic Simplicity</h3>
-                <p>No clutter. No distraction. Every element is intentional and psychologically aligned to turn visitors into patient inquiries.</p>
+                <h3>Established Trust</h3>
+                <p>Your digital office should reflect your expertise. We create a professional environment that builds immediate credibility.</p>
             </div>
             <div class="pillar">
-                <h3>Zero Technical Burden</h3>
-                <p>A fast, secure, and maintenance-free infrastructure. You focus on your practice; we handle the digital environment.</p>
+                <h3>Complete Ownership</h3>
+                <p>One-time payment. Zero monthly fees. You own your site, your domain, and your data forever.</p>
             </div>
         </div>
     </section>
 
-    <section class="offer" id="offer">
+    <section class="offer">
         <div class="container">
-            <div class="badge">LIMITED TIME INTRODUCTORY OFFER</div>
-            <h2>Secure Your Digital Office</h2>
-            <div class="price-tag"><span>$1,799</span> $500</div>
-            <p style="max-width: 600px; margin: 0 auto 50px; opacity: 0.8; font-size: 1.1rem;">
-                A one-time professional investment in a website that supports your practice for years — without monthly fees or technical stress.
-            </p>
-            <a href="contact.html" class="cta-intense" style="background: var(--gold); color: white;">Press Now to Secure This Rate</a>
+            <div class="badge">LIMITED INTRODUCTORY RATE</div>
+            <h2 style="font-size: 3.5rem;">Own Your Digital Presence</h2>
+            <div class="price-tag"><span>$1,799</span>$500</div>
+            <p style="max-width: 600px; margin: 0 auto 50px; font-size: 1.15rem; opacity: 0.8;">Full custom build. Mobile-first design. SEO foundation. No technical stress.</p>
+            <a href="contact.html" class="cta-intense" style="background: var(--gold); color: white;">Secure This Offer Now</a>
         </div>
     </section>
 
-    <footer>&copy; 2025 CALMSITES — PRIVATE DIGITAL ENVIRONMENTS FOR THERAPISTS</footer>
+    <footer>&copy; 2025 CALMSITES. EXPERT WEB DESIGN FOR THERAPISTS.</footer>
 
-    <div id="lightbox" onclick="closeLightbox()">
-        <span class="close-lb">&times;</span>
-        <div class="lb-container" onclick="event.stopPropagation()">
-            <img id="lightbox-img" src="">
-        </div>
-    </div>
+    <div id="lightbox" onclick="closeLightbox()"><span class="close-lb">&times;</span><div class="lb-container" onclick="event.stopPropagation()"><img id="lightbox-img" src=""></div></div>
 
     <script>
-        const lb = document.getElementById('lightbox');
-        const lbImg = document.getElementById('lightbox-img');
-        function openLightbox(src) { 
-            lbImg.src = src; 
-            lb.style.display = 'flex'; 
-            document.body.style.overflow = 'hidden'; 
-        }
-        function closeLightbox() { 
-            lb.style.display = 'none'; 
-            document.body.style.overflow = 'auto'; 
-        }
+        const lb = document.getElementById('lightbox'); const lbImg = document.getElementById('lightbox-img');
+        function openLightbox(src) { lbImg.src = src; lb.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        function closeLightbox() { lb.style.display = 'none'; document.body.style.overflow = 'auto'; }
     </script>
 </body>
 </html>
+
