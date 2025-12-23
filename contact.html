@@ -1,149 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact | CalmSites</title>
-<style>
-:root {
-    --ink: #1e2b36;
-    --sage: #6f8f8a;
-    --bone: #fbfaf7;
-    --accent: #b44545;
-    --white: #ffffff;
-    --shadow: rgba(0,0,0,0.08);
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | CalmSites</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --ink: #1a1c1e; --sage: #7d8c80; --stone: #f4f2ef; --white: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--stone); color: var(--ink); }
+        
+        nav { padding: 30px 0; display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 30px; }
+        nav a { text-decoration: none; color: var(--ink); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 30px; }
+        .logo { font-family: 'Playfair Display'; font-size: 1.5rem; margin-left: 0; }
 
-/* Global */
-* { margin:0; padding:0; box-sizing:border-box; }
+        .contact-wrap { max-width: 600px; margin: 60px auto; background: var(--white); padding: 60px; box-shadow: 0 40px 100px rgba(0,0,0,0.05); }
+        h1 { font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 10px; text-align: center; }
+        p { text-align: center; color: var(--sage); margin-bottom: 40px; font-size: 0.9rem; letter-spacing: 1px; }
 
-body {
-    font-family: "Segoe UI", sans-serif;
-    background: var(--bone);
-    color: var(--ink);
-    line-height: 1.6;
-}
+        .form-group { margin-bottom: 25px; }
+        label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--sage); margin-bottom: 8px; }
+        input, textarea { width: 100%; padding: 12px; border: none; border-bottom: 1px solid #ddd; outline: none; font-family: inherit; }
+        input:focus { border-bottom-color: var(--ink); }
 
-/* Navigation */
-nav {
-    background: var(--white);
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 2px 5px var(--shadow);
-}
-
-nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: var(--ink);
-    font-weight: bold;
-}
-
-nav a:hover {
-    color: var(--sage);
-}
-
-/* Contact */
-.contact {
-    background: var(--white);
-    padding: 60px;
-    max-width: 600px;
-    margin: 100px auto;
-    border-radius: 8px;
-    box-shadow: 0 30px 60px var(--shadow);
-}
-
-h2 {
-    font-size: 2.5rem;
-    font-weight: 400;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.contact p {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.field {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    font-size: 0.8rem;
-    color: var(--sage);
-    margin-bottom: 5px;
-}
-
-input, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    background: #fafafa;
-}
-
-button {
-    width: 100%;
-    padding: 15px;
-    background: var(--ink);
-    color: var(--white);
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-button:hover {
-    background: var(--sage);
-}
-
-footer {
-    text-align: center;
-    padding: 50px;
-    font-size: 0.8rem;
-    opacity: 0.7;
-}
-
-@media (max-width: 768px) {
-    .contact { padding: 40px; margin: 80px auto; }
-}
-</style>
+        .btn { width: 100%; padding: 20px; background: var(--ink); color: white; border: none; letter-spacing: 3px; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: var(--sage); }
+        
+        footer { text-align: center; padding: 40px; opacity: 0.4; font-size: 0.7rem; }
+    </style>
 </head>
 <body>
+    <nav>
+        <a href="index.html" class="logo">CALMSITES</a>
+        <div><a href="index.html">Home</a><a href="contact.html">Contact</a></div>
+    </nav>
 
-<nav>
-    <a href="index.html">Home</a>
-    <a href="contact.html">Contact</a>
-</nav>
-
-<div class="contact">
-    <h2>Contact Us</h2>
-    <p>Tell us about your practice. We keep it private.</p>
-    <form action="https://formspree.io/f/xkowpowd" method="POST">
-        <input type="hidden" name="_next" value="https://melipil5780-afk.github.io/website-2.0/thanks.html">
-        <div class="field">
-            <label>Name</label>
-            <input type="text" name="name" required>
-        </div>
-        <div class="field">
-            <label>Email</label>
-            <input type="email" name="email" required>
-        </div>
-        <div class="field">
-            <label>Phone</label>
-            <input type="tel" name="phone" required>
-        </div>
-        <div class="field">
-            <label>Message</label>
-            <textarea name="message" required></textarea>
-        </div>
-        <button type="submit">Send Request</button>
-    </form>
-</div>
-
-<footer>
-&copy; 2025 CalmSites — Modern Web Design for Therapists
-</footer>
-
+    <div class="contact-wrap">
+        <h1>Private Consultation</h1>
+        <p>Your practice details are handled with clinical confidentiality.</p>
+        <form action="https://formspree.io/f/xkowpowd" method="POST">
+            <input type="hidden" name="_next" value="https://melipil5780-afk.github.io/website-2.0/thanks.html">
+            <div class="form-group"><label>Full Name</label><input type="text" name="name" required></div>
+            <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
+            <div class="form-group"><label>Phone</label><input type="tel" name="phone" required></div>
+            <div class="form-group"><label>Practice Type</label><input type="text" name="practice"></div>
+            <div class="form-group"><label>Notes</label><textarea name="message" rows="3"></textarea></div>
+            <button type="submit" class="btn">SUBMIT REQUEST</button>
+        </form>
+    </div>
+    <footer>&copy; 2025 CALMSITES</footer>
 </body>
 </html>
