@@ -1,344 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CalmSites | Modern Web Design for Private Therapists</title>
-<style>
-:root {
-    --ink: #1e2b36;
-    --sage: #6f8f8a;
-    --bone: #fbfaf7;
-    --accent: #b44545;
-    --white: #ffffff;
-    --shadow: rgba(0,0,0,0.08);
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalmSites | Elite Web Design for Therapists</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --ink: #1a1c1e; --sage: #7d8c80; --stone: #f4f2ef; --gold: #c5a38d; --white: #ffffff; --accent: #b44545; --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--stone); color: var(--ink); line-height: 1.6; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 30px; }
+        
+        /* Nav */
+        nav { padding: 30px 0; display: flex; justify-content: space-between; align-items: center; position: absolute; width: 100%; z-index: 10; }
+        nav a { text-decoration: none; color: var(--white); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 30px; }
+        .logo { font-family: 'Playfair Display'; font-size: 1.5rem; margin-left: 0; }
 
-/* Global */
-* { margin:0; padding:0; box-sizing:border-box; }
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-body {
-    font-family: "Segoe UI", sans-serif;
-    background: var(--bone);
-    color: var(--ink);
-    line-height: 1.6;
-}
+        /* Hero */
+        header { height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; color: var(--white); text-align: center; }
+        .hero-content h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 20px; font-style: italic; }
+        .cta-main { padding: 20px 45px; background: var(--white); color: var(--ink); text-decoration: none; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; font-size: 0.8rem; display: inline-block; transition: 0.3s; }
+        .cta-main:hover { background: var(--sage); color: white; transform: scale(1.05); }
 
-/* Navigation */
-nav {
-    background: var(--white);
-    padding: 15px;
-    text-align: center;
-    box-shadow: 0 2px 5px var(--shadow);
-}
+        /* Portfolio - Clean, No words under */
+        .portfolio { padding: 120px 0; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .portfolio-item { cursor: pointer; height: 500px; overflow: hidden; position: relative; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: 1.5s; }
+        .portfolio-item:hover img { transform: scale(1.05); }
+        .item-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.2); opacity:0; display:flex; align-items:center; justify-content:center; transition: 0.4s; }
+        .portfolio-item:hover .item-overlay { opacity:1; }
+        .item-overlay span { color: white; border: 1px solid white; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.7rem; }
 
-nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: var(--ink);
-    font-weight: bold;
-}
+        /* Pricing/Offer */
+        .offer { background: var(--ink); color: white; padding: 100px 0; text-align: center; }
+        .price-tag { font-size: 5rem; font-family: 'Playfair Display'; margin: 20px 0; }
+        .price-tag span { text-decoration: line-through; opacity: 0.3; font-size: 1.5rem; }
+        .badge { background: var(--accent); padding: 5px 15px; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 20px; display: inline-block; }
 
-nav a:hover {
-    color: var(--sage);
-}
+        /* Lightbox */
+        #lightbox { position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; cursor: zoom-out; }
+        #lightbox img { max-width: 90%; max-height: 90vh; object-fit: contain; }
 
-/* Animations */
-@keyframes fade-in {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Hero */
-header {
-    height: 100vh;
-    background:
-        linear-gradient(rgba(30,43,54,0.6), rgba(30,43,54,0.6)),
-        url("https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg") center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: var(--white);
-}
-
-.hero {
-    max-width: 800px;
-    padding: 40px;
-    animation: fade-in 1s ease-out;
-}
-
-.hero h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 400;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-}
-
-.cta {
-    padding: 15px 40px;
-    background: var(--white);
-    color: var(--ink);
-    text-decoration: none;
-    font-size: 1rem;
-    transition: background 0.3s, transform 0.3s;
-}
-
-.cta:hover {
-    background: var(--sage);
-    color: var(--white);
-    transform: scale(1.05);
-}
-
-/* Sections */
-section {
-    padding: 100px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-h2 {
-    font-size: 2.5rem;
-    font-weight: 400;
-    text-align: center;
-    margin-bottom: 60px;
-}
-
-/* Portfolio */
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 50px;
-}
-
-.portfolio-card {
-    background: var(--white);
-    border-radius: 8px;
-    box-shadow: 0 20px 40px var(--shadow);
-    overflow: hidden;
-    transition: transform 0.5s;
-}
-
-.portfolio-card:hover {
-    transform: translateY(-10px);
-}
-
-.portfolio-image {
-    width: 100%;
-    aspect-ratio: 16/10;
-    position: relative;
-}
-
-.portfolio-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.caption {
-    position: absolute;
-    bottom: 10px;
-    left: 15px;
-    color: var(--white);
-    background: rgba(0,0,0,0.4);
-    padding: 5px 10px;
-    font-size: 0.8rem;
-    border-radius: 3px;
-}
-
-/* Experience */
-.experience {
-    background: #f4f5f3;
-    padding: 100px 20px;
-}
-
-.pillars {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 50px;
-    margin-bottom: 80px;
-}
-
-.pillar {
-    border-left: 1px solid var(--sage);
-    padding-left: 20px;
-}
-
-.pillar h3 {
-    font-weight: 400;
-    color: var(--sage);
-    margin-bottom: 10px;
-    font-size: 1.3rem;
-}
-
-.pricing {
-    background: var(--ink);
-    color: var(--white);
-    padding: 80px 30px;
-    text-align: center;
-    border-radius: 8px;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.badge {
-    display: inline-block;
-    padding: 5px 15px;
-    background: var(--accent);
-    border-radius: 20px;
-    font-size: 0.8rem;
-    margin-bottom: 20px;
-}
-
-.old {
-    text-decoration: line-through;
-    opacity: 0.6;
-}
-
-.price {
-    font-size: 4rem;
-    margin: 10px 0;
-}
-
-.pricing p {
-    font-size: 1rem;
-    margin-bottom: 30px;
-}
-
-.pricing-cta {
-    padding: 15px 40px;
-    background: var(--sage);
-    color: var(--white);
-    text-decoration: none;
-    font-size: 1rem;
-    border-radius: 5px;
-    transition: background 0.3s, transform 0.3s;
-}
-
-.pricing-cta:hover {
-    background: var(--accent);
-    transform: scale(1.05);
-}
-
-footer {
-    text-align: center;
-    padding: 50px;
-    font-size: 0.8rem;
-    opacity: 0.7;
-}
-
-@media (max-width: 768px) {
-    .hero h1 { font-size: 2rem; }
-    section { padding: 80px 15px; }
-}
-</style>
+        footer { padding: 60px; text-align: center; opacity: 0.4; font-size: 0.7rem; letter-spacing: 1px; }
+    </style>
 </head>
 <body>
+    <nav class="container">
+        <a href="index.html" class="logo">CALMSITES</a>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
 
-<nav>
-    <a href="index.html">Home</a>
-    <a href="contact.html">Contact</a>
-</nav>
+    <header>
+        <div class="hero-content reveal">
+            <h1>Elevate Your Digital<br>Clinical Presence.</h1>
+            <p style="letter-spacing: 4px; text-transform: uppercase; margin-bottom: 40px;">Bespoke Design for Private Practice</p>
+            <a href="#offer" class="cta-main">View Limited Offer</a>
+        </div>
+    </header>
 
-<header>
-    <div class="hero">
-        <h1>Create Stunning, Modern Websites That Attract More Clients</h1>
-        <p>Custom Web Design for Private Therapists – Boost Traffic and Grow Your Practice</p>
-        <a href="contact.html" class="cta">Book a Consultation</a>
-    </div>
-</header>
+    <section class="portfolio container">
+        <div class="portfolio-grid">
+            <div class="portfolio-item reveal" onclick="openLightbox('second.png')">
+                <img src="second.png">
+                <div class="item-overlay"><span>View Full Design</span></div>
+            </div>
+            <div class="portfolio-item reveal" onclick="openLightbox('ok.png')">
+                <img src="ok.png">
+                <div class="item-overlay"><span>View Full Design</span></div>
+            </div>
+            <div class="portfolio-item reveal" onclick="openLightbox('wbsi.png')">
+                <img src="wbsi.png">
+                <div class="item-overlay"><span>View Full Design</span></div>
+            </div>
+            <div class="portfolio-item reveal" onclick="openLightbox('web.png')">
+                <img src="web.png">
+                <div class="item-overlay"><span>View Full Design</span></div>
+            </div>
+        </div>
+    </section>
 
-<section>
-    <h2>Our Past Work</h2>
-    <div class="portfolio-grid">
-        <div class="portfolio-card">
-            <div class="portfolio-image">
-                <img src="second.png" alt="Modern Therapy Website">
-                <div class="caption">Modern Private Practice Site</div>
-            </div>
+    <section class="offer" id="offer">
+        <div class="container reveal">
+            <div class="badge">INTRODUCTORY RATE</div>
+            <h2>One-Time Investment. Forever Ownership.</h2>
+            <div class="price-tag"><span>$1,799</span> $500</div>
+            <p style="margin-bottom: 40px; opacity: 0.7;">Full design, SEO, and Mobile Optimization. No monthly fees.</p>
+            <a href="contact.html" class="cta-main" style="background: var(--gold); color: white;">Press Now to Secure This Rate</a>
         </div>
-        <div class="portfolio-card">
-            <div class="portfolio-image">
-                <img src="ok.png" alt="Contemporary Clinical Website">
-                <div class="caption">Contemporary Clinical Branding</div>
-            </div>
-        </div>
-        <div class="portfolio-card">
-            <div class="portfolio-image">
-                <img src="wbsi.png" alt="Stylish Therapist Branding">
-                <div class="caption">Stylish Therapist Identity</div>
-            </div>
-        </div>
-        <div class="portfolio-card">
-            <div class="portfolio-image">
-                <img src="web.png" alt="Sleek Mental Health Website">
-                <div class="caption">Sleek Mental Health Site</div>
-            </div>
-        </div>
-        <div class="portfolio-card">
-            <div class="portfolio-image">
-                <img src="webist.png" alt="Elegant Boutique Website">
-                <div class="caption">Elegant Boutique Practice Design</div>
-            </div>
-        </div>
-    </div>
-</section>
+    </section>
 
-<section class="experience">
-    <div class="experience-inner">
-        <h2>The CalmSites Difference</h2>
-        <div class="pillars">
-            <div class="pillar">
-                <h3>Stunning Modern Design</h3>
-                <p>Eye-catching looks that build trust fast and keep visitors on your site longer.</p>
-            </div>
-            <div class="pillar">
-                <h3>Increased Traffic</h3>
-                <p>SEO features draw more searches, bringing in potential clients every day.</p>
-            </div>
-            <div class="pillar">
-                <h3>More Clients</h3>
-                <p>Easy navigation and clear calls to action turn visitors into bookings.</p>
-            </div>
-        </div>
-        <div class="pricing">
-            <div class="badge">Special Offer</div>
-            <div class="old">$1,799</div>
-            <div class="price">$500</div>
-            <p>One payment for a modern site that boosts traffic and attracts clients. No monthly fees.</p>
-            <a href="contact.html" class="pricing-cta">Get Started Now</a>
-        </div>
-    </div>
-</section>
+    <footer>&copy; 2025 CALMSITES. ALL RIGHTS RESERVED.</footer>
 
-<footer>
-&copy; 2025 CalmSites — Modern Web Design for Therapists
-</footer>
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
 
-<script>
-const cards = document.querySelectorAll('.portfolio-card');
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = 1;
-            entry.target.style.transform = 'translateY(0)';
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
         }
-    });
-}, { threshold: 0.2 });
-
-cards.forEach(card => {
-    card.style.opacity = 0;
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = 'opacity 0.6s, transform 0.6s';
-    observer.observe(card);
-});
-</script>
-
+    </script>
 </body>
 </html>
+
 
 
