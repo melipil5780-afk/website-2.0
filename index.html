@@ -5,198 +5,196 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CalmSites Therapy | Boutique Web Design</title>
     <style>
-        /* LUXURY EARTH TONE PALETTE */
+        /* LUXURY STONE & SLATE PALETTE */
         :root {
-            --sage: #7a8d80;
-            --deep-sage: #5f6e63;
-            --cream: #fdfaf5;
-            --sand: #f4eee1;
-            --charcoal: #3e4440;
-            --sale-red: #b34d4d;
+            --slate: #4a5568;
+            --stone: #f7f8f7; 
+            --accent: #718096;
+            --white: #ffffff;
+            --sale-red: #c53030;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Georgia', serif; line-height: 1.8; color: var(--charcoal); background: var(--cream); }
-        a { text-decoration: none; color: var(--sage); transition: 0.3s; }
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #2d3748; background: var(--stone); }
+        a { text-decoration: none; color: var(--slate); }
 
         header { 
-            height: 90vh; 
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg') center/cover no-repeat; 
+            height: 80vh; 
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg') center/cover no-repeat; 
+            display: flex; align-items: center; justify-content: center; text-align: center; color: white; 
+        }
+        h1 { font-size: 3.5rem; font-weight: 300; letter-spacing: -1px; padding: 0 20px; }
+        .tagline { font-size: 1.2rem; margin-top: 10px; font-weight: 300; opacity: 0.9; }
+
+        section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; text-align: center; }
+        h2 { font-size: 2.2rem; font-weight: 300; margin-bottom: 50px; color: var(--slate); }
+
+        /* BALANCED 5-IMAGE GALLERY */
+        .gallery { 
             display: flex; 
-            align-items: center; 
+            flex-wrap: wrap; 
             justify-content: center; 
-            text-align: center; 
-            color: white; 
+            gap: 25px; 
         }
-        .hero-content { max-width: 800px; padding: 20px; }
-        h1 { font-size: 3.5rem; font-weight: normal; margin-bottom: 1rem; letter-spacing: -1px; }
-        .tagline { font-size: 1.4rem; margin-bottom: 2.5rem; font-style: italic; opacity: 0.9; }
-
-        .btn { display: inline-block; background: var(--sage); color: white; padding: 16px 35px; border-radius: 4px; font-size: 1.1rem; transition: 0.4s; border: none; cursor: pointer; text-align: center; }
-        .btn:hover { background: var(--deep-sage); transform: translateY(-2px); }
-
-        section { padding: 80px 20px; max-width: 1100px; margin: 0 auto; text-align: center; }
-        h2 { font-size: 2.5rem; margin-bottom: 3rem; color: var(--sage); font-weight: normal; }
-
-        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; margin-bottom: 40px; }
-        .mockup-frame { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); }
-        .mockup-frame img { width: 100%; height: auto; border-radius: 4px; display: block; }
-
-        /* 3-PILLAR FEATURES */
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin: 40px 0; }
-        .feature { background: var(--sand); padding: 40px; border-radius: 4px; text-align: left; transition: 0.3s; }
-        .feature:hover { background: #ebe4d5; }
-        .feature h3 { color: var(--sage); margin-bottom: 15px; font-weight: normal; font-size: 1.5rem; }
-
-        /* FAQ ACCORDION */
-        .faq-section { text-align: left; max-width: 700px; margin: 60px auto; }
-        .faq-item { border-bottom: 1px solid #e0e0e0; margin-bottom: 10px; }
-        .faq-question { padding: 20px 0; cursor: pointer; font-weight: bold; color: var(--sage); display: flex; justify-content: space-between; align-items: center; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s ease-out; padding-bottom: 0; font-size: 0.95rem; color: #666; }
-        .faq-item.active .faq-answer { max-height: 150px; padding-bottom: 20px; }
-
-        /* REFINED SALE PRICING */
-        .pricing-container { 
-            margin: 60px auto; 
-            padding: 50px; 
-            border: 1px solid var(--sage); 
-            max-width: 450px; 
-            background: white;
-            border-radius: 4px;
+        .mockup-frame { 
+            background: var(--white); 
+            padding: 12px; 
+            border-radius: 4px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            flex: 1 1 300px;
+            max-width: 360px;
+            transition: transform 0.3s ease;
         }
-        .price-badge { color: var(--sale-red); font-weight: bold; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 2px; display: block; margin-bottom: 10px; }
-        .old-price { font-size: 1.4rem; text-decoration: line-through; color: #999; }
-        .new-price { font-size: 4rem; color: var(--charcoal); display: block; margin: 5px 0; font-weight: bold; }
-        .price-subtext { font-size: 1rem; color: var(--sage); font-style: italic; }
-
-        #contact { background: var(--sand); padding: 100px 20px; }
-        .contact-form { max-width: 600px; margin: 0 auto; text-align: left; }
-        label { font-size: 0.9rem; font-weight: bold; color: var(--deep-sage); text-transform: uppercase; letter-spacing: 1px; }
-        input, textarea { 
+        .mockup-frame:hover { transform: translateY(-5px); }
+        .mockup-frame img { 
             width: 100%; 
-            padding: 14px; 
-            margin: 8px 0 25px; 
-            border: 1px solid #d1ccc0; 
-            background: white; 
-            font-family: inherit; 
-            font-size: 1rem;
-            border-radius: 4px;
+            height: 250px; 
+            object-fit: cover; 
+            border-radius: 2px;
+            display: block;
         }
-        textarea { height: 150px; }
-        
-        footer { padding: 60px 20px; font-size: 0.9rem; opacity: 0.7; text-align: center; background: var(--cream); }
 
-        @media (max-width: 768px) { 
-            h1 { font-size: 2.5rem; } 
-            .new-price { font-size: 3rem; }
+        .features { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 30px; 
+            margin: 50px 0; 
         }
+        .feature { 
+            background: var(--white); 
+            padding: 50px; 
+            border-radius: 2px; 
+            text-align: left; 
+        }
+        .feature h3 { font-size: 1.3rem; margin-bottom: 15px; font-weight: 400; color: var(--slate); }
+
+        .faq-section { text-align: left; max-width: 700px; margin: 0 auto; }
+        .faq-item { border-bottom: 1px solid #e2e8f0; }
+        .faq-question { padding: 25px 0; cursor: pointer; font-weight: 500; display: flex; justify-content: space-between; color: var(--slate); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s; color: #718096; font-size: 0.95rem; }
+        .faq-item.active .faq-answer { max-height: 120px; padding-bottom: 20px; }
+
+        .pricing-container { 
+            margin: 80px auto; 
+            padding: 60px; 
+            background: var(--white);
+            max-width: 500px; 
+            border: 1px solid #e2e8f0;
+        }
+        .old-price { font-size: 1.2rem; text-decoration: line-through; color: #a0aec0; }
+        .new-price { font-size: 4rem; color: #1a202c; font-weight: 700; margin: 10px 0; }
+        .price-badge { color: var(--sale-red); font-weight: bold; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
+
+        #contact { background: #f1f5f9; }
+        .contact-form { max-width: 600px; margin: 0 auto; text-align: left; background: var(--white); padding: 50px; border-radius: 4px; }
+        label { font-size: 0.75rem; font-weight: bold; text-transform: uppercase; color: var(--slate); letter-spacing: 1px; }
+        input, textarea { width: 100%; padding: 15px; margin: 8px 0 25px; border: 1px solid #e2e8f0; border-radius: 4px; font-family: inherit; font-size: 1rem; }
+        
+        .btn { 
+            background: var(--slate); 
+            color: white; 
+            padding: 20px; 
+            border: none; 
+            width: 100%; 
+            font-size: 1rem; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            cursor: pointer; 
+            transition: 0.3s; 
+        }
+        .btn:hover { background: #2d3748; }
+
+        footer { padding: 80px 20px; opacity: 0.6; font-size: 0.85rem; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="hero-content">
-            <h1>Serene Digital Spaces</h1>
-            <p class="tagline">Thoughtfully designed websites for the modern therapist.</p>
-            <a href="#contact" class="btn">Begin Your Project</a>
+            <h1>Digital Serenity</h1>
+            <p class="tagline">Thoughtfully designed websites for the global therapeutic community.</p>
         </div>
     </header>
 
     <section id="portfolio">
-        <h2>Portfolio Examples</h2>
+        <h2>Curated Designs</h2>
         <div class="gallery">
-            <div class="mockup-frame"><img src="second.png" alt="Therapy Site Design 1"></div>
-            <div class="mockup-frame"><img src="ok.png" alt="Therapy Site Design 2"></div>
-            <div class="mockup-frame"><img src="wbsi.png" alt="Therapy Site Design 3"></div>
-            <div class="mockup-frame"><img src="web.png" alt="Therapy Site Design 4"></div>
-            <div class="mockup-frame"><img src="webist.png" alt="Therapy Site Design 5"></div>
+            <div class="mockup-frame"><img src="second.png" alt="Client Project 1"></div>
+            <div class="mockup-frame"><img src="ok.png" alt="Client Project 2"></div>
+            <div class="mockup-frame"><img src="wbsi.png" alt="Client Project 3"></div>
+            <div class="mockup-frame"><img src="web.png" alt="Client Project 4"></div>
+            <div class="mockup-frame"><img src="webist.png" alt="Client Project 5"></div>
         </div>
     </section>
 
-    <section id="experience">
-        <h2>The Experience</h2>
+    <section>
         <div class="features">
             <div class="feature">
-                <h3>Boutique Design</h3>
-                <p>A custom, calming aesthetic tailored to your practice. No generic templates—just a digital space that feels as welcoming as your office.</p>
+                <h3>Boutique Aesthetic</h3>
+                <p>We craft calming, high-end digital spaces that mirror the professional and peaceful nature of your clinical practice.</p>
             </div>
             <div class="feature">
                 <h3>Technical Peace of Mind</h3>
-                <p>Your site will be fully secure (SSL), mobile-responsive, and optimized for local search engines. I handle the tech; you focus on your clients.</p>
+                <p>Full HTTPS encryption, mobile optimization, and SEO readiness come standard with every build.</p>
             </div>
             <div class="feature">
-                <h3>Lifetime Hosting</h3>
-                <p>Enjoy a professional online presence with zero monthly hosting fees. High performance and reliability with total simplicity.</p>
+                <h3>Sustainable Hosting</h3>
+                <p>Leveraging modern cloud infrastructure to provide professional hosting with zero monthly maintenance fees.</p>
             </div>
         </div>
 
         <div class="faq-section">
             <div class="faq-item">
-                <div class="faq-question">Are there any monthly costs? <span>+</span></div>
-                <div class="faq-answer">None. I utilize professional cloud hosting that is free for life. Your only recurring investment is your domain name (approx. $15/year).</div>
+                <div class="faq-question">How are there no monthly fees? <span>+</span></div>
+                <div class="faq-answer">I host your site on professional-grade static cloud platforms. This eliminates the need for expensive monthly hosting subscriptions common with other builders.</div>
             </div>
             <div class="faq-item">
-                <div class="faq-question">Is the website secure and private? <span>+</span></div>
-                <div class="faq-answer">Absolutely. Every site is launched with an SSL certificate and industry-standard encryption, ensuring a trustworthy experience for you and your visitors.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Can I use my existing domain? <span>+</span></div>
-                <div class="faq-answer">Yes. Whether you already own a domain or need to register a new one, I will handle the technical configuration to link it to your new site.</div>
+                <div class="faq-question">Can I manage my own site? <span>+</span></div>
+                <div class="faq-answer">Yes. The clean code structure allows for simple updates, or I can remain available for future refinements as your practice grows.</div>
             </div>
         </div>
 
         <div class="pricing-container">
-            <span class="price-badge">Introductory Rate</span>
+            <p class="price-badge">Limited Introductory Offer</p>
             <span class="old-price">$1,799</span>
             <span class="new-price">$500</span>
-            <p class="price-subtext">Complete project investment. No hidden fees.</p>
+            <p>Full project delivery. One-time investment.</p>
         </div>
     </section>
 
     <section id="contact">
-        <h2>Connect With Me</h2>
         <div class="contact-form">
+            <h2 style="margin-bottom: 30px;">Start a Conversation</h2>
             <form action="https://formspree.io/f/xkowpowd" method="POST">
-                <label for="name">Name</label>
+                <label for="name">Full Name</label>
                 <input type="text" id="name" name="name" required>
                 
-                <label for="email">Email</label>
+                <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" required>
                 
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" placeholder="(256) 000-0000" required>
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your mobile or office number" required>
                 
-                <label for="message">How can I help your practice?</label>
-                <textarea id="message" name="message" required></textarea>
+                <label for="message">About Your Practice</label>
+                <textarea id="message" name="message" placeholder="How can I help you reach more clients?" required></textarea>
                 
-                <button type="submit" class="btn" style="width:100%">Send Inquiry</button>
+                <button type="submit" class="btn">Send Inquiry</button>
             </form>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2025 CalmSites Therapy. Based in Madison, Alabama.</p>
+        <p>&copy; 2025 CalmSites. Boutique Digital Design for Therapists.</p>
     </footer>
 
     <script>
-        // FAQ Accordion Logic
         document.querySelectorAll('.faq-question').forEach(q => {
             q.addEventListener('click', () => {
                 const item = q.parentElement;
                 item.classList.toggle('active');
-                
-                // Close other items if one is opened
-                document.querySelectorAll('.faq-item').forEach(otherItem => {
-                    if (otherItem !== item) otherItem.classList.remove('active');
+                document.querySelectorAll('.faq-item').forEach(other => {
+                    if (other !== item) other.classList.remove('active');
                 });
-            });
-        });
-
-        // Smooth Scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
             });
         });
     </script>
