@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CalmSites | Bespoke Web Design for Private Practice Therapists</title>
+<title>CalmSites | Modern Web Design for Private Therapists</title>
 
 <style>
 :root {
@@ -15,69 +15,27 @@
     --shadow: rgba(0,0,0,0.08);
 }
 
-/* ---------- GLOBAL ---------- */
+/* Global */
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-    font-family: "Optima", "Segoe UI", sans-serif;
+    font-family: "Segoe UI", sans-serif;
     background: var(--bone);
     color: var(--ink);
-    line-height: 1.8;
-    overflow-x: hidden;
+    line-height: 1.6;
 }
 
-/* ---------- ANIMATIONS ---------- */
+/* Animations */
 @keyframes fade-in {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes slide-left {
-    from { opacity: 0; transform: translateX(-50px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slide-right {
-    from { opacity: 0; transform: translateX(50px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-.reveal {
-    opacity: 0;
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Scroll-driven for modern browsers */
-@supports (animation-timeline: view()) {
-    .scroll-reveal {
-        animation: fade-in 1s ease-out both;
-        animation-timeline: view(block);
-        animation-range: entry;
-    }
-    
-    .scroll-reveal-left {
-        animation: slide-left 1s ease-out both;
-        animation-timeline: view(block);
-        animation-range: entry;
-    }
-    
-    .scroll-reveal-right {
-        animation: slide-right 1s ease-out both;
-        animation-timeline: view(block);
-        animation-range: entry;
-    }
-}
-
-/* ---------- HERO ---------- */
+/* Hero */
 header {
     height: 100vh;
     background:
-        linear-gradient(rgba(30,43,54,0.7), rgba(30,43,54,0.7)),
+        linear-gradient(rgba(30,43,54,0.6), rgba(30,43,54,0.6)),
         url("https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg") center/cover no-repeat;
     display: flex;
     align-items: center;
@@ -87,36 +45,29 @@ header {
 }
 
 .hero {
-    max-width: 1000px;
-    padding: 50px;
-    opacity: 0;
-    animation: fade-in 1.2s ease-out forwards 0.5s;
+    max-width: 800px;
+    padding: 40px;
+    animation: fade-in 1s ease-out;
 }
 
 .hero h1 {
-    font-size: clamp(3rem, 6vw, 4.5rem);
-    font-weight: 300;
-    letter-spacing: 2.5px;
-    margin-bottom: 30px;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 400;
+    margin-bottom: 20px;
 }
 
 .hero p {
-    font-size: 1.2rem;
-    letter-spacing: 1.5px;
-    opacity: 0.95;
-    margin-bottom: 60px;
-    text-transform: uppercase;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
 }
 
 .cta {
-    display: inline-block;
-    padding: 20px 50px;
+    padding: 15px 40px;
     background: var(--white);
     color: var(--ink);
     text-decoration: none;
-    letter-spacing: 2.5px;
     font-size: 1rem;
-    transition: transform 0.3s ease, background 0.3s ease;
+    transition: background 0.3s, transform 0.3s;
 }
 
 .cta:hover {
@@ -125,278 +76,173 @@ header {
     transform: scale(1.05);
 }
 
-/* ---------- SECTIONS ---------- */
+/* Sections */
 section {
-    padding: 120px 30px;
-    max-width: 1300px;
+    padding: 100px 20px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Scroll reveal classes */
-h2, .pillars .pillar, .portfolio-card {
-    opacity: 0;
-    transform: translateY(40px);
-}
-
-/* ---------- ELITE PORTFOLIO ---------- */
 h2 {
-    font-size: 2.8rem;
-    font-weight: 300;
+    font-size: 2.5rem;
+    font-weight: 400;
     text-align: center;
-    margin-bottom: 80px;
-    letter-spacing: 1.5px;
+    margin-bottom: 60px;
 }
 
+/* Portfolio */
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 70px;
-    padding: 0 15px;
-}
-
-.portfolio-card:nth-child(odd) {
-    transform: translateY(25px);
-}
-
-.portfolio-card:nth-child(even) {
-    transform: translateY(-15px);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px;
 }
 
 .portfolio-card {
     background: var(--white);
-    border-radius: 10px;
-    box-shadow: 0 35px 70px var(--shadow);
+    border-radius: 8px;
+    box-shadow: 0 20px 40px var(--shadow);
     overflow: hidden;
-    position: relative;
-    transition: transform 0.6s ease, box-shadow 0.6s ease;
+    transition: transform 0.5s;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-10px);
 }
 
 .portfolio-image {
     width: 100%;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    background: #f5f5f3;
+    aspect-ratio: 16/10;
+    position: relative;
 }
 
 .portfolio-image img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Fixed to show full image */
-    display: block;
-    filter: grayscale(30%) contrast(1.1);
-    transition: filter 1.2s ease, transform 1.2s ease;
-}
-
-.portfolio-card:hover img {
-    filter: grayscale(0%) contrast(1);
-    transform: scale(1.05);
+    object-fit: contain;
 }
 
 .caption {
     position: absolute;
-    bottom: 20px;
-    left: 25px;
+    bottom: 10px;
+    left: 15px;
     color: var(--white);
-    background: rgba(0,0,0,0.5);
-    padding: 8px 16px;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    opacity: 0;
-    transition: opacity 1s ease;
+    background: rgba(0,0,0,0.4);
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    border-radius: 3px;
 }
 
-.portfolio-card.visible .caption {
-    opacity: 1;
-}
-
-.portfolio-card:hover {
-    transform: translateY(-15px) scale(1.03);
-    box-shadow: 0 50px 100px rgba(0,0,0,0.15);
-}
-
-.portfolio-desc {
-    padding: 20px;
-    text-align: center;
-    font-size: 0.95rem;
-    color: #666;
-    opacity: 0;
-    transition: opacity 0.8s ease;
-}
-
-.portfolio-card.visible .portfolio-desc {
-    opacity: 1;
-}
-
-/* ---------- EXPERIENCE ---------- */
+/* Experience */
 .experience {
     background: #f4f5f3;
-    max-width: 100%;
-    padding: 120px 30px;
-}
-
-.experience-inner {
-    max-width: 1300px;
-    margin: 0 auto;
+    padding: 100px 20px;
 }
 
 .pillars {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 70px;
-    margin-bottom: 100px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 50px;
+    margin-bottom: 80px;
 }
 
 .pillar {
-    border-left: 2px solid var(--sage);
-    padding-left: 35px;
-    transition: transform 0.4s ease;
-}
-
-.pillar:hover {
-    transform: translateX(10px);
+    border-left: 1px solid var(--sage);
+    padding-left: 20px;
 }
 
 .pillar h3 {
     font-weight: 400;
     color: var(--sage);
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    letter-spacing: 1px;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
 }
 
 .pricing {
     background: var(--ink);
     color: var(--white);
-    padding: 110px 40px;
+    padding: 80px 30px;
     text-align: center;
-    border-radius: 12px;
-    box-shadow: 0 20px 40px var(--shadow);
-    max-width: 800px;
+    border-radius: 8px;
+    max-width: 600px;
     margin: 0 auto;
 }
 
-.pricing .badge {
+.badge {
     display: inline-block;
-    padding: 10px 25px;
-    border-radius: 25px;
+    padding: 5px 15px;
     background: var(--accent);
-    letter-spacing: 2.5px;
+    border-radius: 20px;
     font-size: 0.8rem;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 .old {
     text-decoration: line-through;
     opacity: 0.6;
-    font-size: 1.5rem;
 }
 
 .price {
-    font-size: 5.5rem;
-    font-weight: 600;
-    margin: 25px 0;
+    font-size: 4rem;
+    margin: 10px 0;
 }
 
 .pricing p {
-    max-width: 750px;
-    margin: 0 auto 0;
-    opacity: 0.92;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
-/* ---------- CONTACT ---------- */
+/* Contact */
 .contact {
     background: var(--white);
-    padding: 80px;
-    max-width: 800px;
-    margin: -200px auto 50px;
-    border-radius: 12px;
-    box-shadow: 0 45px 90px var(--shadow);
-}
-
-.contact p {
-    text-align: center;
-    margin-bottom: 45px;
-    color: #555;
-    font-size: 1.05rem;
+    padding: 60px;
+    max-width: 600px;
+    margin: -150px auto 40px;
+    border-radius: 8px;
+    box-shadow: 0 30px 60px var(--shadow);
 }
 
 .field {
-    margin-bottom: 30px;
-    position: relative;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    text-transform: uppercase;
     font-size: 0.8rem;
-    letter-spacing: 1.8px;
-    margin-bottom: 10px;
     color: var(--sage);
-    transition: transform 0.3s ease;
-}
-
-input:focus + label, textarea:focus + label {
-    transform: translateY(-5px);
+    margin-bottom: 5px;
 }
 
 input, textarea {
     width: 100%;
-    padding: 18px;
-    border: 1px solid #e0e0e0;
-    background: #fcfcfc;
-    font-family: inherit;
-    transition: border-color 0.3s ease;
-}
-
-input:focus, textarea:focus {
-    border-color: var(--sage);
+    padding: 12px;
+    border: 1px solid #ddd;
+    background: #fafafa;
 }
 
 button {
     width: 100%;
-    padding: 22px;
+    padding: 15px;
     background: var(--ink);
     color: var(--white);
     border: none;
-    font-size: 1.05rem;
-    letter-spacing: 2.5px;
     cursor: pointer;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s;
 }
 
 button:hover {
     background: var(--sage);
-    transform: scale(1.02);
-}
-
-.privacy-note {
-    font-size: 0.85rem;
-    color: #777;
-    text-align: center;
-    margin-top: 20px;
 }
 
 footer {
     text-align: center;
-    padding: 70px 30px;
-    font-size: 0.9rem;
-    opacity: 0.6;
-    background: #f9f9f7;
+    padding: 50px;
+    font-size: 0.8rem;
+    opacity: 0.7;
 }
 
 @media (max-width: 768px) {
-    header { height: 80vh; }
-    .hero { padding: 30px; }
-    .hero h1 { font-size: 2.5rem; }
-    section { padding: 80px 20px; }
-    h2 { font-size: 2.2rem; }
-    .portfolio-grid { grid-template-columns: 1fr; gap: 50px; }
-    .pillars { grid-template-columns: 1fr; gap: 50px; }
-    .pricing { padding: 80px 25px; }
-    .price { font-size: 4rem; }
-    .contact { padding: 50px 25px; margin-top: -150px; }
-    .portfolio-desc { font-size: 0.9rem; }
+    .hero h1 { font-size: 2rem; }
+    section { padding: 80px 15px; }
+    .contact { padding: 40px; }
 }
 </style>
 </head>
@@ -405,142 +251,125 @@ footer {
 
 <header>
     <div class="hero">
-        <h1>Craft a Digital Sanctuary That Mirrors Your Therapeutic Depth</h1>
-        <p>Bespoke Web Design Tailored Exclusively for Discerning Private Practice Therapists</p>
-        <a href="#contact" class="cta">Secure Your Confidential Design Consultation</a>
+        <h1>Create Stunning, Modern Websites That Attract More Clients</h1>
+        <p>Custom Web Design for Private Therapists – Boost Traffic and Grow Your Practice</p>
+        <a href="#contact" class="cta">Book a Consultation</a>
     </div>
 </header>
 
-<!-- ELITE PORTFOLIO -->
 <section>
-    <h2 class="reveal scroll-reveal">Curated Portfolio of Therapeutic Transformations</h2>
-
+    <h2>Our Past Work</h2>
     <div class="portfolio-grid">
-        <div class="portfolio-card reveal scroll-reveal-left">
+        <div class="portfolio-card">
             <div class="portfolio-image">
-                <img src="second.png" alt="Elegant Therapy Website Design">
-                <div class="caption">Private Practice Mastery</div>
+                <img src="second.png" alt="Modern Therapy Website">
+                <div class="caption">Modern Private Practice Site</div>
             </div>
-            <p class="portfolio-desc">A serene design that instills immediate trust, drawing in clients who value depth and discretion.</p>
         </div>
-
-        <div class="portfolio-card reveal scroll-reveal-right">
+        <div class="portfolio-card">
             <div class="portfolio-image">
-                <img src="ok.png" alt="Sophisticated Clinical Practice Website">
-                <div class="caption">Clinical Branding Excellence</div>
+                <img src="ok.png" alt="Contemporary Clinical Website">
+                <div class="caption">Contemporary Clinical Branding</div>
             </div>
-            <p class="portfolio-desc">Intentional elements that convey authority, helping your practice stand out in a crowded field.</p>
         </div>
-
-        <div class="portfolio-card reveal scroll-reveal-left">
+        <div class="portfolio-card">
             <div class="portfolio-image">
-                <img src="wbsi.png" alt="Refined Private Practice Branding">
-                <div class="caption">Therapist Identity Refinement</div>
+                <img src="wbsi.png" alt="Stylish Therapist Branding">
+                <div class="caption">Stylish Therapist Identity</div>
             </div>
-            <p class="portfolio-desc">Custom visuals that reflect your unique approach, fostering connections before the first session.</p>
         </div>
-
-        <div class="portfolio-card reveal scroll-reveal-right">
+        <div class="portfolio-card">
             <div class="portfolio-image">
-                <img src="web.png" alt="Premium Therapist Website Design">
-                <div class="caption">Mental Health Sanctuary Online</div>
+                <img src="web.png" alt="Sleek Mental Health Website">
+                <div class="caption">Sleek Mental Health Site</div>
             </div>
-            <p class="portfolio-desc">A space designed for healing, with seamless navigation that guides visitors toward hope.</p>
         </div>
-
-        <div class="portfolio-card reveal scroll-reveal-left">
+        <div class="portfolio-card">
             <div class="portfolio-image">
-                <img src="webist.png" alt="Boutique Mental Health Web Design">
-                <div class="caption">Elite Boutique Practice Design</div>
+                <img src="webist.png" alt="Elegant Boutique Website">
+                <div class="caption">Elegant Boutique Practice Design</div>
             </div>
-            <p class="portfolio-desc">Tailored elegance that aligns with your clinical ethos, attracting clients who seek sophistication.</p>
         </div>
     </div>
 </section>
 
-<!-- EXPERIENCE -->
 <section class="experience">
     <div class="experience-inner">
-        <h2 class="reveal scroll-reveal">Discover the CalmSites Difference</h2>
+        <h2>The CalmSites Difference</h2>
         <div class="pillars">
-            <div class="pillar reveal scroll-reveal">
-                <h3>Engineered for Unwavering Clinical Authority</h3>
-                <p>Your online presence should whisper safety and expertise, creating a container of trust from the moment visitors arrive—much like your sessions.</p>
+            <div class="pillar">
+                <h3>Stunning Modern Design</h3>
+                <p>Eye-catching looks that build trust fast and keep visitors on your site longer.</p>
             </div>
-            <div class="pillar reveal scroll-reveal" style="animation-delay: 0.2s;">
-                <h3>Embracing Intentional Minimalism</h3>
-                <p>We eliminate distractions, crafting every pixel with psychological insight to support your clients' journey without unnecessary noise.</p>
+            <div class="pillar">
+                <h3>Increased Traffic</h3>
+                <p>SEO features draw more searches, bringing in potential clients every day.</p>
             </div>
-            <div class="pillar reveal scroll-reveal" style="animation-delay: 0.4s;">
-                <h3>Forged as an Enduring Practice Ally</h3>
-                <p>Secure, swift, and effortless to maintain—your site evolves with you, freeing you from tech burdens to focus on what matters: healing.</p>
+            <div class="pillar">
+                <h3>More Clients</h3>
+                <p>Easy navigation and clear calls to action turn visitors into bookings.</p>
             </div>
         </div>
-
-        <div class="pricing reveal scroll-reveal">
-            <div class="badge">EXCLUSIVE INTRODUCTORY OFFER</div>
+        <div class="pricing">
+            <div class="badge">Special Offer</div>
             <div class="old">$1,799</div>
             <div class="price">$500</div>
-            <p>Make a singular, thoughtful investment in a bespoke digital foundation that nurtures your practice for years ahead—free from recurring costs, aggressive sales, or maintenance hassles.</p>
+            <p>One payment for a modern site that boosts traffic and attracts clients. No monthly fees.</p>
         </div>
     </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact">
-    <div class="contact reveal scroll-reveal">
-        <h2>Embark on Your Custom Design Journey</h2>
-        <p>Share your vision in confidence, and let's co-create a digital space that honors your therapeutic craft.</p>
-
+    <div class="contact">
+        <h2>Start Your Project</h2>
+        <p>Tell us about your practice. We keep it private.</p>
         <form action="https://formspree.io/f/xkowpowd" method="POST">
             <input type="hidden" name="_next" value="https://melipil5780-afk.github.io/website-2.0/thanks.html">
-
             <div class="field">
-                <input type="text" name="name" id="name" required>
-                <label for="name">Full Name</label>
+                <label>Name</label>
+                <input type="text" name="name" required>
             </div>
-
             <div class="field">
-                <input type="email" name="email" id="email" required>
-                <label for="email">Email</label>
+                <label>Email</label>
+                <input type="email" name="email" required>
             </div>
-
             <div class="field">
-                <input type="tel" name="phone" id="phone" required>
-                <label for="phone">Phone</label>
+                <label>Phone</label>
+                <input type="tel" name="phone" required>
             </div>
-
             <div class="field">
-                <textarea name="message" id="message" required></textarea>
-                <label for="message">Insights Into Your Practice</label>
+                <label>Message</label>
+                <textarea name="message" required></textarea>
             </div>
-
-            <button type="submit">INITIATE YOUR CONFIDENTIAL CONSULT</button>
+            <button type="submit">Send Request</button>
         </form>
-        <p class="privacy-note">All inquiries are handled with the utmost discretion and privacy.</p>
     </div>
 </section>
 
 <footer>
-&copy; 2025 CalmSites — Crafting Confidential Digital Havens for Therapists
+&copy; 2025 CalmSites — Modern Web Design for Therapists
 </footer>
 
-<!-- ---------- SCROLL REVEAL SCRIPT ---------- -->
 <script>
-const reveals = document.querySelectorAll('.reveal');
-
+const cards = document.querySelectorAll('.portfolio-card');
 const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
         }
     });
 }, { threshold: 0.2 });
 
-reveals.forEach(el => observer.observe(el));
+cards.forEach(card => {
+    card.style.opacity = 0;
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.6s, transform 0.6s';
+    observer.observe(card);
+});
 </script>
 
 </body>
 </html>
+
 
