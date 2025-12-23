@@ -1,120 +1,197 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalmSites | Elite Web Design for Therapists</title>
+    <title>CalmSites | Elite Digital Design</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --ink: #1a1c1e; --sage: #7d8c80; --stone: #f4f2ef; --gold: #c5a38d; --white: #ffffff; --accent: #b44545; --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        :root { 
+            --ink: #1a1c1e; 
+            --sage: #7d8c80; 
+            --stone: #f4f2ef; 
+            --gold: #c5a38d; 
+            --white: #ffffff; 
+            --accent: #b44545; 
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: var(--stone); color: var(--ink); line-height: 1.6; overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 30px; }
+        h1, h2 { font-family: 'Playfair Display', serif; font-weight: 400; }
         
         /* Nav */
-        nav { padding: 30px 0; display: flex; justify-content: space-between; align-items: center; position: absolute; width: 100%; z-index: 10; }
-        nav a { text-decoration: none; color: var(--white); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 30px; }
-        .logo { font-family: 'Playfair Display'; font-size: 1.5rem; margin-left: 0; }
+        nav { padding: 30px; display: flex; justify-content: space-between; align-items: center; position: absolute; width: 100%; z-index: 10; }
+        nav a { text-decoration: none; color: var(--white); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 30px; }
+        .logo { font-family: 'Playfair Display'; font-size: 1.4rem; margin-left: 0; font-style: italic; }
 
-        /* Animations */
+        /* Hero */
+        header { 
+            height: 90vh; display: flex; align-items: center; justify-content: center; 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; 
+            color: var(--white); text-align: center; 
+        }
+        .hero-content h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 30px; line-height: 1.1; }
+        
+        /* Intense CTA */
+        .cta-intense { 
+            padding: 20px 50px; background: var(--white); color: var(--ink); text-decoration: none; 
+            text-transform: uppercase; letter-spacing: 3px; font-weight: 600; font-size: 0.85rem; 
+            display: inline-block; transition: 0.3s; border: 1px solid white;
+        }
+        .cta-intense:hover { background: transparent; color: white; transform: translateY(-5px); }
+
+        /* Portfolio Grid (Clean & Responsive) */
+        .portfolio { padding: 100px 0; }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
+        .portfolio-item { 
+            cursor: pointer; height: 450px; overflow: hidden; position: relative; 
+            background: #fff; box-shadow: 0 15px 40px rgba(0,0,0,0.04); 
+        }
+        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: 1.2s; }
+        .portfolio-item:hover img { transform: scale(1.05); }
+
+        /* Animated Reveal */
         .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Hero */
-        header { height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; color: var(--white); text-align: center; }
-        .hero-content h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 20px; font-style: italic; }
-        .cta-main { padding: 20px 45px; background: var(--white); color: var(--ink); text-decoration: none; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; font-size: 0.8rem; display: inline-block; transition: 0.3s; }
-        .cta-main:hover { background: var(--sage); color: white; transform: scale(1.05); }
+        /* LIGHTBOX SYSTEM */
+        #lightbox { 
+            position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(26, 28, 30, 0.98); display: none; align-items: center; justify-content: center; 
+        }
+        
+        /* Browser Window Mockup Effect */
+        .browser-mockup {
+            width: 85%; max-width: 1100px; background: #fff; border-radius: 8px; overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.5); transform: scale(0.9); transition: 0.5s ease;
+        }
+        #lightbox.active .browser-mockup { transform: scale(1); }
 
-        /* Portfolio - Clean, No words under */
-        .portfolio { padding: 120px 0; }
-        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
-        .portfolio-item { cursor: pointer; height: 500px; overflow: hidden; position: relative; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: 1.5s; }
-        .portfolio-item:hover img { transform: scale(1.05); }
-        .item-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.2); opacity:0; display:flex; align-items:center; justify-content:center; transition: 0.4s; }
-        .portfolio-item:hover .item-overlay { opacity:1; }
-        .item-overlay span { color: white; border: 1px solid white; padding: 10px 20px; text-transform: uppercase; letter-spacing: 2px; font-size: 0.7rem; }
+        .browser-header {
+            background: #f1f1f1; padding: 12px 18px; display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
+        .dot.red { background: #ff5f56; } .dot.yellow { background: #ffbd2e; } .dot.green { background: #27c93f; }
+        
+        .browser-content { 
+            width: 100%; max-height: 75vh; overflow-y: auto; background: #fff;
+        }
+        .browser-content img { width: 100%; display: block; height: auto; }
 
-        /* Pricing/Offer */
-        .offer { background: var(--ink); color: white; padding: 100px 0; text-align: center; }
-        .price-tag { font-size: 5rem; font-family: 'Playfair Display'; margin: 20px 0; }
-        .price-tag span { text-decoration: line-through; opacity: 0.3; font-size: 1.5rem; }
-        .badge { background: var(--accent); padding: 5px 15px; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 20px; display: inline-block; }
+        .close-lb { position: absolute; top: 30px; right: 40px; color: white; font-size: 2rem; cursor: pointer; opacity: 0.6; }
+        .close-lb:hover { opacity: 1; }
 
-        /* Lightbox */
-        #lightbox { position: fixed; z-index: 1000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; cursor: zoom-out; }
-        #lightbox img { max-width: 90%; max-height: 90vh; object-fit: contain; }
+        /* Offer Section */
+        .offer { background: var(--ink); color: white; padding: 120px 0; text-align: center; }
+        .price-tag { font-size: 6rem; font-family: 'Playfair Display'; margin: 20px 0; color: var(--white); }
+        .price-tag span { text-decoration: line-through; opacity: 0.2; font-size: 2rem; margin-right: 15px; }
+        .badge { background: var(--accent); padding: 6px 16px; font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; display: inline-block; font-weight: 600; }
 
-        footer { padding: 60px; text-align: center; opacity: 0.4; font-size: 0.7rem; letter-spacing: 1px; }
+        footer { padding: 40px; text-align: center; opacity: 0.3; font-size: 0.7rem; letter-spacing: 1px; }
+
+        @media (max-width: 768px) {
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .price-tag { font-size: 4rem; }
+        }
     </style>
 </head>
 <body>
+
     <nav class="container">
         <a href="index.html" class="logo">CALMSITES</a>
         <div>
-            <a href="index.html">Home</a>
+            <a href="index.html">Portfolio</a>
             <a href="contact.html">Contact</a>
         </div>
     </nav>
 
     <header>
         <div class="hero-content reveal">
-            <h1>Elevate Your Digital<br>Clinical Presence.</h1>
-            <p style="letter-spacing: 4px; text-transform: uppercase; margin-bottom: 40px;">Bespoke Design for Private Practice</p>
-            <a href="#offer" class="cta-main">View Limited Offer</a>
+            <h1>The Gold Standard for<br>Clinical Web Design.</h1>
+            <p style="letter-spacing: 5px; opacity: 0.8; margin-bottom: 40px;">PRIVATE • ELITE • MINIMAL</p>
+            <a href="#offer" class="cta-intense">Claim Limited Offer</a>
         </div>
     </header>
 
     <section class="portfolio container">
         <div class="portfolio-grid">
+            <!-- To use your screenshots: Replace 'second.png' etc. with your file names -->
             <div class="portfolio-item reveal" onclick="openLightbox('second.png')">
                 <img src="second.png">
-                <div class="item-overlay"><span>View Full Design</span></div>
             </div>
             <div class="portfolio-item reveal" onclick="openLightbox('ok.png')">
                 <img src="ok.png">
-                <div class="item-overlay"><span>View Full Design</span></div>
             </div>
             <div class="portfolio-item reveal" onclick="openLightbox('wbsi.png')">
                 <img src="wbsi.png">
-                <div class="item-overlay"><span>View Full Design</span></div>
             </div>
             <div class="portfolio-item reveal" onclick="openLightbox('web.png')">
                 <img src="web.png">
-                <div class="item-overlay"><span>View Full Design</span></div>
             </div>
         </div>
     </section>
 
     <section class="offer" id="offer">
         <div class="container reveal">
-            <div class="badge">INTRODUCTORY RATE</div>
-            <h2>One-Time Investment. Forever Ownership.</h2>
+            <div class="badge">LIMITED TIME INTRODUCTORY OFFER</div>
+            <h2 style="font-size: 3rem;">Premium Practice Package</h2>
             <div class="price-tag"><span>$1,799</span> $500</div>
-            <p style="margin-bottom: 40px; opacity: 0.7;">Full design, SEO, and Mobile Optimization. No monthly fees.</p>
-            <a href="contact.html" class="cta-main" style="background: var(--gold); color: white;">Press Now to Secure This Rate</a>
+            <p style="max-width: 600px; margin: 0 auto 50px; opacity: 0.7; font-size: 1.1rem;">
+                Includes bespoke design, mobile-first optimization, and basic SEO. 
+                Everything you need to stand out as a top-tier professional.
+            </p>
+            <a href="contact.html" class="cta-intense" style="background: var(--gold); border-color: var(--gold); color: white;">Press Now to Secure This Rate</a>
         </div>
     </section>
 
     <footer>&copy; 2025 CALMSITES. ALL RIGHTS RESERVED.</footer>
 
-    <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
+    <!-- LIGHTBOX WITH BROWSER MOCKUP -->
+    <div id="lightbox">
+        <span class="close-lb" onclick="closeLightbox()">&times;</span>
+        <div class="browser-mockup">
+            <div class="browser-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <div style="margin-left: 20px; font-size: 10px; color: #999; letter-spacing: 1px;">CALMSITES PREVIEW</div>
+            </div>
+            <div class="browser-content">
+                <img id="lightbox-img" src="">
+            </div>
+        </div>
+    </div>
 
     <script>
+        // Scroll Animation
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+        // Lightbox Logic
+        const lb = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lightbox-img');
+
         function openLightbox(src) {
-            document.getElementById('lightbox-img').src = src;
-            document.getElementById('lightbox').style.display = 'flex';
+            lbImg.src = src;
+            lb.style.display = 'flex';
+            setTimeout(() => lb.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden'; // Stop background scroll
+        }
+
+        function closeLightbox() {
+            lb.classList.remove('active');
+            setTimeout(() => lb.style.display = 'none', 400);
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close on clicking outside the browser window
+        lb.onclick = function(e) {
+            if (e.target === lb) closeLightbox();
         }
     </script>
 </body>
 </html>
-
-
-
