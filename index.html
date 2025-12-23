@@ -10,11 +10,11 @@
     --ink: #1e2b36;
     --sage: #6f8f8a;
     --bone: #fbfaf7;
-    --stone: #e6e4df;
     --accent: #b44545;
     --white: #ffffff;
 }
 
+/* ---------- GLOBAL ---------- */
 * { margin:0; padding:0; box-sizing:border-box; }
 
 body {
@@ -87,30 +87,80 @@ h2 {
     margin-bottom: 70px;
 }
 
-/* ---------- PORTFOLIO ---------- */
-.grid {
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 35px;
+/* ---------- ELITE PORTFOLIO ---------- */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 60px;
+    padding: 0 10px;
 }
 
-.work {
-    overflow:hidden;
-    border-radius: 4px;
-    box-shadow: 0 20px 50px rgba(0,0,0,.06);
+/* Luxury staggered rhythm */
+.portfolio-card:nth-child(odd) { transform: translateY(20px); }
+.portfolio-card:nth-child(even) { transform: translateY(-10px); }
+
+.portfolio-card {
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 30px 60px rgba(0,0,0,.08);
+    overflow: hidden;
+    position: relative;
+    transition: transform .5s ease, box-shadow .5s ease;
+    will-change: transform;
+    opacity: 0; /* for scroll reveal */
+    transform: translateY(50px);
 }
 
-.work img {
-    width:100%;
-    height:320px;
-    object-fit:cover;
-    filter: grayscale(25%);
-    transition:.5s;
+.portfolio-card.reveal {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.work:hover img {
-    filter: grayscale(0%);
+.portfolio-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #f1f1ef;
+}
+
+.portfolio-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    filter: grayscale(100%) contrast(1.05);
+    transition: filter 1s ease, transform 1s ease;
+}
+
+.portfolio-card.reveal img {
+    filter: grayscale(20%) contrast(1.05);
     transform: scale(1.03);
+}
+
+/* Caption fade */
+.caption {
+    position: absolute;
+    bottom: 16px;
+    left: 20px;
+    color: var(--white);
+    background: rgba(0,0,0,.45);
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity .8s ease;
+}
+
+.portfolio-card.reveal .caption {
+    opacity: 1;
+}
+
+/* Cinematic hover */
+.portfolio-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 45px 90px rgba(0,0,0,.12);
 }
 
 /* ---------- EXPERIENCE ---------- */
@@ -257,17 +307,49 @@ footer {
     </div>
 </header>
 
+<!-- ELITE PORTFOLIO -->
 <section>
     <h2>Selected Client Work</h2>
-    <div class="grid">
-        <div class="work"><img src="second.png"></div>
-        <div class="work"><img src="ok.png"></div>
-        <div class="work"><img src="wbsi.png"></div>
-        <div class="work"><img src="web.png"></div>
-        <div class="work"><img src="webist.png"></div>
+
+    <div class="portfolio-grid">
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                <img src="second.png" alt="Therapy Website Design">
+                <div class="caption">Private Practice Website</div>
+            </div>
+        </div>
+
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                <img src="ok.png" alt="Clinical Practice Website">
+                <div class="caption">Clinical Practice Branding</div>
+            </div>
+        </div>
+
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                <img src="wbsi.png" alt="Private Practice Branding">
+                <div class="caption">Therapist Identity Design</div>
+            </div>
+        </div>
+
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                <img src="web.png" alt="Therapist Website Design">
+                <div class="caption">Mental Health Website</div>
+            </div>
+        </div>
+
+        <div class="portfolio-card">
+            <div class="portfolio-image">
+                <img src="webist.png" alt="Mental Health Web Design">
+                <div class="caption">Boutique Practice Web Design</div>
+            </div>
+        </div>
     </div>
 </section>
 
+<!-- EXPERIENCE -->
 <section class="experience">
 <div class="experience-inner">
     <h2>The CalmSites Experience</h2>
@@ -298,6 +380,7 @@ footer {
 </div>
 </section>
 
+<!-- CONTACT -->
 <section id="contact">
 <div class="contact">
     <h2>Begin Your Project</h2>
@@ -334,6 +417,21 @@ footer {
 <footer>
 &copy; 2025 CalmSites — Private Digital Environments for Therapists
 </footer>
+
+<!-- ---------- SCROLL REVEAL SCRIPT ---------- -->
+<script>
+const cards = document.querySelectorAll('.portfolio-card');
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add('reveal');
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.25 });
+
+cards.forEach(card => observer.observe(card));
+</script>
 
 </body>
 </html>
