@@ -3,198 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalmSites Therapy | Boutique Web Design</title>
+    <title>CalmSites | Premium Design for Therapists</title>
     <style>
-        /* LUXURY STONE & SLATE PALETTE */
         :root {
-            --slate: #4a5568;
-            --stone: #f7f8f7; 
-            --accent: #718096;
+            --primary: #1a2a3a; /* Deep Navy - Trust */
+            --accent: #5a7d7c;  /* Muted Sage - Calm */
+            --bg: #fdfcf9;      /* Warm Bone - Luxury */
+            --text: #333333;
             --white: #ffffff;
-            --sale-red: #c53030;
+            --urgency: #b33a3a; /* Deep Red - Professional Urgency */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #2d3748; background: var(--stone); }
-        a { text-decoration: none; color: var(--slate); }
-
-        header { 
-            height: 80vh; 
-            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg') center/cover no-repeat; 
-            display: flex; align-items: center; justify-content: center; text-align: center; color: white; 
-        }
-        h1 { font-size: 3.5rem; font-weight: 300; letter-spacing: -1px; padding: 0 20px; }
-        .tagline { font-size: 1.2rem; margin-top: 10px; font-weight: 300; opacity: 0.9; }
-
-        section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; text-align: center; }
-        h2 { font-size: 2.2rem; font-weight: 300; margin-bottom: 50px; color: var(--slate); }
-
-        /* BALANCED 5-IMAGE GALLERY */
-        .gallery { 
-            display: flex; 
-            flex-wrap: wrap; 
-            justify-content: center; 
-            gap: 25px; 
-        }
-        .mockup-frame { 
-            background: var(--white); 
-            padding: 12px; 
-            border-radius: 4px; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            flex: 1 1 300px;
-            max-width: 360px;
-            transition: transform 0.3s ease;
-        }
-        .mockup-frame:hover { transform: translateY(-5px); }
-        .mockup-frame img { 
-            width: 100%; 
-            height: 250px; 
-            object-fit: cover; 
-            border-radius: 2px;
-            display: block;
-        }
-
-        .features { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 30px; 
-            margin: 50px 0; 
-        }
-        .feature { 
-            background: var(--white); 
-            padding: 50px; 
-            border-radius: 2px; 
-            text-align: left; 
-        }
-        .feature h3 { font-size: 1.3rem; margin-bottom: 15px; font-weight: 400; color: var(--slate); }
-
-        .faq-section { text-align: left; max-width: 700px; margin: 0 auto; }
-        .faq-item { border-bottom: 1px solid #e2e8f0; }
-        .faq-question { padding: 25px 0; cursor: pointer; font-weight: 500; display: flex; justify-content: space-between; color: var(--slate); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: 0.3s; color: #718096; font-size: 0.95rem; }
-        .faq-item.active .faq-answer { max-height: 120px; padding-bottom: 20px; }
-
-        .pricing-container { 
-            margin: 80px auto; 
-            padding: 60px; 
-            background: var(--white);
-            max-width: 500px; 
-            border: 1px solid #e2e8f0;
-        }
-        .old-price { font-size: 1.2rem; text-decoration: line-through; color: #a0aec0; }
-        .new-price { font-size: 4rem; color: #1a202c; font-weight: 700; margin: 10px 0; }
-        .price-badge { color: var(--sale-red); font-weight: bold; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
-
-        #contact { background: #f1f5f9; }
-        .contact-form { max-width: 600px; margin: 0 auto; text-align: left; background: var(--white); padding: 50px; border-radius: 4px; }
-        label { font-size: 0.75rem; font-weight: bold; text-transform: uppercase; color: var(--slate); letter-spacing: 1px; }
-        input, textarea { width: 100%; padding: 15px; margin: 8px 0 25px; border: 1px solid #e2e8f0; border-radius: 4px; font-family: inherit; font-size: 1rem; }
+        body { font-family: 'Optima', 'Segoe UI', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; }
         
-        .btn { 
-            background: var(--slate); 
-            color: white; 
-            padding: 20px; 
-            border: none; 
-            width: 100%; 
-            font-size: 1rem; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-            cursor: pointer; 
-            transition: 0.3s; 
+        /* HERO SECTION */
+        header { 
+            height: 90vh; 
+            background: linear-gradient(rgba(26, 42, 58, 0.6), rgba(26, 42, 58, 0.6)), 
+                        url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg') center/cover no-repeat;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white);
         }
-        .btn:hover { background: #2d3748; }
+        .hero-box { max-width: 800px; padding: 40px; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; letter-spacing: 2px; margin-bottom: 20px; }
+        .hero-p { font-size: 1.2rem; font-weight: 300; letter-spacing: 1px; margin-bottom: 40px; text-transform: uppercase; }
 
-        footer { padding: 80px 20px; opacity: 0.6; font-size: 0.85rem; }
+        /* REFINED GALLERY - NO WHITE EDGES */
+        section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
+        h2 { text-align: center; font-size: 2.5rem; font-weight: 300; color: var(--primary); margin-bottom: 60px; }
+        
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+            gap: 30px; 
+        }
+        .work-card { 
+            position: relative; overflow: hidden; border-radius: 4px; 
+            background: var(--white); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: 0.5s; 
+        }
+        .work-card:hover { transform: translateY(-10px); }
+        .work-card img { 
+            width: 100%; height: 300px; object-fit: cover; display: block; filter: grayscale(20%); transition: 0.5s;
+        }
+        .work-card:hover img { filter: grayscale(0%); }
+
+        /* THE "WHY US" PILLARS */
+        .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; margin: 80px 0; }
+        .pillar { text-align: left; padding: 30px; border-left: 1px solid var(--accent); }
+        .pillar h3 { color: var(--accent); font-size: 1.4rem; margin-bottom: 15px; font-weight: 400; }
+
+        /* INTERACTIVE FAQ */
+        .faq-wrap { max-width: 800px; margin: 0 auto; text-align: left; }
+        .faq-item { background: var(--white); margin-bottom: 15px; border-radius: 4px; }
+        .faq-trigger { 
+            padding: 25px; cursor: pointer; display: flex; justify-content: space-between; 
+            font-weight: bold; color: var(--primary); border: 1px solid #eee;
+        }
+        .faq-content { max-height: 0; overflow: hidden; transition: 0.3s ease-out; padding: 0 25px; color: #666; }
+        .faq-item.active .faq-content { max-height: 200px; padding: 20px 25px; border: 1px solid #eee; border-top: none; }
+
+        /* URGENT PRICING SECTION */
+        .price-focus { 
+            background: var(--primary); color: var(--white); padding: 80px 20px; 
+            border-radius: 8px; margin: 100px 0; position: relative; overflow: hidden;
+        }
+        .sale-tag { 
+            background: var(--urgency); color: white; padding: 8px 20px; 
+            border-radius: 20px; font-size: 0.8rem; letter-spacing: 2px; 
+            position: absolute; top: 30px; left: 50%; transform: translateX(-50%);
+        }
+        .old-p { font-size: 1.5rem; text-decoration: line-through; opacity: 0.5; margin-top: 20px; display: block;}
+        .new-p { font-size: 5rem; font-weight: bold; color: var(--white); line-height: 1; }
+        .limited { color: #ffa0a0; font-size: 1.1rem; margin-bottom: 30px; font-style: italic; }
+
+        /* CONTACT FORM */
+        .contact-card { 
+            background: var(--white); padding: 60px; border-radius: 8px; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.05); max-width: 700px; margin: -150px auto 0; position: relative; z-index: 10;
+        }
+        .field { margin-bottom: 25px; text-align: left; }
+        label { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; color: var(--accent); font-weight: bold; }
+        input, textarea { width: 100%; padding: 15px; border: 1px solid #e1e1e1; background: #fafafa; font-family: inherit; }
+        .submit-btn { 
+            background: var(--primary); color: white; padding: 20px 40px; border: none; 
+            width: 100%; cursor: pointer; font-size: 1.1rem; letter-spacing: 2px; transition: 0.3s;
+        }
+        .submit-btn:hover { background: var(--accent); }
+
+        footer { padding: 60px; text-align: center; opacity: 0.5; font-size: 0.9rem; }
+
+        @media (max-width: 768px) { .new-p { font-size: 3.5rem; } .contact-card { padding: 30px; margin-top: 20px; } }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="hero-content">
-            <h1>Digital Serenity</h1>
-            <p class="tagline">Thoughtfully designed websites for the global therapeutic community.</p>
+        <div class="hero-box">
+            <h1>Elevate Your Practice</h1>
+            <p class="hero-p">Boutique Digital Design for the Modern Therapist</p>
+            <a href="#contact" class="submit-btn" style="text-decoration:none; display:inline-block; width:auto;">Request a Consultation</a>
         </div>
     </header>
 
     <section id="portfolio">
-        <h2>Curated Designs</h2>
-        <div class="gallery">
-            <div class="mockup-frame"><img src="second.png" alt="Client Project 1"></div>
-            <div class="mockup-frame"><img src="ok.png" alt="Client Project 2"></div>
-            <div class="mockup-frame"><img src="wbsi.png" alt="Client Project 3"></div>
-            <div class="mockup-frame"><img src="web.png" alt="Client Project 4"></div>
-            <div class="mockup-frame"><img src="webist.png" alt="Client Project 5"></div>
+        <h2>Selected Works</h2>
+        <div class="gallery-grid">
+            <div class="work-card"><img src="second.png" alt="Design 1"></div>
+            <div class="work-card"><img src="ok.png" alt="Design 2"></div>
+            <div class="work-card"><img src="wbsi.png" alt="Design 3"></div>
+            <div class="work-card"><img src="web.png" alt="Design 4"></div>
+            <div class="work-card"><img src="webist.png" alt="Design 5"></div>
         </div>
     </section>
 
-    <section>
-        <div class="features">
-            <div class="feature">
-                <h3>Boutique Aesthetic</h3>
-                <p>We craft calming, high-end digital spaces that mirror the professional and peaceful nature of your clinical practice.</p>
+    <section style="background: #f4f4f2; max-width:100%;">
+        <div style="max-width:1200px; margin:0 auto;">
+            <h2>The Experience</h2>
+            <div class="pillars">
+                <div class="pillar">
+                    <h3>Curated Design</h3>
+                    <p>We don't use templates. We build bespoke digital environments that echo the serenity of your clinical space.</p>
+                </div>
+                <div class="pillar">
+                    <h3>Seamless Performance</h3>
+                    <p>Lightning-fast speeds and perfect mobile responsiveness. Your clients enjoy a frustration-free experience.</p>
+                </div>
+                <div class="pillar">
+                    <h3>Enduring Value</h3>
+                    <p>Zero monthly maintenance fees. High-performance cloud hosting that stays free, forever.</p>
+                </div>
             </div>
-            <div class="feature">
-                <h3>Technical Peace of Mind</h3>
-                <p>Full HTTPS encryption, mobile optimization, and SEO readiness come standard with every build.</p>
-            </div>
-            <div class="feature">
-                <h3>Sustainable Hosting</h3>
-                <p>Leveraging modern cloud infrastructure to provide professional hosting with zero monthly maintenance fees.</p>
-            </div>
-        </div>
 
-        <div class="faq-section">
-            <div class="faq-item">
-                <div class="faq-question">How are there no monthly fees? <span>+</span></div>
-                <div class="faq-answer">I host your site on professional-grade static cloud platforms. This eliminates the need for expensive monthly hosting subscriptions common with other builders.</div>
+            <div class="faq-wrap">
+                <div class="faq-item">
+                    <div class="faq-trigger">How is there no monthly fee? <span>+</span></div>
+                    <div class="faq-content">We utilize advanced static cloud hosting. Unlike Wix or Squarespace, there is no "rent" to pay for your website's home.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question faq-trigger">Is my site secure? <span>+</span></div>
+                    <div class="faq-content">Yes. We implement full SSL encryption (the padlock icon) as a standard for every client.</div>
+                </div>
             </div>
-            <div class="faq-item">
-                <div class="faq-question">Can I manage my own site? <span>+</span></div>
-                <div class="faq-answer">Yes. The clean code structure allows for simple updates, or I can remain available for future refinements as your practice grows.</div>
-            </div>
-        </div>
 
-        <div class="pricing-container">
-            <p class="price-badge">Limited Introductory Offer</p>
-            <span class="old-price">$1,799</span>
-            <span class="new-price">$500</span>
-            <p>Full project delivery. One-time investment.</p>
+            <div class="price-focus">
+                <div class="sale-tag">LIMITED TIME INTRODUCTORY RATE</div>
+                <span class="old-p">Regularly $1,799</span>
+                <span class="new-p">$500</span>
+                <p class="limited">Only 2 spots remaining at this rate for January.</p>
+                <p>A one-time investment for a lifetime asset.</p>
+            </div>
         </div>
     </section>
 
-    <section id="contact">
-        <div class="contact-form">
-            <h2 style="margin-bottom: 30px;">Start a Conversation</h2>
+    <section id="contact" style="padding-top:0;">
+        <div class="contact-card">
+            <h2 style="margin-bottom:20px;">Begin Your Project</h2>
+            <p style="text-align:center; margin-bottom:40px; color:#666;">Contact us today for a free design audit.</p>
             <form action="https://formspree.io/f/xkowpowd" method="POST">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" required>
+                <input type="hidden" name="_next" value="https://melipil5780-afk.github.io/website-2.0/thanks.html">
                 
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" required>
-                
-                <label for="phone">Phone Number *</label>
-                <input type="tel" id="phone" name="phone" placeholder="Enter your mobile or office number" required>
-                
-                <label for="message">About Your Practice</label>
-                <textarea id="message" name="message" placeholder="How can I help you reach more clients?" required></textarea>
-                
-                <button type="submit" class="btn">Send Inquiry</button>
+                <div class="field">
+                    <label>Full Name</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="field">
+                    <label>Email Address</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="field">
+                    <label>Phone Number *</label>
+                    <input type="tel" name="phone" placeholder="(000) 000-0000" required>
+                </div>
+                <div class="field">
+                    <label>Tell us about your practice</label>
+                    <textarea name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">SEND INQUIRY</button>
             </form>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2025 CalmSites. Boutique Digital Design for Therapists.</p>
+        <p>&copy; 2025 CalmSites. Boutique Digital Environments for Health Professionals.</p>
     </footer>
 
     <script>
-        document.querySelectorAll('.faq-question').forEach(q => {
-            q.addEventListener('click', () => {
-                const item = q.parentElement;
+        document.querySelectorAll('.faq-trigger').forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const item = trigger.parentElement;
                 item.classList.toggle('active');
-                document.querySelectorAll('.faq-item').forEach(other => {
-                    if (other !== item) other.classList.remove('active');
-                });
             });
         });
     </script>
