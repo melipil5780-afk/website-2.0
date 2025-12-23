@@ -1,117 +1,175 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalmSites | Elite Web Design for Private Practice</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>CalmSites | Bespoke Digital Architecture for Therapists</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --ink: #1a1c1e; --sage: #7d8c80; --stone: #f4f2ef; --gold: #c5a38d; --white: #ffffff; --accent: #b44545; --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        :root { 
+            --ink: #141618; 
+            --sage: #7d8c80; 
+            --stone: #f2f0ed; 
+            --gold: #b2937d; 
+            --white: #ffffff; 
+            --accent: #9b4d4d;
+            --transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--stone); color: var(--ink); line-height: 1.6; overflow-x: hidden; }
-        h1, h2 { font-family: 'Playfair Display', serif; font-weight: 400; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 30px; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--stone); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; }
         
-        /* Navigation */
-        nav { padding: 30px 0; display: flex; justify-content: space-between; align-items: center; position: absolute; width: 100%; z-index: 10; }
-        nav a { text-decoration: none; color: var(--white); font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-left: 30px; transition: 0.3s; }
-        nav a:hover { color: var(--gold); }
-        .logo { font-family: 'Playfair Display'; font-size: 1.5rem; margin-left: 0 !important; font-style: italic; color: var(--white); }
+        h1, h2 { font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: -0.02em; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 50px; }
+
+        /* Navigation - Floating & Modern */
+        nav { padding: 40px 0; display: flex; justify-content: space-between; align-items: center; position: fixed; width: 100%; top: 0; z-index: 1000; transition: 0.4s; background: transparent; }
+        nav.scrolled { background: rgba(242, 240, 237, 0.95); padding: 20px 0; backdrop-filter: blur(10px); }
+        nav a { text-decoration: none; color: var(--ink); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; margin-left: 40px; font-weight: 500; }
+        .logo { font-family: 'Playfair Display'; font-size: 1.6rem; margin-left: 0 !important; font-style: italic; letter-spacing: 0; }
+
+        /* Hero - Cinematic Scale */
+        header { 
+            height: 100vh; display: flex; align-items: center; justify-content: center; 
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; 
+            color: var(--white); text-align: center; clip-path: inset(0 0 0 0);
+        }
+        .hero-content { max-width: 900px; }
+        .hero-content h1 { font-size: clamp(3rem, 8vw, 6rem); margin-bottom: 30px; line-height: 1; }
+        .hero-content p { font-size: 1rem; letter-spacing: 0.4em; opacity: 0.9; margin-bottom: 50px; text-transform: uppercase; }
+
+        /* Intense CTA Button */
+        .cta-button { 
+            padding: 24px 60px; background: var(--white); color: var(--ink); text-decoration: none; 
+            text-transform: uppercase; letter-spacing: 0.3em; font-weight: 600; font-size: 0.8rem; 
+            display: inline-block; transition: var(--transition); border: 1px solid white;
+        }
+        .cta-button:hover { background: transparent; color: white; transform: scale(1.05); }
+
+        /* Portfolio - Editorial Gallery */
+        #work { padding: 180px 0; background: var(--white); }
+        .section-header { text-align: center; margin-bottom: 120px; }
+        .section-header h2 { font-size: 4rem; margin-bottom: 20px; }
+        .section-header p { text-transform: uppercase; letter-spacing: 0.3em; color: var(--sage); font-size: 0.8rem; }
+
+        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 80px 40px; }
+        .portfolio-item { cursor: pointer; height: 700px; overflow: hidden; position: relative; background: var(--stone); }
+        .portfolio-item:nth-child(even) { margin-top: 100px; } /* Asymmetrical staggered look */
+        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: 2s ease; filter: grayscale(10%); }
+        .portfolio-item:hover img { transform: scale(1.1); filter: grayscale(0); }
+
+        /* Lightbox - Clean Frame (No Red Buttons) */
+        #lightbox { 
+            position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(20, 22, 24, 0.99); display: none; align-items: center; justify-content: center; 
+        }
+        .work-frame { 
+            width: 80%; max-width: 1200px; background: #fff; border: 1px solid rgba(255,255,255,0.1); 
+            box-shadow: 0 60px 120px rgba(0,0,0,0.5); transform: translateY(50px); opacity: 0; transition: 0.6s ease;
+        }
+        #lightbox.active .work-frame { transform: translateY(0); opacity: 1; }
+        .frame-content { width: 100%; max-height: 80vh; overflow-y: auto; background: #fff; padding: 10px; }
+        .frame-content img { width: 100%; display: block; height: auto; }
+        .close-lb { position: absolute; top: 40px; right: 50px; color: white; font-size: 3rem; cursor: pointer; font-weight: 200; }
+
+        /* Offer Section - Intense Clarity */
+        .offer { background: var(--ink); color: var(--white); padding: 180px 0; text-align: center; }
+        .offer-badge { border: 1px solid var(--gold); color: var(--gold); padding: 8px 20px; font-size: 0.7rem; letter-spacing: 0.3em; margin-bottom: 40px; display: inline-block; }
+        .price-hero { font-size: 8rem; font-family: 'Playfair Display'; margin: 20px 0; line-height: 1; }
+        .price-hero span { text-decoration: line-through; opacity: 0.2; font-size: 2.5rem; vertical-align: middle; margin-right: 20px; }
+
+        footer { padding: 100px 0; text-align: center; background: var(--stone); opacity: 0.4; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; }
 
         /* Animations */
-        .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: var(--transition); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* Hero */
-        header { height: 95vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; color: var(--white); text-align: center; }
-        .hero-content h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 25px; line-height: 1.1; }
-        .cta-intense { padding: 20px 45px; background: var(--white); color: var(--ink); text-decoration: none; text-transform: uppercase; letter-spacing: 3px; font-weight: 600; font-size: 0.85rem; display: inline-block; transition: 0.4s; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .cta-intense:hover { background: var(--gold); color: white; transform: translateY(-3px); }
-
-        /* Portfolio (Clean Grid) */
-        #portfolio { padding: 120px 0; background: var(--stone); }
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
-        .portfolio-item { cursor: pointer; height: 450px; overflow: hidden; position: relative; background: #fff; box-shadow: 0 10px 40px rgba(0,0,0,0.05); }
-        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: 1.5s; }
-        .portfolio-item:hover img { transform: scale(1.05); }
-
-        /* Lightbox - Browser Frame */
-        #lightbox { position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 28, 30, 0.98); display: none; align-items: center; justify-content: center; }
-        .browser-mockup { width: 85%; max-width: 1000px; background: #fff; border-radius: 8px; overflow: hidden; transform: scale(0.9); transition: 0.5s; }
-        #lightbox.active .browser-mockup { transform: scale(1); }
-        .browser-header { background: #f1f1f1; padding: 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #ddd; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
-        .dot.red { background: #ff5f56; }
-        .browser-content { width: 100%; max-height: 70vh; overflow-y: auto; }
-        .browser-content img { width: 100%; display: block; height: auto; }
-        .close-lb { position: absolute; top: 30px; right: 40px; color: white; font-size: 2rem; cursor: pointer; }
-
-        /* Offer Section */
-        .offer { background: var(--ink); color: white; padding: 120px 0; text-align: center; }
-        .price-tag { font-size: 6rem; font-family: 'Playfair Display'; margin: 20px 0; }
-        .price-tag span { text-decoration: line-through; opacity: 0.2; font-size: 2rem; margin-right: 15px; }
-        .badge { background: var(--accent); padding: 5px 15px; font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 25px; display: inline-block; font-weight: 600; }
-
-        footer { padding: 40px; text-align: center; opacity: 0.3; font-size: 0.7rem; }
+        @media (max-width: 900px) {
+            .portfolio-grid { grid-template-columns: 1fr; gap: 40px; }
+            .portfolio-item { height: 500px; margin-top: 0 !important; }
+            .price-hero { font-size: 5rem; }
+        }
     </style>
 </head>
 <body>
-    <nav class="container">
-        <a href="index.html" class="logo">CALMSITES</a>
-        <div>
-            <a href="#portfolio">Work</a>
-            <a href="#offer">Offer</a>
-            <a href="contact.html" style="color: var(--gold); font-weight: 600;">Contact</a>
+
+    <nav id="navbar">
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+            <a href="#" class="logo">CALMSITES</a>
+            <div>
+                <a href="#work">Portfolio</a>
+                <a href="#offer">Offer</a>
+                <a href="contact.html" style="color: var(--gold); font-weight: 700;">Inquire Now</a>
+            </div>
         </div>
     </nav>
 
     <header>
         <div class="hero-content reveal">
-            <h1>Refining the Digital<br>Clinical Environment.</h1>
-            <p style="letter-spacing: 5px; opacity: 0.8; margin-bottom: 40px;">PRIVATE • ELITE • MINIMAL</p>
-            <a href="#offer" class="cta-intense">Claim Introductory Rate</a>
+            <p>Digital Sanctuary for Specialists</p>
+            <h1>Clinical Credibility.<br>Modern Form.</h1>
+            <a href="#offer" class="cta-button">Secure This Design Rate</a>
         </div>
     </header>
 
-    <section id="portfolio" class="container">
-        <div class="portfolio-grid">
-            <div class="portfolio-item reveal" onclick="openLightbox('second.png')"><img src="second.png"></div>
-            <div class="portfolio-item reveal" onclick="openLightbox('ok.png')"><img src="ok.png"></div>
-            <div class="portfolio-item reveal" onclick="openLightbox('wbsi.png')"><img src="wbsi.png"></div>
-            <div class="portfolio-item reveal" onclick="openLightbox('web.png')"><img src="web.png"></div>
+    <section id="work">
+        <div class="container">
+            <div class="section-header reveal">
+                <p>Selected Case Studies</p>
+                <h2>Signature Designs</h2>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item reveal" onclick="openLightbox('second.png')"><img src="second.png"></div>
+                <div class="portfolio-item reveal" onclick="openLightbox('ok.png')"><img src="ok.png"></div>
+                <div class="portfolio-item reveal" onclick="openLightbox('wbsi.png')"><img src="wbsi.png"></div>
+                <div class="portfolio-item reveal" onclick="openLightbox('web.png')"><img src="web.png"></div>
+            </div>
         </div>
     </section>
 
     <section class="offer" id="offer">
         <div class="container reveal">
-            <div class="badge">LIMITED TIME INTRODUCTORY OFFER</div>
-            <h2 style="font-size: 3rem;">Premium Practice Package</h2>
-            <div class="price-tag"><span>$1,799</span> $500</div>
-            <p style="max-width: 600px; margin: 0 auto 50px; opacity: 0.7;">Complete custom build. SEO optimized. Yours forever. No monthly fees.</p>
-            <a href="contact.html" class="cta-intense" style="background: var(--gold); color: white;">Press Now to Secure Rate</a>
+            <div class="offer-badge">ESTABLISHED THERAPIST OFFER</div>
+            <h2 style="font-size: 3.5rem; color: var(--white);">Your Practice. Reimagined.</h2>
+            <div class="price-hero"><span>$1,799</span>$500</div>
+            <p style="max-width: 700px; margin: 0 auto 60px; font-size: 1.2rem; opacity: 0.8; font-weight: 300;">
+                One complete professional build. High-speed, mobile-ready, and SEO-tuned. 
+                Pay once. Own it forever. No monthly subscriptions.
+            </p>
+            <a href="contact.html" class="cta-button" style="background: var(--gold); border-color: var(--gold); color: white;">Press Now to Begin</a>
         </div>
     </section>
 
-    <footer>&copy; 2025 CALMSITES</footer>
+    <footer>&copy; 2025 CALMSITES — DIGITAL ARCHITECTURE FOR THERAPISTS</footer>
 
+    <!-- LIGHTBOX (CLEAN - NO BROWSER BUTTONS) -->
     <div id="lightbox" onclick="closeLightbox()">
         <span class="close-lb">&times;</span>
-        <div class="browser-mockup" onclick="event.stopPropagation()">
-            <div class="browser-header"><div class="dot red"></div><div class="dot"></div><div class="dot"></div></div>
-            <div class="browser-content"><img id="lightbox-img" src=""></div>
+        <div class="work-frame" onclick="event.stopPropagation()">
+            <div class="frame-content"><img id="lightbox-img" src=""></div>
         </div>
     </div>
 
     <script>
+        // Scroll Logic for Nav
+        window.onscroll = function() {
+            let nav = document.getElementById("navbar");
+            if (window.pageYOffset > 100) { nav.classList.add("scrolled"); } 
+            else { nav.classList.remove("scrolled"); }
+        };
+
+        // Reveal Logic
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+        // Lightbox Logic
         const lb = document.getElementById('lightbox');
         const lbImg = document.getElementById('lightbox-img');
-        function openLightbox(src) { lbImg.src = src; lb.style.display = 'flex'; setTimeout(() => lb.classList.add('active'), 10); }
-        function closeLightbox() { lb.classList.remove('active'); setTimeout(() => lb.style.display = 'none', 400); }
+        function openLightbox(src) { lbImg.src = src; lb.style.display = 'flex'; setTimeout(() => lb.classList.add('active'), 10); document.body.style.overflow = 'hidden'; }
+        function closeLightbox() { lb.classList.remove('active'); setTimeout(() => lb.style.display = 'none', 500); document.body.style.overflow = 'auto'; }
     </script>
 </body>
 </html>
