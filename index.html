@@ -1,11 +1,10 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Web Design for Therapists</title>
     
-    <!-- Premium Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
@@ -16,7 +15,7 @@
             --gold: #b2937d; 
             --white: #ffffff; 
             --accent: #9b4d4d;
-            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         /* --- GLOBAL RESET --- */
@@ -27,14 +26,14 @@
             background-color: var(--stone); 
             color: var(--ink); 
             line-height: 1.7; 
-            text-align: center; /* Ensures everything is centered by default */
+            text-align: center;
         }
         
         h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; margin: 0 auto; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 30px; }
         .text-limiter { max-width: 800px; margin: 0 auto; }
 
-        /* --- NAVIGATION (MINIMAL) --- */
+        /* --- NAVIGATION --- */
         nav { padding: 50px 0; display: flex; justify-content: center; position: absolute; width: 100%; z-index: 100; }
         nav a { text-decoration: none; color: var(--white); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; }
 
@@ -44,7 +43,7 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                         url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; 
             color: var(--white); 
             padding: 0 20px;
@@ -89,15 +88,46 @@
         .portfolio-item { 
             cursor: pointer; 
             background: var(--stone); 
-            padding: 25px; 
-            border: 1px solid #f0f0f0; 
+            height: 500px; /* Fixed height for consistency */
+            border: 1px solid #e0e0e0; 
             transition: var(--transition);
-            overflow: hidden;
-            display: flex;
-            align-items: flex-start;
+            overflow: hidden; /* Hides the rest of the long screenshot */
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
-        .portfolio-item img { width: 100%; height: auto; display: block; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-        .portfolio-item:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.08); }
+        .portfolio-item img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* Ensures image fills the box neatly */
+            object-position: top; /* Forces image to show the header/top part */
+            display: block; 
+            transition: transform 0.8s ease;
+        }
+        
+        /* Hover Overlay Effect */
+        .portfolio-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .view-btn {
+            background: white;
+            padding: 15px 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .portfolio-item:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.15); }
+        .portfolio-item:hover img { transform: scale(1.05); }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
 
         /* --- CAREER GROWTH SECTION --- */
         .benefits { padding: 140px 0; background: var(--stone); }
@@ -110,7 +140,7 @@
         .benefit-card h3 { color: var(--sage); font-size: 1.6rem; margin-bottom: 20px; font-style: italic; }
         .benefit-card p { font-size: 1rem; color: #444; font-weight: 400; max-width: 320px; margin: 0 auto; }
 
-        /* --- INTENSE OFFER --- */
+        /* --- OFFER SECTION --- */
         .offer { background: var(--ink); color: white; padding: 140px 20px; }
         .price-hero { 
             font-size: clamp(4.5rem, 18vw, 8rem); 
@@ -132,38 +162,47 @@
         /* --- LIGHTBOX (FULL PREVIEW) --- */
         #lightbox { 
             position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(26,28,30,0.98); display: none; align-items: center; justify-content: center; 
+            background: rgba(26,28,30,0.95); display: none; align-items: center; justify-content: center; 
+            backdrop-filter: blur(5px);
         }
         .lb-content { 
-            width: 85%; 
-            max-width: 1100px; 
-            height: 85vh; 
-            overflow-y: auto; 
+            width: 90%; 
+            max-width: 1200px; 
+            height: 90vh; 
+            overflow-y: auto; /* Allows scrolling down the long screenshot */
             background: white; 
-            padding: 10px; 
+            box-shadow: 0 20px 80px rgba(0,0,0,0.5);
             position: relative;
+            scrollbar-width: thin;
         }
+        .lb-content::-webkit-scrollbar { width: 8px; }
+        .lb-content::-webkit-scrollbar-thumb { background-color: var(--sage); }
+        
         .lb-content img { width: 100%; height: auto; display: block; }
-        .close-lb { position: absolute; top: 25px; right: 35px; color: white; font-size: 3rem; cursor: pointer; font-weight: 200; }
+        
+        .close-lb { 
+            position: absolute; top: 20px; right: 40px; color: white; font-size: 3rem; 
+            cursor: pointer; font-weight: 200; transition: 0.3s;
+        }
+        .close-lb:hover { color: var(--gold); }
 
         footer { padding: 100px 0; background: var(--stone); opacity: 0.4; font-size: 0.75rem; letter-spacing: 3px; }
 
-        /* --- SCROLL ANIMATION --- */
+        /* --- ANIMATION --- */
         .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- MOBILE RESPONSIVE --- */
+        /* --- RESPONSIVE --- */
         @media (max-width: 850px) {
             .portfolio-grid, .benefit-grid { grid-template-columns: 1fr; gap: 50px; }
             .hero-content h1 { font-size: 2.8rem; }
-            .portfolio-item { padding: 15px; }
-            .price-hero { font-size: 5rem; }
+            .portfolio-item { height: 350px; } 
         }
     </style>
 </head>
 <body>
 
-    <nav><a href="contact.html">Begin A Project</a></nav>
+    <nav><a href="#contact">Begin A Project</a></nav>
 
     <header>
         <div class="hero-content reveal">
@@ -178,13 +217,29 @@
             <div class="text-limiter reveal">
                 <h2 style="font-size: 3.5rem; margin-bottom: 20px;">The Gallery</h2>
                 <p style="text-transform: uppercase; letter-spacing: 3px; color: var(--sage); font-size: 0.8rem; font-weight: 600;">Clinical Aesthetics & Functional Design</p>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.6;">Click any project to view the full website design.</p>
             </div>
             
             <div class="portfolio-grid">
-                <div class="portfolio-item reveal" onclick="openLightbox('second.png')"><img src="second.png"></div>
-                <div class="portfolio-item reveal" onclick="openLightbox('ok.png')"><img src="ok.png"></div>
-                <div class="portfolio-item reveal" onclick="openLightbox('wbsi.png')"><img src="wbsi.png"></div>
-                <div class="portfolio-item reveal" onclick="openLightbox('web.png')"><img src="web.png"></div>
+                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpg')">
+                    <img src="Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpg" alt="Healing Pathways Therapy">
+                    <div class="portfolio-overlay"><span class="view-btn">View Full Site</span></div>
+                </div>
+
+                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
+                    <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Active Progress Therapy">
+                    <div class="portfolio-overlay"><span class="view-btn">View Full Site</span></div>
+                </div>
+
+                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
+                    <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Depth Psychology">
+                    <div class="portfolio-overlay"><span class="view-btn">View Full Site</span></div>
+                </div>
+
+                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
+                    <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="Wild Reconnection">
+                    <div class="portfolio-overlay"><span class="view-btn">View Full Site</span></div>
+                </div>
             </div>
         </div>
     </section>
@@ -222,14 +277,13 @@
                 <p style="margin-bottom: 50px; opacity: 0.8; font-size: 1.2rem; font-weight: 300;">
                     Complete professional build. SEO-tuned. Mobile optimized. <br>One payment. Lifetime ownership.
                 </p>
-                <a href="contact.html" class="cta-button" style="background: var(--gold); color: white; border: none;">Press Now to Secure This Rate</a>
+                <a href="#contact" class="cta-button" style="background: var(--gold); color: white; border: none;">Press Now to Secure This Rate</a>
             </div>
         </div>
     </section>
 
     <footer>&copy; 2025 PROFESSIONAL WEB ARCHITECTURE FOR THERAPISTS.</footer>
 
-    <!-- LIGHTBOX -->
     <div id="lightbox" onclick="closeLightbox()">
         <span class="close-lb">&times;</span>
         <div class="lb-content" onclick="event.stopPropagation()">
@@ -244,17 +298,19 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Lightbox
+        // Lightbox Logic
         const lb = document.getElementById('lightbox'); 
         const lbImg = document.getElementById('lightbox-img');
+        
         function openLightbox(src) { 
             lbImg.src = src; 
             lb.style.display = 'flex'; 
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden'; // Prevents background scrolling
         }
+        
         function closeLightbox() { 
             lb.style.display = 'none'; 
-            document.body.style.overflow = 'auto'; 
+            document.body.style.overflow = 'auto'; // Restores scrolling
         }
     </script>
 </body>
