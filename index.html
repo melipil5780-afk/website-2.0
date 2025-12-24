@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,6 +14,7 @@
             --stone: #f4f2ef; 
             --gold: #b2937d; 
             --white: #ffffff; 
+            --urgent: #b33939; /* Elegant Red for Price */
             --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -37,6 +38,13 @@
             color: var(--white); 
             padding: 0 20px;
         }
+
+        /* Fancy "What We Do" Section */
+        .process-section { padding: 140px 0; background: var(--stone); }
+        .fancy-text { font-style: italic; color: var(--sage); font-size: 1.2rem; margin-bottom: 20px; display: block; }
+        .process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; text-align: left; margin-top: 60px; }
+        .process-description h2 { font-size: 3rem; margin-bottom: 30px; line-height: 1.2; text-align: left; }
+        .process-description p { font-size: 1.1rem; color: #555; margin-bottom: 20px; }
 
         .cta-button { 
             padding: 22px 50px; background: var(--white); color: var(--ink); 
@@ -64,9 +72,11 @@
         .portfolio-item:hover .portfolio-overlay { opacity: 1; }
         .view-btn { background: white; padding: 12px 25px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
 
+        /* Price Section Styling */
         .offer { background: var(--ink); color: white; padding: 140px 20px; }
-        .price-hero { font-size: clamp(4.5rem, 15vw, 8rem); font-family: 'Playfair Display'; margin: 20px 0; }
-        .price-hero span { text-decoration: line-through; opacity: 0.2; font-size: 0.4em; }
+        .price-hero { font-size: clamp(4.5rem, 15vw, 8rem); font-family: 'Playfair Display'; margin: 20px 0; color: var(--urgent); }
+        .price-hero span { text-decoration: line-through; opacity: 0.3; font-size: 0.4em; color: white; margin-right: 15px; }
+        .limited-tag { color: var(--urgent); letter-spacing: 4px; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; }
 
         #lightbox { 
             position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; 
@@ -79,7 +89,11 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        @media (max-width: 800px) { .portfolio-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 850px) { 
+            .portfolio-grid, .process-grid { grid-template-columns: 1fr; } 
+            .process-description h2 { text-align: center; }
+            .process-description p { text-align: center; }
+        }
     </style>
 </head>
 <body>
@@ -94,9 +108,27 @@
         </div>
     </header>
 
+    <section class="process-section">
+        <div class="container">
+            <div class="process-grid">
+                <div class="process-description reveal">
+                    <span class="fancy-text">The Bespoke Process</span>
+                    <h2>We create the space your practice deserves.</h2>
+                    <p>Our mission is simple: <strong>Websites that get you more clients.</strong> We don't just use templates; we build the exact vision you have in your mind.</p>
+                    <p>Simply share your logos, images, and your practice vision—we take care of the rest. From color palettes to mobile optimization, we make it exactly the way you desire.</p>
+                </div>
+                <div class="reveal" style="background: white; padding: 60px; border-left: 1px solid var(--gold);">
+                    <h3 style="margin-bottom: 20px; font-style: italic;">"Just ask, and we will make it."</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7; letter-spacing: 1px;">You focus on your clients. We focus on your digital home. Every detail is crafted to evoke safety, professionalism, and healing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="portfolio">
         <div class="container">
-            <h2 class="reveal" style="font-size: 3rem;">The Gallery</h2>
+            <h2 class="reveal" style="font-size: 3rem; margin-bottom: 20px;">The Gallery</h2>
+            <p class="reveal" style="color: var(--sage); letter-spacing: 2px; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 60px;">Select works from our clinical portfolio</p>
             <div class="portfolio-grid">
                 <div class="portfolio-item reveal" onclick="openLightbox('healing.jpg')">
                     <img src="healing.jpg">
@@ -120,9 +152,11 @@
 
     <section class="offer">
         <div class="container reveal">
-            <h2 style="color: white;">Foundational Rate</h2>
-            <div class="price-hero"><span>$1,799</span>$500</div>
-            <a href="contact.html" class="cta-button" style="background: var(--gold); color: white;">Press to Secure Rate</a>
+            <span class="limited-tag">Limited Introductory Offer</span>
+            <h2 style="color: white; margin-top: 20px;">Secure Your Digital Presence</h2>
+            <div class="price-hero"><span>$1,799</span>$599</div>
+            <p style="margin-bottom: 40px; opacity: 0.8;">Full custom build. No hidden fees. Yours forever.</p>
+            <a href="contact.html" class="cta-button" style="background: var(--urgent); color: white;">Inquire for $599 Rate</a>
         </div>
     </section>
 
