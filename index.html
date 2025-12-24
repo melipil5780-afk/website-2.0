@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,23 +14,15 @@
             --stone: #f4f2ef; 
             --gold: #b2937d; 
             --white: #ffffff; 
-            --accent: #9b4d4d;
             --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--stone); 
-            color: var(--ink); 
-            line-height: 1.7; 
-            text-align: center;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--stone); color: var(--ink); line-height: 1.7; text-align: center; }
         
         h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; margin: 0 auto; }
         .container { max-width: 1100px; margin: 0 auto; padding: 0 30px; }
-        .text-limiter { max-width: 800px; margin: 0 auto; }
 
         nav { padding: 50px 0; display: flex; justify-content: center; position: absolute; width: 100%; z-index: 100; }
         nav a { text-decoration: none; color: var(--white); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; }
@@ -45,147 +37,49 @@
             color: var(--white); 
             padding: 0 20px;
         }
-        .hero-content h1 { 
-            font-size: clamp(2.4rem, 8vw, 4.8rem); 
-            margin-bottom: 25px; 
-            line-height: 1.1; 
-            max-width: 1000px;
-        }
-        .hero-content p { 
-            font-size: clamp(1rem, 2.5vw, 1.3rem); 
-            max-width: 700px;
-            margin: 0 auto 50px;
-            opacity: 0.95; 
-            font-weight: 300;
-        }
 
         .cta-button { 
-            padding: 22px 50px; 
-            background: var(--white); 
-            color: var(--ink); 
-            text-decoration: none; 
-            text-transform: uppercase; 
-            letter-spacing: 3px; 
-            font-weight: 600; 
-            font-size: 0.9rem; 
-            display: inline-block; 
-            transition: var(--transition); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 22px 50px; background: var(--white); color: var(--ink); 
+            text-decoration: none; text-transform: uppercase; letter-spacing: 3px; 
+            font-weight: 600; font-size: 0.9rem; display: inline-block; 
+            transition: var(--transition); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
         .cta-button:hover { background: var(--gold); color: white; transform: translateY(-5px); }
 
         #portfolio { padding: 140px 0; background: var(--white); }
-        .portfolio-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 40px; 
-            margin-top: 80px;
-        }
-        .portfolio-item { 
-            cursor: pointer; 
-            background: var(--stone); 
-            height: 500px; 
-            border: 1px solid #e0e0e0; 
-            transition: var(--transition);
-            overflow: hidden; 
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        .portfolio-item img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            object-position: top; 
-            display: block; 
-            transition: transform 0.8s ease;
-        }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 80px; }
         
-        .portfolio-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: var(--transition);
+        .portfolio-item { 
+            cursor: pointer; height: 500px; border: 1px solid #e0e0e0; 
+            transition: var(--transition); overflow: hidden; position: relative;
         }
-        .view-btn {
-            background: white;
-            padding: 15px 30px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--ink);
-        }
-
-        .portfolio-item:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.15); }
+        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: 0.8s ease; }
         .portfolio-item:hover img { transform: scale(1.05); }
-        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
 
-        .benefits { padding: 140px 0; background: var(--stone); }
-        .benefit-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 60px; 
-            margin-top: 80px;
+        .portfolio-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3); display: flex; align-items: center; 
+            justify-content: center; opacity: 0; transition: 0.3s;
         }
-        .benefit-card h3 { color: var(--sage); font-size: 1.6rem; margin-bottom: 20px; font-style: italic; }
-        .benefit-card p { font-size: 1rem; color: #444; font-weight: 400; max-width: 320px; margin: 0 auto; }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+        .view-btn { background: white; padding: 12px 25px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
 
         .offer { background: var(--ink); color: white; padding: 140px 20px; }
-        .price-hero { 
-            font-size: clamp(4.5rem, 18vw, 8rem); 
-            font-family: 'Playfair Display'; 
-            margin: 25px 0; 
-            line-height: 1;
-        }
-        .price-hero span { text-decoration: line-through; opacity: 0.2; font-size: 0.3em; margin-right: 15px; }
-        .badge { 
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 8px 20px; 
-            font-size: 0.75rem; 
-            letter-spacing: 3px; 
-            margin-bottom: 30px; 
-            display: inline-block; 
-        }
+        .price-hero { font-size: clamp(4.5rem, 15vw, 8rem); font-family: 'Playfair Display'; margin: 20px 0; }
+        .price-hero span { text-decoration: line-through; opacity: 0.2; font-size: 0.4em; }
 
         #lightbox { 
             position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(26,28,30,0.95); display: none; align-items: center; justify-content: center; 
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; 
         }
-        .lb-content { 
-            width: 90%; 
-            max-width: 1200px; 
-            height: 90vh; 
-            overflow-y: auto; 
-            background: white; 
-            box-shadow: 0 20px 80px rgba(0,0,0,0.5);
-            position: relative;
-            scrollbar-width: thin;
-        }
-        .lb-content::-webkit-scrollbar { width: 8px; }
-        .lb-content::-webkit-scrollbar-thumb { background-color: var(--sage); }
-        .lb-content img { width: 100%; height: auto; display: block; }
-        .close-lb { 
-            position: absolute; top: 20px; right: 40px; color: white; font-size: 3rem; 
-            cursor: pointer; font-weight: 200; transition: 0.3s;
-        }
-        .close-lb:hover { color: var(--gold); }
+        .lb-content { width: 90%; max-width: 1100px; height: 85vh; overflow-y: auto; background: white; }
+        .lb-content img { width: 100%; height: auto; }
+        .close-lb { position: absolute; top: 20px; right: 40px; color: white; font-size: 3rem; cursor: pointer; }
 
-        footer { padding: 100px 0; background: var(--stone); opacity: 0.4; font-size: 0.75rem; letter-spacing: 3px; }
-
-        .reveal { opacity: 0; transform: translateY(30px); transition: var(--transition); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        @media (max-width: 850px) {
-            .portfolio-grid, .benefit-grid { grid-template-columns: 1fr; gap: 50px; }
-            .hero-content h1 { font-size: 2.8rem; }
-            .portfolio-item { height: 350px; } 
-        }
+        @media (max-width: 800px) { .portfolio-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -194,89 +88,47 @@
 
     <header>
         <div class="hero-content reveal">
-            <h1>Professional Websites for Therapists</h1>
-            <p>Beautiful, calming, and client-focused websites — custom-built to grow your practice and elevate your career.</p>
+            <h1 style="font-size: clamp(2.5rem, 7vw, 4.5rem);">Websites for Therapists</h1>
+            <p style="margin-bottom: 40px;">Beautiful, calming, and built to grow your clinical practice.</p>
             <a href="#portfolio" class="cta-button">View Selected Works</a>
         </div>
     </header>
 
     <section id="portfolio">
         <div class="container">
-            <div class="text-limiter reveal">
-                <h2 style="font-size: 3.5rem; margin-bottom: 20px;">The Gallery</h2>
-                <p style="text-transform: uppercase; letter-spacing: 3px; color: var(--sage); font-size: 0.8rem; font-weight: 600;">Clinical Aesthetics & Functional Design</p>
-                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.6;">Click any project to view the full website design.</p>
-            </div>
-            
+            <h2 class="reveal" style="font-size: 3rem;">The Gallery</h2>
             <div class="portfolio-grid">
-                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpg')">
-                    <img src="Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpg" alt="Healing Pathways Therapy">
-                    <div class="portfolio-overlay"><span class="view-btn">View Full Site</span></div>
+                <div class="portfolio-item reveal" onclick="openLightbox('healing.jpg')">
+                    <img src="healing.jpg">
+                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
                 </div>
-
                 <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
-                    <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Active Progress Therapy">
-                    <div class="portfolio-overlay"><span class="view-btn">View Full Site</span></div>
+                    <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
                 </div>
-
                 <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
-                    <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Depth Psychology">
-                    <div class="portfolio-overlay"><span class="view-btn">View Full Site</span></div>
+                    <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
+                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
                 </div>
-
                 <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
-                    <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="Wild Reconnection">
-                    <div class="portfolio-overlay"><span class="view-btn">View Full Site</span></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="benefits">
-        <div class="container">
-            <div class="text-limiter reveal">
-                <h2 style="font-size: 3rem; margin-bottom: 20px;">Built to Grow Your Practice</h2>
-                <p>We don't just create "fancy" designs. We build clinical tools that remove the friction between you and your future clients.</p>
-            </div>
-            
-            <div class="benefit-grid">
-                <div class="benefit-card reveal">
-                    <h3>Command Authority</h3>
-                    <p>First impressions are clinical. We ensure your digital presence communicates expertise, safety, and immediate credibility.</p>
-                </div>
-                <div class="benefit-card reveal">
-                    <h3>Attract Ideal Referrals</h3>
-                    <p>Stop losing potential clients to outdated, confusing sites. We design for clarity that turns visitors into consultation calls.</p>
-                </div>
-                <div class="benefit-card reveal">
-                    <h3>Career Investment</h3>
-                    <p>Own your digital real estate. One-time payment, zero monthly fees, and a platform that scales with your growing career.</p>
+                    <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
+                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="offer">
-        <div class="container">
-            <div class="badge">LIMITED TIME INTRODUCTORY RATE</div>
-            <div class="text-limiter reveal">
-                <h2 style="font-size: 3.5rem; color: white;">A Foundation for Your Success</h2>
-                <div class="price-hero"><span>$1,799</span>$500</div>
-                <p style="margin-bottom: 50px; opacity: 0.8; font-size: 1.2rem; font-weight: 300;">
-                    Complete professional build. SEO-tuned. Mobile optimized. <br>One payment. Lifetime ownership.
-                </p>
-                <a href="contact.html" class="cta-button" style="background: var(--gold); color: white; border: none;">Press Now to Secure This Rate</a>
-            </div>
+        <div class="container reveal">
+            <h2 style="color: white;">Foundational Rate</h2>
+            <div class="price-hero"><span>$1,799</span>$500</div>
+            <a href="contact.html" class="cta-button" style="background: var(--gold); color: white;">Press to Secure Rate</a>
         </div>
     </section>
 
-    <footer>&copy; 2025 PROFESSIONAL WEB ARCHITECTURE FOR THERAPISTS.</footer>
-
     <div id="lightbox" onclick="closeLightbox()">
         <span class="close-lb">&times;</span>
-        <div class="lb-content" onclick="event.stopPropagation()">
-            <img id="lightbox-img" src="">
-        </div>
+        <div class="lb-content" onclick="event.stopPropagation()"><img id="lb-img" src=""></div>
     </div>
 
     <script>
@@ -285,18 +137,14 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        const lb = document.getElementById('lightbox'); 
-        const lbImg = document.getElementById('lightbox-img');
-        
-        function openLightbox(src) { 
-            lbImg.src = src; 
-            lb.style.display = 'flex'; 
-            document.body.style.overflow = 'hidden'; 
+        function openLightbox(src) {
+            document.getElementById('lb-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
-        
-        function closeLightbox() { 
-            lb.style.display = 'none'; 
-            document.body.style.overflow = 'auto'; 
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
     </script>
 </body>
