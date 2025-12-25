@@ -35,7 +35,7 @@
             <h1>Initiate Your Presence</h1>
         </div>
 
-        <form action="https://script.google.com/macros/s/AKfycbyr7yUgHSMJD4W26asEoZ0q7AfACRW2SRA8LuQdpGanGZG8Hzj8-jVF9TYP3slowND-/exec" 
+        <form action="https://script.google.com/macros/s/AKfycbxVxdTqYkZ2-nEAJMHAVfA6mO7oKPrGwFbMXONSsbMIRw683nvyNqhA_9nB60bMAzK/exec" 
               method="POST" 
               id="contactForm">
             
@@ -47,7 +47,7 @@
                 <div class="form-grid">
                     <div class="input-group">
                         <label>Email</label>
-                        <input type="email" name="email" required placeholder="avrahompil@gmail.com">
+                        <input type="email" name="email" required placeholder="Your Email">
                     </div>
                     <div class="input-group">
                         <label>Phone</label>
@@ -73,7 +73,7 @@
             document.getElementById('ca').style.top = (e.clientY-22)+'px';
         }
 
-        // Change button text immediately to show the user it's working
+        // Show "Transmitting" while the Google Script processes the email
         document.getElementById('contactForm').addEventListener('submit', function() {
             const btn = document.getElementById('submitBtn');
             btn.innerText = "TRANSMITTING...";
