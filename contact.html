@@ -35,7 +35,7 @@
             <h1>Initiate Your Presence</h1>
         </div>
 
-        <form action="https://script.google.com/macros/s/AKfycbz1Aaznbl-CEvNPLNr4de-KMzoTU0uy94RfNfcdvfu4Q1wRmtgDa7mkUGzvhtzffMmB/exec" 
+        <form action="https://script.google.com/macros/s/AKfycbyr7yUgHSMJD4W26asEoZ0q7AfACRW2SRA8LuQdpGanGZG8Hzj8-jVF9TYP3slowND-/exec" 
               method="POST" 
               id="contactForm">
             
@@ -73,11 +73,9 @@
             document.getElementById('ca').style.top = (e.clientY-22)+'px';
         }
 
-        // Luxury feedback on click
-        const form = document.getElementById('contactForm');
-        const btn = document.getElementById('submitBtn');
-
-        form.addEventListener('submit', () => {
+        // Change button text immediately to show the user it's working
+        document.getElementById('contactForm').addEventListener('submit', function() {
+            const btn = document.getElementById('submitBtn');
             btn.innerText = "TRANSMITTING...";
             btn.style.opacity = "0.5";
             btn.style.pointerEvents = "none";
