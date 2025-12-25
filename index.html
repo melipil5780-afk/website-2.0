@@ -3,180 +3,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bespoke Clinical Design | Premium Architecture</title>
+    <title>Elite Clinical Architecture</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Montserrat:wght@100;300;800&display=swap" rel="stylesheet">
     
     <style>
         :root { --dark: #050505; --light: #fdfaf5; --gold: #c5a37d; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--dark); color: var(--light); font-family: 'Montserrat', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
+        body { background: var(--dark); color: var(--light); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-        /* --- UI ELEMENTS --- */
-        .scarcity-text { position: absolute; top: 40px; left: 10vw; font-size: 0.6rem; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
-        
-        .value-anchor { 
-            position: absolute; top: 40px; right: 10vw; text-align: right; 
-            border-right: 1px solid var(--gold); padding-right: 20px;
+        /* --- THE GOLDEN NEURAL BACKGROUND --- */
+        #canvas-bg { position: fixed; inset: 0; z-index: -1; opacity: 0.3; pointer-events: none; }
+
+        /* --- THE "WOW" PRICE HUD --- */
+        .sale-badge {
+            position: fixed; top: 30px; right: 5vw; z-index: 1000;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--gold);
+            padding: 20px; backdrop-filter: blur(20px); border-radius: 2px;
+            box-shadow: 0 0 40px rgba(197, 163, 125, 0.2); text-align: right;
+            animation: float 4s ease-in-out infinite;
         }
-        .is-price { font-family: 'Cormorant Garamond'; font-size: 2.5rem; display: block; line-height: 1; }
-        .save-msg { font-size: 0.5rem; letter-spacing: 2px; opacity: 0.6; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        
+        .price-now { font-size: 3.5rem; font-weight: 800; display: block; line-height: 1; color: #fff; }
+        .price-was { font-family: 'Cormorant Garamond'; font-size: 1.2rem; text-decoration: line-through; opacity: 0.5; font-style: italic; }
+        .savings-tag { background: var(--gold); color: #000; font-size: 0.6rem; font-weight: 800; padding: 4px 10px; display: inline-block; margin-top: 10px; letter-spacing: 2px; }
 
-        @media (max-width: 768px) { 
-            .value-anchor { position: relative; right: auto; top: auto; margin: 40px 0 0 10vw; text-align: left; border-right: none; border-left: 1px solid var(--gold); padding-left: 20px; } 
-            .scarcity-text { position: relative; top: 40px; left: 10vw; }
+        /* --- MOBILE HUD FIX --- */
+        @media (max-width: 768px) {
+            .sale-badge { position: relative; top: 0; right: 0; margin: 120px 10vw 0; text-align: left; width: fit-content; }
         }
 
-        /* --- HERO --- */
-        header { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10vw; }
-        .hero-title { font-family: 'Cormorant Garamond'; font-size: clamp(3.5rem, 12vw, 9rem); line-height: 0.9; font-weight: 300; margin-bottom: 30px; }
-        .mission { max-width: 650px; font-size: 1.15rem; line-height: 1.7; opacity: 0.8; font-weight: 200; border-left: 1px solid rgba(197,163,125,0.4); padding-left: 35px; }
+        /* --- TEXT MATERIALIZATION --- */
+        .awe-reveal { opacity: 0; filter: blur(15px); transform: translateY(50px); transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
+        .awe-reveal.visible { opacity: 1; filter: blur(0); transform: translateY(0); }
 
-        /* --- GALLERY --- */
-        .gallery { padding-bottom: 10vh; }
-        .project-block { padding: 12vh 10vw; display: flex; flex-direction: column; gap: 35px; }
-        
-        /* THE CLIP REVEAL EFFECT */
-        .img-container { 
+        header { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10vw; }
+        .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(3.5rem, 12vw, 9rem); line-height: 0.85; font-weight: 300; margin-bottom: 40px; }
+        .hero-p { max-width: 600px; font-size: 1.3rem; line-height: 1.6; font-weight: 100; color: rgba(255,255,255,0.6); border-left: 2px solid var(--gold); padding-left: 30px; }
+
+        /* --- THE GALLERY --- */
+        .block { padding: 10vh 10vw; position: relative; }
+        .img-reveal-box { 
             width: 100%; height: 80vh; overflow: hidden; position: relative; cursor: zoom-in;
-            clip-path: inset(100% 0 0 0); transition: clip-path 1.4s cubic-bezier(0.19, 1, 0.22, 1);
+            clip-path: inset(100% 0 0 0); transition: clip-path 1.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .img-container.revealed { clip-path: inset(0 0 0 0); }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
-        .img-container:hover img { filter: brightness(1); transform: scale(1.03); }
+        .img-reveal-box.visible { clip-path: inset(0 0 0 0); }
+        .img-reveal-box img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) saturate(0.5); transition: 2s; }
+        .img-reveal-box:hover img { filter: brightness(1) saturate(1); transform: scale(1.05); }
 
-        .project-meta { 
-            display: flex; justify-content: space-between; align-items: flex-end; 
-            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 25px;
-            opacity: 0; transform: translateY(20px); transition: 1s 0.3s;
-        }
-        .project-meta.revealed { opacity: 1; transform: translateY(0); }
-        .project-meta h3 { font-family: 'Cormorant Garamond'; font-size: 2.8rem; font-weight: 300; }
-        .project-meta span { font-size: 0.65rem; letter-spacing: 4px; color: var(--gold); }
+        .block-info { padding: 30px 0; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .block-info h3 { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 300; }
 
         /* --- LIGHTBOX --- */
-        #lightbox {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000;
-            display: none; align-items: center; justify-content: center; padding: 5vw;
-        }
-        #lightbox img { max-width: 100%; max-height: 90vh; object-fit: contain; }
-        .close-btn { 
-            position: absolute; top: 40px; right: 40px; font-size: 2.5rem; color: #fff; 
-            cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 100; z-index: 10001;
-        }
+        #lightbox { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; align-items: center; justify-content: center; }
+        #lightbox img { max-width: 100%; max-height: 90vh; }
+        .close-lb { position: absolute; top: 40px; right: 40px; font-size: 3rem; color: #fff; cursor: pointer; }
 
-        /* --- MANIFESTO --- */
-        .manifesto { padding: 25vh 10vw; background: var(--light); color: var(--dark); text-align: center; }
-        .manifesto h2 { font-family: 'Cormorant Garamond'; font-size: clamp(2.8rem, 8vw, 5.5rem); color: var(--dark); margin-bottom: 40px; line-height: 1; }
-        .manifesto p { max-width: 850px; margin: 0 auto 60px; font-size: 1.25rem; line-height: 1.8; color: #1a1a1a; font-weight: 300; }
+        /* --- THE MANIFESTO --- */
+        .manifesto-section { padding: 20vh 10vw; background: #fff; color: #000; text-align: center; }
+        .manifesto-section h2 { font-family: 'Cormorant Garamond'; font-size: clamp(3rem, 10vw, 7rem); margin-bottom: 30px; }
+        .manifesto-section p { max-width: 800px; margin: 0 auto 50px; font-size: 1.4rem; color: #222; font-weight: 300; line-height: 1.8; }
         
-        .cta-final {
-            display: inline-block; padding: 28px 70px; background: var(--dark); color: var(--light);
-            text-decoration: none; font-size: 0.85rem; letter-spacing: 6px; font-weight: 600;
-            transition: 0.4s; border: 1px solid var(--dark);
+        .cta-wow {
+            display: inline-block; padding: 25px 70px; background: #000; color: #fff;
+            text-decoration: none; font-size: 0.9rem; letter-spacing: 6px; font-weight: 800;
+            transition: 0.5s; border: 2px solid #000;
         }
-        .cta-final:hover { background: transparent; color: var(--dark); }
-
+        .cta-wow:hover { background: transparent; color: #000; box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
 
+    <canvas id="canvas-bg"></canvas>
+
     <div id="lightbox">
-        <span class="close-btn" onclick="closeLightbox()">✕</span>
-        <img id="lightbox-img" src="">
+        <span class="close-lb" onclick="closeLB()">✕</span>
+        <img id="lb-img" src="">
+    </div>
+
+    <div class="sale-badge">
+        <span class="price-was">WAS $2,499</span>
+        <span class="price-now">$599</span>
+        <div class="savings-tag">LIMITED INTRODUCTORY SALE</div>
     </div>
 
     <header>
-        <div class="scarcity-text">Limited Founding Availability</div>
-        <div class="value-anchor">
-            <span class="is-price">$599</span>
-            <span class="save-msg">VALUE $2,499 (SAVE $1,900)</span>
-        </div>
-        
-        <h1 class="hero-title">Your Vision.<br>Our Craft.</h1>
-        <p class="mission">
-            We architect elite digital environments for the world's leading mental health practitioners. 
-            From trauma-informed safety to psychodynamic depth, we translate your 
-            clinical expertise into a world-class digital legacy.
+        <h1 class="hero-h1 awe-reveal">The Vision<br>of Choice.</h1>
+        <p class="hero-p awe-reveal">
+            We don't build websites. We architect clinical legacies. 
+            High-stakes aesthetics and bespoke functionality, 
+            crafted for the world’s elite therapists.
         </p>
     </header>
 
-    <div class="gallery">
-        <div class="project-block">
-            <div class="project-meta">
-                <h3>Trauma Informed</h3>
-                <span>01 / DESIGN</span>
-            </div>
-            <div class="img-container" onclick="openLightbox('healing.jpg')">
-                <img src="healing.jpg">
-            </div>
+    <div class="block">
+        <div class="block-info awe-reveal">
+            <h3>Trauma Informed</h3>
+            <span style="letter-spacing:4px; font-size:0.6rem;">01 / ARCHITECTURE</span>
         </div>
-
-        <div class="project-block">
-            <div class="project-meta">
-                <h3>Depth Therapy</h3>
-                <span>02 / DESIGN</span>
-            </div>
-            <div class="img-container" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
-                <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-            </div>
-        </div>
-
-        <div class="project-block">
-            <div class="project-meta">
-                <h3>Clinical Structure</h3>
-                <span>03 / DESIGN</span>
-            </div>
-            <div class="img-container" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
-                <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-            </div>
-        </div>
-
-        <div class="project-block">
-            <div class="project-meta">
-                <h3>Nature Retreats</h3>
-                <span>04 / DESIGN</span>
-            </div>
-            <div class="img-container" onclick="openLightbox('healing.jpg')">
-                <img src="healing.jpg">
-            </div>
+        <div class="img-reveal-box awe-reveal" onclick="openLB('healing.jpg')">
+            <img src="healing.jpg">
         </div>
     </div>
 
-    <section class="manifesto">
-        <h2>The Website of Your Imagination.</h2>
-        <p>
-            Whatever style you dream of, whatever level of creativity you require—we build it. 
-            This is not about templates; it is about your specific clinical voice. 
-            If you can imagine the perfect therapy environment, we can code it. 
-            <strong>You ask, we create.</strong> No limits. No compromises.
+    <div class="block">
+        <div class="block-info awe-reveal">
+            <h3>Depth Therapy</h3>
+            <span style="letter-spacing:4px; font-size:0.6rem;">02 / ARCHITECTURE</span>
+        </div>
+        <div class="img-reveal-box awe-reveal" onclick="openLB('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
+            <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+        </div>
+    </div>
+
+    <div class="block">
+        <div class="block-info awe-reveal">
+            <h3>Clinical Structure</h3>
+            <span style="letter-spacing:4px; font-size:0.6rem;">03 / ARCHITECTURE</span>
+        </div>
+        <div class="img-reveal-box awe-reveal" onclick="openLB('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
+            <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+        </div>
+    </div>
+
+    <div class="block">
+        <div class="block-info awe-reveal">
+            <h3>Nature Retreats</h3>
+            <span style="letter-spacing:4px; font-size:0.6rem;">04 / ARCHITECTURE</span>
+        </div>
+        <div class="img-reveal-box awe-reveal" onclick="openLB('healing.jpg')">
+            <img src="healing.jpg">
+        </div>
+    </div>
+
+    <section class="manifesto-section">
+        <h2 class="awe-reveal">Your Imagination.<br>Our Obsession.</h2>
+        <p class="awe-reveal">
+            Every style, every creative spark, every clinical requirement you have—we bring it to life. 
+            <strong>You ask, we create.</strong> No templates, no limits. We build the best therapy website you can imagine.
         </p>
-        <a href="contact.html" class="cta-final">START BUILDING</a>
+        <div class="awe-reveal">
+            <a href="contact.html" class="cta-wow">START BUILDING</a>
+        </div>
     </section>
 
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                }
+        // --- 1. THE GOLDEN NEURAL THREAD (CANVAS) ---
+        const canvas = document.getElementById('canvas-bg'), ctx = canvas.getContext('2d');
+        let w, h, points = [];
+        function init() {
+            w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight;
+            points = Array.from({length: 40}, () => ({x: Math.random()*w, y: Math.random()*h, vx: Math.random()-0.5, vy: Math.random()-0.5}));
+        }
+        function draw() {
+            ctx.clearRect(0,0,w,h);
+            ctx.strokeStyle = '#c5a37d'; ctx.lineWidth = 0.5;
+            points.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy;
+                if(p.x<0 || p.x>w) p.vx *= -1; if(p.y<0 || p.y>h) p.vy *= -1;
+                points.forEach((p2, j) => {
+                    if(i!==j && Math.hypot(p.x-p2.x, p.y-p2.y) < 200) {
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+                    }
+                });
             });
+            requestAnimationFrame(draw);
+        }
+        window.addEventListener('resize', init); init(); draw();
+
+        // --- 2. SCROLL REVEALS ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
         }, { threshold: 0.15 });
+        document.querySelectorAll('.awe-reveal, .img-reveal-box').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('.img-container, .project-meta').forEach(el => observer.observe(el));
-
-        function openLightbox(src) {
-            document.getElementById('lightbox-img').src = src;
-            document.getElementById('lightbox').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeLightbox(); });
+        // --- 3. LIGHTBOX ---
+        function openLB(src) { document.getElementById('lb-img').src = src; document.getElementById('lightbox').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        function closeLB() { document.getElementById('lightbox').style.display = 'none'; document.body.style.overflow = 'auto'; }
     </script>
 </body>
 </html>
