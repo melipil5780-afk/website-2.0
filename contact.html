@@ -36,30 +36,27 @@
         </div>
 
         <form action="https://script.google.com/macros/s/AKfycbxVxdTqYkZ2-nEAJMHAVfA6mO7oKPrGwFbMXONSsbMIRw683nvyNqhA_9nB60bMAzK/exec" 
-              method="POST" 
-              id="contactForm">
+              method="POST">
             
-            <div id="form-inner">
-                <div class="input-group">
-                    <label>Identity</label>
-                    <input type="text" name="name" required placeholder="Full Name">
-                </div>
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label>Email</label>
-                        <input type="email" name="email" required placeholder="Your Email">
-                    </div>
-                    <div class="input-group">
-                        <label>Phone</label>
-                        <input type="tel" name="phone" required placeholder="+1 (000) 000-0000">
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>Vision</label>
-                    <textarea name="message" rows="3" placeholder="Describe your vision..."></textarea>
-                </div>
-                <button type="submit" class="submit-btn" id="submitBtn">REQUEST ARCHITECTURE</button>
+            <div class="input-group">
+                <label>Identity</label>
+                <input type="text" name="name" required placeholder="Full Name">
             </div>
+            <div class="form-grid">
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required placeholder="Your Email">
+                </div>
+                <div class="input-group">
+                    <label>Phone</label>
+                    <input type="tel" name="phone" required placeholder="+1 (000) 000-0000">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Vision</label>
+                <textarea name="message" rows="3" placeholder="Describe your vision..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">REQUEST ARCHITECTURE</button>
         </form>
 
         <a href="index.html" class="back-link">← RETURN TO CORE</a>
@@ -72,14 +69,6 @@
             document.getElementById('ca').style.left = (e.clientX-22)+'px'; 
             document.getElementById('ca').style.top = (e.clientY-22)+'px';
         }
-
-        // Show "Transmitting" while the Google Script processes the email
-        document.getElementById('contactForm').addEventListener('submit', function() {
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = "TRANSMITTING...";
-            btn.style.opacity = "0.5";
-            btn.style.pointerEvents = "none";
-        });
     </script>
 </body>
 </html>
