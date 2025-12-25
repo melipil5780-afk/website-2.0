@@ -6,42 +6,31 @@
     <title>Sovereign | Secure Booking</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@100;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #c5a37d; --dark: #000; }
+        :root { --accent: #c5a37d; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow: hidden; }
         
-        /* Fixed Cosmic Background to match your Index */
-        body { 
-            background: #000; 
-            color: #fff; 
-            font-family: 'Montserrat', sans-serif; 
-            min-height: 100vh;
-            background-image: radial-gradient(circle at 15% 25%, rgba(197, 163, 125, 0.1) 0%, transparent 45%);
-        }
-        
-        section { padding: 5vh 5vw; display: flex; flex-direction: column; align-items: center; }
+        section { padding: 5vh 5vw; height: 100vh; display: flex; flex-direction: column; align-items: center; }
         .header { text-align: center; margin-bottom: 20px; }
         h1 { font-family: 'Cormorant Garamond'; font-size: 3rem; font-weight: 300; color: var(--accent); }
-        p.tagline { letter-spacing: 8px; font-size: 0.7rem; color: #666; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; }
+        p.tagline { letter-spacing: 5px; font-size: 0.7rem; color: #666; font-weight: 700; text-transform: uppercase; }
 
-        /* The Glass Container */
-        .calendar-card {
+        /* The container that holds your white calendar preview */
+        .calendar-frame {
             width: 100%;
-            max-width: 1000px;
+            max-width: 900px;
             height: 75vh;
-            background: rgba(255, 255, 255, 0.03); /* Translucent glass */
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(197, 163, 125, 0.2);
+            background: #ffffff; 
+            border: 1px solid var(--accent);
             border-radius: 4px;
-            position: relative;
             overflow: hidden;
+            box-shadow: 0 0 50px rgba(197, 163, 125, 0.15);
         }
 
-        #my-cal-inline-secret { width: 100%; height: 100%; }
+        .back-link { margin-top: 25px; color: #444; text-decoration: none; font-size: 0.7rem; letter-spacing: 3px; font-weight: 700; transition: 0.3s; }
+        .back-link:hover { color: var(--accent); }
 
-        .back-link { margin-top: 30px; color: var(--accent); text-decoration: none; font-size: 0.7rem; letter-spacing: 3px; font-weight: 700; opacity: 0.5; transition: 0.3s; }
-        .back-link:hover { opacity: 1; }
-
-        /* Custom Cursor */
+        /* Custom Cursor Elements */
         #c { width: 6px; height: 6px; background: #fff; z-index: 10001; position: fixed; mix-blend-mode: difference; border-radius: 50%; pointer-events: none;}
         #ca { width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.12s; pointer-events: none;}
     </style>
@@ -51,29 +40,29 @@
 
     <section>
         <div class="header">
-            <p class="tagline">Confidential Access</p>
+            <p class="tagline">Temporal Access</p>
             <h1>Select Your Slot</h1>
         </div>
 
-        <div class="calendar-card">
-            <div id="my-cal-inline-secret"></div>
+        <div class="calendar-frame">
+            <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-secret"></div>
             <script type="text/javascript">
-            (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
-            
-            Cal("init", "secret", {origin:"https://app.cal.com"});
+              (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return; } p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
+              
+              Cal("init", "secret", {origin:"https://app.cal.com"});
 
-            Cal.ns.secret("inline", {
+              Cal.ns.secret("inline", {
                 elementOrSelector:"#my-cal-inline-secret",
-                config: {"layout":"month_view"}
-            });
+                config: {"layout":"month_view"},
+                calLink: "meli-pil-xv52ql/secret",
+              });
 
-            // Force the theme to DARK and the brand to GOLD
-            Cal.ns.secret("ui", {
-                "theme":"dark", 
+              Cal.ns.secret("ui", {
+                "theme":"light", 
                 "styles":{"branding":{"brandColor":"#c5a37d"}},
                 "hideEventTypeDetails":false,
                 "layout":"month_view"
-            });
+              });
             </script>
             </div>
 
