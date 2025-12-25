@@ -31,6 +31,7 @@
         .submit-btn {
             width: 100%; background: var(--accent); color: #000; border: none; padding: 25px;
             font-weight: 900; letter-spacing: 5px; margin-top: 40px; transition: 0.3s;
+            cursor: pointer;
         }
         .submit-btn:hover { background: #fff; transform: translateY(-3px); }
 
@@ -59,7 +60,7 @@
             <h1>Initiate Your Presence</h1>
         </div>
 
-        <form action="https://formspree.io/f/YOUR_ID" method="POST">
+        <form action="PASTE_YOUR_WEB_APP_URL_HERE" method="POST">
             <div class="input-group">
                 <label>Identity</label>
                 <input type="text" name="name" required placeholder="Full Name & Credentials">
@@ -93,12 +94,23 @@
     </section>
 
     <script>
+        // Custom Cursor Logic
         function handleMove(e) {
             document.getElementById('c').style.left = e.clientX+'px'; 
             document.getElementById('c').style.top = e.clientY+'px';
             document.getElementById('ca').style.left = (e.clientX-22)+'px'; 
             document.getElementById('ca').style.top = (e.clientY-22)+'px';
         }
+
+        // Form Handling Logic
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            // This gives a slight delay so the form can send data before the alert shows
+            setTimeout(() => {
+                alert("Inquiry Sent. We will contact you shortly.");
+                form.reset(); 
+            }, 500);
+        });
     </script>
 </body>
 </html>
