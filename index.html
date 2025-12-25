@@ -3,289 +3,262 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethera | Digital Spaces for Healing</title>
+    <title>Professional Design for Therapists</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400;1,600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Inter:wght@300;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --dark: #0f0f11;
-            --light: #eaddcf;
-            --accent: #d46a6a;
-            --cursor-size: 20px;
+            --ink: #1a1c1e;
+            --stone: #f4f2ef;
+            --sage: #7d8c80;
+            --gold: #b2937d;
+            --urgent: #b33939;
+            --white: #ffffff;
+            --ease: cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide default cursor */ }
-
-        body {
-            background-color: var(--dark);
-            color: var(--light);
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            width: 100vw;
+        /* 1. RESET & BASE STYLES */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--stone); 
+            color: var(--ink); 
+            overflow-x: hidden; 
+            line-height: 1.6;
+            transition: opacity 0.6s ease-in-out;
         }
 
-        /* --- 1. FILM GRAIN OVERLAY --- */
-        /* This adds a subconscious "texture" that makes it feel like high-end print */
-        .grain {
+        /* 2. SPECIAL EFFECTS: PAGE TRANSITION OVERLAY */
+        #page-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9998;
-            opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            background-color: var(--stone); z-index: 9999;
+            pointer-events: none; opacity: 0; transition: opacity 0.6s ease-in-out;
+        }
+        body.fade-out #page-loader { opacity: 1; pointer-events: all; }
+
+        /* 3. SPECIAL EFFECTS: AURORA BACKGROUND */
+        #canvas-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.4; pointer-events: none;
         }
 
-        /* --- 2. CUSTOM CURSOR --- */
-        .cursor {
-            position: fixed; top: 0; left: 0;
-            width: var(--cursor-size); height: var(--cursor-size);
-            border: 1px solid var(--light);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, background 0.3s;
-            mix-blend-mode: difference;
-        }
-        .cursor.hovered {
-            width: 50px; height: 50px;
-            background: var(--light);
-            opacity: 0.5;
-        }
-
-        /* --- 3. CANVAS BACKGROUND (THE AURORA) --- */
-        #canvas-wrap {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            z-index: -1;
-            opacity: 0.6;
-        }
-
-        /* --- TYPOGRAPHY & LAYOUT --- */
-        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 300; }
-        
+        /* 4. NAVIGATION (Sticky) */
         nav {
-            position: absolute; top: 0; width: 100%; padding: 40px;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 10;
+            position: sticky; top: 0; padding: 30px;
+            display: flex; justify-content: center;
+            background: rgba(244, 242, 239, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
         }
-        .logo { font-size: 1.5rem; letter-spacing: 2px; font-style: italic; }
-        .menu-btn { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+        nav a { 
+            text-decoration: none; color: var(--ink); font-size: 0.8rem; 
+            letter-spacing: 3px; text-transform: uppercase; font-weight: 600; 
+        }
 
+        /* 5. HERO SECTION */
         header {
-            height: 100vh;
-            display: flex; flex-direction: column; justify-content: center;
-            padding: 0 10vw;
-            position: relative;
+            height: 90vh;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 20px; position: relative;
         }
 
         .hero-title {
-            font-size: clamp(3rem, 12vw, 9rem);
-            line-height: 0.9;
-            mix-blend-mode: exclusion;
-        }
-        
-        .hero-title span { display: block; overflow: hidden; }
-        
-        .hero-title .line {
-            transform: translateY(100%);
-            animation: textReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        
-        .hero-title .line:nth-child(2) { animation-delay: 0.2s; margin-left: 10vw; /* Asymmetry */ }
-
-        .hero-sub {
-            margin-top: 40px;
-            max-width: 400px;
-            line-height: 1.6;
-            font-size: 1rem;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards 1s;
+            font-family: 'Playfair Display', serif;
+            /* MOBILE FIX: clamp ensures "Therapists" fits on one line */
+            font-size: clamp(2.4rem, 8vw, 6rem); 
+            line-height: 1.1; margin-bottom: 20px;
         }
 
-        /* --- SCROLL SECTIONS --- */
-        section { padding: 15vh 10vw; border-top: 1px solid rgba(234, 221, 207, 0.1); }
-
-        .intro-grid {
-            display: grid; grid-template-columns: 1.5fr 1fr; gap: 50px;
-            align-items: center;
-        }
-
-        .big-stat { font-size: 8rem; font-family: 'Cormorant Garamond'; line-height: 1; }
-        .stat-desc { font-size: 1.2rem; margin-top: 20px; color: #888; }
-
-        /* --- PARALLAX IMAGE STRIPS --- */
-        .work-strip {
-            display: flex; gap: 40px; overflow-x: auto; padding-bottom: 50px;
-            scrollbar-width: none; /* Hide scrollbar */
-        }
-        .work-item {
-            min-width: 300px; height: 500px;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s;
-        }
-        .work-item img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(100%); transition: 0.5s;
-        }
-        .work-item:hover img { filter: grayscale(0%); transform: scale(1.1); }
-
-        /* --- PRICE --- */
-        .price-section { text-align: center; padding: 20vh 0; }
-        .price-tag { 
-            font-size: clamp(4rem, 15vw, 12rem); 
-            font-family: 'Cormorant Garamond'; 
+        /* EFFECT: PARALLAX TEXT */
+        .parallax-text {
+            position: absolute; font-size: 15vw; font-family: 'Playfair Display';
+            opacity: 0.03; white-space: nowrap; pointer-events: none; z-index: -1;
             font-style: italic;
-            background: linear-gradient(to right, #eaddcf, #777);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
-        @keyframes textReveal { to { transform: translateY(0); } }
-        @keyframes fadeIn { to { opacity: 0.7; } }
+        /* 6. PORTFOLIO: HORIZONTAL SCROLL */
+        .portfolio-section { padding: 100px 0; }
+        .section-title { font-family: 'Playfair Display'; font-size: 3rem; text-align: center; margin-bottom: 60px; }
 
-        /* Mobile Adjustments */
-        @media(max-width: 768px) {
-            .intro-grid { grid-template-columns: 1fr; }
-            .hero-title .line:nth-child(2) { margin-left: 0; }
+        .portfolio-container {
+            display: flex; gap: 40px; padding: 0 5vw;
+            overflow-x: auto; scroll-snap-type: x mandatory;
+            scrollbar-width: none;
         }
+        .portfolio-container::-webkit-scrollbar { display: none; }
+
+        /* EFFECT: IMAGE CURTAIN & ZOOM */
+        .portfolio-card {
+            min-width: 450px; height: 600px; position: relative;
+            overflow: hidden; scroll-snap-align: center;
+            cursor: pointer; border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 600px) { .portfolio-card { min-width: 85vw; height: 500px; } }
+
+        .portfolio-card img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 1.2s var(--ease);
+        }
+        .portfolio-card:hover img { transform: scale(1.1); }
+
+        .card-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            padding: 40px; background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white; opacity: 0; transition: 0.5s;
+        }
+        .portfolio-card:hover .card-overlay { opacity: 1; }
+
+        /* 7. REVEAL ON SCROLL ELEMENTS */
+        .reveal { opacity: 0; transform: translateY(50px); transition: 1s var(--ease); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* 8. PRICING SECTION */
+        .offer-section {
+            background: var(--ink); color: white; padding: 140px 20px; text-align: center;
+        }
+        .price-big {
+            font-family: 'Playfair Display'; font-size: clamp(4rem, 15vw, 10rem);
+            color: var(--urgent); margin: 20px 0;
+        }
+        .old-price { text-decoration: line-through; opacity: 0.3; font-size: 0.4em; color: white; margin-right: 20px; }
+
+        /* 9. BUTTONS */
+        .btn {
+            padding: 22px 50px; background: var(--white); color: var(--ink);
+            text-decoration: none; text-transform: uppercase; letter-spacing: 2px;
+            font-weight: 600; font-size: 0.85rem; display: inline-block; transition: 0.4s;
+        }
+        .btn:hover { background: var(--gold); color: white; transform: translateY(-5px); }
+
+        /* 10. LIGHTBOX */
+        #lightbox {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); z-index: 2000; display: none;
+            align-items: center; justify-content: center;
+        }
+        #lightbox img { max-width: 90%; max-height: 85vh; border: 2px solid white; }
     </style>
 </head>
 <body>
 
-    <div class="grain"></div>
-    <div class="cursor" id="cursor"></div>
-    <div id="canvas-wrap"><canvas id="gradient-canvas"></canvas></div>
+    <div id="page-loader"></div>
+    <canvas id="canvas-bg"></canvas>
+    <div class="parallax-text" id="p-text">Therapy Design Boutique</div>
 
-    <nav>
-        <div class="logo hover-trigger">Ethera.</div>
-        <div class="menu-btn hover-trigger">Menu</div>
-    </nav>
+    <nav><a href="contact.html">Begin A Project</a></nav>
 
     <header>
-        <h1 class="hero-title">
-            <span><div class="line">Calm in the</div></span>
-            <span><div class="line"><i>Chaos</i></div></span>
-        </h1>
-        <p class="hero-sub">
-            We craft digital sanctuaries for therapists. 
-            Web design that feels like a deep breath.
-        </p>
+        <div class="reveal">
+            <h1 class="hero-title">Websites for <br><i>Therapists</i></h1>
+            <p style="margin-bottom: 40px; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Bespoke digital sanctuaries designed to grow your clinical practice.
+            </p>
+            <a href="#portfolio" class="btn">View Gallery</a>
+        </div>
     </header>
 
-    <section>
-        <div class="intro-grid">
-            <h2 style="font-size: 3rem;">Your website is the waiting room before the first session.</h2>
-            <div>
-                <p style="margin-bottom: 20px;">Does your current site make clients feel safe? Or overwhelmed?</p>
-                <p>We use color psychology and fluid motion to lower cortisol levels before they even click "Book Now."</p>
+    <section class="portfolio-section" id="portfolio">
+        <h2 class="section-title reveal">Our Portfolio</h2>
+        <div class="portfolio-container">
+            <div class="portfolio-card reveal" onclick="openLightbox('healing.jpg')">
+                <img src="healing.jpg" alt="Design 1">
+                <div class="card-overlay"><h3>Modern Healing</h3><p>Full Design Case Study</p></div>
+            </div>
+            <div class="portfolio-card reveal" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
+                <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Design 2">
+                <div class="card-overlay"><h3>Clinical Professional</h3><p>Full Design Case Study</p></div>
+            </div>
+            <div class="portfolio-card reveal" onclick="openLightbox('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
+                <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Design 3">
+                <div class="card-overlay"><h3>Soft Textures</h3><p>Full Design Case Study</p></div>
+            </div>
+            <div class="portfolio-card reveal" onclick="openLightbox('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
+                <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="Design 4">
+                <div class="card-overlay"><h3>Minimalist Growth</h3><p>Full Design Case Study</p></div>
             </div>
         </div>
     </section>
 
-    <section>
-        <div style="margin-bottom: 50px; display: flex; justify-content: space-between; align-items: flex-end;">
-            <h3>Selected Works</h3>
-            <span style="font-size: 0.8rem; opacity: 0.5;">DRAG TO EXPLORE</span>
-        </div>
-        
-        <div class="work-strip hover-trigger">
-            <div class="work-item"><img src="https://images.pexels.com/photos/3601097/pexels-photo-3601097.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Work 1"></div>
-            <div class="work-item"><img src="https://images.pexels.com/photos/4099354/pexels-photo-4099354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Work 2"></div>
-            <div class="work-item"><img src="https://images.pexels.com/photos/3356566/pexels-photo-3356566.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Work 3"></div>
-            <div class="work-item"><img src="https://images.pexels.com/photos/668298/pexels-photo-668298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Work 4"></div>
+    <section class="offer-section">
+        <div class="reveal">
+            <span style="text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; opacity: 0.7;">Introductory Offer</span>
+            <div class="price-big"><span class="old-price">$1,799</span>$599</div>
+            <p style="margin-bottom: 40px; opacity: 0.7; max-width: 500px; margin-left: auto; margin-right: auto;">
+                A complete custom-coded clinical website. One-time payment. Lifetime ownership.
+            </p>
+            <a href="contact.html" class="btn" style="background: var(--urgent); color: white;">Secure This Rate</a>
         </div>
     </section>
 
-    <section class="price-section hover-trigger">
-        <p style="text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px;">The Investment</p>
-        <div class="price-tag">$599</div>
-        <a href="mailto:hello@ethera.com" style="color: white; text-decoration: none; border-bottom: 1px solid white; padding-bottom: 5px; margin-top: 30px; display: inline-block;">Start Your Project</a>
-    </section>
+    <div id="lightbox" onclick="this.style.display='none'"><img id="lb-img"></div>
 
     <script>
-        // --- 1. CUSTOM CURSOR LOGIC ---
-        const cursor = document.getElementById('cursor');
-        const triggers = document.querySelectorAll('.hover-trigger, a, img');
-
-        document.addEventListener('mousemove', (e) => {
-            // Slight delay handled by CSS transition, we just update position
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // Add 'hovered' class when over interactive elements
-        triggers.forEach(trigger => {
-            trigger.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-            trigger.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-        });
-
-        // --- 2. THE "AURORA" CANVAS ANIMATION ---
-        const canvas = document.getElementById('gradient-canvas');
-        const ctx = canvas.getContext('2d');
-        
-        let width, height;
-        let particles = [];
-
-        function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            initParticles();
-        }
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.5; // Very slow movement
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 200 + 100; // Giant blobs
-                // Calming colors: muted blues, beiges, teals
-                const colors = ['rgba(125, 140, 128, 0.2)', 'rgba(212, 106, 106, 0.15)', 'rgba(40, 50, 60, 0.5)'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                // Bounce off edges smoothly
-                if (this.x < -100 || this.x > width + 100) this.vx *= -1;
-                if (this.y < -100 || this.y > height + 100) this.vy *= -1;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < 15; i++) { // Number of blobs
-                particles.push(new Particle());
-            }
-        }
-
-        function animate() {
-            // Clear with a slight trail effect
-            ctx.clearRect(0, 0, width, height);
-            
-            // Blur the whole canvas to create the "Aurora/Fog" look
-            ctx.filter = 'blur(60px)'; 
-            
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+        // --- 1. SMOOTH PAGE TRANSITION ---
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', e => {
+                if (link.hostname === window.location.hostname && link.href.includes('.html')) {
+                    e.preventDefault();
+                    const target = link.href;
+                    document.body.classList.add('fade-out');
+                    setTimeout(() => { window.location.href = target; }, 600);
+                }
             });
-            
-            requestAnimationFrame(animate);
+        });
+
+        // --- 2. REVEAL ON SCROLL ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- 3. PARALLAX TEXT MOVEMENT ---
+        window.addEventListener('scroll', () => {
+            const scroll = window.pageYOffset;
+            document.getElementById('p-text').style.transform = `translateX(${scroll * 0.15}px)`;
+        });
+
+        // --- 4. LIGHTBOX FUNCTION ---
+        function openLightbox(src) {
+            document.getElementById('lb-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
         }
 
+        // --- 5. ANIMATED AURORA CANVAS ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let w, h;
+        function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
-        animate();
+
+        const blobs = Array.from({length: 6}, () => ({
+            x: Math.random() * w, y: Math.random() * h,
+            r: Math.random() * 300 + 200,
+            vx: Math.random() * 0.4 - 0.2, vy: Math.random() * 0.4 - 0.2,
+            color: ['#7d8c80', '#b2937d', '#d4c5b9'][Math.floor(Math.random() * 3)]
+        }));
+
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            ctx.filter = 'blur(90px)';
+            blobs.forEach(b => {
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                ctx.fillStyle = b.color;
+                ctx.globalAlpha = 0.3;
+                ctx.fill();
+                b.x += b.vx; b.y += b.vy;
+                if(b.x < 0 || b.x > w) b.vx *= -1;
+                if(b.y < 0 || b.y > h) b.vy *= -1;
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
     </script>
 </body>
 </html>
