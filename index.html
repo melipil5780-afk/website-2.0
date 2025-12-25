@@ -3,268 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ethera | The Future of Therapy Web Design</title>
+    <title>Ethera | The Gold Standard in Clinical Design</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --dark: #0a0a0b;
-            --light: #f4eee0;
-            --accent: #d46a6a;
+            --dark: #050505;
+            --light: #fdfaf5;
             --gold: #c5a37d;
-            --glass: rgba(255, 255, 255, 0.03);
+            --urgent: #9e3d3d;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body {
             background-color: var(--dark);
             color: var(--light);
             font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
-            cursor: default;
+            line-height: 1.4;
         }
 
-        /* --- BACKGROUND FX --- */
+        /* --- 1. SPECIAL EFFECT: THE LENS CURSOR --- */
+        #cursor {
+            position: fixed; width: 10px; height: 10px; background: white;
+            border-radius: 50%; pointer-events: none; z-index: 10000;
+            mix-blend-mode: difference; transition: transform 0.1s;
+        }
+        #cursor-aura {
+            position: fixed; width: 60px; height: 60px; border: 0.5px solid rgba(255,255,255,0.3);
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* --- 2. SPECIAL EFFECT: NEURAL BACKGROUND --- */
+        #canvas-bg { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.5; }
         .grain {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9999; opacity: 0.06;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 9998; opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        #canvas-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; filter: blur(40px);
-        }
-
-        /* --- NAVIGATION --- */
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 30px 50px;
-            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
-        }
-        .logo { font-family: 'Cormorant Garamond'; font-size: 2rem; font-weight: 300; letter-spacing: -1px; }
-        .nav-cta {
-            background: var(--light); color: var(--dark); padding: 12px 25px;
-            border-radius: 50px; text-decoration: none; font-size: 0.7rem;
-            font-weight: 600; letter-spacing: 1px; transition: 0.3s;
-        }
-
-        /* --- HERO SECTION --- */
-        header {
-            height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; padding: 0 10vw;
-        }
-
-        .hero-tag { font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: block; }
+        /* --- 3. HERO: 3D FALLING TEXT --- */
+        header { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10vw; }
+        
+        .char { display: inline-block; transform: translateY(-150vh) rotateX(-90deg); opacity: 0; }
+        
         .hero-title {
             font-family: 'Cormorant Garamond';
             font-size: clamp(3rem, 12vw, 9rem);
-            line-height: 0.85; margin-bottom: 30px;
-        }
-        .hero-title i { font-weight: 300; }
-
-        /* --- FLOATING PRICE TAG (The "WOW" Deal Factor) --- */
-        .floating-deal {
-            position: fixed; bottom: 40px; right: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            padding: 20px 30px; border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px; z-index: 500;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            animation: float 4s ease-in-out infinite;
-        }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
-        /* --- PORTFOLIO GRID --- */
-        .portfolio-section { padding: 150px 10vw; position: relative; }
-        
-        .grid {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 100px 60px;
+            line-height: 0.85; margin-bottom: 20px;
         }
 
-        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
-
-        .card-container { position: relative; cursor: pointer; }
-
-        .image-wrap {
-            width: 100%; height: 650px; overflow: hidden;
-            border-radius: 2px; position: relative;
-            background: #111;
+        /* --- 4. PORTFOLIO: 3D STICKY STACK --- */
+        .portfolio { padding: 0; }
+        .project {
+            height: 100vh; width: 100%; display: flex; align-items: center;
+            justify-content: center; position: sticky; top: 0; background: var(--dark);
+            perspective: 1000px;
         }
 
-        .image-wrap img {
+        .project-content {
+            width: 85%; height: 75vh; display: flex; gap: 50px; align-items: center;
+            transform: rotateY(10deg); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .project.active .project-content { transform: rotateY(0deg); }
+
+        .img-box {
+            flex: 1.5; height: 100%; overflow: hidden; border-radius: 4px;
+            position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            transform-style: preserve-3d;
+        }
+
+        .img-box img {
             width: 100%; height: 100%; object-fit: cover;
-            filter: saturate(0.5) brightness(0.8);
-            transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: grayscale(100%) brightness(0.6);
+            transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .project:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.05); }
+
+        .info-box { flex: 1; opacity: 0; transform: translateX(50px); transition: 1s ease 0.5s; }
+        .project.active .info-box { opacity: 1; transform: translateX(0); }
+
+        .info-box h3 { font-family: 'Cormorant Garamond'; font-size: 3.5rem; font-weight: 300; margin: 20px 0; }
+        
+        /* --- 5. THE DEAL DOCK --- */
+        .dock {
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+            background: rgba(255,255,255,0.05); backdrop-filter: blur(25px);
+            padding: 15px 40px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; gap: 30px; z-index: 1000;
+        }
+        .price-tag { font-family: 'Cormorant Garamond'; font-size: 1.8rem; }
+        .strike { font-size: 0.8rem; opacity: 0.3; text-decoration: line-through; }
+        .cta {
+            background: var(--light); color: var(--dark); padding: 12px 30px;
+            border-radius: 50px; text-decoration: none; font-size: 0.7rem; font-weight: 600;
         }
 
-        .card-container:hover img { filter: saturate(1) brightness(1); transform: scale(1.05); }
-
-        .card-label {
-            margin-top: 25px; display: flex; justify-content: space-between; align-items: flex-end;
-        }
-        .card-label h3 { font-family: 'Cormorant Garamond'; font-size: 2.5rem; font-weight: 300; }
-        .card-label span { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; }
-
-        /* --- THE PREVIEW SYSTEM --- */
-        #preview-box {
+        /* FULLSCREEN */
+        #preview-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--dark); z-index: 5000;
-            display: none; overflow-y: auto;
+            background: var(--dark); z-index: 10001; display: none; overflow-y: auto;
         }
-        .close-btn {
-            position: fixed; top: 40px; right: 40px; font-size: 3rem;
-            cursor: pointer; z-index: 5001; mix-blend-mode: difference;
-        }
+        .close { position: fixed; top: 40px; right: 40px; font-size: 3rem; color: white; cursor: pointer; z-index: 10002; }
 
-        /* --- MAGNETIC BUTTON --- */
-        .magnetic-wrap {
-            display: inline-block; padding: 40px; margin-top: 50px;
+        @media (max-width: 900px) {
+            .project-content { flex-direction: column; height: auto; padding-top: 50px; }
+            .img-box { height: 350px; width: 100%; }
+            .info-box h3 { font-size: 2rem; }
+            .project { position: relative; height: auto; margin-bottom: 50px; }
         }
-        .main-btn {
-            padding: 30px 80px; background: var(--light); color: var(--dark);
-            text-decoration: none; border-radius: 100px; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 4px; display: inline-block;
-            transition: 0.2s; position: relative;
-        }
-
-        /* --- REVEAL ANIMATIONS --- */
-        .reveal { opacity: 0; transform: translateY(100px) skewY(5deg); transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0) skewY(0); }
-
     </style>
 </head>
 <body>
 
+    <div id="cursor"></div>
+    <div id="cursor-aura"></div>
     <div class="grain"></div>
     <canvas id="canvas-bg"></canvas>
 
-    <div class="floating-deal">
-        <p style="font-size: 0.6rem; letter-spacing: 2px; opacity: 0.6;">LIMITED SLOTS LEFT</p>
-        <p style="font-family: 'Cormorant Garamond'; font-size: 2rem;">$599 <span style="font-size: 0.8rem; opacity: 0.3; text-decoration: line-through;">$1,799</span></p>
-        <a href="contact.html" style="color: var(--gold); font-size: 0.7rem; text-decoration: none; font-weight: 600;">CLAIM OFFER →</a>
+    <div class="dock">
+        <span style="font-size: 0.6rem; letter-spacing: 3px;">NEW YEAR OFFER</span>
+        <div class="price-tag"><span class="strike">$1,799</span> $599</div>
+        <a href="contact.html" class="cta">START PROJECT</a>
     </div>
 
-    <nav>
-        <div class="logo">Ethera.</div>
-        <a href="contact.html" class="nav-cta">START PROJECT</a>
-    </nav>
-
     <header>
-        <span class="hero-tag">2025 Boutique Digital Studio</span>
-        <h1 class="hero-title">
-            <div class="reveal">Elevating the</div>
-            <div class="reveal"><i>Modern Practice</i></div>
-        </h1>
-        <p class="reveal" style="max-width: 500px; line-height: 1.8; opacity: 0.7; font-weight: 300;">
-            We design high-conversion digital sanctuaries for therapists who demand excellence and serenity in their online presence.
+        <h1 class="hero-title" id="falling-title">Clinical Portfolio Design</h1>
+        <p id="sub-pitch" style="max-width: 500px; font-weight: 200; opacity: 0; transform: translateY(20px); transition: 1s ease 1.5s;">
+            High-conversion digital showcases for therapists who demand a premium practice identity.
         </p>
-        
-        <div class="magnetic-wrap reveal">
-            <a href="#work" class="main-btn" id="mag-btn">Explore Work</a>
-        </div>
     </header>
 
-    <section class="portfolio-section" id="work">
-        <div class="grid">
-            <div class="card-container reveal" onclick="viewFull('healing.jpg')">
-                <div class="image-wrap"><img src="healing.jpg" alt="Design 1"></div>
-                <div class="card-label">
-                    <h3>The Ritual</h3>
-                    <span>2025 Clinical Case</span>
+    <section class="portfolio">
+        <div class="project" onclick="openFull('healing.jpg')">
+            <div class="project-content">
+                <div class="img-box"><img src="healing.jpg"></div>
+                <div class="info-box">
+                    <span style="color: var(--gold); font-size: 0.7rem; letter-spacing: 4px;">CASE STUDY 01</span>
+                    <h3>Trauma-Focused</h3>
+                    <p style="opacity: 0.5;">A sanctuary aesthetic designed for clinical depth and trust.</p>
                 </div>
             </div>
-            <div class="card-container reveal" onclick="viewFull('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
-                <div class="image-wrap"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Design 2"></div>
-                <div class="card-label">
-                    <h3>Cognitive</h3>
-                    <span>Modern Professional</span>
+        </div>
+
+        <div class="project" onclick="openFull('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
+            <div class="project-content">
+                <div class="img-box"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg"></div>
+                <div class="info-box">
+                    <span style="color: var(--gold); font-size: 0.7rem; letter-spacing: 4px;">CASE STUDY 02</span>
+                    <h3>Cognitive (CBT)</h3>
+                    <p style="opacity: 0.5;">Modern, structured, and goal-oriented professional layout.</p>
                 </div>
             </div>
-            <div class="card-container reveal" onclick="viewFull('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
-                <div class="image-wrap"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Design 3"></div>
-                <div class="card-label">
-                    <h3>Serene Mind</h3>
-                    <span>Soft Textures</span>
+        </div>
+
+        <div class="project" onclick="openFull('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
+            <div class="project-content">
+                <div class="img-box"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg"></div>
+                <div class="info-box">
+                    <span style="color: var(--gold); font-size: 0.7rem; letter-spacing: 4px;">CASE STUDY 03</span>
+                    <h3>Psychodynamic</h3>
+                    <p style="opacity: 0.5;">Rich, long-form storytelling for deep analytic practices.</p>
                 </div>
             </div>
-            <div class="card-container reveal" onclick="viewFull('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
-                <div class="image-wrap"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="Design 4"></div>
-                <div class="card-label">
-                    <h3>Growth Lab</h3>
-                    <span>Boutique Minimal</span>
+        </div>
+
+        <div class="project" onclick="openFull('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
+            <div class="project-content">
+                <div class="img-box"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg"></div>
+                <div class="info-box">
+                    <span style="color: var(--gold); font-size: 0.7rem; letter-spacing: 4px;">CASE STUDY 04</span>
+                    <h3>Nature Retreat</h3>
+                    <p style="opacity: 0.5;">Immersive nature-based design for clinical retreats.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <div id="preview-box">
-        <span class="close-btn" onclick="closeFull()">&times;</span>
+    <div id="preview-overlay">
+        <span class="close" onclick="closeFull()">&times;</span>
         <img id="full-img" src="" style="width: 100%; height: auto;">
     </div>
 
     <script>
-        // 1. MAGNETIC BUTTON EFFECT
-        const mBtn = document.getElementById('mag-btn');
-        document.addEventListener('mousemove', (e) => {
-            const mWrap = mBtn.parentElement;
-            const rect = mWrap.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            if (Math.abs(x) < 100 && Math.abs(y) < 100) {
-                mBtn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-            } else {
-                mBtn.style.transform = `translate(0px, 0px)`;
-            }
+        // 1. FALLING 3D TEXT
+        const title = document.getElementById('falling-title');
+        const text = title.innerText;
+        title.innerHTML = '';
+        text.split('').forEach((char, i) => {
+            const span = document.createElement('span');
+            span.innerText = char === ' ' ? '\u00A0' : char;
+            span.className = 'char';
+            span.style.transition = `all 1s cubic-bezier(0.17, 0.67, 0.83, 0.67) ${i * 0.05}s`;
+            title.appendChild(span);
         });
 
-        // 2. SCROLL REVEALS
+        window.onload = () => {
+            document.querySelectorAll('.char').forEach(c => {
+                c.style.transform = 'translateY(0) rotateX(0)';
+                c.style.opacity = '1';
+            });
+            document.getElementById('sub-pitch').style.opacity = '0.5';
+            document.getElementById('sub-pitch').style.transform = 'translateY(0)';
+        };
+
+        // 2. MAGNETIC CURSOR
+        const cursor = document.getElementById('cursor');
+        const aura = document.getElementById('cursor-aura');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            aura.animate({ left: (e.clientX - 30) + 'px', top: (e.clientY - 30) + 'px' }, { duration: 800, fill: "forwards" });
+        });
+
+        // 3. STICKY INTERSECTION
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('active');
             });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }, { threshold: 0.5 });
+        document.querySelectorAll('.project').forEach(p => observer.observe(p));
 
-        // 3. FULL SCREEN VIEW
-        function viewFull(imgSrc) {
-            document.getElementById('full-img').src = imgSrc;
-            document.getElementById('preview-box').style.display = 'block';
+        // 4. PREVIEW
+        function openFull(src) {
+            document.getElementById('full-img').src = src;
+            document.getElementById('preview-overlay').style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
         function closeFull() {
-            document.getElementById('preview-box').style.display = 'none';
+            document.getElementById('preview-overlay').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
-        // 4. THE LIQUID CANVAS BACKGROUND
+        // 5. NEURAL CANVAS
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
-        let w, h;
-        function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+        let w, h, nodes = [];
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            nodes = Array.from({length: 45}, () => ({
+                x: Math.random()*w, y: Math.random()*h,
+                vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4
+            }));
+        }
         window.addEventListener('resize', resize);
         resize();
 
-        let circles = Array.from({length: 10}, () => ({
-            x: Math.random() * w, y: Math.random() * h,
-            r: Math.random() * 400 + 200,
-            vx: Math.random() * 1 - 0.5, vy: Math.random() * 1 - 0.5,
-            c: ['#1a1c1e', '#2d1b1b', '#1b2d2a'][Math.floor(Math.random() * 3)]
-        }));
-
         function animate() {
-            ctx.clearRect(0, 0, w, h);
-            circles.forEach(c => {
-                c.x += c.vx; c.y += c.vy;
-                if(c.x < -c.r || c.x > w + c.r) c.vx *= -1;
-                if(c.y < -c.r || c.y > h + c.r) c.vy *= -1;
-                ctx.beginPath();
-                ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-                ctx.fillStyle = c.c;
-                ctx.globalAlpha = 0.5;
-                ctx.fill();
+            ctx.clearRect(0,0,w,h);
+            ctx.fillStyle = "#fff";
+            ctx.strokeStyle = "rgba(197, 163, 125, 0.15)";
+            nodes.forEach((n, i) => {
+                n.x += n.vx; n.y += n.vy;
+                if(n.x<0 || n.x>w) n.vx*=-1;
+                if(n.y<0 || n.y>h) n.vy*=-1;
+                ctx.beginPath(); ctx.arc(n.x, n.y, 1, 0, Math.PI*2); ctx.fill();
+                nodes.forEach((n2, j) => {
+                    if(i===j) return;
+                    let d = Math.hypot(n.x-n2.x, n.y-n2.y);
+                    if(d<180) {
+                        ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(n2.x, n2.y); ctx.stroke();
+                    }
+                });
             });
             requestAnimationFrame(animate);
         }
