@@ -9,23 +9,20 @@
     :root { --accent: #c5a37d; --dark: #000; }
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
     
-    body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+    body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; -webkit-font-smoothing: antialiased; }
 
-    /* --- VISIBLE COSMIC BACKGROUND --- */
+    /* --- COSMIC BACKGROUND --- */
     #bg-canvas { z-index: -1; position: fixed; inset: 0; background: #000; }
-    
-    /* Moving Nebula Clouds - Now much more visible */
     #bg-texture {
         position: fixed; inset: -50%; width: 200%; height: 200%; z-index: -1;
         background: 
-            radial-gradient(circle at 20% 30%, rgba(197, 163, 125, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 80% 70%, rgba(50, 80, 120, 0.15) 0%, transparent 50%);
+            radial-gradient(circle at 15% 25%, rgba(197, 163, 125, 0.2) 0%, transparent 45%),
+            radial-gradient(circle at 85% 75%, rgba(60, 100, 150, 0.2) 0%, transparent 45%);
         animation: rotateBg 50s linear infinite;
         pointer-events: none;
     }
     @keyframes rotateBg { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-    #noise { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.25; z-index: 1; pointer-events: none; }
+    #noise { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.3; z-index: 1; pointer-events: none; }
     
     #spotlight { 
         z-index: 2; position: fixed; inset: 0;
@@ -33,104 +30,129 @@
         pointer-events: none;
     }
 
-    /* --- LOADER --- */
-    #loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1s cubic-bezier(1,0,0,1); }
-    #loader-n { font-family: 'Cormorant Garamond'; font-size: 8vw; color: var(--accent); }
-
+    /* --- HERO SECTION --- */
     section { padding: 25vh 10vw; position: relative; z-index: 10; }
-    .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 8vw, 7.5rem); line-height: 0.9; font-weight: 300; margin-bottom: 40px; }
-    .hero-sub { max-width: 600px; font-size: 1.1rem; opacity: 0; line-height: 1.8; border-left: 2px solid var(--accent); padding-left: 30px; transition: 1.5s 0.5s forwards; color: #ccc; }
+    .hero-h1 { 
+        font-family: 'Cormorant Garamond'; 
+        font-size: clamp(2.5rem, 8vw, 7rem); 
+        line-height: 1.1; 
+        font-weight: 300; 
+        margin-bottom: 20px;
+        display: inline-block;
+        position: relative;
+    }
+
+    /* BOUNCE LINE */
+    .bounce-line {
+        width: 0%;
+        height: 1px;
+        background: var(--accent);
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .line-active { width: 100%; }
+
+    /* SECONDARY TAGLINE */
+    #hero-tag-secondary {
+        display: block;
+        margin-top: 15px;
+        font-weight: 900;
+        letter-spacing: 12px;
+        font-size: 0.7rem;
+        color: var(--accent);
+        opacity: 0;
+        transform: translateY(10px);
+        transition: 1s ease;
+    }
+    .tag-active { opacity: 1 !important; transform: translateY(0) !important; }
+
+    .hero-sub { max-width: 600px; font-size: 1.1rem; opacity: 0; line-height: 1.8; border-left: 1px solid rgba(197,163,125,0.3); padding-left: 30px; transition: 1.5s 0.8s forwards; color: #ccc; margin-top: 40px;}
     .reveal .hero-sub { opacity: 1; }
 
-    /* --- GALLERY --- */
+    /* --- GALLERY CARDS --- */
     #gallery { padding: 0 5vw; position: relative; z-index: 20; }
     .project-card { 
-        position: sticky; top: 5vh; height: 85vh; width: 100%; margin-bottom: 20vh; 
-        display: flex; flex-direction: column; background: rgba(5,5,5,0.9);
-        backdrop-filter: blur(15px); border-top: 1px solid rgba(197, 163, 125, 0.2); padding-top: 20px;
+        position: -webkit-sticky; position: sticky; 
+        top: 5vh; height: 85vh; width: 100%; margin-bottom: 20vh; 
+        display: flex; flex-direction: column; background: rgba(5,5,5,0.95);
+        backdrop-filter: blur(20px); border-top: 1px solid rgba(197, 163, 125, 0.35); padding: 25px;
+        box-shadow: 0 -30px 60px rgba(0,0,0,0.6);
     }
-    
-    .image-frame { width: 100%; height: 50vh; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+    .image-frame { width: 100%; height: 50vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
     .image-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); transition: 0.8s; }
-    .project-card:hover .image-frame img { filter: brightness(1); transform: scale(1.02); }
+    .project-card:hover .image-frame img { filter: brightness(1); }
+    .scramble-title { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 300; margin-top: 25px; }
 
-    .view-btn { 
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-        padding: 18px 35px; background: #fff; color: #000; font-weight: 900; letter-spacing: 3px; font-size: 0.7rem; opacity: 0; transition: 0.4s;
-    }
-    .image-frame:hover .view-btn { opacity: 1; }
-    .scramble-title { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 300; margin-top: 20px; }
-
-    /* --- MESSAGE SECTION --- */
-    .style-message { padding: 20vh 10vw; text-align: center; background: #000; position: relative; z-index: 30; }
+    /* --- SHIMMER MESSAGE --- */
+    .style-message { padding: 25vh 10vw; text-align: center; background: #000; position: relative; z-index: 30; }
     .shimmer-text { 
-        font-family: 'Cormorant Garamond'; font-size: clamp(1.8rem, 5vw, 4rem); font-weight: 300;
-        background: linear-gradient(90deg, #444, #fff, #444); background-size: 200% auto;
+        font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 300;
+        background: linear-gradient(90deg, #333, #fff, #333); background-size: 200% auto;
         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         animation: shine 3s linear infinite;
     }
     @keyframes shine { to { background-position: 200% center; } }
 
     /* --- FINAL --- */
-    #final-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; position: relative; z-index: 100; }
+    #final-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; position: relative; z-index: 100; transition: 1s; }
     .cta-btn { display: inline-block; padding: 25px 70px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 5px; animation: pulse 2.5s infinite; }
-    
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4); } 70% { box-shadow: 0 0 0 25px rgba(197, 163, 125, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); } }
 
     /* CURSOR */
     #c { width: 6px; height: 6px; background: #fff; z-index: 10001; position: fixed; mix-blend-mode: difference; border-radius: 50%; pointer-events: none;}
-    #ca { width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.1s; pointer-events: none;}
+    #ca { width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.12s; pointer-events: none;}
 
     @media (max-width: 768px) {
         #c, #ca, #spotlight { display: none !important; }
-        .project-card { position: relative; height: auto; margin-bottom: 50px; }
+        .project-card { position: -webkit-sticky; position: sticky; top: 2vh; height: 80vh; margin-bottom: 12vh; }
+        .hero-h1 { font-size: 2.8rem; }
     }
 </style>
 </head>
 <body onmousemove="handleMove(event)">
 
-<div id="loader"><div id="loader-n">0</div></div>
-<div id="noise"></div>
+<div id="loader" style="position:fixed; inset:0; background:#000; z-index:9999; display:flex; align-items:center; justify-content:center;">
+    <div id="loader-n" style="font-family:'Cormorant Garamond'; font-size:8vw; color:var(--accent);">0</div>
+</div>
+
 <div id="bg-texture"></div>
+<div id="noise"></div>
 <div id="spotlight"></div>
 <canvas id="bg-canvas"></canvas>
 <div id="c"></div><div id="ca"></div>
 
 <section id="hero-sec">
-    <h1 class="hero-h1" id="scramble-hero"></h1>
+    <div style="display:inline-block; position:relative;">
+        <h1 class="hero-h1" id="scramble-hero"></h1>
+        <div class="bounce-line" id="hero-line"></div>
+        <span id="hero-tag-secondary">DIGITAL ARCHITECTURE FOR THE MODERN CLINICIAN</span>
+    </div>
     <p class="hero-sub">From a blank canvas to clinical authority. I architect the digital foundation for practitioners ready to establish their online sovereignty.</p>
 </section>
 
 <div id="gallery">
     <div class="project-card">
-        <div class="image-frame"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg"><div class="view-btn">VIEW STYLE</div></div>
+        <div class="image-frame"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg"></div>
         <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy')" onmouseleave="dive(this, 'The Grounded Space')">The Grounded Space</h2>
     </div>
     <div class="project-card">
-        <div class="image-frame"><img src="healing.jpg"><div class="view-btn">VIEW STYLE</div></div>
+        <div class="image-frame"><img src="healing.jpg"></div>
         <h2 class="scramble-title" onmouseenter="dive(this, 'Trauma-Informed')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
-    </div>
-    <div class="project-card">
-        <div class="image-frame"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg"><div class="view-btn">VIEW STYLE</div></div>
-        <h2 class="scramble-title" onmouseenter="dive(this, 'Analytical')" onmouseleave="dive(this, 'Analytical Soul')">Analytical Soul</h2>
-    </div>
-    <div class="project-card">
-        <div class="image-frame"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg"><div class="view-btn">VIEW STYLE</div></div>
-        <h2 class="scramble-title" onmouseenter="dive(this, 'CBT Style')" onmouseleave="dive(this, 'Clinical Precision')">Clinical Precision</h2>
     </div>
 </div>
 
 <div class="style-message">
     <h2 class="shimmer-text">Any Style. Any Vision. Any Wording.</h2>
-    <p style="color: #666; margin-top: 20px; letter-spacing: 5px; font-weight: 900; font-size: 0.8rem;">I BUILD EXACTLY WHAT YOU IMAGINE.</p>
+    <p style="color: #555; margin-top: 25px; letter-spacing: 8px; font-weight: 900; font-size: 0.8rem;">I BUILD EXACTLY WHAT YOU IMAGINE.</p>
 </div>
 
 <section id="final-section">
-    <h2 style="font-family:'Cormorant Garamond'; font-size: 3rem; margin-bottom: 20px;">Ready to exist online?</h2>
-    <p style="margin-bottom: 40px; color: #555; max-width: 600px; margin-inline: auto;">Whether you have a full vision or just a name, I build your complete digital presence from scratch.</p>
-    <div style="margin-bottom: 50px;">
+    <h2 style="font-family:'Cormorant Garamond'; font-size: 2.5rem; margin-bottom: 25px;">Ready to exist online?</h2>
+    <div style="margin-bottom: 60px;">
         <p style="opacity: 0.3; text-decoration: line-through;">VALUED AT $2,499</p>
-        <h3 style="font-size: 6rem; font-weight: 900; letter-spacing: -4px;">$599</h3>
+        <h3 style="font-size: 5rem; font-weight: 900; letter-spacing: -4px;">$599</h3>
         <p style="color: #c5a37d; font-weight: 900; letter-spacing: 6px;">FOUNDER RATE | LIMITED SLOTS</p>
     </div>
     <a href="mailto:contact@domain.com" class="cta-btn">START MY WEBSITE FROM SCRATCH</a>
@@ -139,6 +161,8 @@
 <script>
     const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
     let dots = [];
+    let pulseProgress = 0;
+
     function init() {
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         dots = Array.from({length: 80}, () => ({ 
@@ -146,19 +170,29 @@
             vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5, r: Math.random()*2.5
         }));
     }
+
     function draw() {
         ctx.clearRect(0,0,canvas.width, canvas.height);
+        pulseProgress += 0.005;
+        if(pulseProgress > 1) pulseProgress = 0;
+
         dots.forEach((d, i) => {
             d.x += d.vx; d.y += d.vy;
             if(d.x<0||d.x>canvas.width) d.vx*=-1;
             if(d.y<0||d.y>canvas.height) d.vy*=-1;
-            ctx.fillStyle = "rgba(255, 255, 255, 0.6)"; // Much brighter stars
+            
+            ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; 
             ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2); ctx.fill();
+
             for(let j=i+1; j<dots.length; j++){
                 let d2 = dots[j];
                 let dist = Math.hypot(d.x-d2.x, d.y-d2.y);
-                if(dist < 120){
-                    ctx.strokeStyle = `rgba(197, 163, 125, ${0.4 - dist/120})`;
+                if(dist < 140){
+                    // Neural Pulse Logic
+                    let pulse = Math.sin((dist / 140) - (pulseProgress * Math.PI * 2));
+                    let opacity = (0.4 - dist/140) + (pulse * 0.2);
+                    
+                    ctx.strokeStyle = `rgba(197, 163, 125, ${Math.max(0.1, opacity)})`;
                     ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y); ctx.stroke();
                 }
             }
@@ -172,17 +206,21 @@
         document.getElementById('spotlight').style.setProperty('--y', e.clientY + 'px');
         document.getElementById('c').style.left = e.clientX+'px';
         document.getElementById('c').style.top = e.clientY+'px';
-        document.getElementById('ca').style.left = (e.clientX-20)+'px';
-        document.getElementById('ca').style.top = (e.clientY-20)+'px';
+        document.getElementById('ca').style.left = (e.clientX-22)+'px';
+        document.getElementById('ca').style.top = (e.clientY-22)+'px';
     }
 
-    function dive(el, nText) {
+    function dive(el, nText, callback) {
         let it = 0; clearInterval(el.iv);
+        const readableChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         el.iv = setInterval(() => {
-            el.innerText = nText.split("").map((l, i) => i < it ? nText[i] : "X#$?"[Math.floor(Math.random()*4)]).join("");
-            if(it >= nText.length) clearInterval(el.iv);
+            el.innerText = nText.split("").map((l, i) => i < it ? nText[i] : readableChars[Math.floor(Math.random()*readableChars.length)]).join("");
+            if(it >= nText.length) {
+                clearInterval(el.iv);
+                if(callback) callback();
+            }
             it += 1;
-        }, 30);
+        }, 50);
     }
 
     let lCount = 0;
@@ -192,7 +230,22 @@
             clearInterval(lInt);
             document.getElementById('loader').style.transform = "translateY(-100%)";
             document.getElementById('hero-sec').classList.add('reveal');
-            dive(document.getElementById('scramble-hero'), 'I Build Elite Therapy Websites.');
+            
+            // Start Scramble Chain
+            setTimeout(() => {
+                dive(document.getElementById('scramble-hero'), 'I Build Elite Therapy Websites.', () => {
+                    // Line Bounces after 0.5s
+                    setTimeout(() => {
+                        document.getElementById('hero-line').classList.add('line-active');
+                        // Secondary Tagline Fades in after Line
+                        setTimeout(() => {
+                            document.getElementById('hero-tag-secondary').classList.add('tag-active');
+                            // Start a slow scramble on the secondary tag
+                            dive(document.getElementById('hero-tag-secondary'), 'STRUCTURE . DEPTH . AUTHORITY');
+                        }, 400);
+                    }, 500);
+                });
+            }, 500);
         }
         document.getElementById('loader-n').innerText = lCount;
     }, 30);
