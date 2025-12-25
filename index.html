@@ -3,74 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign | Clinical & Nature Architect</title>
+    <title>Sovereign | Clinical Web Architecture</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600&family=Montserrat:wght@100;400;900&display=swap" rel="stylesheet">
     
     <style>
-        :root { --gold: #c5a37d; --dark: #050505; --accent: #ff3c3c; }
+        :root { --accent: #c5a37d; --dark: #050505; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; transition: background 0.8s; }
 
-        /* 1. NEURAL WEB BACKGROUND */
+        /* NEURAL CANVAS */
         #bg-canvas { position: fixed; inset: 0; z-index: -1; background: #000; }
         #noise { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.08; pointer-events: none; z-index: 1; }
 
-        /* 2. PRESTIGE LOADER (0-100) */
+        /* PRESTIGE LOADER */
         #loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1.5s cubic-bezier(1,0,0,1); }
-        #loader-n { font-family: 'Cormorant Garamond'; font-size: 10vw; color: var(--gold); font-weight: 100; }
+        #loader-n { font-family: 'Cormorant Garamond'; font-size: 10vw; color: var(--accent); font-weight: 100; }
 
-        /* 3. HERO SECTION & SCRAMBLE */
+        /* HERO */
         section { padding: 25vh 10vw; position: relative; z-index: 10; }
-        .hero-tag { color: var(--gold); letter-spacing: 12px; font-size: 0.6rem; font-weight: 900; margin-bottom: 20px; display: block; opacity: 0; }
-        .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(3rem, 10vw, 8.5rem); line-height: 0.85; font-weight: 300; margin-bottom: 40px; }
-        .hero-sub { max-width: 600px; font-size: 1.2rem; opacity: 0; line-height: 1.8; border-left: 1px solid var(--gold); padding-left: 30px; transition: 1.5s 1s forwards; }
+        .hero-tag { color: var(--accent); letter-spacing: 12px; font-size: 0.6rem; font-weight: 900; margin-bottom: 20px; display: block; opacity: 0; }
+        .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 8vw, 7.5rem); line-height: 0.9; font-weight: 300; margin-bottom: 40px; }
+        .hero-sub { max-width: 600px; font-size: 1.1rem; opacity: 0; line-height: 1.8; border-left: 1px solid var(--accent); padding-left: 30px; transition: 1.5s 1s forwards; }
         .reveal .hero-tag { opacity: 0.5; animation: slideUp 1s forwards; }
         .reveal .hero-sub { opacity: 0.5; }
         @keyframes slideUp { from {transform: translateY(30px); opacity:0;} to {transform: translateY(0); opacity:0.5;} }
 
-        /* 4. GALLERY & GLITCH EFFECTS */
-        .project-card { margin-bottom: 35vh; opacity: 0; transform: translateY(100px); transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .project-card.visible { opacity: 1; transform: translateY(0); }
-        
+        /* STACKING CARDS */
+        #gallery { padding: 0 5vw; }
+        .project-card { 
+            position: sticky; top: 5vh; height: 90vh; width: 100%; margin-bottom: 20vh;
+            display: flex; flex-direction: column; background: var(--dark);
+            border-top: 1px solid rgba(197, 163, 125, 0.15); padding-top: 20px;
+        }
         .image-frame {
-            width: 100%; height: 85vh; position: relative; overflow: hidden;
-            border: 1px solid rgba(197, 163, 125, 0.1); background: #080808;
+            width: 100%; height: 70vh; position: relative; overflow: hidden;
+            border: 1px solid rgba(197, 163, 125, 0.1); background: #0a0a0a;
+            box-shadow: 0 -30px 60px rgba(0,0,0,0.8);
         }
-        .image-frame img { width: 100%; height: 110%; object-fit: cover; filter: brightness(0.4) grayscale(1); transition: 1s ease-out; }
+        .image-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) grayscale(1); transition: 0.8s ease-out; }
+        .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0); animation: glitch 0.3s infinite; }
         
-        /* THE GLITCH EFFECT */
-        .project-card:hover .image-frame img { 
-            filter: brightness(0.8) grayscale(0); 
-            animation: glitch 0.3s infinite linear;
-        }
         @keyframes glitch {
             0% { transform: translate(0); }
-            20% { transform: translate(-3px, 3px); }
-            40% { transform: translate(-3px, -3px); }
-            60% { transform: translate(3px, 3px); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
             100% { transform: translate(0); }
         }
 
-        .scramble-title { font-family: 'Cormorant Garamond'; font-size: 4rem; font-weight: 300; cursor: pointer; display: inline-block; margin-top: 25px; }
-        .scramble-title:hover { color: var(--gold); }
-
+        .scramble-title { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 4rem); font-weight: 300; cursor: pointer; display: inline-block; margin-top: 20px; }
+        
         .view-btn {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            padding: 25px 60px; background: #fff; color: #000; font-weight: 900;
-            letter-spacing: 8px; font-size: 0.7rem; opacity: 0; transition: 0.4s; text-decoration: none; z-index: 50;
+            padding: 20px 50px; background: #fff; color: #000; font-weight: 900;
+            letter-spacing: 5px; font-size: 0.65rem; opacity: 0; transition: 0.4s; text-decoration: none; z-index: 50;
         }
         .image-frame:hover .view-btn { opacity: 1; }
 
-        /* 5. THE OFFER */
-        #final-section { background: #fff; color: #000; padding: 25vh 10vw; text-align: center; }
-        #shimmer-text { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 6vw, 5.5rem); line-height: 1.1; margin-bottom: 50px; }
+        /* FOOTER */
+        #final-section { background: #fff; color: #000; padding: 25vh 10vw; text-align: center; position: relative; z-index: 100; }
+        #shimmer-text { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 40px; }
 
-        /* 6. CURSOR */
+        /* CURSOR */
         #c { position: fixed; width: 6px; height: 6px; background: #fff; z-index: 10000; pointer-events: none; mix-blend-mode: difference; }
-        #ca { position: fixed; width: 45px; height: 45px; border: 1px solid var(--gold); border-radius: 50%; z-index: 10000; pointer-events: none; transition: 0.1s; }
+        #ca { position: fixed; width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; z-index: 10000; pointer-events: none; transition: 0.1s; }
     </style>
 </head>
-<body onmousemove="handleMove(event)">
+<body onmousemove="handleMove(event)" onclick="resumeAudio()">
 
     <div id="loader"><div id="loader-n">0</div></div>
     <div id="noise"></div>
@@ -78,81 +76,99 @@
     <div id="c"></div><div id="ca"></div>
 
     <section id="hero-sec">
-        <span class="hero-tag">CLINICAL ARCHITECT</span>
+        <span class="hero-tag">SITENAME | CLINICAL ARCHITECTURE</span>
         <h1 class="hero-h1" id="scramble-hero">I Build Elite Therapy Websites.</h1>
-        <p class="hero-sub">From analytical shadow-work to nature-informed ecotherapy workshops. I architect custom prestige for high-level clinicians.</p>
+        <p class="hero-sub">Providing custom digital architecture for all therapeutic specialties. From nature-based workshops to systematic clinical data—I create the digital space your practice deserves.</p>
     </section>
 
-    <section id="gallery">
-        <div class="project-card">
+    <div id="gallery">
+        <div class="project-card" data-color="#7d9a7d">
             <div class="image-frame">
                 <img src="nature_therapy.jpg">
-                <a href="#" class="view-btn">EXPLORE WORKSHOP</a>
+                <a href="nature_therapy.jpg" target="_blank" class="view-btn">VIEW WORKSHOP</a>
             </div>
             <div>
                 <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy Hub')" onmouseleave="dive(this, 'Nature-Informed')">Nature-Informed</h2>
-                <p style="color: var(--gold); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">ECO-PSYCHOLOGY • WORKSHOP ARCHITECTURE • ORGANIC FLOW</p>
+                <p style="color: var(--accent); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">OUTDOOR WORKSHOPS • ORGANIC DESIGN • GROUNDING</p>
             </div>
         </div>
-
-        <div class="project-card">
+        <div class="project-card" data-color="#c5a37d">
             <div class="image-frame">
                 <img src="healing.jpg"> 
-                <a href="#" class="view-btn">ENTER ARCHITECTURE</a>
+                <a href="healing.jpg" target="_blank" class="view-btn">VIEW SOMATIC WORK</a>
             </div>
             <div>
-                <h2 class="scramble-title" onmouseenter="dive(this, 'Vagus Nerve')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
-                <p style="color: var(--gold); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">IFS • TRAUMA-INFORMED • NERVOUS SYSTEM REGULATION</p>
+                <h2 class="scramble-title" onmouseenter="dive(this, 'Vagus Nerve Reset')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
+                <p style="color: var(--accent); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">IFS • TRAUMA-INFORMED • NERVOUS SYSTEM REGULATION</p>
             </div>
         </div>
-
-        <div class="project-card">
+        <div class="project-card" data-color="#c5a37d">
             <div class="image-frame">
                 <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
-                <a href="#" class="view-btn">ENTER ARCHITECTURE</a>
+                <a href="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">VIEW ANALYTICAL WORK</a>
             </div>
             <div>
-                <h2 class="scramble-title" onmouseenter="dive(this, 'Shadow Work')" onmouseleave="dive(this, 'Analytical Soul')">Analytical Soul</h2>
-                <p style="color: var(--gold); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">PSYCHODYNAMIC • UNCONSCIOUS DEPTH • SOPHISTICATION</p>
+                <h2 class="scramble-title" onmouseenter="dive(this, 'Shadow Mapping')" onmouseleave="dive(this, 'Analytical Soul')">Analytical Soul</h2>
+                <p style="color: var(--accent); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">PSYCHODYNAMIC • DEPTH WORK • SOPHISTICATED STYLE</p>
             </div>
         </div>
-
-        <div class="project-card">
+        <div class="project-card" data-color="#c5a37d">
             <div class="image-frame">
                 <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-                <a href="#" class="view-btn">ENTER ARCHITECTURE</a>
+                <a href="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">VIEW CLINICAL WORK</a>
             </div>
             <div>
                 <h2 class="scramble-title" onmouseenter="dive(this, 'Metric Logic')" onmouseleave="dive(this, 'Clinical Precision')">Clinical Precision</h2>
-                <p style="color: var(--gold); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">CBT • DATA-DRIVEN • SYSTEMATIC LOGIC</p>
+                <p style="color: var(--accent); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">CBT • DATA-DRIVEN • SYSTEMATIC PRECISION</p>
             </div>
         </div>
-    </section>
+    </div>
 
     <section id="final-section">
         <h2 id="shimmer-text">I build any design style and any feature to create the best website possible.</h2>
-        <div style="margin: 60px 0;">
+        <div style="margin: 50px 0;">
             <p style="opacity: 0.4; text-decoration: line-through;">VALUED AT $2,499</p>
             <h3 style="font-size: 7rem; font-weight: 900; letter-spacing: -4px;">$599</h3>
-            <p style="color: var(--gold); font-weight: 900; letter-spacing: 6px; margin-top: 15px;">ACTIVATE PRIVILEGE</p>
+            <p style="color: #c5a37d; font-weight: 900; letter-spacing: 6px;">FOUNDER RATE AVAILABLE</p>
         </div>
-        <a href="mailto:elite@sovereign.com" style="display:inline-block; padding: 30px 100px; background:#000; color:#fff; text-decoration:none; font-weight:900; letter-spacing:8px; font-size: 0.8rem;">START THE APPLICATION</a>
+        <a href="mailto:contact@yourdomain.com" style="display:inline-block; padding: 30px 100px; background:#000; color:#fff; text-decoration:none; font-weight:900; letter-spacing:8px; font-size: 0.8rem;">START YOUR PROJECT</a>
     </section>
 
     <script>
-        const chars = "ABCDEFGHIJKLMNPRSTUVWXYZ0123456789!@#$%^&*";
+        // AUDIO & PULSE ENGINE
+        let audioCtx;
+        let pulseIntensity = 1;
 
-        // SCRAMBLE FUNCTION
+        function resumeAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playHapticTick() {
+            if(!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.04);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.04);
+            pulseIntensity = 2.5; // EXCITES THE NEURAL WEB
+        }
+
+        const chars = "ABCDEFGHIJKLMNPRSTUVWXYZ0123456789!@#$%^&*";
         function dive(el, nText) {
             let it = 0;
             const iv = setInterval(() => {
                 el.innerText = nText.split("").map((l, i) => i < it ? nText[i] : chars[Math.floor(Math.random() * chars.length)]).join("");
+                playHapticTick();
                 if(it >= nText.length) clearInterval(iv);
                 it += 1/2;
             }, 30);
         }
 
-        // NEURAL BACKGROUND
+        // CANVAS ENGINE
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let dots = [];
         function init() {
@@ -161,24 +177,29 @@
         }
         function draw() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
+            pulseIntensity += (1 - pulseIntensity) * 0.1; // Smooth decay
             dots.forEach((d, i) => {
-                d.x += d.vx; d.y += d.vy;
+                d.x += d.vx * pulseIntensity; d.y += d.vy * pulseIntensity;
                 if(d.x<0||d.x>canvas.width) d.vx*=-1; if(d.y<0||d.y>canvas.height) d.vy*=-1;
-                ctx.fillStyle = "rgba(197, 163, 125, 0.2)";
-                ctx.beginPath(); ctx.arc(d.x, d.y, 1.5, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent') + "44";
+                ctx.beginPath(); ctx.arc(d.x, d.y, 1.5 * pulseIntensity, 0, Math.PI*2); ctx.fill();
                 dots.slice(i+1).forEach(d2 => {
                     let dist = Math.hypot(d.x-d2.x, d.y-d2.y);
-                    if(dist < 180) { ctx.strokeStyle = `rgba(197, 163, 125, ${0.15 - dist/1200})`; ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y); ctx.stroke(); }
+                    if(dist < 180 * pulseIntensity) { 
+                        ctx.strokeStyle = `rgba(197, 163, 125, ${0.12 - dist/1500})`; 
+                        ctx.lineWidth = pulseIntensity * 0.5;
+                        ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y); ctx.stroke(); 
+                    }
                 });
             });
             requestAnimationFrame(draw);
         }
         init(); draw();
 
-        // 0-100 LOADER & HERO REVEAL
+        // LOADER
         let lCount = 0;
         let lInt = setInterval(() => {
-            lCount += Math.floor(Math.random()*6)+1;
+            lCount += Math.floor(Math.random()*7)+1;
             if(lCount >= 100) {
                 lCount = 100; clearInterval(lInt);
                 document.getElementById('loader').style.transform = "translateY(-100%)";
@@ -188,16 +209,16 @@
                 }, 800);
             }
             document.getElementById('loader-n').innerText = lCount;
-        }, 45);
+        }, 50);
 
-        // CURSOR & OBSERVER
         function handleMove(e) {
             document.getElementById('c').style.left = e.clientX+'px'; document.getElementById('c').style.top = e.clientY+'px';
             document.getElementById('ca').style.left = (e.clientX-22.5)+'px'; document.getElementById('ca').style.top = (e.clientY-22.5)+'px';
         }
+
         const obs = new IntersectionObserver((es) => {
-            es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.1 });
+            es.forEach(e => { if(e.isIntersecting) document.documentElement.style.setProperty('--accent', e.target.dataset.color); });
+        }, { threshold: 0.5 });
         document.querySelectorAll('.project-card').forEach(p => obs.observe(p));
     </script>
 </body>
