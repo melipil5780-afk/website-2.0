@@ -1,43 +1,107 @@
-export default {
-  async fetch(request, env) {
-    const corsHeaders = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    };
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign | Inquiry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@100;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #c5a37d; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background: #000; color: #fff; font-family: 'Montserrat', sans-serif; 
+            height: 100vh; overflow: hidden; display: flex; 
+            align-items: center; justify-content: center;
+        }
 
-    if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+        /* Particles & Spotlight */
+        #bg-canvas { z-index: -1; position: fixed; inset: 0; }
+        #spotlight { z-index: 1; position: fixed; inset: 0; background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.9) 100%); pointer-events: none; }
+        
+        /* The Cursors */
+        #c, #ca { position: fixed; pointer-events: none; z-index: 10001; border-radius: 50%; top: 0; left: 0; }
+        #c { width: 6px; height: 6px; background: #fff; mix-blend-mode: difference; }
+        #ca { width: 44px; height: 44px; border: 1px solid var(--accent); transition: transform 0.1s ease-out; }
 
-    try {
-      const body = await request.json();
+        /* Form Design */
+        .form-container { z-index: 10; width: 90%; max-width: 500px; padding: 40px; background: rgba(10,10,10,0.8); backdrop-filter: blur(15px); border: 1px solid rgba(197, 163, 125, 0.2); }
+        h2 { font-family: 'Cormorant Garamond'; font-size: 3rem; color: var(--accent); margin-bottom: 30px; text-align: center; font-weight: 300; }
 
-      const send_request = new Request('https://api.mailchannels.net/tx/v1/send', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          personalizations: [{ to: [{ email: 'melipil5780@gmail.com' }] }],
-          // This "from" address is a placeholder that works with Cloudflare's internal network
-          from: { email: 'form@website-2-0-bkz.pages.dev', name: 'Website Form' },
-          subject: 'New Inquiry from Sovereign',
-          content: [{
-            type: 'text/plain',
-            value: `Email: ${body.email}\nPhone: ${body.phone}\n\nVision: ${body.message}`
-          }],
-        }),
-      });
+        .field { position: relative; margin-bottom: 30px; }
+        input, textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid #333; color: #fff; padding: 10px 0; outline: none; font-family: 'Montserrat'; }
+        input:focus { border-bottom: 1px solid var(--accent); }
 
-      const res = await fetch(send_request);
-      
-      return new Response(JSON.stringify({ status: "Sent" }), {
-        status: 200,
-        headers: corsHeaders
-      });
+        .submit-btn { width: 100%; padding: 15px; background: transparent; border: 1px solid var(--accent); color: var(--accent); cursor: pointer; letter-spacing: 4px; font-weight: 700; transition: 0.3s; }
+        .submit-btn:hover { background: var(--accent); color: #000; }
 
-    } catch (e) {
-      return new Response(JSON.stringify({ error: e.message }), { 
-        status: 500, 
-        headers: corsHeaders 
-      });
+        #status { margin-top: 20px; text-align: center; color: var(--accent); font-size: 0.8rem; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div id="spotlight"></div>
+<div id="c"></div>
+<div id="ca"></div>
+
+<div class="form-container">
+    <h2>Inquiry</h2>
+    <form id="contactForm">
+        <div class="field"><input type="email" name="email" placeholder="EMAIL" required></div>
+        <div class="field"><input type="tel" name="phone" placeholder="PHONE" required></div>
+        <div class="field"><textarea name="message" rows="3" placeholder="YOUR VISION" required></textarea></div>
+        <button type="submit" class="submit-btn">SEND</button>
+    </form>
+    <div id="status"></div>
+</div>
+
+<script>
+    // 1. Mouse Movement
+    window.addEventListener('mousemove', (e) => {
+        document.getElementById('spotlight').style.setProperty('--x', e.clientX + 'px');
+        document.getElementById('spotlight').style.setProperty('--y', e.clientY + 'px');
+        document.getElementById('c').style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        document.getElementById('ca').style.transform = `translate(${e.clientX - 22}px, ${e.clientY - 22}px)`;
+    });
+
+    // 2. Simple Particles
+    const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
+    let pts = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.onresize = resize; resize();
+    for(let i=0; i<50; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
+    function anim() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(197, 163, 125, 0.3)";
+        pts.forEach(p => {
+            p.x += p.vx; p.y += p.vy;
+            if(p.x<0 || p.x>canvas.width) p.vx*=-1;
+            if(p.y<0 || p.y>canvas.height) p.vy*=-1;
+            ctx.beginPath(); ctx.arc(p.x, p.y, 1, 0, Math.PI*2); ctx.fill();
+        });
+        requestAnimationFrame(anim);
     }
-  }
-};
+    anim();
+
+    // 3. Form Submission
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const status = document.getElementById('status');
+        status.innerText = "SENDING...";
+        const data = Object.fromEntries(new FormData(e.target).entries());
+
+        try {
+            const res = await fetch('https://website-handler.melipil5780.workers.dev', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            status.innerText = res.ok ? "SENT SUCCESSFULLY" : "ERROR SENDING";
+        } catch {
+            status.innerText = "CONNECTION ERROR";
+        }
+    });
+</script>
+</body>
+</html>
