@@ -32,13 +32,15 @@
 
     /* --- HERO --- */
     section { padding: 25vh 10vw; position: relative; z-index: 10; }
+    #hero-tag-top { display: block; font-weight: 900; letter-spacing: 12px; font-size: 0.7rem; color: var(--accent); opacity: 0; transform: translateY(10px); transition: 1s 0.5s forwards; margin-bottom: 10px; }
     .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 8vw, 7rem); line-height: 1.1; font-weight: 300; margin-bottom: 20px; display: inline-block; position: relative; }
     .word { opacity: 0; display: inline-block; transform: translateY(10px); transition: 0.6s ease; }
     .word.visible { opacity: 1; transform: translateY(0); }
     .bounce-line { width: 0%; height: 1px; background: var(--accent); position: absolute; bottom: -5px; left: 0; transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .line-active { width: 100%; }
+    
     .hero-sub { max-width: 600px; font-size: 1.1rem; opacity: 0; line-height: 1.8; border-left: 1px solid rgba(197,163,125,0.3); padding-left: 30px; transition: 1.5s 0.8s forwards; color: #ccc; margin-top: 40px;}
-    .reveal .hero-sub { opacity: 1; }
+    .reveal .hero-sub, .reveal #hero-tag-top { opacity: 1; transform: translateY(0); }
 
     /* --- GALLERY STACKING --- */
     #gallery { padding: 0 5vw; position: relative; z-index: 20; }
@@ -59,25 +61,25 @@
     }
     .project-card:hover .view-label { opacity: 1; }
 
-    /* --- MODAL SYSTEM --- */
+    /* --- MODAL --- */
     #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; opacity: 0; transition: 0.5s; overflow-y: auto; }
     #modal.open { display: block; opacity: 1; }
     #modal-img { width: 100%; height: auto; display: block; }
     #close-modal { 
         position: fixed; top: 30px; right: 30px; font-size: 2.5rem; color: var(--accent); 
         background: rgba(0,0,0,0.5); border: 1px solid var(--accent); border-radius: 50%;
-        width: 60px; height: 60px; line-height: 55px; text-align: center;
-        font-weight: 300; cursor: pointer; z-index: 10001; transition: 0.3s;
+        width: 60px; height: 60px; line-height: 55px; text-align: center; cursor: pointer; z-index: 10001; transition: 0.3s;
     }
-    #close-modal:hover { background: var(--accent); color: #000; }
 
-    /* --- SHIMMER --- */
+    /* --- MESSAGING --- */
     .style-message { padding: 25vh 10vw; text-align: center; background: #000; position: relative; z-index: 30; }
     .shimmer-text { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 300; background: linear-gradient(90deg, #333, #fff, #333); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
     @keyframes shine { to { background-position: 200% center; } }
 
-    #final-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; position: relative; z-index: 100; }
+    /* --- FINAL SECTION & PRICE --- */
+    #final-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; position: relative; z-index: 100; transition: 1s; }
     .cta-btn { display: inline-block; padding: 25px 70px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 5px; animation: pulse 2.5s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4); } 70% { box-shadow: 0 0 0 25px rgba(197, 163, 125, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); } }
 
     /* CURSOR */
     #c { width: 6px; height: 6px; background: #fff; z-index: 10001; position: fixed; mix-blend-mode: difference; border-radius: 50%; pointer-events: none;}
@@ -87,7 +89,6 @@
         #c, #ca, #spotlight { display: none !important; }
         .project-card { position: -webkit-sticky; position: sticky; top: 2vh; height: 80vh; margin-bottom: 12vh; }
         .view-label { opacity: 1; top: 85%; width: 80%; text-align: center; }
-        #close-modal { top: 20px; right: 20px; width: 50px; height: 50px; line-height: 45px; }
     }
 </style>
 </head>
@@ -97,10 +98,7 @@
     <div id="loader-n" style="font-family:'Cormorant Garamond'; font-size:8vw; color:var(--accent);">0</div>
 </div>
 
-<div id="modal">
-    <button id="close-modal" onclick="closeModal()">✕</button>
-    <img id="modal-img" src="">
-</div>
+<div id="modal"><button id="close-modal" onclick="closeModal()">✕</button><img id="modal-img" src=""></div>
 
 <div id="bg-texture"></div>
 <div id="noise"></div>
@@ -109,6 +107,7 @@
 <div id="c"></div><div id="ca"></div>
 
 <section id="hero-sec">
+    <span id="hero-tag-top">DIGITAL ARCHITECTURE</span>
     <div style="display:inline-block; position:relative;">
         <h1 class="hero-h1" id="hero-text"></h1>
         <div class="bounce-line" id="hero-line"></div>
@@ -118,34 +117,19 @@
 
 <div id="gallery">
     <div class="project-card" onclick="openModal('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
-        <div class="image-frame">
-            <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
-            <div class="view-label">SEE FULL WEBSITE</div>
-        </div>
+        <div class="image-frame"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg"><div class="view-label">SEE FULL WEBSITE</div></div>
         <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">The Grounded Space</h2>
     </div>
-
     <div class="project-card" onclick="openModal('healing.jpg')">
-        <div class="image-frame">
-            <img src="healing.jpg">
-            <div class="view-label">SEE FULL WEBSITE</div>
-        </div>
+        <div class="image-frame"><img src="healing.jpg"><div class="view-label">SEE FULL WEBSITE</div></div>
         <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">Somatic Safety</h2>
     </div>
-
     <div class="project-card" onclick="openModal('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
-        <div class="image-frame">
-            <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
-            <div class="view-label">SEE FULL WEBSITE</div>
-        </div>
+        <div class="image-frame"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg"><div class="view-label">SEE FULL WEBSITE</div></div>
         <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">Analytical Soul</h2>
     </div>
-
     <div class="project-card" onclick="openModal('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
-        <div class="image-frame">
-            <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-            <div class="view-label">SEE FULL WEBSITE</div>
-        </div>
+        <div class="image-frame"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg"><div class="view-label">SEE FULL WEBSITE</div></div>
         <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">Clinical Precision</h2>
     </div>
 </div>
@@ -156,37 +140,35 @@
 </div>
 
 <section id="final-section">
-    <h2 style="font-family:'Cormorant Garamond'; font-size: 2.5rem; margin-bottom: 25px;">Ready to exist online?</h2>
+    <h2 style="font-family:'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 25px;">Ready to exist online?</h2>
+    <p style="margin-bottom: 40px; color: #555; max-width: 600px; margin-inline: auto;">Whether you have a full vision or just a name, I build your complete digital presence from scratch.</p>
+    <div style="margin-bottom: 60px;">
+        <p style="opacity: 0.3; text-decoration: line-through; letter-spacing: 3px;">VALUED AT $2,499</p>
+        <h3 style="font-size: clamp(4rem, 12vw, 7rem); font-weight: 900; letter-spacing: -4px;">$599</h3>
+        <p style="color: #c5a37d; font-weight: 900; letter-spacing: 6px;">FOUNDER RATE | LIMITED SLOTS</p>
+    </div>
     <a href="mailto:contact@domain.com" class="cta-btn">START MY WEBSITE FROM SCRATCH</a>
 </section>
 
 <script>
     const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
     let dots = [], pulseProgress = 0;
-
     function init() {
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        dots = Array.from({length: 80}, () => ({ 
-            x: Math.random()*canvas.width, y: Math.random()*canvas.height, 
-            vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5, r: Math.random()*2.5
-        }));
+        dots = Array.from({length: 80}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5, r: Math.random()*2.5 }));
     }
-
     function draw() {
         ctx.clearRect(0,0,canvas.width, canvas.height);
         pulseProgress += 0.005;
         dots.forEach((d, i) => {
             d.x += d.vx; d.y += d.vy;
-            if(d.x<0||d.x>canvas.width) d.vx*=-1;
-            if(d.y<0||d.y>canvas.height) d.vy*=-1;
-            ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; 
-            ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2); ctx.fill();
+            if(d.x<0||d.x>canvas.width) d.vx*=-1; if(d.y<0||d.y>canvas.height) d.vy*=-1;
+            ctx.fillStyle = "rgba(255, 255, 255, 0.7)"; ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2); ctx.fill();
             for(let j=i+1; j<dots.length; j++){
-                let d2 = dots[j];
-                let dist = Math.hypot(d.x-d2.x, d.y-d2.y);
+                let d2 = dots[j], dist = Math.hypot(d.x-d2.x, d.y-d2.y);
                 if(dist < 140){
-                    let pulse = Math.sin((dist / 140) - (pulseProgress * Math.PI * 2));
-                    ctx.strokeStyle = `rgba(197, 163, 125, ${0.4 - dist/140 + pulse*0.1})`;
+                    let pulse = Math.sin((dist/140)-(pulseProgress*Math.PI*2));
+                    ctx.strokeStyle = `rgba(197,163,125,${0.4-dist/140+pulse*0.1})`;
                     ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y); ctx.stroke();
                 }
             }
@@ -198,10 +180,8 @@
     function handleMove(e) {
         document.getElementById('spotlight').style.setProperty('--x', e.clientX + 'px');
         document.getElementById('spotlight').style.setProperty('--y', e.clientY + 'px');
-        document.getElementById('c').style.left = e.clientX+'px';
-        document.getElementById('c').style.top = e.clientY+'px';
-        document.getElementById('ca').style.left = (e.clientX-22)+'px';
-        document.getElementById('ca').style.top = (e.clientY-22)+'px';
+        document.getElementById('c').style.left = e.clientX+'px'; document.getElementById('c').style.top = e.clientY+'px';
+        document.getElementById('ca').style.left = (e.clientX-22)+'px'; document.getElementById('ca').style.top = (e.clientY-22)+'px';
     }
 
     function revealText(text, container) {
@@ -211,25 +191,13 @@
         spans.forEach((span, i) => {
             setTimeout(() => {
                 span.classList.add('visible');
-                if(i === spans.length - 1) {
-                    setTimeout(() => document.getElementById('hero-line').classList.add('line-active'), 500);
-                }
+                if(i === spans.length - 1) setTimeout(() => document.getElementById('hero-line').classList.add('line-active'), 500);
             }, i * 250);
         });
     }
 
-    function openModal(imgSrc) {
-        const modal = document.getElementById('modal');
-        document.getElementById('modal-img').src = imgSrc;
-        modal.classList.add('open');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        const modal = document.getElementById('modal');
-        modal.classList.remove('open');
-        document.body.style.overflow = 'auto';
-    }
+    function openModal(imgSrc) { document.getElementById('modal-img').src = imgSrc; document.getElementById('modal').classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeModal() { document.getElementById('modal').classList.remove('open'); document.body.style.overflow = 'auto'; }
 
     let lCount = 0;
     let lInt = setInterval(() => {
@@ -239,6 +207,7 @@
             document.getElementById('loader').style.opacity = "0";
             setTimeout(() => {
                 document.getElementById('loader').style.display = "none";
+                document.getElementById('hero-sec').classList.add('reveal');
                 revealText('I Build Elite Therapy Websites.', document.getElementById('hero-text'));
             }, 800);
         }
