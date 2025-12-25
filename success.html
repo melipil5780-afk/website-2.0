@@ -9,27 +9,37 @@
         :root { --accent: #c5a37d; --dark: #000; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .container { text-align: center; padding: 40px; border: 1px solid rgba(197, 163, 125, 0.1); max-width: 600px; animation: fadeIn 2s ease; }
-        h1 { font-family: 'Cormorant Garamond'; font-size: 3rem; font-weight: 300; color: var(--accent); margin-bottom: 20px; }
-        p { letter-spacing: 5px; font-size: 0.7rem; color: #888; text-transform: uppercase; line-height: 2; }
+        
+        .container { text-align: center; padding: 60px; border: 1px solid rgba(197, 163, 125, 0.1); max-width: 600px; animation: fadeIn 2s ease; background: rgba(10,10,10,0.8); backdrop-filter: blur(10px); }
+        
+        h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 300; color: var(--accent); margin-bottom: 20px; text-transform: capitalize; }
+        p { letter-spacing: 5px; font-size: 0.7rem; color: #888; text-transform: uppercase; line-height: 2.2; }
+        
         .divider { width: 40px; height: 1px; background: var(--accent); margin: 30px auto; }
-        .back-link { display: inline-block; margin-top: 20px; color: var(--accent); text-decoration: none; font-size: 0.6rem; letter-spacing: 4px; border: 1px solid transparent; padding: 10px 20px; transition: 0.5s; }
-        .back-link:hover { border: 1px solid var(--accent); color: #fff; }
+        
+        .back-link { display: inline-block; margin-top: 20px; color: var(--accent); text-decoration: none; font-size: 0.6rem; letter-spacing: 4px; border: 1px solid rgba(197, 163, 125, 0.3); padding: 15px 30px; transition: 0.5s; font-weight: 700; }
+        .back-link:hover { border: 1px solid var(--accent); color: #fff; background: rgba(197, 163, 125, 0.1); }
+
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        /* CURSOR */
-        #c { width: 6px; height: 6px; background: #fff; position: fixed; mix-blend-mode: difference; border-radius: 50%; pointer-events: none;}
-        #ca { width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; transition: 0.12s; pointer-events: none;}
+
+        /* CURSOR SYSTEM */
+        #c { width: 6px; height: 6px; background: #fff; position: fixed; mix-blend-mode: difference; border-radius: 50%; pointer-events: none; z-index: 99999;}
+        #ca { width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; transition: 0.12s; pointer-events: none; z-index: 99999;}
+        @media (max-width: 768px) { #c, #ca { display: none; } }
     </style>
 </head>
 <body onmousemove="handleMove(event)">
     <div id="c"></div><div id="ca"></div>
+
     <div class="container">
+        <p style="color: var(--accent); margin-bottom: 10px; font-weight: 900;">SECURE CHANNEL ESTABLISHED</p>
         <h1>Transmission Complete</h1>
-        <p>Your inquiry has been secured.<br>The architecture of your vision is under review.</p>
         <div class="divider"></div>
-        <p style="color: var(--accent); font-weight: 900;">EXPECT A REACH-OUT SHORTLY.</p>
+        <p>Your inquiry has been secured.<br>The architecture of your vision is now under review.</p>
+        <p style="color: #fff; margin-top: 20px; font-size: 0.6rem;">EXPECT A REACH-OUT SHORTLY.</p>
         <a href="index.html" class="back-link">RETURN TO CORE</a>
     </div>
+
     <script>
         function handleMove(e) {
             document.getElementById('c').style.left = e.clientX+'px'; 
