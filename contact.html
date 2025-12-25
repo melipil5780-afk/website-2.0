@@ -35,13 +35,9 @@
             <h1>Initiate Your Presence</h1>
         </div>
 
-        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) { showSuccess(); }"></iframe>
-
-        <form action="https://script.google.com/macros/s/AKfycbx-TG4wV6gwB-QPCyRjjquetpcwzaWpxu3jOFY_LwHzDzO8bZ2oQfUhN0iVldQuhxvn/exec" 
+        <form action="https://script.google.com/macros/s/AKfycbz1Aaznbl-CEvNPLNr4de-KMzoTU0uy94RfNfcdvfu4Q1wRmtgDa7mkUGzvhtzffMmB/exec" 
               method="POST" 
-              target="hidden_iframe" 
-              id="contactForm"
-              onsubmit="submitted=true;">
+              id="contactForm">
             
             <div id="form-inner">
                 <div class="input-group">
@@ -70,8 +66,6 @@
     </section>
 
     <script>
-        var submitted = false;
-
         function handleMove(e) {
             document.getElementById('c').style.left = e.clientX+'px'; 
             document.getElementById('c').style.top = e.clientY+'px';
@@ -79,16 +73,15 @@
             document.getElementById('ca').style.top = (e.clientY-22)+'px';
         }
 
-        function showSuccess() {
-            // This replaces your form with a beautiful "Thank You" message
-            document.getElementById('form-inner').innerHTML = `
-                <div style="text-align:center; padding: 60px 20px; border: 1px solid var(--accent); background: rgba(197, 163, 125, 0.05);">
-                    <h2 style="font-family:'Cormorant Garamond'; color:var(--accent); font-size: 2rem; margin-bottom:20px; font-weight: 300;">Transmission Complete</h2>
-                    <p style="font-size:0.7rem; letter-spacing:3px; color:#888; text-transform: uppercase;">Your inquiry has been sent to avrahompil@gmail.com.</p>
-                    <p style="margin-top: 20px;"><a href="index.html" style="color:var(--accent); text-decoration:none; font-size:0.6rem; letter-spacing:2px;">RETURN HOME</a></p>
-                </div>
-            `;
-        }
+        // Visual feedback when clicking submit
+        const form = document.getElementById('contactForm');
+        const btn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', () => {
+            btn.innerText = "TRANSMITTING...";
+            btn.style.opacity = "0.5";
+            btn.style.pointerEvents = "none";
+        });
     </script>
 </body>
 </html>
