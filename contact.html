@@ -1,159 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign | Inquiry</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@100;400;700;900&display=swap" rel="stylesheet">
-    <style>
-        :root { --accent: #c5a37d; --dark: #000; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            background: #000; 
-            color: #fff; 
-            font-family: 'Montserrat', sans-serif; 
-            height: 100vh; 
-            overflow: hidden; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            cursor: default; 
-        }
+export default {
+  async fetch(request, env) {
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    };
 
-        /* --- COSMIC ELEMENTS --- */
-        #bg-canvas { z-index: -1; position: fixed; inset: 0; background: #000; }
-        #spotlight { z-index: 1; position: fixed; inset: 0; background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.95) 100%); pointer-events: none; }
-        
-        #c { width: 6px; height: 6px; background: #fff; z-index: 10001; position: fixed; mix-blend-mode: difference; border-radius: 50%; pointer-events: none; left: 0; top: 0; }
-        #ca { width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; pointer-events: none; left: 0; top: 0; transition: transform 0.1s ease-out; }
+    if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
 
-        /* --- LUXURY FORM --- */
-        .form-container { z-index: 10; width: 100%; max-width: 550px; padding: 60px; background: rgba(5,5,5,0.7); backdrop-filter: blur(20px); border: 1px solid rgba(197, 163, 125, 0.15); box-shadow: 0 50px 100px rgba(0,0,0,0.9); }
-        
-        h2 { font-family: 'Cormorant Garamond'; font-size: 3.5rem; color: var(--accent); margin-bottom: 40px; font-weight: 300; letter-spacing: -1px; text-align: center; }
+    try {
+      const body = await request.json();
 
-        .input-group { position: relative; margin-bottom: 40px; }
-        
-        input, textarea { 
-            width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.1); 
-            color: #fff; padding: 15px 0; font-family: 'Montserrat'; font-size: 1rem; outline: none; transition: 0.4s;
-        }
+      const send_request = new Request('https://api.mailchannels.net/tx/v1/send', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          personalizations: [{ to: [{ email: 'melipil5780@gmail.com' }] }],
+          // This "from" address is a placeholder that works with Cloudflare's internal network
+          from: { email: 'form@website-2-0-bkz.pages.dev', name: 'Website Form' },
+          subject: 'New Inquiry from Sovereign',
+          content: [{
+            type: 'text/plain',
+            value: `Email: ${body.email}\nPhone: ${body.phone}\n\nVision: ${body.message}`
+          }],
+        }),
+      });
 
-        .input-group label {
-            position: absolute; left: 0; top: 15px; color: #555; pointer-events: none;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); letter-spacing: 3px; font-size: 0.65rem; font-weight: 900;
-        }
+      const res = await fetch(send_request);
+      
+      return new Response(JSON.stringify({ status: "Sent" }), {
+        status: 200,
+        headers: corsHeaders
+      });
 
-        input:focus ~ label, input:valid ~ label, textarea:focus ~ label, textarea:valid ~ label {
-            top: -15px; color: var(--accent); font-size: 0.55rem;
-        }
-
-        input:focus, textarea:focus { border-bottom: 1px solid var(--accent); }
-
-        .submit-btn { 
-            width: 100%; padding: 20px; background: transparent; border: 1px solid var(--accent); 
-            color: var(--accent); font-weight: 900; letter-spacing: 5px; transition: 0.5s; position: relative; overflow: hidden;
-            cursor: pointer;
-        }
-
-        .submit-btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 30px rgba(197, 163, 125, 0.4); }
-
-        #status { margin-top: 25px; text-align: center; font-size: 0.7rem; letter-spacing: 2px; height: 20px; color: var(--accent); }
-    </style>
-</head>
-<body>
-
-<canvas id="bg-canvas"></canvas>
-<div id="spotlight"></div>
-<div id="c"></div><div id="ca"></div>
-
-<div class="form-container">
-    <h2>Initiate Architecture</h2>
-    <form id="contactForm">
-        <div class="input-group">
-            <input type="email" name="email" required>
-            <label>ELECTRONIC MAIL</label>
-        </div>
-        
-        <div class="input-group">
-            <input type="tel" name="phone" required>
-            <label>TELEPHONE</label>
-        </div>
-        
-        <div class="input-group">
-            <textarea name="message" rows="3" required></textarea>
-            <label>PROJECT VISION</label>
-        </div>
-        
-        <button type="submit" class="submit-btn">SEND INQUIRY</button>
-    </form>
-    <div id="status"></div>
-</div>
-
-<script>
-    // --- PARTICLE BACKGROUND ---
-    const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
-    let dots = [];
-    function init() {
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        dots = Array.from({length: 60}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4, r: Math.random()*2 }));
+    } catch (e) {
+      return new Response(JSON.stringify({ error: e.message }), { 
+        status: 500, 
+        headers: corsHeaders 
+      });
     }
-    function draw() {
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        dots.forEach((d, i) => {
-            d.x += d.vx; d.y += d.vy;
-            if(d.x<0||d.x>canvas.width) d.vx*=-1; if(d.y<0||d.y>canvas.height) d.vy*=-1;
-            ctx.fillStyle = "rgba(197, 163, 125, 0.5)"; ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2); ctx.fill();
-        });
-        requestAnimationFrame(draw);
-    }
-    init(); draw();
-
-    // --- SMOOTH MOUSE LOGIC ---
-    const spotlight = document.getElementById('spotlight');
-    const dot = document.getElementById('c');
-    const ring = document.getElementById('ca');
-
-    window.addEventListener('mousemove', (e) => {
-        const x = e.clientX;
-        const y = e.clientY;
-        spotlight.style.setProperty('--x', x + 'px');
-        spotlight.style.setProperty('--y', y + 'px');
-        dot.style.transform = `translate(${x}px, ${y}px)`;
-        ring.style.transform = `translate(${x - 22}px, ${y - 22}px)`;
-    });
-
-    // --- FORM SUBMISSION ---
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const status = document.getElementById('status');
-        status.innerText = "TRANSMITTING TO SOVEREIGN...";
-        
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-
-        try {
-            // Updated to the correct worker name we discussed
-            const response = await fetch('https://website-handler.melipil5780.workers.dev', {
-                method: 'POST',
-                mode: 'cors', 
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
-            });
-
-            if (response.ok) {
-                status.innerText = "TRANSMISSION SUCCESSFUL. STAND BY.";
-                e.target.reset();
-            } else {
-                const errData = await response.json();
-                status.innerText = "ERROR: " + (errData.error || "SERVER REJECTED");
-            }
-        } catch (err) {
-            status.innerText = "CONNECTION FAILED. CHECK WORKER STATUS.";
-            console.error(err);
-        }
-    });
-</script>
-</body>
-</html>
+  }
+};
