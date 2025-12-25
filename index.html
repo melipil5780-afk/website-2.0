@@ -3,209 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bespoke Clinical Design | Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;500&family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
+    <title>Bespoke Clinical Design | Premium Architecture</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
     
     <style>
         :root { --dark: #050505; --light: #fdfaf5; --gold: #c5a37d; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--dark); color: var(--light); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-
-        /* --- PRE-LOADER --- */
-        #loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--dark); z-index: 20000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-        #loader-count { 
-            font-family: 'Cormorant Garamond'; font-size: 5rem; color: var(--gold); 
-            font-weight: 300; margin-bottom: 20px;
-        }
-        .loader-bar { width: 150px; height: 1px; background: rgba(197, 163, 125, 0.2); position: relative; }
-        .loader-fill { 
-            position: absolute; top: 0; left: 0; height: 100%; 
-            background: var(--gold); width: 0%; transition: width 0.3s; 
-        }
+        body { background: var(--dark); color: var(--light); font-family: 'Montserrat', sans-serif; overflow-x: hidden; scroll-behavior: smooth; }
 
         /* --- UI ELEMENTS --- */
-        #progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--gold); width: 0%; z-index: 10000; }
+        .scarcity-text { position: absolute; top: 40px; left: 10vw; font-size: 0.6rem; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; }
         
-        .counter-box {
-            position: fixed; bottom: 40px; left: 40px; z-index: 5000;
-            font-family: 'Cormorant Garamond'; font-size: 1.2rem; display: flex; align-items: center; gap: 15px;
+        .value-anchor { 
+            position: absolute; top: 40px; right: 10vw; text-align: right; 
+            border-right: 1px solid var(--gold); padding-right: 20px;
         }
-        .counter-line { width: 40px; height: 1px; background: var(--gold); }
-        #current-num { color: var(--gold); font-weight: 500; transition: 0.5s; }
+        .is-price { font-family: 'Cormorant Garamond'; font-size: 2.5rem; display: block; line-height: 1; }
+        .save-msg { font-size: 0.5rem; letter-spacing: 2px; opacity: 0.6; }
 
-        #cursor {
-            width: 20px; height: 20px; border: 1px solid var(--gold); border-radius: 50%; 
-            position: fixed; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
-            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+        @media (max-width: 768px) { 
+            .value-anchor { position: relative; right: auto; top: auto; margin: 40px 0 0 10vw; text-align: left; border-right: none; border-left: 1px solid var(--gold); padding-left: 20px; } 
+            .scarcity-text { position: relative; top: 40px; left: 10vw; }
         }
-        .hover-active #cursor { transform: translate(-50%, -50%) scale(4); background: rgba(197, 163, 125, 0.1); }
-        @media (pointer: coarse) { #cursor { display: none; } }
 
-        /* --- SECTIONS --- */
-        .panel { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; display: flex; align-items: center; background: var(--dark); }
-        .hero-title { font-family: 'Cormorant Garamond'; font-size: clamp(4rem, 15vw, 10rem); padding: 0 10vw; font-weight: 300; }
-        .char { display: inline-block; transform: translateY(110%); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* --- HERO --- */
+        header { height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10vw; }
+        .hero-title { font-family: 'Cormorant Garamond'; font-size: clamp(3.5rem, 12vw, 9rem); line-height: 0.9; font-weight: 300; margin-bottom: 30px; }
+        .mission { max-width: 650px; font-size: 1.15rem; line-height: 1.7; opacity: 0.8; font-weight: 200; border-left: 1px solid rgba(197,163,125,0.4); padding-left: 35px; }
 
-        .project-card {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; align-items: center; padding: 0 10vw; 
-            transform: translateY(100%); transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-            background: var(--dark);
+        /* --- GALLERY --- */
+        .gallery { padding-bottom: 10vh; }
+        .project-block { padding: 12vh 10vw; display: flex; flex-direction: column; gap: 35px; }
+        
+        /* THE CLIP REVEAL EFFECT */
+        .img-container { 
+            width: 100%; height: 80vh; overflow: hidden; position: relative; cursor: zoom-in;
+            clip-path: inset(100% 0 0 0); transition: clip-path 1.4s cubic-bezier(0.19, 1, 0.22, 1);
         }
-        .project-card.active { transform: translateY(0%); }
+        .img-container.revealed { clip-path: inset(0 0 0 0); }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+        .img-container:hover img { filter: brightness(1); transform: scale(1.03); }
 
-        .img-box { flex: 1.2; height: 70vh; overflow: hidden; cursor: pointer; position: relative; }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 2s; transform: scale(1.2); }
-        .project-card.active img { transform: scale(1); filter: brightness(0.8); }
-
-        .info-box { flex: 0.8; padding-left: 5vw; opacity: 0; transform: translateX(30px); transition: 1s 0.6s; }
-        .project-card.active .info-box { opacity: 1; transform: translateX(0); }
-
-        .scroll-spacer { height: 400vh; } 
-
-        @media (max-width: 900px) {
-            .project-card { flex-direction: column; justify-content: center; padding: 5vw; text-align: center; }
-            .img-box { height: 40vh; width: 100%; flex: none; }
-            .info-box { padding: 20px 0 0; flex: none; }
-            .counter-box { bottom: 20px; left: 20px; }
+        .project-meta { 
+            display: flex; justify-content: space-between; align-items: flex-end; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 25px;
+            opacity: 0; transform: translateY(20px); transition: 1s 0.3s;
         }
+        .project-meta.revealed { opacity: 1; transform: translateY(0); }
+        .project-meta h3 { font-family: 'Cormorant Garamond'; font-size: 2.8rem; font-weight: 300; }
+        .project-meta span { font-size: 0.65rem; letter-spacing: 4px; color: var(--gold); }
+
+        /* --- LIGHTBOX --- */
+        #lightbox {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000;
+            display: none; align-items: center; justify-content: center; padding: 5vw;
+        }
+        #lightbox img { max-width: 100%; max-height: 90vh; object-fit: contain; }
+        .close-btn { 
+            position: absolute; top: 40px; right: 40px; font-size: 2.5rem; color: #fff; 
+            cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 100; z-index: 10001;
+        }
+
+        /* --- MANIFESTO --- */
+        .manifesto { padding: 25vh 10vw; background: var(--light); color: var(--dark); text-align: center; }
+        .manifesto h2 { font-family: 'Cormorant Garamond'; font-size: clamp(2.8rem, 8vw, 5.5rem); color: var(--dark); margin-bottom: 40px; line-height: 1; }
+        .manifesto p { max-width: 850px; margin: 0 auto 60px; font-size: 1.25rem; line-height: 1.8; color: #1a1a1a; font-weight: 300; }
+        
+        .cta-final {
+            display: inline-block; padding: 28px 70px; background: var(--dark); color: var(--light);
+            text-decoration: none; font-size: 0.85rem; letter-spacing: 6px; font-weight: 600;
+            transition: 0.4s; border: 1px solid var(--dark);
+        }
+        .cta-final:hover { background: transparent; color: var(--dark); }
+
     </style>
 </head>
 <body>
 
-    <div id="loader">
-        <div id="loader-count">00</div>
-        <div class="loader-bar"><div class="loader-fill" id="fill"></div></div>
+    <div id="lightbox">
+        <span class="close-btn" onclick="closeLightbox()">✕</span>
+        <img id="lightbox-img" src="">
     </div>
 
-    <div id="progress"></div>
-    <div id="cursor"></div>
+    <header>
+        <div class="scarcity-text">Limited Founding Availability</div>
+        <div class="value-anchor">
+            <span class="is-price">$599</span>
+            <span class="save-msg">VALUE $2,499 (SAVE $1,900)</span>
+        </div>
+        
+        <h1 class="hero-title">Your Vision.<br>Our Craft.</h1>
+        <p class="mission">
+            We architect elite digital environments for the world's leading mental health practitioners. 
+            From trauma-informed safety to psychodynamic depth, we translate your 
+            clinical expertise into a world-class digital legacy.
+        </p>
+    </header>
 
-    <div class="counter-box">
-        <span id="current-num">00</span>
-        <div class="counter-line"></div>
-        <span style="opacity: 0.3;">03</span>
-    </div>
-
-    <div class="panel">
-        <h1 class="hero-title" id="hero-title">Your Vision.</h1>
-    </div>
-
-    <div class="panel">
-        <div class="project-card" data-index="01">
-            <div class="img-box" onclick="window.open('healing.jpg')"><img src="healing.jpg"></div>
-            <div class="info-box">
-                <h2 style="font-family: 'Cormorant Garamond'; font-size: 3rem;">Trauma Informed</h2>
-                <p style="opacity: 0.5;">Sensory regulation for clinical spaces.</p>
+    <div class="gallery">
+        <div class="project-block">
+            <div class="project-meta">
+                <h3>Trauma Informed</h3>
+                <span>01 / DESIGN</span>
+            </div>
+            <div class="img-container" onclick="openLightbox('healing.jpg')">
+                <img src="healing.jpg">
             </div>
         </div>
 
-        <div class="project-card" data-index="02">
-            <div class="img-box" onclick="window.open('image2.jpg')"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg"></div>
-            <div class="info-box">
-                <h2 style="font-family: 'Cormorant Garamond'; font-size: 3rem;">Depth Therapy</h2>
-                <p style="opacity: 0.5;">Analytical design systems.</p>
+        <div class="project-block">
+            <div class="project-meta">
+                <h3>Depth Therapy</h3>
+                <span>02 / DESIGN</span>
+            </div>
+            <div class="img-container" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
+                <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
             </div>
         </div>
 
-        <div class="project-card" data-index="03">
-            <div class="img-box" onclick="window.open('image3.jpg')"><img src="healing.jpg"></div>
-            <div class="info-box">
-                <h2 style="font-family: 'Cormorant Garamond'; font-size: 3rem;">CBT Structure</h2>
-                <p style="opacity: 0.5;">Clarity through architecture.</p>
+        <div class="project-block">
+            <div class="project-meta">
+                <h3>Clinical Structure</h3>
+                <span>03 / DESIGN</span>
+            </div>
+            <div class="img-container" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
+                <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+            </div>
+        </div>
+
+        <div class="project-block">
+            <div class="project-meta">
+                <h3>Nature Retreats</h3>
+                <span>04 / DESIGN</span>
+            </div>
+            <div class="img-container" onclick="openLightbox('healing.jpg')">
+                <img src="healing.jpg">
             </div>
         </div>
     </div>
 
-    <div class="scroll-spacer"></div>
-
-    <section class="panel" style="background: var(--light); color: var(--dark); z-index: 100; justify-content: center;">
-        <div style="text-align: center;">
-            <h2 style="font-family: 'Cormorant Garamond'; font-size: 4rem; color: var(--dark);">Establish Mastery.</h2>
-            <a href="mailto:hello@clinic.com" style="display:inline-block; margin-top: 30px; padding: 20px 50px; border: 1px solid var(--dark); color: var(--dark); text-decoration: none; letter-spacing: 4px; font-weight: 600; font-size: 0.7rem;">INQUIRE</a>
-        </div>
+    <section class="manifesto">
+        <h2>The Website of Your Imagination.</h2>
+        <p>
+            Whatever style you dream of, whatever level of creativity you require—we build it. 
+            This is not about templates; it is about your specific clinical voice. 
+            If you can imagine the perfect therapy environment, we can code it. 
+            <strong>You ask, we create.</strong> No limits. No compromises.
+        </p>
+        <a href="contact.html" class="cta-final">START BUILDING</a>
     </section>
 
-    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
     <script>
-        // 1. Loading Screen Logic
-        let count = 0;
-        const loader = document.getElementById('loader');
-        const countEl = document.getElementById('loader-count');
-        const fillEl = document.getElementById('fill');
-
-        const loadInterval = setInterval(() => {
-            count += Math.floor(Math.random() * 10) + 1;
-            if (count >= 100) {
-                count = 100;
-                clearInterval(loadInterval);
-                setTimeout(startSite, 500);
-            }
-            countEl.innerText = count < 10 ? '0' + count : count;
-            fillEl.style.width = count + '%';
-        }, 100);
-
-        function startSite() {
-            loader.style.transform = "translateY(-100%)";
-            // Trigger Hero Animation
-            const h1 = document.getElementById('hero-title');
-            const chars = h1.querySelectorAll('.char');
-            chars.forEach(c => c.style.transform = 'translateY(0)');
-        }
-
-        // 2. Setup Hero Text
-        const h1 = document.getElementById('hero-title');
-        const text = h1.innerText; h1.innerHTML = '';
-        text.split('').forEach((c, i) => {
-            const s = document.createElement('span');
-            s.innerText = c===' '?'\u00A0':c; s.className='char';
-            s.style.transitionDelay = `${i * 0.08}s`;
-            h1.appendChild(s);
-        });
-
-        // 3. Smooth Scroll
-        const lenis = new Lenis({ lerp: 0.1 });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        // 4. Scroll Logic (Wipe & Counter)
-        const counterNum = document.getElementById('current-num');
-        window.addEventListener('scroll', () => {
-            const scroll = window.scrollY;
-            const height = window.innerHeight;
-            
-            const prog = (scroll / (document.documentElement.scrollHeight - height)) * 100;
-            document.getElementById('progress').style.width = prog + '%';
-
-            const cards = document.querySelectorAll('.project-card');
-            let activeIdx = "00";
-            cards.forEach((card, i) => {
-                const trigger = (i + 1) * height;
-                if (scroll > trigger - height/2) {
-                    card.classList.add('active');
-                    activeIdx = card.dataset.index;
-                } else {
-                    card.classList.remove('active');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
                 }
             });
-            counterNum.innerText = activeIdx;
-        });
+        }, { threshold: 0.15 });
 
-        // 5. Cursor
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', e => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-        document.querySelectorAll('.img-box').forEach(el => {
-            el.onmouseenter = () => document.body.classList.add('hover-active');
-            el.onmouseleave = () => document.body.classList.remove('hover-active');
-        });
+        document.querySelectorAll('.img-container, .project-meta').forEach(el => observer.observe(el));
+
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', (e) => { if (e.key === "Escape") closeLightbox(); });
     </script>
 </body>
 </html>
