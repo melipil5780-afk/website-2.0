@@ -3,217 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Web Design for Therapists</title>
+    <title>Ethera | Digital Spaces for Healing</title>
     
-    <!-- Fixed Google Fonts link: Added 'wght' properly to the ital specifier -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400;1,600&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
     
     <style>
-        :root { 
-            --ink: #1a1c1e; 
-            --sage: #7d8c80; 
-            --stone: #f4f2ef; 
-            --gold: #b2937d; 
-            --white: #ffffff; 
-            --urgent: #b33939; /* Elegant Red for Price */
-            --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        :root {
+            --dark: #0f0f11;
+            --light: #eaddcf;
+            --accent: #d46a6a;
+            --cursor-size: 20px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--stone); 
-            color: var(--ink); 
-            line-height: 1.7; 
-            text-align: center; 
-            opacity: 0; /* Start hidden for fade-in */
-            animation: fadeInPage 1.5s ease-out forwards; /* Page appears out of nowhere (fade-in) */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; /* Hide default cursor */ }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        /* --- 1. FILM GRAIN OVERLAY --- */
+        /* This adds a subconscious "texture" that makes it feel like high-end print */
+        .grain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9998;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- 2. CUSTOM CURSOR --- */
+        .cursor {
+            position: fixed; top: 0; left: 0;
+            width: var(--cursor-size); height: var(--cursor-size);
+            border: 1px solid var(--light);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background 0.3s;
+            mix-blend-mode: difference;
+        }
+        .cursor.hovered {
+            width: 50px; height: 50px;
+            background: var(--light);
+            opacity: 0.5;
+        }
+
+        /* --- 3. CANVAS BACKGROUND (THE AURORA) --- */
+        #canvas-wrap {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* --- TYPOGRAPHY & LAYOUT --- */
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 300; }
+        
+        nav {
+            position: absolute; top: 0; width: 100%; padding: 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 10;
+        }
+        .logo { font-size: 1.5rem; letter-spacing: 2px; font-style: italic; }
+        .menu-btn { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        header {
+            height: 100vh;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 0 10vw;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 12vw, 9rem);
+            line-height: 0.9;
+            mix-blend-mode: exclusion;
         }
         
-        @keyframes fadeInPage {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .hero-title span { display: block; overflow: hidden; }
+        
+        .hero-title .line {
+            transform: translateY(100%);
+            animation: textReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
+        
+        .hero-title .line:nth-child(2) { animation-delay: 0.2s; margin-left: 10vw; /* Asymmetry */ }
 
-        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; margin: 0 auto; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 30px; }
-
-        nav { padding: 50px 0; display: flex; justify-content: center; position: absolute; width: 100%; z-index: 100; }
-        nav a { text-decoration: none; color: var(--white); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; }
-
-        header { 
-            height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; 
-            color: var(--white); 
-            padding: 0 20px;
-        }
-
-        /* Hero text animation: Letters "come down" (drop in with slight bounce) */
-        .hero-content h1 span {
-            display: inline-block;
+        .hero-sub {
+            margin-top: 40px;
+            max-width: 400px;
+            line-height: 1.6;
+            font-size: 1rem;
             opacity: 0;
-            transform: translateY(-50px);
-            animation: dropInLetter 0.8s ease-out forwards;
-            animation-delay: calc(0.05s * var(--letter-index));
+            animation: fadeIn 1s ease forwards 1s;
         }
 
-        @keyframes dropInLetter {
-            0% { opacity: 0; transform: translateY(-50px); }
-            60% { opacity: 1; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
+        /* --- SCROLL SECTIONS --- */
+        section { padding: 15vh 10vw; border-top: 1px solid rgba(234, 221, 207, 0.1); }
+
+        .intro-grid {
+            display: grid; grid-template-columns: 1.5fr 1fr; gap: 50px;
+            align-items: center;
         }
 
-        /* Polished "What We Do" Section: Simpler text, easier to read, shorter sentences */
-        .process-section { padding: 140px 0; background: var(--stone); }
-        .fancy-text { font-style: italic; color: var(--sage); font-size: 1.2rem; margin-bottom: 20px; display: block; }
-        .process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; text-align: left; margin-top: 60px; }
-        .process-description h2 { font-size: 3rem; margin-bottom: 30px; line-height: 1.2; text-align: left; }
-        .process-description p { font-size: 1.1rem; color: #555; margin-bottom: 20px; }
+        .big-stat { font-size: 8rem; font-family: 'Cormorant Garamond'; line-height: 1; }
+        .stat-desc { font-size: 1.2rem; margin-top: 20px; color: #888; }
 
-        .cta-button { 
-            padding: 22px 50px; background: var(--white); color: var(--ink); 
-            text-decoration: none; text-transform: uppercase; letter-spacing: 3px; 
-            font-weight: 600; font-size: 0.9rem; display: inline-block; 
-            transition: var(--transition); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        /* --- PARALLAX IMAGE STRIPS --- */
+        .work-strip {
+            display: flex; gap: 40px; overflow-x: auto; padding-bottom: 50px;
+            scrollbar-width: none; /* Hide scrollbar */
         }
-        .cta-button:hover { background: var(--gold); color: white; transform: translateY(-5px); }
-
-        #portfolio { padding: 140px 0; background: var(--white); }
-        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 80px; }
-        
-        .portfolio-item { 
-            cursor: pointer; height: 500px; border: 1px solid #e0e0e0; 
-            transition: var(--transition); overflow: hidden; position: relative;
+        .work-item {
+            min-width: 300px; height: 500px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
         }
-        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: 0.8s ease; }
-        .portfolio-item:hover img { transform: scale(1.05); }
-
-        .portfolio-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.3); display: flex; align-items: center; 
-            justify-content: center; opacity: 0; transition: 0.3s;
+        .work-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            filter: grayscale(100%); transition: 0.5s;
         }
-        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
-        .view-btn { background: white; padding: 12px 25px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+        .work-item:hover img { filter: grayscale(0%); transform: scale(1.1); }
 
-        /* Price Section Styling */
-        .offer { background: var(--ink); color: white; padding: 140px 20px; }
-        .price-hero { font-size: clamp(4.5rem, 15vw, 8rem); font-family: 'Playfair Display'; margin: 20px 0; color: var(--urgent); }
-        .price-hero span { text-decoration: line-through; opacity: 0.3; font-size: 0.4em; color: white; margin-right: 15px; }
-        .limited-tag { color: var(--urgent); letter-spacing: 4px; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; }
-
-        #lightbox { 
-            position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; 
+        /* --- PRICE --- */
+        .price-section { text-align: center; padding: 20vh 0; }
+        .price-tag { 
+            font-size: clamp(4rem, 15vw, 12rem); 
+            font-family: 'Cormorant Garamond'; 
+            font-style: italic;
+            background: linear-gradient(to right, #eaddcf, #777);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .lb-content { width: 90%; max-width: 1100px; height: 85vh; overflow-y: auto; background: white; }
-        .lb-content img { width: 100%; height: auto; }
-        .close-lb { position: absolute; top: 20px; right: 40px; color: white; font-size: 3rem; cursor: pointer; }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        @keyframes textReveal { to { transform: translateY(0); } }
+        @keyframes fadeIn { to { opacity: 0.7; } }
 
-        @media (max-width: 850px) { 
-            .portfolio-grid, .process-grid { grid-template-columns: 1fr; } 
-            .process-description h2 { text-align: center; }
-            .process-description p { text-align: center; }
+        /* Mobile Adjustments */
+        @media(max-width: 768px) {
+            .intro-grid { grid-template-columns: 1fr; }
+            .hero-title .line:nth-child(2) { margin-left: 0; }
         }
     </style>
 </head>
 <body>
 
-    <nav><a href="contact.html">Begin A Project</a></nav>
+    <div class="grain"></div>
+    <div class="cursor" id="cursor"></div>
+    <div id="canvas-wrap"><canvas id="gradient-canvas"></canvas></div>
+
+    <nav>
+        <div class="logo hover-trigger">Ethera.</div>
+        <div class="menu-btn hover-trigger">Menu</div>
+    </nav>
 
     <header>
-        <div class="hero-content reveal">
-            <!-- Wrapped letters in spans for individual animation -->
-            <h1 style="font-size: clamp(2.5rem, 7vw, 4.5rem);">
-                <span style="--letter-index: 0;">W</span><span style="--letter-index: 1;">e</span><span style="--letter-index: 2;">b</span><span style="--letter-index: 3;">s</span><span style="--letter-index: 4;">i</span><span style="--letter-index: 5;">t</span><span style="--letter-index: 6;">e</span><span style="--letter-index: 7;">s</span>
-                <span style="--letter-index: 8;">f</span><span style="--letter-index: 9;">o</span><span style="--letter-index: 10;">r</span>
-                <span style="--letter-index: 11;">T</span><span style="--letter-index: 12;">h</span><span style="--letter-index: 13;">e</span><span style="--letter-index: 14;">r</span><span style="--letter-index: 15;">a</span><span style="--letter-index: 16;">p</span><span style="--letter-index: 17;">i</span><span style="--letter-index: 18;">s</span><span style="--letter-index: 19;">t</span><span style="--letter-index: 20;">s</span>
-            </h1>
-            <p style="margin-bottom: 40px;">Beautiful, calming, and built to grow your clinical practice.</p>
-            <a href="#portfolio" class="cta-button">View Selected Works</a>
-        </div>
+        <h1 class="hero-title">
+            <span><div class="line">Calm in the</div></span>
+            <span><div class="line"><i>Chaos</i></div></span>
+        </h1>
+        <p class="hero-sub">
+            We craft digital sanctuaries for therapists. 
+            Web design that feels like a deep breath.
+        </p>
     </header>
 
-    <section class="process-section">
-        <div class="container">
-            <div class="process-grid">
-                <div class="process-description reveal">
-                    <span class="fancy-text">Our Simple Process</span>
-                    <h2>We build the website your practice needs.</h2>
-                    <p>We create sites that attract more clients. No templates—just your unique vision.</p>
-                    <p>Share your logos, images, and ideas. We handle the rest: colors, design, and mobile setup.</p>
-                </div>
-                <div class="reveal" style="background: white; padding: 60px; border-left: 1px solid var(--gold);">
-                    <h3 style="margin-bottom: 20px; font-style: italic;">"Tell us what you want—we make it happen."</h3>
-                    <p style="font-size: 0.9rem; opacity: 0.7; letter-spacing: 1px;">Focus on your clients. We'll craft a digital space that feels safe, professional, and welcoming.</p>
-                </div>
+    <section>
+        <div class="intro-grid">
+            <h2 style="font-size: 3rem;">Your website is the waiting room before the first session.</h2>
+            <div>
+                <p style="margin-bottom: 20px;">Does your current site make clients feel safe? Or overwhelmed?</p>
+                <p>We use color psychology and fluid motion to lower cortisol levels before they even click "Book Now."</p>
             </div>
         </div>
     </section>
 
-    <section id="portfolio">
-        <div class="container">
-            <h2 class="reveal" style="font-size: 3rem; margin-bottom: 20px;">The Gallery</h2>
-            <p class="reveal" style="color: var(--sage); letter-spacing: 2px; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 60px;">Select works from our clinical portfolio</p>
-            <div class="portfolio-grid">
-                <div class="portfolio-item reveal" onclick="openLightbox('healing.jpg')">
-                    <img src="healing.jpg">
-                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
-                </div>
-                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
-                    <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
-                </div>
-                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
-                    <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
-                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
-                </div>
-                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
-                    <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
-                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
-                </div>
-            </div>
+    <section>
+        <div style="margin-bottom: 50px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <h3>Selected Works</h3>
+            <span style="font-size: 0.8rem; opacity: 0.5;">DRAG TO EXPLORE</span>
+        </div>
+        
+        <div class="work-strip hover-trigger">
+            <div class="work-item"><img src="https://images.pexels.com/photos/3601097/pexels-photo-3601097.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Work 1"></div>
+            <div class="work-item"><img src="https://images.pexels.com/photos/4099354/pexels-photo-4099354.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Work 2"></div>
+            <div class="work-item"><img src="https://images.pexels.com/photos/3356566/pexels-photo-3356566.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Work 3"></div>
+            <div class="work-item"><img src="https://images.pexels.com/photos/668298/pexels-photo-668298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Work 4"></div>
         </div>
     </section>
 
-    <section class="offer">
-        <div class="container reveal">
-            <span class="limited-tag">Limited Introductory Offer</span>
-            <h2 style="color: white; margin-top: 20px;">Secure Your Digital Presence</h2>
-            <div class="price-hero"><span>$1,799</span>$599</div>
-            <p style="margin-bottom: 40px; opacity: 0.8;">Full custom build. No hidden fees. Yours forever.</p>
-            <a href="contact.html" class="cta-button" style="background: var(--urgent); color: white;">Inquire for $599 Rate</a>
-        </div>
+    <section class="price-section hover-trigger">
+        <p style="text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px;">The Investment</p>
+        <div class="price-tag">$599</div>
+        <a href="mailto:hello@ethera.com" style="color: white; text-decoration: none; border-bottom: 1px solid white; padding-bottom: 5px; margin-top: 30px; display: inline-block;">Start Your Project</a>
     </section>
-
-    <div id="lightbox" onclick="closeLightbox()">
-        <span class="close-lb">&times;</span>
-        <div class="lb-content" onclick="event.stopPropagation()"><img id="lb-img" src=""></div>
-    </div>
 
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        // --- 1. CUSTOM CURSOR LOGIC ---
+        const cursor = document.getElementById('cursor');
+        const triggers = document.querySelectorAll('.hover-trigger, a, img');
 
-        function openLightbox(src) {
-            document.getElementById('lb-img').src = src;
-            document.getElementById('lightbox').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+        document.addEventListener('mousemove', (e) => {
+            // Slight delay handled by CSS transition, we just update position
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Add 'hovered' class when over interactive elements
+        triggers.forEach(trigger => {
+            trigger.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            trigger.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // --- 2. THE "AURORA" CANVAS ANIMATION ---
+        const canvas = document.getElementById('gradient-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
         }
-        function closeLightbox() {
-            document.getElementById('lightbox').style.display = 'none';
-            document.body.style.overflow = 'auto';
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5; // Very slow movement
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 200 + 100; // Giant blobs
+                // Calming colors: muted blues, beiges, teals
+                const colors = ['rgba(125, 140, 128, 0.2)', 'rgba(212, 106, 106, 0.15)', 'rgba(40, 50, 60, 0.5)'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off edges smoothly
+                if (this.x < -100 || this.x > width + 100) this.vx *= -1;
+                if (this.y < -100 || this.y > height + 100) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
         }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 15; i++) { // Number of blobs
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            // Clear with a slight trail effect
+            ctx.clearRect(0, 0, width, height);
+            
+            // Blur the whole canvas to create the "Aurora/Fog" look
+            ctx.filter = 'blur(60px)'; 
+            
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+        animate();
     </script>
 </body>
 </html>
