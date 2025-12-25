@@ -1,32 +1,185 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elite Clinician Architecture | Sovereign Dev</title>
-    <!-- Fixed Google Fonts link: removed invalid 'ital' syntax, loaded proper weights (including more for smoother fallback) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600&family=Montserrat:wght@100;400;900&display=swap" rel="stylesheet">
     
     <style>
         :root { --gold: #c5a37d; --dark: #050505; --accent: #8e2121; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-        /* --- 1. DARK MATTER BACKGROUND --- */
-        #canvas-bg { position: fixed; inset: 0; z-index: -1; opacity: 0.45; filter: blur(40px); }
+        /* --- 1. THE DARK MATTER BACKGROUND (ELITE VISUALS) --- */
+        #canvas-bg { position: fixed; inset: 0; z-index: -1; opacity: 0.4; filter: blur(40px); }
         #noise-layer { position: fixed; inset: -50%; width: 200%; height: 200%; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.12; pointer-events: none; z-index: 1; animation: grain 0.4s steps(3) infinite; }
         @keyframes grain { 0% {transform:translate(0,0)} 50% {transform:translate(-1%,-1%)} 100% {transform:translate(1%,1%)} }
 
-        /* --- 2. PRESTIGE LOADER --- */
+        /* --- 2. PRESTIGE LOADER (BOUNCE-IN) --- */
         #loader { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: 1.5s cubic-bezier(1,0,0,1); }
-        #loader-n { font-family: 'Cormorant Garamond', serif; font-size: 12vw; color: var(--gold); font-weight: 300; transform: scale(0.5); opacity: 0; transition: 1s; }
+        #loader-n { font-family: 'Cormorant Garamond'; font-size: 12vw; color: var(--gold); font-weight: 100; transform: scale(0.5); opacity: 0; transition: 1s; }
         #loader-n.active { transform: scale(1); opacity: 1; }
 
-        /* --- 3. HERO --- */
+        /* --- 3. HERO: KINETIC REVEAL --- */
         section { padding: 25vh 10vw; position: relative; z-index: 10; }
-        .hero-h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 11vw, 9rem); line-height: 0.85; font-weight: 300; margin-bottom: 30px; letter-spacing: -2px; }
+        .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(3rem, 11vw, 9rem); line-height: 0.85; font-weight: 300; margin-bottom: 30px; letter-spacing: -2px; }
         .hero-h1 span { display: block; overflow: hidden; }
         .hero-h1 b { display: block; transform: translateY(100%); transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1); font-weight: 300; }
         .reveal b { transform: translateY(0); }
         
-        .hero-sub { max-width: 650px; font-size: 1
+        .hero-sub { max-width: 650px; font-size: 1.3rem; opacity: 0.6; line-height: 1.8; border-left: 1px solid var(--gold); padding-left: 30px; transform: translateX(-20px); opacity: 0; transition: 1.5s 0.5s forwards; }
+        .reveal .hero-sub { transform: translateX(0); opacity: 0.6; }
+
+        /* --- 4. GALLERY: THE THEATER CUT --- */
+        .project-card { margin-bottom: 30vh; opacity: 0; transform: translateY(100px); transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .project-card.visible { opacity: 1; transform: translateY(0); }
+        
+        .image-frame {
+            width: 100%; height: 75vh; position: relative; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1); background: #000;
+        }
+        .image-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5) contrast(1.1); transition: 1s ease-out; transform: scale(1.1); }
+        .project-card:hover .image-frame img { filter: brightness(1); transform: scale(1); }
+
+        .view-btn {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            padding: 25px 50px; background: rgba(0,0,0,0.8); border: 1px solid var(--gold);
+            color: var(--gold); font-weight: 900; letter-spacing: 5px; font-size: 0.7rem;
+            opacity: 0; transition: 0.5s; backdrop-filter: blur(10px); text-decoration: none;
+        }
+        .image-frame:hover .view-btn { opacity: 1; }
+
+        /* --- 5. THE ULTIMATE ENDING (FOCAL SHIMMER) --- */
+        #final-section { background: #fff; color: #000; padding: 30vh 10vw; text-align: center; }
+        #shimmer-text { 
+            font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 6vw, 6rem); line-height: 1; 
+            background: linear-gradient(90deg, #000, #888, #000); 
+            background-size: 200%; background-clip: text; -webkit-background-clip: text; 
+            color: transparent; animation: shimmer 4s infinite linear;
+        }
+        @keyframes shimmer { 0% {background-position: -200%} 100% {background-position: 200%} }
+
+        /* --- 6. CURSOR --- */
+        #c { position: fixed; width: 6px; height: 6px; background: #fff; z-index: 10000; pointer-events: none; mix-blend-mode: difference; }
+        #ca { position: fixed; width: 45px; height: 45px; border: 1px solid var(--gold); border-radius: 50%; z-index: 10000; pointer-events: none; transition: 0.12s cubic-bezier(0.23, 1, 0.32, 1); }
+    </style>
+</head>
+<body onmousemove="handleMouse(event)">
+
+    <div id="loader"><div id="loader-n">0</div></div>
+    <div id="noise-layer"></div>
+    <canvas id="canvas-bg"></canvas>
+    <div id="c"></div><div id="ca"></div>
+
+    <section id="hero-sec">
+        <h1 class="hero-h1">
+            <span><b>I Architect Elite</b></span>
+            <span><b>Clinical Authority.</b></span>
+        </h1>
+        <p class="hero-sub">
+            Any design style. Any clinical feature. Any profile. I build digital structures that define the highest expression of your expertise.
+        </p>
+    </section>
+
+    <section>
+        <div class="project-card">
+            <div class="image-frame">
+                <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+                <a href="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">ENTER FULL ARCHITECTURE</a>
+            </div>
+            <div style="margin-top: 40px;">
+                <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300;">Clinical Precision</h2>
+                <p style="color: var(--gold); letter-spacing: 6px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">CBT • DATA-DRIVEN • SYSTEMATIC LOGIC</p>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="image-frame">
+                <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
+                <a href="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">ENTER FULL ARCHITECTURE</a>
+            </div>
+            <div style="margin-top: 40px;">
+                <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300;">Somatic Safety</h2>
+                <p style="color: var(--gold); letter-spacing: 6px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">TRAUMA-INFORMED • NERVOUS SYSTEM REGULATION • ORGANIC DEPTH</p>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="image-frame">
+                <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
+                <a href="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">ENTER FULL ARCHITECTURE</a>
+            </div>
+            <div style="margin-top: 40px;">
+                <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300;">Analytical Soul</h2>
+                <p style="color: var(--gold); letter-spacing: 6px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">PSYCHODYNAMIC • UNCONSCIOUS DEPTH • SOPHISTICATED REFLECTION</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="final-section">
+        <h2 id="shimmer-text">I build any design style and any feature to create the best website possible.</h2>
+        <p style="max-width: 800px; margin: 40px auto; font-size: 1.4rem; opacity: 0.7; line-height: 1.8;">
+            Zero templates. Zero limits. Secure your founders-rate access to premier digital architecture.
+        </p>
+        <div style="margin: 80px 0;">
+            <p style="text-decoration: line-through; opacity: 0.3;">VALUED AT $2,499</p>
+            <h3 style="font-size: 7rem; font-weight: 900; letter-spacing: -4px;">$599</h3>
+            <p style="color: var(--gold); font-weight: 900; letter-spacing: 5px; font-size: 0.8rem;">FOUNDER PRIVILEGE GRANTED</p>
+        </div>
+        <a href="mailto:contact@email.com" style="display:inline-block; padding: 35px 120px; background:#000; color:#fff; text-decoration:none; font-weight:900; letter-spacing:8px; font-size: 0.8rem; transition: 0.4s;">BEGIN BUILD</a>
+    </section>
+
+    <script>
+        // --- 1. DARK MATTER INTERACTIVE CANVAS ---
+        const canvas = document.getElementById('canvas-bg'), ctx = canvas.getContext('2d');
+        let pts = [];
+        function init() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            pts = Array.from({length: 50}, () => ({
+                x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+                vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5, s: Math.random()*2
+            }));
+        }
+        function draw() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            pts.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
+                ctx.fillStyle = 'rgba(197, 163, 125, 0.5)';
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
+            });
+            requestAnimationFrame(draw);
+        }
+        init(); draw();
+
+        // --- 2. THE LOADER ---
+        let count = 0;
+        const ln = document.getElementById('loader-n');
+        setTimeout(() => ln.classList.add('active'), 100);
+        let int = setInterval(() => {
+            count += Math.floor(Math.random()*4)+1;
+            if(count >= 100) {
+                count = 100; clearInterval(int);
+                document.getElementById('loader').style.transform = "translateY(-100%)";
+                setTimeout(() => document.getElementById('hero-sec').classList.add('reveal'), 800);
+            }
+            ln.innerText = count;
+        }, 40);
+
+        // --- 3. MOUSE DYNAMICS ---
+        function handleMouse(e) {
+            document.getElementById('c').style.left = e.clientX+'px';
+            document.getElementById('c').style.top = e.clientY+'px';
+            document.getElementById('ca').style.left = (e.clientX-22.5)+'px';
+            document.getElementById('ca').style.top = (e.clientY-22.5)+'px';
+        }
+
+        // --- 4. SCROLL VISIBILITY ---
+        const obs = new IntersectionObserver((ents) => {
+            ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.project-card').forEach(p => obs.observe(p));
+    </script>
+</body>
+</html>
