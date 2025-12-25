@@ -1,208 +1,347 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign | Clinical Web Architecture</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600&family=Montserrat:wght@100;400;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinical Digital Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --accent: #c5a37d; /* Gold/Beige - implies luxury and warmth */
+        --dark: #080808;
+        --text-sub: #888;
+    }
     
-    <style>
-        :root { --accent: #c5a37d; --dark: #050505; }
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; transition: background 0.8s; }
+    * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+    
+    body {
+        background: var(--dark);
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+        overflow-x: hidden;
+        transition: background 0.8s;
+    }
 
-        /* PRESTIGE LOADER */
-        #loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1.2s cubic-bezier(1,0,0,1); }
-        #loader-n { font-family: 'Cormorant Garamond'; font-size: 10vw; color: var(--accent); font-weight: 100; }
+    /* PRESTIGE LOADER */
+    #loader {
+        position: fixed; inset: 0; background: #000; z-index: 9999;
+        display: flex; align-items: center; justify-content: center;
+        transition: 1s cubic-bezier(0.7,0,0.3,1);
+    }
+    #loader-n {
+        font-family: 'Cormorant Garamond'; font-size: 8vw; color: var(--accent);
+        font-weight: 300; letter-spacing: -2px;
+    }
 
-        #bg-canvas { position: fixed; inset: 0; z-index: -1; background: #000; }
-        #noise { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.08; pointer-events: none; z-index: 1; }
+    /* BACKGROUND FX */
+    #noise {
+        position: fixed; inset: 0; 
+        background: url('https://www.transparenttextures.com/patterns/stardust.png'); 
+        opacity: 0.06; pointer-events: none; z-index: 1;
+    }
+    #bg-canvas { position: fixed; inset: 0; z-index: -1; background: #050505; }
+    
+    /* PSYCHOLOGICAL SPOTLIGHT */
+    /* This creates a vignette that focuses attention, mimicking a therapist's focus */
+    #spotlight {
+        position: fixed; inset: 0; z-index: 2; pointer-events: none;
+        background: radial-gradient(circle 600px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.85) 100%);
+        transition: 0.1s ease-out; /* Slight lag for organic feel */
+    }
 
-        /* HERO SECTION */
-        section { padding: 25vh 10vw; position: relative; z-index: 10; }
-        .hero-tag { color: var(--accent); letter-spacing: 12px; font-size: 0.6rem; font-weight: 900; margin-bottom: 20px; display: block; opacity: 0; transition: 1s; }
-        .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 8vw, 7.5rem); line-height: 0.9; font-weight: 300; margin-bottom: 40px; min-height: 1.2em; color: #fff; }
-        .hero-sub { max-width: 600px; font-size: 1.1rem; opacity: 0; line-height: 1.8; border-left: 1px solid var(--accent); padding-left: 30px; transition: 1.5s 1s forwards; }
-        .reveal .hero-tag, .reveal .hero-sub { opacity: 0.5; }
+    /* HERO SECTION */
+    section { padding: 25vh 10vw; position: relative; z-index: 10; }
+    
+    .hero-tag {
+        color: var(--accent); letter-spacing: 8px; font-size: 0.7rem; 
+        font-weight: 600; margin-bottom: 25px; display: block; 
+        opacity: 0; transform: translateY(20px); transition: 1s;
+    }
+    
+    .hero-h1 {
+        font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 7vw, 6.5rem);
+        line-height: 1; font-weight: 300; margin-bottom: 40px; 
+        min-height: 1.2em; color: #eee;
+    }
+    
+    .hero-sub {
+        max-width: 550px; font-size: 1.05rem; opacity: 0; 
+        line-height: 1.8; color: var(--text-sub);
+        border-left: 1px solid var(--accent); padding-left: 30px;
+        transform: translateY(20px); transition: 1s 0.5s forwards;
+    }
 
-        /* STACKING CARDS */
-        #gallery { padding: 0 5vw; position: relative; z-index: 20; }
-        .project-card { 
-            position: sticky; top: 5vh; height: 90vh; width: 100%; margin-bottom: 25vh;
-            display: flex; flex-direction: column; background: var(--dark);
-            border-top: 1px solid rgba(197, 163, 125, 0.15); padding-top: 20px;
-        }
-        .image-frame { width: 100%; height: 60vh; position: relative; overflow: hidden; border: 1px solid rgba(197, 163, 125, 0.1); }
-        .image-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) grayscale(1); transition: 0.8s ease-out; }
-        .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0); }
+    .reveal .hero-tag, .reveal .hero-sub { opacity: 1; transform: translateY(0); }
 
-        .scramble-title { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 4rem); font-weight: 300; cursor: pointer; display: inline-block; margin-top: 20px; }
-        .explanation { color: #888; font-size: 0.95rem; margin-top: 10px; max-width: 750px; line-height: 1.6; }
-        
-        .view-btn {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            padding: 20px 50px; background: #fff; color: #000; font-weight: 900;
-            letter-spacing: 5px; font-size: 0.65rem; opacity: 0; transition: 0.4s; text-decoration: none; z-index: 50;
-        }
-        .image-frame:hover .view-btn { opacity: 1; }
+    /* STACKING CARDS / CASE STUDIES */
+    #gallery { padding: 0 5vw; position: relative; z-index: 20; }
+    
+    .project-card {
+        position: sticky; top: 10vh; min-height: 80vh; width: 100%;
+        margin-bottom: 15vh; display: flex; flex-direction: column;
+        background: var(--dark); 
+        border-top: 1px solid rgba(197, 163, 125, 0.2);
+        padding-top: 30px;
+        transition: transform 0.5s;
+    }
+    
+    .image-frame {
+        width: 100%; height: 50vh; position: relative; overflow: hidden;
+        border: 1px solid rgba(197, 163, 125, 0.1);
+    }
+    
+    .image-frame img {
+        width: 100%; height: 100%; object-fit: cover;
+        filter: brightness(0.5) grayscale(1) contrast(1.1);
+        transition: 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    
+    /* Hover effect: Color restores, implying "life" returns to the practice */
+    .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0) contrast(1); transform: scale(1.02); }
 
-        /* THE END OF THE WEBSITE */
-        #final-section { 
-            background: #fff; color: #000; padding: 25vh 10vw; text-align: center; 
-            position: relative; z-index: 100; 
-            box-shadow: 0 -50px 100px rgba(0,0,0,0.5);
-        }
-        #shimmer-text { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 40px; }
+    .scramble-title {
+        font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 400; cursor: pointer; display: inline-block; margin-top: 25px;
+        color: #ddd;
+    }
+    
+    .explanation {
+        color: var(--text-sub); font-size: 0.95rem; margin-top: 15px; 
+        max-width: 600px; line-height: 1.7; font-weight: 300;
+    }
 
-        /* GLOWING BUTTON */
-        .cta-btn {
-            display: inline-block; padding: 30px 100px; background: #000; color: #fff; 
-            text-decoration: none; font-weight: 900; letter-spacing: 8px; font-size: 0.8rem;
-            transition: 0.5s; position: relative;
-        }
-        .cta-btn:hover {
-            box-shadow: 0 0 40px rgba(197, 163, 125, 0.6);
-            transform: translateY(-5px);
-        }
+    .view-btn {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        padding: 15px 40px; background: rgba(255,255,255,0.9); color: #000;
+        font-weight: 600; letter-spacing: 4px; font-size: 0.6rem;
+        opacity: 0; transition: 0.4s; text-decoration: none; z-index: 50;
+    }
+    .image-frame:hover .view-btn { opacity: 1; }
 
-        /* CURSOR */
-        #c { position: fixed; width: 6px; height: 6px; background: #fff; z-index: 10000; pointer-events: none; mix-blend-mode: difference; }
-        #ca { position: fixed; width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; z-index: 10000; pointer-events: none; transition: 0.1s; }
-    </style>
+    /* FINAL PITCH */
+    #final-section {
+        background: #f4f4f4; color: #111; padding: 20vh 10vw; 
+        text-align: center; position: relative; z-index: 100;
+    }
+    
+    #shimmer-text {
+        font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 4.5vw, 4rem);
+        line-height: 1.1; margin-bottom: 50px; font-weight: 400;
+    }
+    
+    .quote-box {
+        max-width: 700px; margin: 0 auto 60px auto;
+        font-style: italic; opacity: 0.7; font-size: 1.1rem;
+        font-family: 'Cormorant Garamond';
+    }
+
+    /* CTA BUTTON */
+    .cta-btn {
+        display: inline-block; padding: 25px 80px; background: #000; color: #fff;
+        text-decoration: none; font-weight: 600; letter-spacing: 6px;
+        font-size: 0.75rem; transition: 0.4s; position: relative;
+    }
+    .cta-btn:hover {
+        transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    /* CUSTOM CURSOR */
+    #c {
+        position: fixed; width: 6px; height: 6px; background: #fff; 
+        z-index: 10000; pointer-events: none; mix-blend-mode: difference;
+        border-radius: 50%;
+    }
+    #ca {
+        position: fixed; width: 50px; height: 50px; 
+        border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; 
+        z-index: 10000; pointer-events: none; transition: 0.15s ease-out;
+    }
+
+</style>
 </head>
-<body onmousemove="handleMove(event)" onclick="resumeAudio()">
+<body onmousemove="moveSpotlight(event)">
 
-    <div id="loader"><div id="loader-n">0</div></div>
-    <div id="noise"></div>
-    <canvas id="bg-canvas"></canvas>
-    <div id="c"></div><div id="ca"></div>
+<div id="loader"><div id="loader-n">0</div></div>
+<div id="noise"></div>
+<div id="spotlight"></div> <canvas id="bg-canvas"></canvas>
+<div id="c"></div><div id="ca"></div>
 
-    <section id="hero-sec">
-        <span class="hero-tag">SITENAME | CLINICAL ARCHITECTURE</span>
-        <h1 class="hero-h1" id="scramble-hero"></h1>
-        <p class="hero-sub">Providing custom digital architecture for all therapeutic specialties. I create the digital space your practice deserves.</p>
-    </section>
+<section id="hero-sec">
+    <span class="hero-tag">CLINICAL DIGITAL ARCHITECTURE</span>
+    
+    <h1 class="hero-h1" id="scramble-hero"></h1>
+    
+    <p class="hero-sub">
+        Your clinical expertise is elite. Your digital presence is... outdated.
+        I translate your therapeutic modality into a digital environment where clients feel safe before they even book.
+    </p>
+</section>
 
-    <div id="gallery">
-        <div class="project-card" data-color="#4a5d4a">
-            <div class="image-frame">
-                <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
-                <a href="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">VIEW WORKSHOP</a>
-            </div>
-            <div>
-                <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy Hub')" onmouseleave="dive(this, 'Nature-Informed')">Nature-Informed</h2>
-                <p class="explanation">A forest workshop website for deep group discussions and reconnection with nature.</p>
-            </div>
+<div id="gallery">
+    <div class="project-card" data-color="#4a5d4a">
+        <div class="image-frame">
+            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop" alt="Nature Therapy">
+            <a href="#" class="view-btn">ENTER ENVIRONMENT</a>
         </div>
-
-        <div class="project-card" data-color="#c5a37d">
-            <div class="image-frame">
-                <img src="healing.jpg"> 
-                <a href="healing.jpg" target="_blank" class="view-btn">VIEW SOMATIC</a>
-            </div>
-            <div>
-                <h2 class="scramble-title" onmouseenter="dive(this, 'Vagus Nerve Reset')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
-                <p class="explanation">Focused on trauma stored in the body and building somatic awareness.</p>
-            </div>
-        </div>
-
-        <div class="project-card" data-color="#7a1010">
-            <div class="image-frame">
-                <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
-                <a href="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">VIEW ANALYTICAL</a>
-            </div>
-            <div>
-                <h2 class="scramble-title" onmouseenter="dive(this, 'Shadow Mapping')" onmouseleave="dive(this, 'Analytical Soul')">Analytical Soul</h2>
-                <p class="explanation">Exploring deep psychological patterns and emotional recurring themes.</p>
-            </div>
-        </div>
-
-        <div class="project-card" data-color="#c5a37d">
-            <div class="image-frame">
-                <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-                <a href="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">VIEW CLINICAL</a>
-            </div>
-            <div>
-                <h2 class="scramble-title" onmouseenter="dive(this, 'Metric Logic')" onmouseleave="dive(this, 'Clinical Precision')">Clinical Precision</h2>
-                <p class="explanation">A specialist CBT website focusing on cognitive distortions and systematic skills.</p>
-            </div>
+        <div>
+            <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy Hub')" onmouseleave="dive(this, 'The Grounded Space')">The Grounded Space</h2>
+            <p class="explanation">
+                <strong>The Goal:</strong> To lower the user's cortisol immediately. <br>
+                Designed for a holistic practice, this architecture uses deep organic tones to simulate a forest walk, pre-regulating the client's nervous system.
+            </p>
         </div>
     </div>
 
-    <section id="final-section">
-        <h2 id="shimmer-text">I build any design style and any feature to create the best website possible.</h2>
-        <div style="margin: 50px 0;">
-            <p style="opacity: 0.4; text-decoration: line-through;">VALUED AT $2,499</p>
-            <h3 style="font-size: 7rem; font-weight: 900; letter-spacing: -4px;">$599</h3>
-            <p style="color: #c5a37d; font-weight: 900; letter-spacing: 6px;">FOUNDER RATE | LIMITED EDITION</p>
+    <div class="project-card" data-color="#c5a37d">
+        <div class="image-frame">
+            <img src="https://images.unsplash.com/photo-1515984977862-1c7201ef324d?q=80&w=2669&auto=format&fit=crop" alt="Somatic Therapy">
+            <a href="#" class="view-btn">ENTER ENVIRONMENT</a>
         </div>
-        <a href="mailto:contact@yourdomain.com" class="cta-btn">START YOUR PROJECT</a>
-    </section>
+        <div>
+            <h2 class="scramble-title" onmouseenter="dive(this, 'Trauma Center')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
+            <p class="explanation">
+                <strong>The Goal:</strong> Digital containment. <br>
+                For trauma-informed work, the site structure must be predictable. We used soft transitions and open typography to prevent cognitive overload.
+            </p>
+        </div>
+    </div>
 
-    <script>
-        let audioCtx;
-        function resumeAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-        const chars = "ABCDEFGHIJKLMNPRSTUVWXYZ0123456789!@#$%^&*";
+    <div class="project-card" data-color="#8c8c8c">
+        <div class="image-frame">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop" alt="Modern Psychology">
+            <a href="#" class="view-btn">ENTER ENVIRONMENT</a>
+        </div>
+        <div>
+            <h2 class="scramble-title" onmouseenter="dive(this, 'Private Practice')" onmouseleave="dive(this, 'The Authority')">The Authority</h2>
+            <p class="explanation">
+                <strong>The Goal:</strong> Justifying the private-pay rate. <br>
+                Minimalist. Academic. High-End. This design filters out low-intent leads and signals to high-functioning clients that you are an expert.
+            </p>
+        </div>
+    </div>
+</div>
+
+<section id="final-section">
+    <h2 id="shimmer-text">You ask your clients to do the work.<br>Your website should do the same.</h2>
+    
+    <div style="margin: 50px 0;">
+        <p class="quote-box">
+            "Before this redesign, clients were confused about my process. Now, the website answers their anxieties for me. The intake calls are shorter, and the clients are better fits."
+        </p>
+
+        <p style="opacity: 0.4; text-decoration: line-through; letter-spacing: 2px;">AGENCY PRICE: $3,500</p>
+        <h3 style="font-size: 5rem; font-weight: 900; letter-spacing: -2px; margin: 10px 0;">$599</h3>
+        <p style="color: #c5a37d; font-weight: 700; letter-spacing: 4px;">PRACTICE LAUNCH RATE</p>
+    </div>
+    
+    <a href="mailto:contact@yourdomain.com" class="cta-btn">AUDIT MY CURRENT SITE</a>
+</section>
+
+<script>
+    // 1. FASTER SCRAMBLE LOGIC
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    
+    function dive(el, nText) {
+        let it = 0;
+        clearInterval(el.interval); // Clear any existing interval to prevent bugs
         
-        function dive(el, nText) {
-            let it = 0;
-            const iv = setInterval(() => {
-                el.innerText = nText.split("").map((l, i) => i < it ? nText[i] : chars[Math.floor(Math.random() * chars.length)]).join("");
-                if(it >= nText.length) clearInterval(iv);
-                it += 1/4;
-            }, 40);
-        }
-
-        const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
-        let dots = [];
-        function init() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            dots = Array.from({length: 65}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3 }));
-        }
-        function draw() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            dots.forEach((d, i) => {
-                d.x += d.vx; d.y += d.vy;
-                if(d.x<0||d.x>canvas.width) d.vx*=-1; if(d.y<0||d.y>canvas.height) d.vy*=-1;
-                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent') + "44";
-                ctx.beginPath(); ctx.arc(d.x, d.y, 1.5, 0, Math.PI*2); ctx.fill();
-                dots.slice(i+1).forEach(d2 => {
-                    let dist = Math.hypot(d.x-d2.x, d.y-d2.y);
-                    if(dist < 180) { 
-                        ctx.strokeStyle = `rgba(197, 163, 125, ${0.12 - dist/1500})`; 
-                        ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y); ctx.stroke(); 
-                    }
-                });
-            });
-            requestAnimationFrame(draw);
-        }
-        init(); draw();
-
-        let lCount = 0;
-        let lInt = setInterval(() => {
-            lCount += Math.floor(Math.random()*7)+1;
-            if(lCount >= 100) {
-                lCount = 100; clearInterval(lInt);
-                document.getElementById('loader').style.transform = "translateY(-100%)";
-                setTimeout(() => {
-                    document.getElementById('hero-sec').classList.add('reveal');
-                    setTimeout(() => {
-                        dive(document.getElementById('scramble-hero'), 'I Build Elite Therapy Websites.');
-                    }, 500);
-                }, 800);
+        el.interval = setInterval(() => {
+            el.innerText = nText.split("").map((l, i) => {
+                if(i < it) return nText[i];
+                return chars[Math.floor(Math.random() * chars.length)];
+            }).join("");
+            
+            // Stop when done
+            if(it >= nText.length) {
+                clearInterval(el.interval);
+                el.innerText = nText; // Ensure clean finish
             }
-            document.getElementById('loader-n').innerText = lCount;
-        }, 50);
+            
+            // SPEED INCREASE:
+            // Increment by 1 full letter per cycle (instead of 1/4)
+            // This is 4x faster logically
+            it += 1; 
+        }, 25); // SPEED INCREASE: Reduced timing from 40ms to 25ms
+    }
 
-        function handleMove(e) {
-            document.getElementById('c').style.left = e.clientX+'px'; document.getElementById('c').style.top = e.clientY+'px';
-            document.getElementById('ca').style.left = (e.clientX-22.5)+'px'; document.getElementById('ca').style.top = (e.clientY-22.5)+'px';
+    // 2. PSYCHOLOGICAL SPOTLIGHT
+    function moveSpotlight(e) {
+        const x = e.clientX;
+        const y = e.clientY;
+        const spot = document.getElementById('spotlight');
+        // Using CSS variables makes the update instant but the CSS 'transition' creates the lag
+        spot.style.setProperty('--x', x + 'px');
+        spot.style.setProperty('--y', y + 'px');
+        
+        // Handle Cursor
+        document.getElementById('c').style.left = x + 'px';
+        document.getElementById('c').style.top = y + 'px';
+        document.getElementById('ca').style.left = (x - 25) + 'px';
+        document.getElementById('ca').style.top = (y - 25) + 'px';
+    }
+
+    // 3. CANVAS BACKGROUND (Subtle Geometry)
+    const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
+    let dots = [];
+    function initCanvas() {
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        dots = Array.from({length: 40}, () => ({ 
+            x: Math.random()*canvas.width, y: Math.random()*canvas.height, 
+            vx: (Math.random()-0.5)*0.2, vy: (Math.random()-0.5)*0.2 
+        }));
+    }
+    function draw() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        dots.forEach((d, i) => {
+            d.x += d.vx; d.y += d.vy;
+            if(d.x<0||d.x>canvas.width) d.vx*=-1; if(d.y<0||d.y>canvas.height) d.vy*=-1;
+            
+            // Draw subtle lines connecting dots (Networking/Synapses metaphor)
+            dots.slice(i+1).forEach(d2 => {
+                let dist = Math.hypot(d.x-d2.x, d.y-d2.y);
+                if(dist < 150) {
+                    ctx.strokeStyle = `rgba(197, 163, 125, ${0.1 - dist/1500})`;
+                    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y); ctx.stroke();
+                }
+            });
+        });
+        requestAnimationFrame(draw);
+    }
+    initCanvas(); draw();
+    window.addEventListener('resize', initCanvas);
+
+    // 4. LOADING SEQUENCE
+    let lCount = 0;
+    let lInt = setInterval(() => {
+        lCount += Math.floor(Math.random()*5)+3; // Random jumps make it feel like "processing"
+        if(lCount >= 100) {
+            lCount = 100;
+            clearInterval(lInt);
+            document.getElementById('loader').style.transform = "translateY(-100%)";
+            
+            // Trigger Hero Reveal
+            setTimeout(() => {
+                document.getElementById('hero-sec').classList.add('reveal');
+                // Trigger Scramble on Hero Text
+                setTimeout(() => {
+                    dive(document.getElementById('scramble-hero'), 'Your Practice. Elevated.');
+                }, 600);
+            }, 800);
         }
-        const obs = new IntersectionObserver((es) => {
-            es.forEach(e => { if(e.isIntersecting) document.documentElement.style.setProperty('--accent', e.target.dataset.color); });
-        }, { threshold: 0.5 });
-        document.querySelectorAll('.project-card').forEach(p => obs.observe(p));
-    </script>
+        document.getElementById('loader-n').innerText = lCount;
+    }, 40);
+
+    // 5. INTERSECTION OBSERVER (Color Changing)
+    const obs = new IntersectionObserver((es) => {
+        es.forEach(e => {
+            if(e.isIntersecting) {
+                document.documentElement.style.setProperty('--accent', e.target.dataset.color);
+            }
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.project-card').forEach(p => obs.observe(p));
+
+</script>
 </body>
 </html>
 
