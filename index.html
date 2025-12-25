@@ -11,8 +11,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; transition: background 0.8s; }
 
-        /* PRESTIGE LOADER (Crazy Numbers) */
-        #loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1.5s cubic-bezier(1,0,0,1); }
+        /* PRESTIGE LOADER */
+        #loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1.2s cubic-bezier(1,0,0,1); }
         #loader-n { font-family: 'Cormorant Garamond'; font-size: 10vw; color: var(--accent); font-weight: 100; }
 
         #bg-canvas { position: fixed; inset: 0; z-index: -1; background: #000; }
@@ -21,24 +21,18 @@
         /* HERO SECTION */
         section { padding: 25vh 10vw; position: relative; z-index: 10; }
         .hero-tag { color: var(--accent); letter-spacing: 12px; font-size: 0.6rem; font-weight: 900; margin-bottom: 20px; display: block; opacity: 0; transition: 1s; }
-        .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 8vw, 7.5rem); line-height: 0.9; font-weight: 300; margin-bottom: 40px; min-height: 1.2em; }
+        .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 8vw, 7.5rem); line-height: 0.9; font-weight: 300; margin-bottom: 40px; min-height: 1.2em; color: #fff; }
         .hero-sub { max-width: 600px; font-size: 1.1rem; opacity: 0; line-height: 1.8; border-left: 1px solid var(--accent); padding-left: 30px; transition: 1.5s 1s forwards; }
-        
-        /* Reveal states after loader finishes */
-        .reveal .hero-tag { opacity: 0.5; }
-        .reveal .hero-sub { opacity: 0.5; }
+        .reveal .hero-tag, .reveal .hero-sub { opacity: 0.5; }
 
         /* STACKING CARDS */
-        #gallery { padding: 0 5vw; }
+        #gallery { padding: 0 5vw; position: relative; z-index: 20; }
         .project-card { 
-            position: sticky; top: 5vh; height: 90vh; width: 100%; margin-bottom: 20vh;
+            position: sticky; top: 5vh; height: 90vh; width: 100%; margin-bottom: 25vh;
             display: flex; flex-direction: column; background: var(--dark);
             border-top: 1px solid rgba(197, 163, 125, 0.15); padding-top: 20px;
         }
-        .image-frame {
-            width: 100%; height: 60vh; position: relative; overflow: hidden;
-            border: 1px solid rgba(197, 163, 125, 0.1); background: #0a0a0a;
-        }
+        .image-frame { width: 100%; height: 60vh; position: relative; overflow: hidden; border: 1px solid rgba(197, 163, 125, 0.1); }
         .image-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) grayscale(1); transition: 0.8s ease-out; }
         .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0); }
 
@@ -52,9 +46,24 @@
         }
         .image-frame:hover .view-btn { opacity: 1; }
 
-        /* FINAL FOOTER */
-        #final-section { background: #fff; color: #000; padding: 25vh 10vw; text-align: center; position: relative; z-index: 100; }
+        /* THE END OF THE WEBSITE */
+        #final-section { 
+            background: #fff; color: #000; padding: 25vh 10vw; text-align: center; 
+            position: relative; z-index: 100; 
+            box-shadow: 0 -50px 100px rgba(0,0,0,0.5);
+        }
         #shimmer-text { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 40px; }
+
+        /* GLOWING BUTTON */
+        .cta-btn {
+            display: inline-block; padding: 30px 100px; background: #000; color: #fff; 
+            text-decoration: none; font-weight: 900; letter-spacing: 8px; font-size: 0.8rem;
+            transition: 0.5s; position: relative;
+        }
+        .cta-btn:hover {
+            box-shadow: 0 0 40px rgba(197, 163, 125, 0.6);
+            transform: translateY(-5px);
+        }
 
         /* CURSOR */
         #c { position: fixed; width: 6px; height: 6px; background: #fff; z-index: 10000; pointer-events: none; mix-blend-mode: difference; }
@@ -78,7 +87,7 @@
         <div class="project-card" data-color="#4a5d4a">
             <div class="image-frame">
                 <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
-                <a href="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">VIEW WILD SELF</a>
+                <a href="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">VIEW WORKSHOP</a>
             </div>
             <div>
                 <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy Hub')" onmouseleave="dive(this, 'Nature-Informed')">Nature-Informed</h2>
@@ -89,7 +98,7 @@
         <div class="project-card" data-color="#c5a37d">
             <div class="image-frame">
                 <img src="healing.jpg"> 
-                <a href="healing.jpg" target="_blank" class="view-btn">VIEW HEALING</a>
+                <a href="healing.jpg" target="_blank" class="view-btn">VIEW SOMATIC</a>
             </div>
             <div>
                 <h2 class="scramble-title" onmouseenter="dive(this, 'Vagus Nerve Reset')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
@@ -97,7 +106,7 @@
             </div>
         </div>
 
-        <div class="project-card" data-color="#5a1a1a">
+        <div class="project-card" data-color="#7a1010">
             <div class="image-frame">
                 <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
                 <a href="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" target="_blank" class="view-btn">VIEW ANALYTICAL</a>
@@ -127,26 +136,21 @@
             <h3 style="font-size: 7rem; font-weight: 900; letter-spacing: -4px;">$599</h3>
             <p style="color: #c5a37d; font-weight: 900; letter-spacing: 6px;">FOUNDER RATE | LIMITED EDITION</p>
         </div>
-        <a href="mailto:contact@yourdomain.com" style="display:inline-block; padding: 30px 100px; background:#000; color:#fff; text-decoration:none; font-weight:900; letter-spacing:8px; font-size: 0.8rem;">START YOUR PROJECT</a>
+        <a href="mailto:contact@yourdomain.com" class="cta-btn">START YOUR PROJECT</a>
     </section>
 
     <script>
         let audioCtx;
         function resumeAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
-        
         const chars = "ABCDEFGHIJKLMNPRSTUVWXYZ0123456789!@#$%^&*";
         
-        // This handles the scrambling effect
         function dive(el, nText) {
             let it = 0;
             const iv = setInterval(() => {
-                el.innerText = nText.split("").map((l, i) => {
-                    if(i < it) return nText[i];
-                    return chars[Math.floor(Math.random() * chars.length)];
-                }).join("");
+                el.innerText = nText.split("").map((l, i) => i < it ? nText[i] : chars[Math.floor(Math.random() * chars.length)]).join("");
                 if(it >= nText.length) clearInterval(iv);
-                it += 1/3;
-            }, 30);
+                it += 1/4;
+            }, 40);
         }
 
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
@@ -174,7 +178,6 @@
         }
         init(); draw();
 
-        // THE LOADER LOGIC
         let lCount = 0;
         let lInt = setInterval(() => {
             lCount += Math.floor(Math.random()*7)+1;
@@ -183,8 +186,9 @@
                 document.getElementById('loader').style.transform = "translateY(-100%)";
                 setTimeout(() => {
                     document.getElementById('hero-sec').classList.add('reveal');
-                    // TRIGGER THE SCRAMBLE EFFECT AT START
-                    dive(document.getElementById('scramble-hero'), 'I Build Elite Therapy Websites.');
+                    setTimeout(() => {
+                        dive(document.getElementById('scramble-hero'), 'I Build Elite Therapy Websites.');
+                    }, 500);
                 }, 800);
             }
             document.getElementById('loader-n').innerText = lCount;
