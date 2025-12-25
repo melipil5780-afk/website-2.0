@@ -1,14 +1,14 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clinical Digital Architecture</title>
+<title>Sovereign | Clinical Web Architecture</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
     :root {
-        --accent: #c5a37d; /* Gold/Beige - implies luxury and warmth */
-        --dark: #080808;
+        --accent: #c5a37d;
+        --dark: #050505;
         --text-sub: #888;
     }
     
@@ -22,6 +22,12 @@
         transition: background 0.8s;
     }
 
+    /* --- MOBILE OPTIMIZATION: Restore default cursor on touch devices --- */
+    @media (pointer: coarse) {
+        * { cursor: auto !important; }
+        #c, #ca, #spotlight { display: none !important; }
+    }
+
     /* PRESTIGE LOADER */
     #loader {
         position: fixed; inset: 0; background: #000; z-index: 9999;
@@ -30,7 +36,7 @@
     }
     #loader-n {
         font-family: 'Cormorant Garamond'; font-size: 8vw; color: var(--accent);
-        font-weight: 300; letter-spacing: -2px;
+        font-weight: 300;
     }
 
     /* BACKGROUND FX */
@@ -39,309 +45,291 @@
         background: url('https://www.transparenttextures.com/patterns/stardust.png'); 
         opacity: 0.06; pointer-events: none; z-index: 1;
     }
-    #bg-canvas { position: fixed; inset: 0; z-index: -1; background: #050505; }
+    #bg-canvas { position: fixed; inset: 0; z-index: -1; background: #000; }
     
-    /* PSYCHOLOGICAL SPOTLIGHT */
-    /* This creates a vignette that focuses attention, mimicking a therapist's focus */
+    /* PSYCHOLOGICAL SPOTLIGHT (Mouse only) */
     #spotlight {
         position: fixed; inset: 0; z-index: 2; pointer-events: none;
-        background: radial-gradient(circle 600px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.85) 100%);
-        transition: 0.1s ease-out; /* Slight lag for organic feel */
+        background: radial-gradient(circle 500px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.92) 100%);
     }
 
     /* HERO SECTION */
     section { padding: 25vh 10vw; position: relative; z-index: 10; }
     
     .hero-tag {
-        color: var(--accent); letter-spacing: 8px; font-size: 0.7rem; 
+        color: var(--accent); letter-spacing: 10px; font-size: 0.7rem; 
         font-weight: 600; margin-bottom: 25px; display: block; 
-        opacity: 0; transform: translateY(20px); transition: 1s;
+        opacity: 0; transition: 1s;
     }
     
     .hero-h1 {
         font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 7vw, 6.5rem);
         line-height: 1; font-weight: 300; margin-bottom: 40px; 
-        min-height: 1.2em; color: #eee;
+        min-height: 1.2em; color: #fff;
     }
     
     .hero-sub {
         max-width: 550px; font-size: 1.05rem; opacity: 0; 
         line-height: 1.8; color: var(--text-sub);
         border-left: 1px solid var(--accent); padding-left: 30px;
-        transform: translateY(20px); transition: 1s 0.5s forwards;
+        transition: 1s 0.5s forwards;
     }
 
-    .reveal .hero-tag, .reveal .hero-sub { opacity: 1; transform: translateY(0); }
+    .reveal .hero-tag, .reveal .hero-sub { opacity: 1; }
 
-    /* STACKING CARDS / CASE STUDIES */
+    /* GALLERY / STACKING CARDS */
     #gallery { padding: 0 5vw; position: relative; z-index: 20; }
     
     .project-card {
-        position: sticky; top: 10vh; min-height: 80vh; width: 100%;
+        /* DESKTOP: Sticky effect */
+        position: sticky; top: 10vh; 
+        min-height: 90vh; width: 100%;
         margin-bottom: 15vh; display: flex; flex-direction: column;
-        background: var(--dark); 
+        background: var(--dark); /* Important: Needs solid background to cover previous card */
         border-top: 1px solid rgba(197, 163, 125, 0.2);
         padding-top: 30px;
-        transition: transform 0.5s;
+        box-shadow: 0 -20px 50px #000; /* Shadow helps separation */
     }
     
     .image-frame {
-        width: 100%; height: 50vh; position: relative; overflow: hidden;
+        width: 100%; height: 55vh; position: relative; overflow: hidden;
         border: 1px solid rgba(197, 163, 125, 0.1);
     }
     
     .image-frame img {
         width: 100%; height: 100%; object-fit: cover;
-        filter: brightness(0.5) grayscale(1) contrast(1.1);
-        transition: 1s cubic-bezier(0.22, 1, 0.36, 1);
+        filter: brightness(0.4) grayscale(1);
+        transition: 0.8s ease-out;
     }
     
-    /* Hover effect: Color restores, implying "life" returns to the practice */
-    .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0) contrast(1); transform: scale(1.02); }
+    .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0); transform: scale(1.02); }
 
     .scramble-title {
         font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 4vw, 3.5rem);
-        font-weight: 400; cursor: pointer; display: inline-block; margin-top: 25px;
-        color: #ddd;
+        font-weight: 300; cursor: pointer; display: inline-block; margin-top: 25px;
     }
     
     .explanation {
         color: var(--text-sub); font-size: 0.95rem; margin-top: 15px; 
-        max-width: 600px; line-height: 1.7; font-weight: 300;
+        max-width: 600px; line-height: 1.6;
     }
 
     .view-btn {
         position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-        padding: 15px 40px; background: rgba(255,255,255,0.9); color: #000;
-        font-weight: 600; letter-spacing: 4px; font-size: 0.6rem;
-        opacity: 0; transition: 0.4s; text-decoration: none; z-index: 50;
+        padding: 15px 40px; background: #fff; color: #000; font-weight: 700;
+        letter-spacing: 4px; font-size: 0.6rem; opacity: 0; transition: 0.4s;
+        text-decoration: none; z-index: 50;
     }
     .image-frame:hover .view-btn { opacity: 1; }
 
+    /* --- MOBILE BREAKPOINTS --- */
+    @media (max-width: 768px) {
+        section { padding: 15vh 5vw; }
+        
+        .project-card {
+            position: relative; /* Disable sticky on mobile */
+            top: auto;
+            min-height: auto;
+            margin-bottom: 100px; /* Standard spacing */
+            height: auto;
+        }
+        
+        .image-frame { height: 40vh; }
+        .hero-h1 { font-size: 3rem; }
+        
+        /* Disable spotlight on mobile */
+        #spotlight { display: none; }
+    }
+
     /* FINAL PITCH */
     #final-section {
-        background: #f4f4f4; color: #111; padding: 20vh 10vw; 
+        background: #fff; color: #000; padding: 20vh 10vw; 
         text-align: center; position: relative; z-index: 100;
     }
-    
     #shimmer-text {
-        font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 4.5vw, 4rem);
-        line-height: 1.1; margin-bottom: 50px; font-weight: 400;
+        font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 4.5rem);
+        line-height: 1.1; margin-bottom: 40px;
     }
-    
-    .quote-box {
-        max-width: 700px; margin: 0 auto 60px auto;
-        font-style: italic; opacity: 0.7; font-size: 1.1rem;
-        font-family: 'Cormorant Garamond';
-    }
-
-    /* CTA BUTTON */
     .cta-btn {
         display: inline-block; padding: 25px 80px; background: #000; color: #fff;
-        text-decoration: none; font-weight: 600; letter-spacing: 6px;
-        font-size: 0.75rem; transition: 0.4s; position: relative;
+        text-decoration: none; font-weight: 700; letter-spacing: 6px;
+        font-size: 0.8rem; transition: 0.4s;
     }
     .cta-btn:hover {
-        transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.3); transform: translateY(-5px);
     }
 
-    /* CUSTOM CURSOR */
-    #c {
-        position: fixed; width: 6px; height: 6px; background: #fff; 
-        z-index: 10000; pointer-events: none; mix-blend-mode: difference;
-        border-radius: 50%;
-    }
-    #ca {
-        position: fixed; width: 50px; height: 50px; 
-        border: 1px solid rgba(255,255,255,0.3); border-radius: 50%; 
-        z-index: 10000; pointer-events: none; transition: 0.15s ease-out;
-    }
+    /* CURSOR ELEMENTS */
+    #c { position: fixed; width: 6px; height: 6px; background: #fff; z-index: 10000; pointer-events: none; mix-blend-mode: difference; border-radius: 50%; }
+    #ca { position: fixed; width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; z-index: 10000; pointer-events: none; transition: 0.1s; }
 
 </style>
 </head>
-<body onmousemove="moveSpotlight(event)">
+<body onmousemove="moveStuff(event)">
 
 <div id="loader"><div id="loader-n">0</div></div>
 <div id="noise"></div>
-<div id="spotlight"></div> <canvas id="bg-canvas"></canvas>
+<div id="spotlight"></div>
+<canvas id="bg-canvas"></canvas>
+
 <div id="c"></div><div id="ca"></div>
 
 <section id="hero-sec">
-    <span class="hero-tag">CLINICAL DIGITAL ARCHITECTURE</span>
-    
+    <span class="hero-tag">SITENAME | CLINICAL ARCHITECTURE</span>
     <h1 class="hero-h1" id="scramble-hero"></h1>
-    
     <p class="hero-sub">
-        Your clinical expertise is elite. Your digital presence is... outdated.
+        Your expertise is clinical. Your digital presence should be too.
         I translate your therapeutic modality into a digital environment where clients feel safe before they even book.
     </p>
 </section>
 
 <div id="gallery">
+
     <div class="project-card" data-color="#4a5d4a">
         <div class="image-frame">
-            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop" alt="Nature Therapy">
+            <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="Nature Workshop">
             <a href="#" class="view-btn">ENTER ENVIRONMENT</a>
         </div>
         <div>
             <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy Hub')" onmouseleave="dive(this, 'The Grounded Space')">The Grounded Space</h2>
             <p class="explanation">
-                <strong>The Goal:</strong> To lower the user's cortisol immediately. <br>
-                Designed for a holistic practice, this architecture uses deep organic tones to simulate a forest walk, pre-regulating the client's nervous system.
+                <strong>The Goal:</strong> To lower cortisol immediately.<br>
+                Designed for holistic practices, this architecture uses deep organic tones to simulate a forest walk, pre-regulating the client's nervous system.
             </p>
         </div>
     </div>
 
     <div class="project-card" data-color="#c5a37d">
         <div class="image-frame">
-            <img src="https://images.unsplash.com/photo-1515984977862-1c7201ef324d?q=80&w=2669&auto=format&fit=crop" alt="Somatic Therapy">
+            <img src="healing.jpg" alt="Somatic Healing">
             <a href="#" class="view-btn">ENTER ENVIRONMENT</a>
         </div>
         <div>
             <h2 class="scramble-title" onmouseenter="dive(this, 'Trauma Center')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
             <p class="explanation">
-                <strong>The Goal:</strong> Digital containment. <br>
+                <strong>The Goal:</strong> Digital containment.<br>
                 For trauma-informed work, the site structure must be predictable. We used soft transitions and open typography to prevent cognitive overload.
             </p>
         </div>
     </div>
 
-    <div class="project-card" data-color="#8c8c8c">
+    <div class="project-card" data-color="#7a1010">
         <div class="image-frame">
-            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop" alt="Modern Psychology">
+            <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Analytical">
             <a href="#" class="view-btn">ENTER ENVIRONMENT</a>
         </div>
         <div>
-            <h2 class="scramble-title" onmouseenter="dive(this, 'Private Practice')" onmouseleave="dive(this, 'The Authority')">The Authority</h2>
+            <h2 class="scramble-title" onmouseenter="dive(this, 'Shadow Mapping')" onmouseleave="dive(this, 'The Analytical Soul')">The Analytical Soul</h2>
             <p class="explanation">
-                <strong>The Goal:</strong> Justifying the private-pay rate. <br>
+                <strong>The Goal:</strong> Depth and Reflection.<br>
+                Built for psychoanalysis and depth psychology. A dark, layered design that mirrors the complexity of the subconscious mind.
+            </p>
+        </div>
+    </div>
+
+    <div class="project-card" data-color="#c5a37d">
+        <div class="image-frame">
+            <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Clinical Precision">
+            <a href="#" class="view-btn">ENTER ENVIRONMENT</a>
+        </div>
+        <div>
+            <h2 class="scramble-title" onmouseenter="dive(this, 'Metric Logic')" onmouseleave="dive(this, 'Clinical Precision')">Clinical Precision</h2>
+            <p class="explanation">
+                <strong>The Goal:</strong> Justifying the private-pay rate.<br>
                 Minimalist. Academic. High-End. This design filters out low-intent leads and signals to high-functioning clients that you are an expert.
             </p>
         </div>
     </div>
+
 </div>
 
 <section id="final-section">
     <h2 id="shimmer-text">You ask your clients to do the work.<br>Your website should do the same.</h2>
-    
     <div style="margin: 50px 0;">
-        <p class="quote-box">
-            "Before this redesign, clients were confused about my process. Now, the website answers their anxieties for me. The intake calls are shorter, and the clients are better fits."
-        </p>
-
-        <p style="opacity: 0.4; text-decoration: line-through; letter-spacing: 2px;">AGENCY PRICE: $3,500</p>
-        <h3 style="font-size: 5rem; font-weight: 900; letter-spacing: -2px; margin: 10px 0;">$599</h3>
-        <p style="color: #c5a37d; font-weight: 700; letter-spacing: 4px;">PRACTICE LAUNCH RATE</p>
+        <p style="opacity: 0.4; text-decoration: line-through;">VALUED AT $2,499</p>
+        <h3 style="font-size: 7rem; font-weight: 900; letter-spacing: -4px;">$599</h3>
+        <p style="color: #c5a37d; font-weight: 900; letter-spacing: 6px;">FOUNDER RATE | LIMITED EDITION</p>
     </div>
-    
     <a href="mailto:contact@yourdomain.com" class="cta-btn">AUDIT MY CURRENT SITE</a>
 </section>
 
 <script>
-    // 1. FASTER SCRAMBLE LOGIC
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    
+    const chars = "ABCDEFGHIJKLMNPRSTUVWXYZ0123456789";
+
+    // 1. FASTER SCRAMBLE (High Velocity)
     function dive(el, nText) {
         let it = 0;
-        clearInterval(el.interval); // Clear any existing interval to prevent bugs
-        
-        el.interval = setInterval(() => {
+        clearInterval(el.iv);
+        el.iv = setInterval(() => {
             el.innerText = nText.split("").map((l, i) => {
                 if(i < it) return nText[i];
                 return chars[Math.floor(Math.random() * chars.length)];
             }).join("");
             
-            // Stop when done
-            if(it >= nText.length) {
-                clearInterval(el.interval);
-                el.innerText = nText; // Ensure clean finish
-            }
-            
-            // SPEED INCREASE:
-            // Increment by 1 full letter per cycle (instead of 1/4)
-            // This is 4x faster logically
-            it += 1; 
-        }, 25); // SPEED INCREASE: Reduced timing from 40ms to 25ms
+            if(it >= nText.length) clearInterval(el.iv);
+            it += 1; // Faster increment (1 full letter per cycle)
+        }, 25); // Faster interval (25ms)
     }
 
-    // 2. PSYCHOLOGICAL SPOTLIGHT
-    function moveSpotlight(e) {
-        const x = e.clientX;
-        const y = e.clientY;
+    // 2. MOUSE MOVEMENT HANDLER
+    function moveStuff(e) {
         const spot = document.getElementById('spotlight');
-        // Using CSS variables makes the update instant but the CSS 'transition' creates the lag
-        spot.style.setProperty('--x', x + 'px');
-        spot.style.setProperty('--y', y + 'px');
+        if(spot) {
+            spot.style.setProperty('--x', e.clientX + 'px');
+            spot.style.setProperty('--y', e.clientY + 'px');
+        }
         
-        // Handle Cursor
-        document.getElementById('c').style.left = x + 'px';
-        document.getElementById('c').style.top = y + 'px';
-        document.getElementById('ca').style.left = (x - 25) + 'px';
-        document.getElementById('ca').style.top = (y - 25) + 'px';
+        const c = document.getElementById('c');
+        const ca = document.getElementById('ca');
+        if(c && ca) {
+            c.style.left = e.clientX+'px';
+            c.style.top = e.clientY+'px';
+            ca.style.left = (e.clientX-20)+'px';
+            ca.style.top = (e.clientY-20)+'px';
+        }
     }
 
-    // 3. CANVAS BACKGROUND (Subtle Geometry)
+    // 3. CANVAS BACKGROUND
     const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
     let dots = [];
-    function initCanvas() {
+    function init() {
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        dots = Array.from({length: 40}, () => ({ 
-            x: Math.random()*canvas.width, y: Math.random()*canvas.height, 
-            vx: (Math.random()-0.5)*0.2, vy: (Math.random()-0.5)*0.2 
-        }));
+        dots = Array.from({length: 50}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3 }));
     }
     function draw() {
         ctx.clearRect(0,0,canvas.width, canvas.height);
         dots.forEach((d, i) => {
             d.x += d.vx; d.y += d.vy;
             if(d.x<0||d.x>canvas.width) d.vx*=-1; if(d.y<0||d.y>canvas.height) d.vy*=-1;
-            
-            // Draw subtle lines connecting dots (Networking/Synapses metaphor)
-            dots.slice(i+1).forEach(d2 => {
-                let dist = Math.hypot(d.x-d2.x, d.y-d2.y);
-                if(dist < 150) {
-                    ctx.strokeStyle = `rgba(197, 163, 125, ${0.1 - dist/1500})`;
-                    ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y); ctx.stroke();
-                }
-            });
+            ctx.fillStyle = "rgba(197, 163, 125, 0.3)";
+            ctx.beginPath(); ctx.arc(d.x, d.y, 1, 0, Math.PI*2); ctx.fill();
         });
         requestAnimationFrame(draw);
     }
-    initCanvas(); draw();
-    window.addEventListener('resize', initCanvas);
+    init(); draw();
 
-    // 4. LOADING SEQUENCE
+    // 4. LOADER & HERO REVEAL
     let lCount = 0;
     let lInt = setInterval(() => {
-        lCount += Math.floor(Math.random()*5)+3; // Random jumps make it feel like "processing"
+        lCount += Math.floor(Math.random()*10)+1;
         if(lCount >= 100) {
-            lCount = 100;
-            clearInterval(lInt);
+            lCount = 100; clearInterval(lInt);
             document.getElementById('loader').style.transform = "translateY(-100%)";
-            
-            // Trigger Hero Reveal
             setTimeout(() => {
                 document.getElementById('hero-sec').classList.add('reveal');
-                // Trigger Scramble on Hero Text
-                setTimeout(() => {
-                    dive(document.getElementById('scramble-hero'), 'Your Practice. Elevated.');
-                }, 600);
+                setTimeout(() => { 
+                    dive(document.getElementById('scramble-hero'), 'I Build Elite Therapy Websites.'); 
+                }, 500);
             }, 800);
         }
         document.getElementById('loader-n').innerText = lCount;
     }, 40);
 
-    // 5. INTERSECTION OBSERVER (Color Changing)
+    // 5. COLOR CHANGER
     const obs = new IntersectionObserver((es) => {
-        es.forEach(e => {
-            if(e.isIntersecting) {
-                document.documentElement.style.setProperty('--accent', e.target.dataset.color);
-            }
-        });
+        es.forEach(e => { if(e.isIntersecting) document.documentElement.style.setProperty('--accent', e.target.dataset.color); });
     }, { threshold: 0.5 });
     document.querySelectorAll('.project-card').forEach(p => obs.observe(p));
-
 </script>
 </body>
 </html>
-
