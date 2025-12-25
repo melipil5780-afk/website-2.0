@@ -3,213 +3,264 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Architecture | Ultimate Reality</title>
+    <title>Elite Clinician Portfolios | Premier Developer</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600&family=Montserrat:wght@100;400;900&display=swap" rel="stylesheet">
     
     <style>
-        :root { --dark: #020202; --gold: #c5a37d; --accent: #8e2121; }
+        :root { --gold: #c5a37d; --dark: #020203; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-        /* --- FILM NOIR OVERLAYS --- */
-        #noise-layer {
+        /* --- 1. CINEMATIC TEXTURE & LIGHTING --- */
+        #film-grain {
             position: fixed; inset: -50%; width: 200%; height: 200%;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
             opacity: 0.12; z-index: 10000; pointer-events: none;
-            animation: grain 0.2s steps(4) infinite;
+            animation: grain 0.3s steps(5) infinite;
         }
-        @keyframes grain { 
-            0% { transform: translate(0,0); } 10% { transform: translate(-1%,-1%); } 
-            20% { transform: translate(1%,1%); } 100% { transform: translate(0,0); }
-        }
+        @keyframes grain { 0%, 100% { transform:translate(0,0); } 50% { transform:translate(-1%, -1%); } }
 
         #vignette {
             position: fixed; inset: 0; z-index: 9999;
-            background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.9) 100%);
+            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.95) 100%);
             pointer-events: none;
         }
 
-        /* --- GENERATIVE BACKGROUND --- */
-        #bg-canvas { position: fixed; inset: 0; z-index: -1; filter: blur(1px); }
+        /* --- 2. LUXURY LOADER (CLINICAL STATUS) --- */
+        #loader {
+            position: fixed; inset: 0; background: #000; z-index: 20000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1.5s ease;
+        }
+        #loader-num { font-family: 'Cormorant Garamond'; font-size: 10rem; color: var(--gold); font-weight: 100; line-height: 1; }
+        #loader-status { font-size: 0.6rem; letter-spacing: 5px; color: var(--gold); margin-top: 20px; font-weight: 800; text-transform: uppercase; }
 
-        /* --- MOUSE INTERACTIVE ELEMENTS --- */
-        #cursor { width: 8px; height: 8px; background: #fff; border-radius: 50%; position: fixed; pointer-events: none; z-index: 20000; mix-blend-mode: difference; transition: transform 0.2s; }
-        #cursor-aura { width: 50px; height: 50px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; pointer-events: none; z-index: 20000; transition: 0.15s ease-out; }
+        /* --- 3. DYNAMIC BACKGROUND --- */
+        #canvas-bg { position: fixed; inset: 0; z-index: -1; opacity: 0.4; }
 
-        /* --- LAYOUT & TYPOGRAPHY --- */
-        section { position: relative; min-height: 100vh; padding: 15vh 10vw; display: flex; flex-direction: column; justify-content: center; }
-        
+        /* --- 4. TYPOGRAPHY --- */
+        section { padding: 25vh 10vw; min-height: 100vh; position: relative; }
         .hero-h1 { 
-            font-family: 'Cormorant Garamond'; font-size: clamp(5rem, 15vw, 12rem); 
-            line-height: 0.8; font-weight: 300; letter-spacing: -4px; 
-            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            font-family: 'Cormorant Garamond'; font-size: clamp(3.5rem, 11vw, 9rem); 
+            line-height: 0.85; font-weight: 300; margin-bottom: 40px;
         }
+        .hero-sub { max-width: 600px; opacity: 0.5; line-height: 1.8; border-left: 2px solid var(--gold); padding-left: 30px; font-size: 1.1rem; }
 
-        /* --- DISCOVERY GALLERY --- */
-        .project-card {
-            position: relative; width: 100%; height: 80vh; margin: 10vh 0;
-            overflow: hidden; border: 1px solid rgba(197, 163, 125, 0.1);
-            background: #000; transform: skewY(-1deg); transition: 1.5s ease;
-        }
-        .project-card:hover { transform: skewY(0deg) scale(1.02); border-color: var(--gold); }
+        /* --- 5. THEATER REVEAL (THE DOLLY ZOOM) --- */
+        .project-block { margin: 15vh 0; }
+        .tag { color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; font-weight: 900; margin-bottom: 15px; display: block; }
         
-        .project-card img {
-            width: 100%; height: 120%; object-fit: cover; object-position: top;
-            filter: brightness(0.3) grayscale(0.5); transition: 2s cubic-bezier(0.19, 1, 0.22, 1);
+        .theater-box {
+            width: 100%; height: 0; overflow: hidden;
+            border: 1px solid rgba(197, 163, 125, 0.2); background: #000;
+            transition: height 2.5s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
         }
-        .project-card:hover img { filter: brightness(0.8) grayscale(0); transform: translateY(-10%); }
+        .theater-box.active { height: 75vh; }
+        
+        .theater-box img { 
+            width: 100%; height: 120%; object-fit: cover; 
+            filter: brightness(0.2) grayscale(0.5);
+            transition: 3s cubic-bezier(0.19, 1, 0.22, 1);
+            transform: scale(1.3); /* Dolly start */
+        }
+        .theater-box.active img { transform: scale(1); } /* Dolly end */
+        .theater-box:hover img { filter: brightness(0.9) grayscale(0); }
 
-        .explore-btn {
+        .view-box {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            padding: 20px 40px; border: 1px solid #fff; color: #fff; text-transform: uppercase;
-            letter-spacing: 5px; font-size: 0.7rem; opacity: 0; transition: 0.5s;
+            padding: 20px 50px; border: 1px solid #fff; background: rgba(0,0,0,0.6);
+            color: #fff; letter-spacing: 5px; font-weight: 900; font-size: 0.7rem;
+            opacity: 0; transition: 0.8s; backdrop-filter: blur(10px);
         }
-        .project-card:hover .explore-btn { opacity: 1; backdrop-filter: blur(10px); }
+        .theater-box:hover .view-box { opacity: 1; }
 
-        /* --- PRICE REVEAL --- */
+        /* --- 6. PRICE TAG REVEAL --- */
         #price-tag {
-            position: fixed; top: 40px; right: 40px; z-index: 11000;
-            padding: 30px; background: rgba(0,0,0,0.9); border: 1px solid var(--accent);
-            transform: translateX(200%); transition: 1s cubic-bezier(0.19, 1, 0.22, 1);
+            position: fixed; top: 40px; right: 40px; z-index: 15000;
+            background: rgba(0,0,0,0.95); border: 1px solid #8e2121;
+            padding: 30px; opacity: 0; transform: translateX(100px); transition: 1.5s ease;
         }
-        #price-tag.active { transform: translateX(0); }
+        #price-tag.show { opacity: 1; transform: translateX(0); }
 
-        /* --- LIGHTBOX --- */
+        /* --- 7. LIGHTBOX & CURSOR --- */
         #lightbox {
-            position: fixed; inset: 0; z-index: 30000; background: rgba(0,0,0,0.98);
-            display: none; flex-direction: column; align-items: center; padding: 100px 5vw;
-            overflow-y: auto;
+            position: fixed; inset: 0; z-index: 30000; background: #000;
+            display: none; justify-content: center; padding: 100px 5vw; overflow-y: auto;
         }
-        #lb-img { width: 100%; max-width: 1200px; border: 1px solid var(--gold); box-shadow: 0 0 100px rgba(0,0,0,1); }
-        #lb-close { position: fixed; top: 40px; right: 50px; font-size: 3rem; font-weight: 100; transition: 0.3s; }
-        #lb-close:hover { color: var(--gold); transform: rotate(90deg); }
+        #lb-img { width: 100%; max-width: 1200px; border: 1px solid var(--gold); }
+        #lb-close { position: fixed; top: 40px; right: 50px; font-size: 4rem; cursor: pointer; font-weight: 100; color: #fff; }
 
-        /* --- ANIMATIONS --- */
-        .reveal { opacity: 0; filter: blur(50px); transform: translateY(100px); transition: 2.5s cubic-bezier(0.19, 1, 0.22, 1); }
-        .reveal.active { opacity: 1; filter: blur(0); transform: translateY(0); }
-
-        .manifesto-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; }
+        #cursor { width: 6px; height: 6px; background: #fff; position: fixed; z-index: 40000; pointer-events: none; mix-blend-mode: difference; }
+        #cursor-aura { width: 40px; height: 40px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; z-index: 40000; pointer-events: none; transition: 0.15s ease-out; }
     </style>
 </head>
-<body>
+<body onclick="startExperience()">
 
-    <div id="noise-layer"></div>
+    <div id="loader">
+        <div id="loader-num">0</div>
+        <div id="loader-status">INITIALIZING SYSTEMS...</div>
+    </div>
+
+    <div id="film-grain"></div>
     <div id="vignette"></div>
-    <canvas id="bg-canvas"></canvas>
+    <canvas id="canvas-bg"></canvas>
     
-    <div id="cursor"></div><div id="cursor-aura"></div>
+    <div id="cursor"></div>
+    <div id="cursor-aura"></div>
 
     <div id="price-tag">
-        <p style="text-decoration: line-through; opacity: 0.4; font-size: 0.8rem;">EST. VALUE $2,499</p>
-        <h2 style="font-size: 3.5rem; font-weight: 900; color: #fff;">$599</h2>
-        <p style="color: var(--gold); letter-spacing: 2px; font-size: 0.6rem; font-weight: 800; margin-top: 10px;">FOUNDER PRIVILEGE ACTIVE</p>
+        <p style="text-decoration: line-through; opacity: 0.3; font-size: 0.7rem; letter-spacing: 2px;">EST. $2,499</p>
+        <h2 style="font-size: 3rem; font-weight: 900; margin: 5px 0;">$599</h2>
+        <p style="color: var(--gold); letter-spacing: 3px; font-size: 0.5rem; font-weight: 800;">FOUNDER PRIVILEGE: ACTIVE</p>
     </div>
 
-    <div id="lightbox">
-        <div id="lb-close">&times;</div>
-        <img src="" id="lb-img">
-    </div>
+    <div id="lightbox"><span id="lb-close">&times;</span><img id="lb-img"></div>
 
     <section>
-        <h1 class="hero-h1 reveal">Clinical<br>Architecture.</h1>
-        <div class="reveal" style="width: 100px; hieght: 1px; border-bottom: 1px solid var(--gold); margin: 40px 0;"></div>
-        <p class="reveal" style="max-width: 400px; font-weight: 100; opacity: 0.5; letter-spacing: 1px; line-height: 2;">
-            We do not use templates. We do not follow trends. We manifest psychological authority through digital physics.
+        <span class="tag">PREMIER THERAPY WEB DEVELOPMENT</span>
+        <h1 class="hero-h1">Developing Elite<br>Digital Architecture.</h1>
+        <p class="hero-sub">
+            I architect high-authority digital experiences for clinicians. No templates. No vague design. Just pure clinical precision translated into a world-class digital presence.
         </p>
     </section>
 
     <section id="p1">
-        <h2 class="reveal" style="font-family:'Cormorant Garamond'; font-size: 4rem;">01. Clinical</h2>
-        <div class="project-card reveal" onclick="show('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
-            <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-            <div class="explore-btn">Enter Architecture</div>
+        <div class="project-block">
+            <span class="tag">01. CLINICAL LOGIC</span>
+            <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 20px;">CBT & Measurables</h2>
+            <div class="theater-box">
+                <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+                <div class="view-box" onclick="openLB('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">VIEW CASE STUDY</div>
+            </div>
         </div>
     </section>
 
     <section id="p2">
-        <h2 class="reveal" style="font-family:'Cormorant Garamond'; font-size: 4rem;">02. Organic</h2>
-        <div class="project-card reveal" onclick="show('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
-            <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
-            <div class="explore-btn">Enter Architecture</div>
+        <div class="project-block">
+            <span class="tag">02. ORGANIC DEPTH</span>
+            <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 20px;">The Wild Self</h2>
+            <div class="theater-box">
+                <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
+                <div class="view-box" onclick="openLB('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">VIEW CASE STUDY</div>
+            </div>
         </div>
     </section>
 
     <section id="p3">
-        <h2 class="reveal" style="font-family:'Cormorant Garamond'; font-size: 4rem;">03. Healing</h2>
-        <div class="project-card reveal" onclick="show('healing.jpg')">
-            <img src="healing.jpg">
-            <div class="explore-btn">Enter Architecture</div>
+        <div class="project-block">
+            <span class="tag">03. SOMATIC SAFETY</span>
+            <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 20px;">Trauma-Informed</h2>
+            <div class="theater-box">
+                <img src="healing.jpg">
+                <div class="view-box" onclick="openLB('healing.jpg')">VIEW CASE STUDY</div>
+            </div>
         </div>
     </section>
 
-    <section class="manifesto-section">
-        <div class="reveal">
-            <h2 style="font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; text-transform: uppercase; letter-spacing: -5px;">Whatever you envision,<br>we build.</h2>
-            <p style="max-width: 600px; margin: 40px auto; line-height: 2; opacity: 0.7;">Your practice is unique. Your website should be a mirror of your professional soul. We create anything you ask for to manifest the perfect therapy website.</p>
-            <a href="mailto:your@email.com" style="display:inline-block; padding: 30px 100px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 5px;">SECURE THE FOUNDER RATE</a>
+    <section id="p4">
+        <div class="project-block">
+            <span class="tag">04. ANALYTICAL REFLECTION</span>
+            <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 20px;">Psychodynamic Depth</h2>
+            <div class="theater-box">
+                <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
+                <div class="view-box" onclick="openLB('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">VIEW CASE STUDY</div>
+            </div>
         </div>
+    </section>
+
+    <section style="background:#fff; color:#000; text-align:center;">
+        <h2 style="font-family:'Cormorant Garamond'; font-size: clamp(3rem, 10vw, 6rem); font-weight: 300; letter-spacing: -3px;">Whatever you envision,<br>we build.</h2>
+        <p style="max-width: 600px; margin: 40px auto; font-size: 1.2rem; opacity: 0.7; line-height: 1.8;">Secure your founder's rate. Custom architecture for bespoke clinicians.</p>
+        <a href="mailto:contact@yourdomain.com" style="display:inline-block; padding: 30px 100px; background:#000; color:#fff; text-decoration:none; font-weight:900; letter-spacing:5px; font-size: 0.8rem;">BEGIN APPLICATION</a>
     </section>
 
     <script>
-        // --- 1. GENERATIVE PHYSICS BACKGROUND ---
-        const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
-        let particles = [], mouse = { x: -100, y: -100 };
+        // --- 1. LOADER STATUS MESSAGES ---
+        const statuses = [
+            { limit: 25, msg: "Analyzing Clinical Requirements..." },
+            { limit: 50, msg: "Styling Psychodynamic Depth..." },
+            { limit: 75, msg: "Optimizing CBT Logic Structures..." },
+            { limit: 100, msg: "Finalizing Elite Architecture..." }
+        ];
 
-        function init() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            particles = Array.from({length: 100}, () => ({
-                x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-                size: Math.random()*2, speedX: (Math.random()-0.5)*0.5, speedY: (Math.random()-0.5)*0.5
-            }));
-        }
-
-        function animate() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            particles.forEach((p, i) => {
-                p.x += p.speedX; p.y += p.speedY;
-                if(p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-                if(p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-
-                ctx.fillStyle = `rgba(197, 163, 125, ${0.3})`;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
-
-                for(let j = i; j < particles.length; j++){
-                    let dx = p.x - particles[j].x, dy = p.y - particles[j].y, dist = Math.hypot(dx, dy);
-                    if(dist < 150) {
-                        ctx.strokeStyle = `rgba(197, 163, 125, ${0.15 - dist/1000})`;
-                        ctx.lineWidth = 0.5; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
-                    }
+        let count = 0;
+        let loaderInt = setInterval(() => {
+            count += Math.floor(Math.random() * 3) + 1;
+            if (count >= 100) {
+                count = 100; clearInterval(loaderInt);
+                setTimeout(() => document.getElementById('loader').style.opacity = '0', 800);
+                setTimeout(() => document.getElementById('loader').style.display = 'none', 2300);
+            }
+            document.getElementById('loader-num').innerText = count;
+            
+            statuses.forEach(s => {
+                if (count <= s.limit && count > (s.limit - 25)) {
+                    document.getElementById('loader-status').innerText = s.msg;
                 }
             });
-            requestAnimationFrame(animate);
+        }, 60);
+
+        // --- 2. CINEMATIC BACKGROUND (PARTICLES) ---
+        const canvas = document.getElementById('canvas-bg'), ctx = canvas.getContext('2d');
+        let pts = [];
+        function init() {
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+            pts = Array.from({length: 45}, () => ({
+                x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+                vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25,
+                s: Math.random()*1.2
+            }));
         }
+        function draw() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            pts.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if(p.x<0||p.x>canvas.width) p.vx*=-1; if(p.y<0||p.y>canvas.height) p.vy*=-1;
+                ctx.fillStyle = 'rgba(197, 163, 125, 0.4)';
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI*2); ctx.fill();
+            });
+            requestAnimationFrame(draw);
+        }
+        init(); draw();
 
-        // --- 2. INTERACTIVE REVEAL & MOUSE ---
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX; mouse.y = e.clientY;
-            document.getElementById('cursor').style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-            document.getElementById('cursor-aura').style.transform = `translate(${e.clientX-25}px, ${e.clientY-25}px)`;
-        });
+        // --- 3. THEATER REVEAL OBSERVER ---
+        const obs = new IntersectionObserver((ents) => {
+            ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.theater-box').forEach(el => obs.observe(el));
 
-        // --- 3. PRICE REVEAL LOGIC ---
+        // --- 4. SCROLL & MOUSE DYNAMICS ---
         window.addEventListener('scroll', () => {
-            const p3 = document.getElementById('p3'), tag = document.getElementById('price-tag');
-            if(p3.getBoundingClientRect().top < window.innerHeight * 0.5) tag.classList.add('active');
-            
-            // Subtle Parallax for Hero
-            const h1 = document.querySelector('.hero-h1');
-            h1.style.transform = `translateY(${window.scrollY * 0.3}px)`;
+            if(document.getElementById('p3').getBoundingClientRect().top < window.innerHeight/2)
+                document.getElementById('price-tag').classList.add('show');
         });
 
-        // --- 4. LIGHTBOX ---
-        const lb = document.getElementById('lightbox'), lbi = document.getElementById('lb-img');
-        function show(s) { lbi.src = s; lb.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
-        document.getElementById('lb-close').onclick = () => { lb.style.display = 'none'; document.body.style.overflow = 'auto'; };
+        window.addEventListener('mousemove', (e) => {
+            document.getElementById('cursor').style.left = e.clientX+'px';
+            document.getElementById('cursor').style.top = e.clientY+'px';
+            document.getElementById('cursor-aura').style.left = (e.clientX-20)+'px';
+            document.getElementById('cursor-aura').style.top = (e.clientY-20)+'px';
+        });
 
-        const obs = new IntersectionObserver((ents) => { ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-        init(); animate();
+        // --- 5. LIGHTBOX LOGIC ---
+        function openLB(s) { document.getElementById('lb-img').src = s; document.getElementById('lightbox').style.display='flex'; document.body.style.overflow='hidden'; }
+        document.getElementById('lb-close').onclick = () => { document.getElementById('lightbox').style.display='none'; document.body.style.overflow='auto'; }
+
+        // --- 6. 432Hz AUDIO DRONE ---
+        let audioCtx;
+        function startExperience() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(43.2, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.012, audioCtx.currentTime);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start();
+            }
+        }
     </script>
 </body>
 </html>
