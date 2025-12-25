@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cultural stories vs. personal truth | Journal</title>
+    <title>Professional Web Design for Therapists</title>
     
+    <!-- Fixed Google Fonts link: Added 'wght' properly to the ital specifier -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
@@ -14,7 +15,7 @@
             --stone: #f4f2ef; 
             --gold: #b2937d; 
             --white: #ffffff; 
-            --urgent: #b33939;
+            --urgent: #b33939; /* Elegant Red for Price */
             --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -24,11 +25,10 @@
             font-family: 'Inter', sans-serif; 
             background-color: var(--stone); 
             color: var(--ink); 
-            line-height: 1.8; 
-            text-align: left;
-            opacity: 0;
-            animation: fadeInPage 1.8s ease-out forwards;
-            padding: 60px 20px;
+            line-height: 1.7; 
+            text-align: center; 
+            opacity: 0; /* Start hidden for fade-in */
+            animation: fadeInPage 1.5s ease-out forwards; /* Page appears out of nowhere (fade-in) */
         }
         
         @keyframes fadeInPage {
@@ -36,130 +36,184 @@
             to { opacity: 1; }
         }
 
-        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
-        .container { max-width: 800px; margin: 0 auto; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; margin: 0 auto; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 30px; }
 
-        header { text-align: center; margin-bottom: 80px; }
-        header h1 { font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 20px; }
-        header .subtitle { font-style: italic; color: var(--sage); font-size: 1.3rem; }
+        nav { padding: 50px 0; display: flex; justify-content: center; position: absolute; width: 100%; z-index: 100; }
+        nav a { text-decoration: none; color: var(--white); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; }
 
-        article section { margin-bottom: 100px; }
-        article h2 { font-size: 2.4rem; margin-bottom: 30px; text-align: center; }
-        article p { font-size: 1.15rem; margin-bottom: 24px; color: #333; }
+        header { 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; 
+            color: var(--white); 
+            padding: 0 20px;
+        }
 
-        .pull-quote {
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            font-size: 1.8rem;
-            color: var(--sage);
-            text-align: center;
-            margin: 60px auto;
-            padding: 40px 20px;
-            max-width: 700px;
-            border-top: 1px solid var(--gold);
-            border-bottom: 1px solid var(--gold);
+        /* Hero text animation: Letters "come down" (drop in with slight bounce) */
+        .hero-content h1 span {
+            display: inline-block;
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 1s ease-out;
-        }
-        .pull-quote.active { opacity: 1; transform: translateY(0); }
-
-        hr.divider {
-            border: none;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--gold), transparent);
-            margin: 80px auto;
-            max-width: 300px;
+            transform: translateY(-50px);
+            animation: dropInLetter 0.8s ease-out forwards;
+            animation-delay: calc(0.05s * var(--letter-index));
         }
 
-        footer { text-align: center; padding: 60px 0; color: var(--sage); font-size: 0.9rem; }
-        footer a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--gold); }
+        @keyframes dropInLetter {
+            0% { opacity: 0; transform: translateY(-50px); }
+            60% { opacity: 1; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s ease-out; }
+        /* Polished "What We Do" Section: Simpler text, easier to read, shorter sentences */
+        .process-section { padding: 140px 0; background: var(--stone); }
+        .fancy-text { font-style: italic; color: var(--sage); font-size: 1.2rem; margin-bottom: 20px; display: block; }
+        .process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; text-align: left; margin-top: 60px; }
+        .process-description h2 { font-size: 3rem; margin-bottom: 30px; line-height: 1.2; text-align: left; }
+        .process-description p { font-size: 1.1rem; color: #555; margin-bottom: 20px; }
+
+        .cta-button { 
+            padding: 22px 50px; background: var(--white); color: var(--ink); 
+            text-decoration: none; text-transform: uppercase; letter-spacing: 3px; 
+            font-weight: 600; font-size: 0.9rem; display: inline-block; 
+            transition: var(--transition); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .cta-button:hover { background: var(--gold); color: white; transform: translateY(-5px); }
+
+        #portfolio { padding: 140px 0; background: var(--white); }
+        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 80px; }
+        
+        .portfolio-item { 
+            cursor: pointer; height: 500px; border: 1px solid #e0e0e0; 
+            transition: var(--transition); overflow: hidden; position: relative;
+        }
+        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: 0.8s ease; }
+        .portfolio-item:hover img { transform: scale(1.05); }
+
+        .portfolio-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3); display: flex; align-items: center; 
+            justify-content: center; opacity: 0; transition: 0.3s;
+        }
+        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
+        .view-btn { background: white; padding: 12px 25px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Price Section Styling */
+        .offer { background: var(--ink); color: white; padding: 140px 20px; }
+        .price-hero { font-size: clamp(4.5rem, 15vw, 8rem); font-family: 'Playfair Display'; margin: 20px 0; color: var(--urgent); }
+        .price-hero span { text-decoration: line-through; opacity: 0.3; font-size: 0.4em; color: white; margin-right: 15px; }
+        .limited-tag { color: var(--urgent); letter-spacing: 4px; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; }
+
+        #lightbox { 
+            position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; 
+        }
+        .lb-content { width: 90%; max-width: 1100px; height: 85vh; overflow-y: auto; background: white; }
+        .lb-content img { width: 100%; height: auto; }
+        .close-lb { position: absolute; top: 20px; right: 40px; color: white; font-size: 3rem; cursor: pointer; }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-stagger { transition-delay: calc(0.1s * var(--order)); }
 
         @media (max-width: 850px) { 
-            .container { padding: 0 20px; }
-            article h2 { font-size: 2rem; }
-            .pull-quote { font-size: 1.5rem; padding: 30px 10px; }
+            .portfolio-grid, .process-grid { grid-template-columns: 1fr; } 
+            .process-description h2 { text-align: center; }
+            .process-description p { text-align: center; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header class="reveal">
-            <h1>Cultural stories vs. personal truth: challenging harmful social narratives</h1>
-            <p class="subtitle">We swim in stories every day without realizing it...</p>
-        </header>
+    <nav><a href="contact.html">Begin A Project</a></nav>
 
-        <article>
-            <section class="reveal">
-                <p>We swim in stories every day without realizing it. The cultural narratives that surround us—about success, relationships, mental health, and what makes a life worth living—seep into our personal understanding so quietly that we often mistake them for universal truths. But these dominant stories aren't neutral. Many actively harm our ability to understand ourselves and create authentic lives.</p>
-                <p>Narrative therapy recognizes that the stories we absorb from our culture become the lens through which we interpret our own experiences. When these cultural stories are limiting or damaging, they can trap us in versions of ourselves that feel foreign and painful. Learning to separate cultural fiction from personal truth becomes essential work for anyone seeking genuine healing and growth.</p>
-            </section>
+    <header>
+        <div class="hero-content reveal">
+            <!-- Wrapped letters in spans for individual animation -->
+            <h1 style="font-size: clamp(2.5rem, 7vw, 4.5rem);">
+                <span style="--letter-index: 0;">W</span><span style="--letter-index: 1;">e</span><span style="--letter-index: 2;">b</span><span style="--letter-index: 3;">s</span><span style="--letter-index: 4;">i</span><span style="--letter-index: 5;">t</span><span style="--letter-index: 6;">e</span><span style="--letter-index: 7;">s</span>
+                <span style="--letter-index: 8;">f</span><span style="--letter-index: 9;">o</span><span style="--letter-index: 10;">r</span>
+                <span style="--letter-index: 11;">T</span><span style="--letter-index: 12;">h</span><span style="--letter-index: 13;">e</span><span style="--letter-index: 14;">r</span><span style="--letter-index: 15;">a</span><span style="--letter-index: 16;">p</span><span style="--letter-index: 17;">i</span><span style="--letter-index: 18;">s</span><span style="--letter-index: 19;">t</span><span style="--letter-index: 20;">s</span>
+            </h1>
+            <p style="margin-bottom: 40px;">Beautiful, calming, and built to grow your clinical practice.</p>
+            <a href="#portfolio" class="cta-button">View Selected Works</a>
+        </div>
+    </header>
 
-            <h2 class="reveal">The stories that shape us</h2>
-            <section class="reveal">
-                <p>Cultural narratives operate like background music—always playing, rarely noticed, but profoundly influential. These stories tell us what emotions are acceptable, what life paths have value, and how we should measure our worth. They whisper that anxiety means weakness, that asking for help signals failure, that feeling deeply makes us "too sensitive."</p>
-                <p>Research in narrative therapy shows that many psychological struggles stem not from individual pathology but from the harmful stories our culture tells about normal human experiences. When someone feels ashamed of their hurt feelings, they're often responding to cultural messages that emotions should be controlled, minimized, or overcome rather than understood and honored.</p>
-                <p>The most damaging cultural stories are often the ones that feel most "obvious" or "natural." They've been repeated so frequently that questioning them feels almost rebellious...</p>
-            </section>
-
-            <div class="pull-quote reveal" style="--order: 1;">
-                Your hurt feelings don't need to be minimized to fit cultural comfort levels—they can be understood as important information about your experience that deserves attention and care.
+    <section class="process-section">
+        <div class="container">
+            <div class="process-grid">
+                <div class="process-description reveal">
+                    <span class="fancy-text">Our Simple Process</span>
+                    <h2>We build the website your practice needs.</h2>
+                    <p>We create sites that attract more clients. No templates—just your unique vision.</p>
+                    <p>Share your logos, images, and ideas. We handle the rest: colors, design, and mobile setup.</p>
+                </div>
+                <div class="reveal" style="background: white; padding: 60px; border-left: 1px solid var(--gold);">
+                    <h3 style="margin-bottom: 20px; font-style: italic;">"Tell us what you want—we make it happen."</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7; letter-spacing: 1px;">Focus on your clients. We'll craft a digital space that feels safe, professional, and welcoming.</p>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <h2 class="reveal">When cultural stories become personal prison</h2>
-            <section class="reveal">
-                <p>The transition from cultural story to personal limitation happens gradually...</p>
-                <!-- (Continuing with your full text – abbreviated here for brevity) -->
-                <p>These internalized cultural stories don't just influence our choices—they become the framework through which we understand our entire identity...</p>
-            </section>
+    <section id="portfolio">
+        <div class="container">
+            <h2 class="reveal" style="font-size: 3rem; margin-bottom: 20px;">The Gallery</h2>
+            <p class="reveal" style="color: var(--sage); letter-spacing: 2px; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 60px;">Select works from our clinical portfolio</p>
+            <div class="portfolio-grid">
+                <div class="portfolio-item reveal" onclick="openLightbox('healing.jpg')">
+                    <img src="healing.jpg">
+                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
+                </div>
+                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
+                    <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
+                </div>
+                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
+                    <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
+                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
+                </div>
+                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
+                    <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
+                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <hr class="divider">
+    <section class="offer">
+        <div class="container reveal">
+            <span class="limited-tag">Limited Introductory Offer</span>
+            <h2 style="color: white; margin-top: 20px;">Secure Your Digital Presence</h2>
+            <div class="price-hero"><span>$1,799</span>$599</div>
+            <p style="margin-bottom: 40px; opacity: 0.8;">Full custom build. No hidden fees. Yours forever.</p>
+            <a href="contact.html" class="cta-button" style="background: var(--urgent); color: white;">Inquire for $599 Rate</a>
+        </div>
+    </section>
 
-            <section class="reveal">
-                <!-- Add the rest of your article sections here in similar <section> blocks -->
-                <h2>The radical act of questioning</h2>
-                <p>Challenging cultural narratives isn't about rejecting all social structure...</p>
-                
-                <h2>Finding your authentic narrative</h2>
-                <p>Personal truth emerges not through rejecting all cultural influence...</p>
-                
-                <h2>The practice of narrative liberation</h2>
-                <p>Separating cultural stories from personal truth is ongoing work...</p>
-                
-                <h2>When personal truth conflicts with cultural story</h2>
-                <p>One of the most challenging aspects of this work...</p>
-                
-                <h2>The ripple effect of authentic living</h2>
-                <p>When you begin living from your authentic narrative...</p>
-                
-                <p>Your story matters exactly as it is. The cultural narratives that don't serve you don't deserve your allegiance simply because they're familiar or popular. Your authentic experience is valid data about reality, and trusting it becomes an act of both personal healing and quiet cultural revolution.</p>
-            </section>
-        </article>
-
-        <footer class="reveal">
-            <p>Journal • Hurt Feelings Therapy</p>
-            <p><a href="/">Back to home</a> • <a href="contact.html">Begin a conversation</a></p>
-        </footer>
+    <div id="lightbox" onclick="closeLightbox()">
+        <span class="close-lb">&times;</span>
+        <div class="lb-content" onclick="event.stopPropagation()"><img id="lb-img" src=""></div>
     </div>
 
     <script>
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.15 });
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        document.querySelectorAll('.reveal').forEach((el, index) => {
-            el.style.setProperty('--order', index);
-            observer.observe(el);
-        });
+        function openLightbox(src) {
+            document.getElementById('lb-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
     </script>
 </body>
 </html>
