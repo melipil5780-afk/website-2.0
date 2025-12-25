@@ -9,7 +9,6 @@
         :root { --accent: #c5a37d; --dark: #000; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* Changed cursor to default so it never "freezes" again */
         body { 
             background: #000; 
             color: #fff; 
@@ -26,7 +25,6 @@
         #bg-canvas { z-index: -1; position: fixed; inset: 0; background: #000; }
         #spotlight { z-index: 1; position: fixed; inset: 0; background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.95) 100%); pointer-events: none; }
         
-        /* Custom Cursors */
         #c { width: 6px; height: 6px; background: #fff; z-index: 10001; position: fixed; mix-blend-mode: difference; border-radius: 50%; pointer-events: none; left: 0; top: 0; }
         #ca { width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; pointer-events: none; left: 0; top: 0; transition: transform 0.1s ease-out; }
 
@@ -120,11 +118,8 @@
     window.addEventListener('mousemove', (e) => {
         const x = e.clientX;
         const y = e.clientY;
-        
         spotlight.style.setProperty('--x', x + 'px');
         spotlight.style.setProperty('--y', y + 'px');
-        
-        // Moving the custom cursor elements
         dot.style.transform = `translate(${x}px, ${y}px)`;
         ring.style.transform = `translate(${x - 22}px, ${y - 22}px)`;
     });
@@ -133,26 +128,30 @@
     document.getElementById('contactForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const status = document.getElementById('status');
-        status.innerText = "TRANSMITTING...";
+        status.innerText = "TRANSMITTING TO SOVEREIGN...";
         
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
 
         try {
+            // Updated to the correct worker name we discussed
             const response = await fetch('https://website-handler.melipil5780.workers.dev', {
                 method: 'POST',
+                mode: 'cors', 
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
 
             if (response.ok) {
-                status.innerText = "TRANSMISSION SUCCESSFUL.";
+                status.innerText = "TRANSMISSION SUCCESSFUL. STAND BY.";
                 e.target.reset();
             } else {
-                status.innerText = "ERROR. PLEASE CHECK CONNECTION.";
+                const errData = await response.json();
+                status.innerText = "ERROR: " + (errData.error || "SERVER REJECTED");
             }
         } catch (err) {
-            status.innerText = "OFFLINE OR BLOCKED. TRY LATER.";
+            status.innerText = "CONNECTION FAILED. CHECK WORKER STATUS.";
+            console.error(err);
         }
     });
 </script>
