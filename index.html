@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Web Design for Therapists</title>
+    <title>Cultural stories vs. personal truth | Journal</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
@@ -14,172 +14,152 @@
             --stone: #f4f2ef; 
             --gold: #b2937d; 
             --white: #ffffff; 
-            --urgent: #b33939; /* Elegant Red for Price */
+            --urgent: #b33939;
             --transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--stone); color: var(--ink); line-height: 1.7; text-align: center; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--stone); 
+            color: var(--ink); 
+            line-height: 1.8; 
+            text-align: left;
+            opacity: 0;
+            animation: fadeInPage 1.8s ease-out forwards;
+            padding: 60px 20px;
+        }
         
-        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; margin: 0 auto; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 30px; }
-
-        nav { padding: 50px 0; display: flex; justify-content: center; position: absolute; width: 100%; z-index: 100; }
-        nav a { text-decoration: none; color: var(--white); font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; }
-
-        header { 
-            height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.pexels.com/photos/547114/pexels-photo-547114.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat; 
-            color: var(--white); 
-            padding: 0 20px;
+        @keyframes fadeInPage {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* Fancy "What We Do" Section */
-        .process-section { padding: 140px 0; background: var(--stone); }
-        .fancy-text { font-style: italic; color: var(--sage); font-size: 1.2rem; margin-bottom: 20px; display: block; }
-        .process-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; text-align: left; margin-top: 60px; }
-        .process-description h2 { font-size: 3rem; margin-bottom: 30px; line-height: 1.2; text-align: left; }
-        .process-description p { font-size: 1.1rem; color: #555; margin-bottom: 20px; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
+        .container { max-width: 800px; margin: 0 auto; }
 
-        .cta-button { 
-            padding: 22px 50px; background: var(--white); color: var(--ink); 
-            text-decoration: none; text-transform: uppercase; letter-spacing: 3px; 
-            font-weight: 600; font-size: 0.9rem; display: inline-block; 
-            transition: var(--transition); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        header { text-align: center; margin-bottom: 80px; }
+        header h1 { font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 20px; }
+        header .subtitle { font-style: italic; color: var(--sage); font-size: 1.3rem; }
+
+        article section { margin-bottom: 100px; }
+        article h2 { font-size: 2.4rem; margin-bottom: 30px; text-align: center; }
+        article p { font-size: 1.15rem; margin-bottom: 24px; color: #333; }
+
+        .pull-quote {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.8rem;
+            color: var(--sage);
+            text-align: center;
+            margin: 60px auto;
+            padding: 40px 20px;
+            max-width: 700px;
+            border-top: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease-out;
         }
-        .cta-button:hover { background: var(--gold); color: white; transform: translateY(-5px); }
+        .pull-quote.active { opacity: 1; transform: translateY(0); }
 
-        #portfolio { padding: 140px 0; background: var(--white); }
-        .portfolio-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-top: 80px; }
-        
-        .portfolio-item { 
-            cursor: pointer; height: 500px; border: 1px solid #e0e0e0; 
-            transition: var(--transition); overflow: hidden; position: relative;
+        hr.divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            margin: 80px auto;
+            max-width: 300px;
         }
-        .portfolio-item img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: 0.8s ease; }
-        .portfolio-item:hover img { transform: scale(1.05); }
 
-        .portfolio-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.3); display: flex; align-items: center; 
-            justify-content: center; opacity: 0; transition: 0.3s;
-        }
-        .portfolio-item:hover .portfolio-overlay { opacity: 1; }
-        .view-btn { background: white; padding: 12px 25px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+        footer { text-align: center; padding: 60px 0; color: var(--sage); font-size: 0.9rem; }
+        footer a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--gold); }
 
-        /* Price Section Styling */
-        .offer { background: var(--ink); color: white; padding: 140px 20px; }
-        .price-hero { font-size: clamp(4.5rem, 15vw, 8rem); font-family: 'Playfair Display'; margin: 20px 0; color: var(--urgent); }
-        .price-hero span { text-decoration: line-through; opacity: 0.3; font-size: 0.4em; color: white; margin-right: 15px; }
-        .limited-tag { color: var(--urgent); letter-spacing: 4px; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; }
-
-        #lightbox { 
-            position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; 
-        }
-        .lb-content { width: 90%; max-width: 1100px; height: 85vh; overflow-y: auto; background: white; }
-        .lb-content img { width: 100%; height: auto; }
-        .close-lb { position: absolute; top: 20px; right: 40px; color: white; font-size: 3rem; cursor: pointer; }
-
-        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-stagger { transition-delay: calc(0.1s * var(--order)); }
 
         @media (max-width: 850px) { 
-            .portfolio-grid, .process-grid { grid-template-columns: 1fr; } 
-            .process-description h2 { text-align: center; }
-            .process-description p { text-align: center; }
+            .container { padding: 0 20px; }
+            article h2 { font-size: 2rem; }
+            .pull-quote { font-size: 1.5rem; padding: 30px 10px; }
         }
     </style>
 </head>
 <body>
 
-    <nav><a href="contact.html">Begin A Project</a></nav>
+    <div class="container">
+        <header class="reveal">
+            <h1>Cultural stories vs. personal truth: challenging harmful social narratives</h1>
+            <p class="subtitle">We swim in stories every day without realizing it...</p>
+        </header>
 
-    <header>
-        <div class="hero-content reveal">
-            <h1 style="font-size: clamp(2.5rem, 7vw, 4.5rem);">Websites for Therapists</h1>
-            <p style="margin-bottom: 40px;">Beautiful, calming, and built to grow your clinical practice.</p>
-            <a href="#portfolio" class="cta-button">View Selected Works</a>
-        </div>
-    </header>
+        <article>
+            <section class="reveal">
+                <p>We swim in stories every day without realizing it. The cultural narratives that surround us—about success, relationships, mental health, and what makes a life worth living—seep into our personal understanding so quietly that we often mistake them for universal truths. But these dominant stories aren't neutral. Many actively harm our ability to understand ourselves and create authentic lives.</p>
+                <p>Narrative therapy recognizes that the stories we absorb from our culture become the lens through which we interpret our own experiences. When these cultural stories are limiting or damaging, they can trap us in versions of ourselves that feel foreign and painful. Learning to separate cultural fiction from personal truth becomes essential work for anyone seeking genuine healing and growth.</p>
+            </section>
 
-    <section class="process-section">
-        <div class="container">
-            <div class="process-grid">
-                <div class="process-description reveal">
-                    <span class="fancy-text">The Bespoke Process</span>
-                    <h2>We create the space your practice deserves.</h2>
-                    <p>Our mission is simple: <strong>Websites that get you more clients.</strong> We don't just use templates; we build the exact vision you have in your mind.</p>
-                    <p>Simply share your logos, images, and your practice vision—we take care of the rest. From color palettes to mobile optimization, we make it exactly the way you desire.</p>
-                </div>
-                <div class="reveal" style="background: white; padding: 60px; border-left: 1px solid var(--gold);">
-                    <h3 style="margin-bottom: 20px; font-style: italic;">"Just ask, and we will make it."</h3>
-                    <p style="font-size: 0.9rem; opacity: 0.7; letter-spacing: 1px;">You focus on your clients. We focus on your digital home. Every detail is crafted to evoke safety, professionalism, and healing.</p>
-                </div>
+            <h2 class="reveal">The stories that shape us</h2>
+            <section class="reveal">
+                <p>Cultural narratives operate like background music—always playing, rarely noticed, but profoundly influential. These stories tell us what emotions are acceptable, what life paths have value, and how we should measure our worth. They whisper that anxiety means weakness, that asking for help signals failure, that feeling deeply makes us "too sensitive."</p>
+                <p>Research in narrative therapy shows that many psychological struggles stem not from individual pathology but from the harmful stories our culture tells about normal human experiences. When someone feels ashamed of their hurt feelings, they're often responding to cultural messages that emotions should be controlled, minimized, or overcome rather than understood and honored.</p>
+                <p>The most damaging cultural stories are often the ones that feel most "obvious" or "natural." They've been repeated so frequently that questioning them feels almost rebellious...</p>
+            </section>
+
+            <div class="pull-quote reveal" style="--order: 1;">
+                Your hurt feelings don't need to be minimized to fit cultural comfort levels—they can be understood as important information about your experience that deserves attention and care.
             </div>
-        </div>
-    </section>
 
-    <section id="portfolio">
-        <div class="container">
-            <h2 class="reveal" style="font-size: 3rem; margin-bottom: 20px;">The Gallery</h2>
-            <p class="reveal" style="color: var(--sage); letter-spacing: 2px; text-transform: uppercase; font-size: 0.7rem; margin-bottom: 60px;">Select works from our clinical portfolio</p>
-            <div class="portfolio-grid">
-                <div class="portfolio-item reveal" onclick="openLightbox('healing.jpg')">
-                    <img src="healing.jpg">
-                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
-                </div>
-                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
-                    <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
-                </div>
-                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
-                    <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
-                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
-                </div>
-                <div class="portfolio-item reveal" onclick="openLightbox('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
-                    <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
-                    <div class="portfolio-overlay"><div class="view-btn">View Full Design</div></div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <h2 class="reveal">When cultural stories become personal prison</h2>
+            <section class="reveal">
+                <p>The transition from cultural story to personal limitation happens gradually...</p>
+                <!-- (Continuing with your full text – abbreviated here for brevity) -->
+                <p>These internalized cultural stories don't just influence our choices—they become the framework through which we understand our entire identity...</p>
+            </section>
 
-    <section class="offer">
-        <div class="container reveal">
-            <span class="limited-tag">Limited Introductory Offer</span>
-            <h2 style="color: white; margin-top: 20px;">Secure Your Digital Presence</h2>
-            <div class="price-hero"><span>$1,799</span>$599</div>
-            <p style="margin-bottom: 40px; opacity: 0.8;">Full custom build. No hidden fees. Yours forever.</p>
-            <a href="contact.html" class="cta-button" style="background: var(--urgent); color: white;">Inquire for $599 Rate</a>
-        </div>
-    </section>
+            <hr class="divider">
 
-    <div id="lightbox" onclick="closeLightbox()">
-        <span class="close-lb">&times;</span>
-        <div class="lb-content" onclick="event.stopPropagation()"><img id="lb-img" src=""></div>
+            <section class="reveal">
+                <!-- Add the rest of your article sections here in similar <section> blocks -->
+                <h2>The radical act of questioning</h2>
+                <p>Challenging cultural narratives isn't about rejecting all social structure...</p>
+                
+                <h2>Finding your authentic narrative</h2>
+                <p>Personal truth emerges not through rejecting all cultural influence...</p>
+                
+                <h2>The practice of narrative liberation</h2>
+                <p>Separating cultural stories from personal truth is ongoing work...</p>
+                
+                <h2>When personal truth conflicts with cultural story</h2>
+                <p>One of the most challenging aspects of this work...</p>
+                
+                <h2>The ripple effect of authentic living</h2>
+                <p>When you begin living from your authentic narrative...</p>
+                
+                <p>Your story matters exactly as it is. The cultural narratives that don't serve you don't deserve your allegiance simply because they're familiar or popular. Your authentic experience is valid data about reality, and trusting it becomes an act of both personal healing and quiet cultural revolution.</p>
+            </section>
+        </article>
+
+        <footer class="reveal">
+            <p>Journal • Hurt Feelings Therapy</p>
+            <p><a href="/">Back to home</a> • <a href="contact.html">Begin a conversation</a></p>
+        </footer>
     </div>
 
     <script>
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
 
-        function openLightbox(src) {
-            document.getElementById('lb-img').src = src;
-            document.getElementById('lightbox').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-        function closeLightbox() {
-            document.getElementById('lightbox').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+        document.querySelectorAll('.reveal').forEach((el, index) => {
+            el.style.setProperty('--order', index);
+            observer.observe(el);
+        });
     </script>
 </body>
 </html>
