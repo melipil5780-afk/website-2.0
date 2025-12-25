@@ -3,97 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign | Clinical Web Architecture</title>
+<title>Sovereign | 4D Clinical Architecture</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@100;400;700;900&display=swap" rel="stylesheet">
 <style>
-    :root { --accent: #c5a37d; --dark: #050505; --text-sub: #888; }
+    :root { --accent: #c5a37d; --dark: #050505; --text-sub: #bbb; }
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-    body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; transition: background 1.2s ease; }
+    
+    body { 
+        background: var(--dark); 
+        color: #fff; 
+        font-family: 'Montserrat', sans-serif; 
+        transition: background 1.2s ease;
+        overflow-x: hidden;
+        perspective: 1200px; /* Enables 3D Space */
+    }
 
-    /* LAYERS */
-    #noise, #spotlight, #bg-canvas, #c, #ca { pointer-events: none; position: fixed; inset: 0; }
-    #noise { background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.06; z-index: 1; }
-    #bg-canvas { z-index: -1; background: #000; }
-    #spotlight { z-index: 2; background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.95) 100%); transition: opacity 0.5s; }
+    /* --- 4D ATMOSPHERE --- */
+    #bg-canvas { z-index: -1; position: fixed; inset: 0; background: #000; }
+    #noise { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.15; z-index: 1; pointer-events: none; }
+    
+    #spotlight { 
+        z-index: 2; position: fixed; inset: 0;
+        background: radial-gradient(circle 600px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.98) 100%); 
+        pointer-events: none;
+    }
 
-    /* LOADER */
+    /* --- LOADER --- */
     #loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1s cubic-bezier(1,0,0,1); }
     #loader-n { font-family: 'Cormorant Garamond'; font-size: 8vw; color: var(--accent); font-weight: 300; }
 
-    /* HERO */
-    section { padding: 25vh 10vw; position: relative; z-index: 10; }
-    .hero-tag { color: var(--accent); letter-spacing: 12px; font-size: 0.6rem; font-weight: 900; margin-bottom: 20px; display: block; opacity: 0; transition: 1s; }
-    .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 8vw, 7.5rem); line-height: 0.9; font-weight: 300; margin-bottom: 40px; min-height: 1.2em; }
-    .hero-sub { max-width: 600px; font-size: 1.1rem; opacity: 0; line-height: 1.8; border-left: 1px solid var(--accent); padding-left: 30px; transition: 1.5s 0.5s forwards; color: #888; }
-    .reveal .hero-tag, .reveal .hero-sub { opacity: 0.6; }
+    /* --- HERO --- */
+    section { padding: 30vh 10vw; position: relative; z-index: 10; transform-style: preserve-3d; }
+    .hero-h1 { 
+        font-family: 'Cormorant Garamond'; 
+        font-size: clamp(2.5rem, 8vw, 7.5rem); 
+        line-height: 0.9; 
+        transform: translateZ(50px); /* Pushes text toward user */
+        text-shadow: 0 20px 50px rgba(0,0,0,1);
+    }
 
-    /* GALLERY HEADER */
-    .gallery-label { padding: 10vh 10vw 2vh; font-family: 'Cormorant Garamond'; font-size: 0.7rem; letter-spacing: 10px; color: var(--accent); text-transform: uppercase; z-index: 10; position: relative; }
+    /* --- 3D GALLERY --- */
+    .gallery-label-container { padding: 15vh 10vw 5vh; position: relative; z-index: 10; }
+    .gallery-h2 { font-family: 'Cormorant Garamond'; font-size: clamp(3rem, 6vw, 5rem); font-weight: 300; }
 
-    /* STACKING CARDS (Desktop & Mobile) */
-    #gallery { padding: 0 5vw; position: relative; z-index: 20; }
+    #gallery { padding: 0 10vw; position: relative; z-index: 20; }
+    
     .project-card { 
-        position: sticky; 
-        top: 5vh; 
-        height: 85vh; 
-        width: 100%; 
-        margin-bottom: 20vh; 
-        display: flex; 
-        flex-direction: column; 
-        background: var(--dark); 
-        border-top: 1px solid rgba(197, 163, 125, 0.2); 
-        padding-top: 20px;
-        transition: transform 0.3s ease;
+        position: sticky; top: 10vh; height: 80vh; width: 100%; margin-bottom: 25vh; 
+        display: flex; flex-direction: column; 
+        background: rgba(10,10,10,0.8);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(197, 163, 125, 0.15);
+        padding: 40px;
+        transform-style: preserve-3d;
+        transition: transform 0.1s ease-out; /* Smooth 3D tilt */
+        box-shadow: 0 50px 100px rgba(0,0,0,0.5);
     }
     
-    .image-frame { width: 100%; height: 50vh; position: relative; overflow: hidden; border: 1px solid rgba(197, 163, 125, 0.1); cursor: pointer; }
-    .image-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) grayscale(1); transition: 0.8s ease-out; }
-    .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0); transform: scale(1.05); }
+    .image-frame { 
+        width: 100%; height: 50vh; position: relative; overflow: hidden; 
+        transform: translateZ(30px); /* Floats above card */
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+    .image-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transition: 0.8s; }
+    .project-card:hover .image-frame img { filter: brightness(1); transform: scale(1.1); }
 
     .view-btn { 
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-        padding: 18px 35px; background: #fff; color: #000; font-weight: 900; 
-        letter-spacing: 3px; font-size: 0.6rem; opacity: 0; transition: 0.4s; 
-        z-index: 60; pointer-events: none; text-transform: uppercase;
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) translateZ(60px); 
+        padding: 20px 40px; background: #fff; color: #000; font-weight: 900; 
+        letter-spacing: 4px; font-size: 0.7rem; opacity: 0; transition: 0.4s;
     }
-    .image-frame:hover .view-btn { opacity: 1; }
+    .project-card:hover .view-btn { opacity: 1; }
 
-    .scramble-title { font-family: 'Cormorant Garamond'; font-size: clamp(1.8rem, 5vw, 3.5rem); font-weight: 300; margin-top: 15px; }
-    .explanation { color: #888; font-size: 0.9rem; margin-top: 10px; max-width: 700px; line-height: 1.5; }
+    .scramble-title { transform: translateZ(80px); margin-top: 30px; font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 4vw, 3.5rem); }
+    .explanation { transform: translateZ(40px); color: #888; margin-top: 10px; max-width: 600px; }
 
-    /* FULLSCREEN MODAL */
-    #img-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: 0.4s; pointer-events: auto; }
-    #img-modal.active { display: flex; opacity: 1; }
-    #modal-content { max-width: 95%; max-height: 85%; object-fit: contain; border: 1px solid rgba(197, 163, 125, 0.3); }
-    #modal-close { position: absolute; top: 30px; right: 30px; color: #fff; font-size: 2.5rem; cursor: pointer; z-index: 10001; }
+    /* --- MODAL --- */
+    #img-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000; display: none; align-items: center; justify-content: center; transition: 0.5s; }
+    #modal-content { max-width: 90%; max-height: 80%; border: 1px solid var(--accent); transform: scale(0.8); transition: 0.5s; }
+    #img-modal.active #modal-content { transform: scale(1); }
+    #modal-close { position: absolute; top: 30px; right: 40px; color: #fff; font-size: 3rem; pointer-events: auto; }
 
-    /* FINAL SECTION & SPECIAL AURA EFFECT */
-    #final-section { background: #fff; color: #000; padding: 25vh 10vw; text-align: center; position: relative; z-index: 100; transition: 1s; }
-    #final-h2 { font-family: 'Cormorant Garamond'; font-size: clamp(1.8rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 40px; }
-    .cta-btn { display: inline-block; padding: 25px 70px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 6px; font-size: 0.8rem; position: relative; pointer-events: auto; transition: 0.4s; animation: pulse 2.5s infinite; }
-    
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
-        70% { box-shadow: 0 0 0 20px rgba(197, 163, 125, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
-    }
+    /* --- FINAL SECTION --- */
+    #final-section { background: #fff; color: #000; padding: 25vh 10vw; text-align: center; position: relative; z-index: 100; transition: 1.5s cubic-bezier(0.7,0,0.3,1); }
+    .cta-btn { display: inline-block; padding: 25px 80px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 6px; animation: pulse 2.5s infinite; transition: 0.4s; }
 
-    /* CURSOR */
-    #c { width: 6px; height: 6px; background: #fff; z-index: 10001; mix-blend-mode: difference; border-radius: 50%; }
-    #ca { width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; z-index: 10001; transition: 0.1s; }
+    /* --- 4D CURSOR --- */
+    #c { width: 6px; height: 6px; background: #fff; z-index: 10001; position: fixed; mix-blend-mode: difference; border-radius: 50%; pointer-events: none;}
+    #ca { width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.15s cubic-bezier(0.17, 0.67, 0.83, 0.67); pointer-events: none;}
 
-    /* MOBILE SPECIFIC STACKING */
     @media (max-width: 768px) {
-        * { cursor: auto !important; }
         #c, #ca, #spotlight { display: none !important; }
-        .project-card { top: 2vh; height: 75vh; margin-bottom: 15vh; }
-        .image-frame { height: 40vh; }
-        .view-btn { opacity: 1; top: auto; bottom: 10px; transform: translateX(-50%); width: 90%; font-size: 0.5rem; padding: 12px; }
-        .hero-h1 { font-size: 3rem; }
+        .project-card { position: relative; top: 0; height: auto; transform: none !important; margin-bottom: 50px; }
+        .image-frame { transform: none !important; height: 40vh; }
+        .view-btn { opacity: 1; transform: translate(-50%, 0); top: auto; bottom: 20px; width: 90%; }
     }
 </style>
 </head>
-<body onmousemove="handleMove(event)">
+<body>
 
 <div id="loader"><div id="loader-n">0</div></div>
 <div id="noise"></div>
@@ -107,72 +114,95 @@
 </div>
 
 <section id="hero-sec">
-    <span class="hero-tag">SOVEREIGN | WEB ARCHITECTURE</span>
     <h1 class="hero-h1" id="scramble-hero"></h1>
-    <p class="hero-sub">I build digital environments that mirror your clinical excellence. From somatic safety to analytical depth, your practice deserves structure.</p>
 </section>
 
-<div class="gallery-label">Selected Architecture Gallery</div>
+<div class="gallery-label-container">
+    <h2 class="gallery-h2">The Gallery</h2>
+</div>
 
 <div id="gallery">
-    <div class="project-card" data-color="#4a5d4a">
+    <div class="project-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
         <div class="image-frame" onclick="openModal('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
             <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
-            <div class="view-btn">View Full Architecture</div>
+            <div class="view-btn">EXPAND ARCHITECTURE</div>
         </div>
-        <div>
-            <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy Hub')" onmouseleave="dive(this, 'The Grounded Space')">The Grounded Space</h2>
-            <p class="explanation">A digital environment built to regulate the nervous system through organic geometry and natural depth.</p>
-        </div>
+        <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy Hub')" onmouseleave="dive(this, 'The Grounded Space')">The Grounded Space</h2>
+        <p class="explanation">A 4D digital environment that uses depth layers to simulate a therapeutic forest path.</p>
     </div>
 
-    <div class="project-card" data-color="#c5a37d">
+    <div class="project-card" onmousemove="tilt(event, this)" onmouseleave="resetTilt(this)">
         <div class="image-frame" onclick="openModal('healing.jpg')">
             <img src="healing.jpg">
-            <div class="view-btn">View Full Architecture</div>
+            <div class="view-btn">EXPAND ARCHITECTURE</div>
         </div>
-        <div>
-            <h2 class="scramble-title" onmouseenter="dive(this, 'Trauma Informed')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
-            <p class="explanation">Focused on containment and predictability. A safe digital entry point for somatic practices.</p>
-        </div>
-    </div>
-
-    <div class="project-card" data-color="#7a1010">
-        <div class="image-frame" onclick="openModal('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
-            <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
-            <div class="view-btn">View Full Architecture</div>
-        </div>
-        <div>
-            <h2 class="scramble-title" onmouseenter="dive(this, 'Shadow Work')" onmouseleave="dive(this, 'Analytical Soul')">Analytical Soul</h2>
-            <p class="explanation">Architecture for depth psychology. Layered, mysterious, and intellectually resonant.</p>
-        </div>
-    </div>
-
-    <div class="project-card" data-color="#c5a37d">
-        <div class="image-frame" onclick="openModal('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
-            <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-            <div class="view-btn">View Full Architecture</div>
-        </div>
-        <div>
-            <h2 class="scramble-title" onmouseenter="dive(this, 'CBT Logic')" onmouseleave="dive(this, 'Clinical Precision')">Clinical Precision</h2>
-            <p class="explanation">Clean, authoritative architecture that justifies high private-pay rates through expert design.</p>
-        </div>
+        <h2 class="scramble-title" onmouseenter="dive(this, 'Trauma Informed')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
+        <p class="explanation">Architecture focused on containment. Every layer is designed to provide visual safety.</p>
     </div>
 </div>
 
 <section id="final-section">
-    <h2 id="final-h2">I don't just build websites.<br>I architect the first step of the therapeutic journey.</h2>
-    <div style="margin: 50px 0;">
-        <p style="opacity: 0.4; text-decoration: line-through;">VALUED AT $2,499</p>
-        <h3 style="font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; letter-spacing: -4px;">$599</h3>
-        <p style="color: #c5a37d; font-weight: 900; letter-spacing: 6px;">FOUNDER RATE | LIMITED EDITION</p>
-    </div>
-    <a href="mailto:contact@yourdomain.com" class="cta-btn">AUDIT MY CURRENT SITE</a>
+    <h2 style="font-family: 'Cormorant Garamond'; font-size: 3rem; margin-bottom: 40px;">I architect the first step of the journey.</h2>
+    <h3 style="font-size: 5rem; font-weight: 900;">$599</h3>
+    <p style="letter-spacing: 5px; color: var(--accent); margin-bottom: 40px;">FOUNDER RATE</p>
+    <a href="mailto:contact@domain.com" class="cta-btn">AUDIT MY SITE</a>
 </section>
 
 <script>
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    
+    // 3D TILT LOGIC
+    function tilt(e, el) {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const xc = rect.width / 2;
+        const yc = rect.height / 2;
+        const dx = (x - xc) / 20;
+        const dy = (y - yc) / 20;
+        el.style.transform = `rotateY(${dx}deg) rotateX(${-dy}deg)`;
+    }
+    function resetTilt(el) {
+        el.style.transform = `rotateY(0deg) rotateX(0deg)`;
+    }
+
+    // INTERACTIVE PARTICLES (The 4D "Aether")
+    const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
+    let dots = [], mouse = {x: -100, y: -100};
+    function init() {
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        dots = Array.from({length: 60}, () => ({ 
+            x: Math.random()*canvas.width, y: Math.random()*canvas.height, 
+            ox: 0, oy: 0, r: Math.random()*2, 
+            v: Math.random()*0.5 + 0.2 
+        }));
+    }
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX; mouse.y = e.clientY;
+        document.getElementById('spotlight').style.setProperty('--x', e.clientX+'px');
+        document.getElementById('spotlight').style.setProperty('--y', e.clientY+'px');
+        document.getElementById('c').style.left = e.clientX+'px';
+        document.getElementById('c').style.top = e.clientY+'px';
+        document.getElementById('ca').style.left = (e.clientX-20)+'px';
+        document.getElementById('ca').style.top = (e.clientY-20)+'px';
+    });
+
+    function draw() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        dots.forEach(d => {
+            const dx = mouse.x - d.x;
+            const dy = mouse.y - d.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if(dist < 200) {
+                d.ox -= dx/20; d.oy -= dy/20; // Particles flee from mouse
+            }
+            d.ox *= 0.96; d.oy *= 0.96;
+            ctx.fillStyle = "rgba(197, 163, 125, 0.3)";
+            ctx.beginPath(); ctx.arc(d.x + d.ox, d.y + d.oy, d.r, 0, Math.PI*2); ctx.fill();
+        });
+        requestAnimationFrame(draw);
+    }
+    init(); draw();
+
+    // MODAL
     function openModal(src) {
         document.getElementById('modal-content').src = src;
         document.getElementById('img-modal').style.display = 'flex';
@@ -180,59 +210,42 @@
     }
     function closeModal() {
         document.getElementById('img-modal').classList.remove('active');
-        setTimeout(() => document.getElementById('img-modal').style.display = 'none', 400);
+        setTimeout(() => document.getElementById('img-modal').style.display = 'none', 500);
     }
+
+    // SCRAMBLE & LOADER (Same as before but faster)
+    let lCount = 0;
+    let lInt = setInterval(() => {
+        lCount += 4;
+        if(lCount >= 100) {
+            clearInterval(lInt);
+            document.getElementById('loader').style.transform = "translateY(-100%)";
+            dive(document.getElementById('scramble-hero'), 'I Build Elite Therapy Websites.');
+        }
+        document.getElementById('loader-n').innerText = lCount;
+    }, 30);
 
     function dive(el, nText) {
         let it = 0; clearInterval(el.iv);
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         el.iv = setInterval(() => {
-            el.innerText = nText.split("").map((l, i) => i < it ? nText[i] : chars[Math.floor(Math.random() * chars.length)]).join("");
+            el.innerText = nText.split("").map((l, i) => i < it ? nText[i] : chars[Math.floor(Math.random() * 26)]).join("");
             if(it >= nText.length) clearInterval(el.iv);
             it += 1;
         }, 30);
     }
 
-    function handleMove(e) {
-        document.getElementById('spotlight').style.setProperty('--x', e.clientX + 'px');
-        document.getElementById('spotlight').style.setProperty('--y', e.clientY + 'px');
-        document.getElementById('c').style.left = e.clientX+'px';
-        document.getElementById('c').style.top = e.clientY+'px';
-        document.getElementById('ca').style.left = (e.clientX-20)+'px';
-        document.getElementById('ca').style.top = (e.clientY-20)+'px';
-    }
-
+    // LIGHT TRANSITION
     window.addEventListener('scroll', () => {
-        const final = document.getElementById('final-section');
-        const spotlight = document.getElementById('spotlight');
-        const rect = final.getBoundingClientRect();
-        
+        const rect = document.getElementById('final-section').getBoundingClientRect();
         if(rect.top < window.innerHeight / 2) {
-            spotlight.style.opacity = "0";
             document.body.style.background = "#fff";
+            document.getElementById('spotlight').style.opacity = "0";
         } else {
-            spotlight.style.opacity = "1";
             document.body.style.background = "#050505";
+            document.getElementById('spotlight').style.opacity = "1";
         }
     });
-
-    let lCount = 0;
-    let lInt = setInterval(() => {
-        lCount += Math.floor(Math.random()*10)+2;
-        if(lCount >= 100) {
-            lCount = 100; clearInterval(lInt);
-            document.getElementById('loader').style.transform = "translateY(-100%)";
-            setTimeout(() => {
-                document.getElementById('hero-sec').classList.add('reveal');
-                setTimeout(() => { dive(document.getElementById('scramble-hero'), 'I Build Elite Therapy Websites.'); }, 500);
-            }, 800);
-        }
-        document.getElementById('loader-n').innerText = lCount;
-    }, 40);
-
-    const obs = new IntersectionObserver((es) => {
-        es.forEach(e => { if(e.isIntersecting) document.documentElement.style.setProperty('--accent', e.target.dataset.color); });
-    }, { threshold: 0.5 });
-    document.querySelectorAll('.project-card').forEach(p => obs.observe(p));
 </script>
 </body>
 </html>
