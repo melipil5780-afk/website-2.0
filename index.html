@@ -8,209 +8,189 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600&family=Montserrat:wght@100;400;900&display=swap" rel="stylesheet">
     
     <style>
-        :root { --gold: #c5a37d; --dark: #020203; }
+        :root { --gold: #c5a37d; --dark: #050507; --accent: #8e2121; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        
+        /* THE NEBULA BACKGROUND */
+        body { 
+            background: radial-gradient(circle at center, #0d1117 0%, #050507 100%); 
+            color: #fff; 
+            font-family: 'Montserrat', sans-serif; 
+            overflow-x: hidden; 
+        }
 
-        /* --- 1. CINEMATIC TEXTURE & LIGHTING --- */
+        /* --- CINEMATIC TEXTURE --- */
         #film-grain {
             position: fixed; inset: -50%; width: 200%; height: 200%;
             background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.12; z-index: 10000; pointer-events: none;
+            opacity: 0.15; z-index: 10000; pointer-events: none;
             animation: grain 0.3s steps(5) infinite;
         }
         @keyframes grain { 0%, 100% { transform:translate(0,0); } 50% { transform:translate(-1%, -1%); } }
 
-        #vignette {
-            position: fixed; inset: 0; z-index: 9999;
-            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.95) 100%);
-            pointer-events: none;
+        /* --- FLASH EFFECT --- */
+        #flash {
+            position: fixed; inset: 0; background: white; z-index: 25000;
+            opacity: 0; pointer-events: none;
         }
 
-        /* --- 2. LUXURY LOADER (CLINICAL STATUS) --- */
+        /* --- LOADER --- */
         #loader {
             position: fixed; inset: 0; background: #000; z-index: 20000;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 1.5s ease;
         }
-        #loader-num { font-family: 'Cormorant Garamond'; font-size: 10rem; color: var(--gold); font-weight: 100; line-height: 1; }
-        #loader-status { font-size: 0.6rem; letter-spacing: 5px; color: var(--gold); margin-top: 20px; font-weight: 800; text-transform: uppercase; }
+        #loader-num { font-family: 'Cormorant Garamond'; font-size: 10rem; color: var(--gold); font-weight: 100; }
+        #loader-status { font-size: 0.6rem; letter-spacing: 5px; color: var(--gold); margin-top: 20px; }
 
-        /* --- 3. DYNAMIC BACKGROUND --- */
-        #canvas-bg { position: fixed; inset: 0; z-index: -1; opacity: 0.4; }
-
-        /* --- 4. TYPOGRAPHY --- */
-        section { padding: 25vh 10vw; min-height: 100vh; position: relative; }
-        .hero-h1 { 
-            font-family: 'Cormorant Garamond'; font-size: clamp(3.5rem, 11vw, 9rem); 
-            line-height: 0.85; font-weight: 300; margin-bottom: 40px;
-        }
-        .hero-sub { max-width: 600px; opacity: 0.5; line-height: 1.8; border-left: 2px solid var(--gold); padding-left: 30px; font-size: 1.1rem; }
-
-        /* --- 5. THEATER REVEAL (THE DOLLY ZOOM) --- */
-        .project-block { margin: 15vh 0; }
-        .tag { color: var(--gold); letter-spacing: 5px; font-size: 0.7rem; font-weight: 900; margin-bottom: 15px; display: block; }
-        
-        .theater-box {
-            width: 100%; height: 0; overflow: hidden;
-            border: 1px solid rgba(197, 163, 125, 0.2); background: #000;
-            transition: height 2.5s cubic-bezier(0.19, 1, 0.22, 1);
-            position: relative;
-        }
-        .theater-box.active { height: 75vh; }
-        
-        .theater-box img { 
-            width: 100%; height: 120%; object-fit: cover; 
-            filter: brightness(0.2) grayscale(0.5);
-            transition: 3s cubic-bezier(0.19, 1, 0.22, 1);
-            transform: scale(1.3); /* Dolly start */
-        }
-        .theater-box.active img { transform: scale(1); } /* Dolly end */
-        .theater-box:hover img { filter: brightness(0.9) grayscale(0); }
-
-        .view-box {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            padding: 20px 50px; border: 1px solid #fff; background: rgba(0,0,0,0.6);
-            color: #fff; letter-spacing: 5px; font-weight: 900; font-size: 0.7rem;
-            opacity: 0; transition: 0.8s; backdrop-filter: blur(10px);
-        }
-        .theater-box:hover .view-box { opacity: 1; }
-
-        /* --- 6. PRICE TAG REVEAL --- */
-        #price-tag {
+        /* --- FLOATING PRESTIGE BADGE --- */
+        #price-badge {
             position: fixed; top: 40px; right: 40px; z-index: 15000;
-            background: rgba(0,0,0,0.95); border: 1px solid #8e2121;
-            padding: 30px; opacity: 0; transform: translateX(100px); transition: 1.5s ease;
+            background: rgba(0,0,0,0.8); border: 1px solid var(--accent);
+            padding: 25px; backdrop-filter: blur(10px);
+            opacity: 0; transform: translateY(-20px); transition: 1s ease;
         }
-        #price-tag.show { opacity: 1; transform: translateX(0); }
+        #price-badge.show { opacity: 1; transform: translateY(0); }
 
-        /* --- 7. LIGHTBOX & CURSOR --- */
-        #lightbox {
-            position: fixed; inset: 0; z-index: 30000; background: #000;
-            display: none; justify-content: center; padding: 100px 5vw; overflow-y: auto;
+        /* --- GALLERY DYNAMICS --- */
+        section { padding: 20vh 10vw; min-height: 100vh; position: relative; }
+        
+        .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(3.5rem, 11vw, 9rem); line-height: 0.85; margin-bottom: 30px; }
+        .hero-sub { max-width: 600px; opacity: 0.6; line-height: 1.8; border-left: 2px solid var(--gold); padding-left: 30px; font-size: 1.1rem; }
+
+        .gallery-container { display: grid; grid-template-columns: 1fr; gap: 15vh; margin-top: 10vh; }
+        
+        .project-card { opacity: 0; transform: scale(0.8) translateY(50px); transition: all 1.2s cubic-bezier(0.17, 0.85, 0.43, 1); }
+        .project-card.active { opacity: 1; transform: scale(1) translateY(0); }
+
+        .image-frame {
+            width: 100%; height: 70vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+            position: relative; background: #000;
         }
-        #lb-img { width: 100%; max-width: 1200px; border: 1px solid var(--gold); }
-        #lb-close { position: fixed; top: 40px; right: 50px; font-size: 4rem; cursor: pointer; font-weight: 100; color: #fff; }
+        .image-frame img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            filter: brightness(0.4) saturate(0.5); transition: 0.8s ease;
+        }
+        .project-card:hover .image-frame img { filter: brightness(1) saturate(1); transform: scale(1.05); }
 
+        .meta-text { margin-top: 30px; }
+        .meta-text h3 { font-family: 'Cormorant Garamond'; font-size: 3.5rem; font-weight: 300; }
+        .meta-text p { color: var(--gold); letter-spacing: 4px; font-size: 0.7rem; font-weight: 800; margin-top: 10px; }
+
+        /* --- FINAL CTA SPECIAL EFFECT --- */
+        .glow-trigger:hover { text-shadow: 0 0 20px var(--gold); color: var(--gold); }
+
+        /* --- CURSOR --- */
         #cursor { width: 6px; height: 6px; background: #fff; position: fixed; z-index: 40000; pointer-events: none; mix-blend-mode: difference; }
-        #cursor-aura { width: 40px; height: 40px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; z-index: 40000; pointer-events: none; transition: 0.15s ease-out; }
+        #cursor-aura { width: 40px; height: 40px; border: 1px solid var(--gold); border-radius: 50%; position: fixed; z-index: 40000; pointer-events: none; transition: 0.1s ease-out; }
     </style>
 </head>
 <body onclick="startExperience()">
 
+    <div id="flash"></div>
     <div id="loader">
         <div id="loader-num">0</div>
-        <div id="loader-status">INITIALIZING SYSTEMS...</div>
+        <div id="loader-status">ESTABLISHING AUTHORITY...</div>
     </div>
 
     <div id="film-grain"></div>
-    <div id="vignette"></div>
-    <canvas id="canvas-bg"></canvas>
-    
-    <div id="cursor"></div>
-    <div id="cursor-aura"></div>
-
-    <div id="price-tag">
-        <p style="text-decoration: line-through; opacity: 0.3; font-size: 0.7rem; letter-spacing: 2px;">EST. $2,499</p>
-        <h2 style="font-size: 3rem; font-weight: 900; margin: 5px 0;">$599</h2>
-        <p style="color: var(--gold); letter-spacing: 3px; font-size: 0.5rem; font-weight: 800;">FOUNDER PRIVILEGE: ACTIVE</p>
+    <div id="price-badge">
+        <p style="text-decoration: line-through; opacity: 0.4; font-size: 0.7rem;">VALUED AT $2,499</p>
+        <h2 style="font-size: 2.5rem; font-weight: 900;">$599</h2>
+        <p style="color: var(--gold); font-size: 0.5rem; letter-spacing: 2px; font-weight: 900; margin-top: 5px;">EXCLUSIVE FOUNDER PRIVILEGE</p>
     </div>
 
-    <div id="lightbox"><span id="lb-close">&times;</span><img id="lb-img"></div>
+    <canvas id="bg-stars" style="position:fixed; inset:0; z-index:-1;"></canvas>
+    <div id="cursor"></div><div id="cursor-aura"></div>
 
     <section>
-        <span class="tag">PREMIER THERAPY WEB DEVELOPMENT</span>
         <h1 class="hero-h1">Developing Elite<br>Digital Architecture.</h1>
         <p class="hero-sub">
-            I architect high-authority digital experiences for clinicians. No templates. No vague design. Just pure clinical precision translated into a world-class digital presence.
+            I don't just build websites. I architect authority. Every line of code is written to project the world-class expertise of your clinical practice.
         </p>
     </section>
 
-    <section id="p1">
-        <div class="project-block">
-            <span class="tag">01. CLINICAL LOGIC</span>
-            <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 20px;">CBT & Measurables</h2>
-            <div class="theater-box">
-                <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-                <div class="view-box" onclick="openLB('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">VIEW CASE STUDY</div>
+    <section id="gallery">
+        <div class="gallery-container">
+            
+            <div class="project-card">
+                <div class="image-frame">
+                    <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+                </div>
+                <div class="meta-text">
+                    <p>01. CLINICAL PRECISION</p>
+                    <h3>CBT & Measurables</h3>
+                    <p style="color:#fff; opacity:0.5; font-weight:400; letter-spacing:0; margin-top:15px; max-width:500px;">Evidence-based design for practitioners who value structure, transparency, and data-driven results.</p>
+                </div>
             </div>
+
+            <div class="project-card">
+                <div class="image-frame">
+                    <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
+                </div>
+                <div class="meta-text">
+                    <p>02. HOLISTIC JOURNEY</p>
+                    <h3>The Wild Self</h3>
+                    <p style="color:#fff; opacity:0.5; font-weight:400; letter-spacing:0; margin-top:15px; max-width:500px;">Organic textures and nature-inspired flows for holistic, somatic, and wilderness-based therapy.</p>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="image-frame">
+                    <img src="healing.jpg">
+                </div>
+                <div class="meta-text">
+                    <p>03. SOMATIC SAFETY</p>
+                    <h3>Trauma-Informed</h3>
+                    <p style="color:#fff; opacity:0.5; font-weight:400; letter-spacing:0; margin-top:15px; max-width:500px;">Soft landing pages designed with safety and grounding in mind, perfect for complex trauma practices.</p>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="image-frame">
+                    <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
+                </div>
+                <div class="meta-text">
+                    <p>04. ANALYTICAL DEPTH</p>
+                    <h3>Psychodynamic Depth</h3>
+                    <p style="color:#fff; opacity:0.5; font-weight:400; letter-spacing:0; margin-top:15px; max-width:500px;">Deep, moody, and sophisticated architecture for clinicians exploring the subconscious and the long-view.</p>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <section id="p2">
-        <div class="project-block">
-            <span class="tag">02. ORGANIC DEPTH</span>
-            <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 20px;">The Wild Self</h2>
-            <div class="theater-box">
-                <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
-                <div class="view-box" onclick="openLB('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">VIEW CASE STUDY</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="p3">
-        <div class="project-block">
-            <span class="tag">03. SOMATIC SAFETY</span>
-            <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 20px;">Trauma-Informed</h2>
-            <div class="theater-box">
-                <img src="healing.jpg">
-                <div class="view-box" onclick="openLB('healing.jpg')">VIEW CASE STUDY</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="p4">
-        <div class="project-block">
-            <span class="tag">04. ANALYTICAL REFLECTION</span>
-            <h2 style="font-family:'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 20px;">Psychodynamic Depth</h2>
-            <div class="theater-box">
-                <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
-                <div class="view-box" onclick="openLB('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">VIEW CASE STUDY</div>
-            </div>
-        </div>
-    </section>
-
-    <section style="background:#fff; color:#000; text-align:center;">
-        <h2 style="font-family:'Cormorant Garamond'; font-size: clamp(3rem, 10vw, 6rem); font-weight: 300; letter-spacing: -3px;">Whatever you envision,<br>we build.</h2>
-        <p style="max-width: 600px; margin: 40px auto; font-size: 1.2rem; opacity: 0.7; line-height: 1.8;">Secure your founder's rate. Custom architecture for bespoke clinicians.</p>
-        <a href="mailto:contact@yourdomain.com" style="display:inline-block; padding: 30px 100px; background:#000; color:#fff; text-decoration:none; font-weight:900; letter-spacing:5px; font-size: 0.8rem;">BEGIN APPLICATION</a>
+    <section style="background:#fff; color:#000; text-align:center; padding: 30vh 10vw;">
+        <h2 class="glow-trigger" style="font-family:'Cormorant Garamond'; font-size: clamp(3rem, 10vw, 7rem); transition: 0.5s;">Your Vision. Built.</h2>
+        <p style="max-width: 600px; margin: 40px auto; opacity: 0.7; font-size: 1.3rem;">I build anything you envision. No limits. Secure your spot at the Founder Rate.</p>
+        <a href="mailto:contact@email.com" style="display:inline-block; padding: 30px 100px; background:#000; color:#fff; text-decoration:none; font-weight:900; letter-spacing:5px; transition: 0.4s;">SECURE PRIVILEGE</a>
     </section>
 
     <script>
-        // --- 1. LOADER STATUS MESSAGES ---
-        const statuses = [
-            { limit: 25, msg: "Analyzing Clinical Requirements..." },
-            { limit: 50, msg: "Styling Psychodynamic Depth..." },
-            { limit: 75, msg: "Optimizing CBT Logic Structures..." },
-            { limit: 100, msg: "Finalizing Elite Architecture..." }
-        ];
-
-        let count = 0;
-        let loaderInt = setInterval(() => {
-            count += Math.floor(Math.random() * 3) + 1;
-            if (count >= 100) {
-                count = 100; clearInterval(loaderInt);
-                setTimeout(() => document.getElementById('loader').style.opacity = '0', 800);
-                setTimeout(() => document.getElementById('loader').style.display = 'none', 2300);
+        // --- 1. THE STATUS UPDATER ---
+        const messages = ["Analyzing Practice...", "Optimizing UI...", "Refining Clinical Depth...", "Ready."];
+        let c = 0;
+        let load = setInterval(() => {
+            c += Math.floor(Math.random()*4)+1;
+            if(c >= 100) {
+                c = 100; clearInterval(load);
+                document.getElementById('flash').style.opacity = "1"; // BIG BANG FLASH
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('flash').style.opacity = "0";
+                }, 100);
             }
-            document.getElementById('loader-num').innerText = count;
-            
-            statuses.forEach(s => {
-                if (count <= s.limit && count > (s.limit - 25)) {
-                    document.getElementById('loader-status').innerText = s.msg;
-                }
-            });
-        }, 60);
+            document.getElementById('loader-num').innerText = c;
+            document.getElementById('loader-status').innerText = messages[Math.floor(c/30)] || "Ready.";
+        }, 50);
 
-        // --- 2. CINEMATIC BACKGROUND (PARTICLES) ---
-        const canvas = document.getElementById('canvas-bg'), ctx = canvas.getContext('2d');
+        // --- 2. THE NEBULA PARTICLES ---
+        const canvas = document.getElementById('bg-stars'), ctx = canvas.getContext('2d');
         let pts = [];
         function init() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            pts = Array.from({length: 45}, () => ({
+            pts = Array.from({length: 80}, () => ({
                 x: Math.random()*canvas.width, y: Math.random()*canvas.height,
-                vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25,
-                s: Math.random()*1.2
+                vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, s: Math.random()*1.5
             }));
         }
         function draw() {
@@ -225,18 +205,16 @@
         }
         init(); draw();
 
-        // --- 3. THEATER REVEAL OBSERVER ---
+        // --- 3. THE "BOOM" GALLERY POP ---
         const obs = new IntersectionObserver((ents) => {
             ents.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
-        }, { threshold: 0.15 });
-        document.querySelectorAll('.theater-box').forEach(el => obs.observe(el));
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.project-card').forEach(p => obs.observe(p));
 
-        // --- 4. SCROLL & MOUSE DYNAMICS ---
+        // --- 4. PRICE TAG & MOUSE ---
         window.addEventListener('scroll', () => {
-            if(document.getElementById('p3').getBoundingClientRect().top < window.innerHeight/2)
-                document.getElementById('price-tag').classList.add('show');
+            if(window.scrollY > 500) document.getElementById('price-badge').classList.add('show');
         });
-
         window.addEventListener('mousemove', (e) => {
             document.getElementById('cursor').style.left = e.clientX+'px';
             document.getElementById('cursor').style.top = e.clientY+'px';
@@ -244,22 +222,13 @@
             document.getElementById('cursor-aura').style.top = (e.clientY-20)+'px';
         });
 
-        // --- 5. LIGHTBOX LOGIC ---
-        function openLB(s) { document.getElementById('lb-img').src = s; document.getElementById('lightbox').style.display='flex'; document.body.style.overflow='hidden'; }
-        document.getElementById('lb-close').onclick = () => { document.getElementById('lightbox').style.display='none'; document.body.style.overflow='auto'; }
-
-        // --- 6. 432Hz AUDIO DRONE ---
-        let audioCtx;
         function startExperience() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = 'sine'; osc.frequency.setValueAtTime(43.2, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.012, audioCtx.currentTime);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start();
-            }
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            let osc = ctx.createOscillator(); let gain = ctx.createGain();
+            osc.type = 'sine'; osc.frequency.setValueAtTime(43.2, ctx.currentTime);
+            gain.gain.setValueAtTime(0.015, ctx.currentTime);
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.start();
         }
     </script>
 </body>
