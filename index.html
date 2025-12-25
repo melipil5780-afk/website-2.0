@@ -3,212 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Design for Therapists</title>
+    <title>Ethera | The Future of Therapy Web Design</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,700&family=Inter:wght@300;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Montserrat:wght@100;300;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --ink: #1a1c1e;
-            --stone: #f4f2ef;
-            --sage: #7d8c80;
-            --gold: #b2937d;
-            --urgent: #b33939;
-            --white: #ffffff;
-            --ease: cubic-bezier(0.23, 1, 0.32, 1);
+            --dark: #0a0a0b;
+            --light: #f4eee0;
+            --accent: #d46a6a;
+            --gold: #c5a37d;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
-        /* 1. RESET & BASE STYLES */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background: var(--stone); 
-            color: var(--ink); 
-            overflow-x: hidden; 
-            line-height: 1.6;
-            transition: opacity 0.6s ease-in-out;
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            cursor: default;
         }
 
-        /* 2. SPECIAL EFFECTS: PAGE TRANSITION OVERLAY */
-        #page-loader {
+        /* --- BACKGROUND FX --- */
+        .grain {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--stone); z-index: 9999;
-            pointer-events: none; opacity: 0; transition: opacity 0.6s ease-in-out;
+            pointer-events: none; z-index: 9999; opacity: 0.06;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
-        body.fade-out #page-loader { opacity: 1; pointer-events: all; }
 
-        /* 3. SPECIAL EFFECTS: AURORA BACKGROUND */
         #canvas-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; opacity: 0.4; pointer-events: none;
+            z-index: -1; filter: blur(40px);
         }
 
-        /* 4. NAVIGATION (Sticky) */
+        /* --- NAVIGATION --- */
         nav {
-            position: sticky; top: 0; padding: 30px;
-            display: flex; justify-content: center;
-            background: rgba(244, 242, 239, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
+            position: fixed; top: 0; width: 100%; padding: 30px 50px;
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
         }
-        nav a { 
-            text-decoration: none; color: var(--ink); font-size: 0.8rem; 
-            letter-spacing: 3px; text-transform: uppercase; font-weight: 600; 
+        .logo { font-family: 'Cormorant Garamond'; font-size: 2rem; font-weight: 300; letter-spacing: -1px; }
+        .nav-cta {
+            background: var(--light); color: var(--dark); padding: 12px 25px;
+            border-radius: 50px; text-decoration: none; font-size: 0.7rem;
+            font-weight: 600; letter-spacing: 1px; transition: 0.3s;
         }
 
-        /* 5. HERO SECTION */
+        /* --- HERO SECTION --- */
         header {
-            height: 90vh;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            text-align: center; padding: 20px; position: relative;
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; padding: 0 10vw;
         }
 
+        .hero-tag { font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: block; }
         .hero-title {
-            font-family: 'Playfair Display', serif;
-            /* MOBILE FIX: clamp ensures "Therapists" fits on one line */
-            font-size: clamp(2.4rem, 8vw, 6rem); 
-            line-height: 1.1; margin-bottom: 20px;
+            font-family: 'Cormorant Garamond';
+            font-size: clamp(3rem, 12vw, 9rem);
+            line-height: 0.85; margin-bottom: 30px;
         }
+        .hero-title i { font-weight: 300; }
 
-        /* EFFECT: PARALLAX TEXT */
-        .parallax-text {
-            position: absolute; font-size: 15vw; font-family: 'Playfair Display';
-            opacity: 0.03; white-space: nowrap; pointer-events: none; z-index: -1;
-            font-style: italic;
+        /* --- FLOATING PRICE TAG (The "WOW" Deal Factor) --- */
+        .floating-deal {
+            position: fixed; bottom: 40px; right: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            padding: 20px 30px; border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; z-index: 500;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: float 4s ease-in-out infinite;
         }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* 6. PORTFOLIO: HORIZONTAL SCROLL */
-        .portfolio-section { padding: 100px 0; }
-        .section-title { font-family: 'Playfair Display'; font-size: 3rem; text-align: center; margin-bottom: 60px; }
-
-        .portfolio-container {
-            display: flex; gap: 40px; padding: 0 5vw;
-            overflow-x: auto; scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-        }
-        .portfolio-container::-webkit-scrollbar { display: none; }
-
-        /* EFFECT: IMAGE CURTAIN & ZOOM */
-        .portfolio-card {
-            min-width: 450px; height: 600px; position: relative;
-            overflow: hidden; scroll-snap-align: center;
-            cursor: pointer; border: 1px solid rgba(0,0,0,0.1);
-        }
+        /* --- PORTFOLIO GRID --- */
+        .portfolio-section { padding: 150px 10vw; position: relative; }
         
-        @media (max-width: 600px) { .portfolio-card { min-width: 85vw; height: 500px; } }
+        .grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 100px 60px;
+        }
 
-        .portfolio-card img {
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+        .card-container { position: relative; cursor: pointer; }
+
+        .image-wrap {
+            width: 100%; height: 650px; overflow: hidden;
+            border-radius: 2px; position: relative;
+            background: #111;
+        }
+
+        .image-wrap img {
             width: 100%; height: 100%; object-fit: cover;
-            transition: transform 1.2s var(--ease);
+            filter: saturate(0.5) brightness(0.8);
+            transition: 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .portfolio-card:hover img { transform: scale(1.1); }
 
-        .card-overlay {
-            position: absolute; bottom: 0; left: 0; width: 100%;
-            padding: 40px; background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: white; opacity: 0; transition: 0.5s;
+        .card-container:hover img { filter: saturate(1) brightness(1); transform: scale(1.05); }
+
+        .card-label {
+            margin-top: 25px; display: flex; justify-content: space-between; align-items: flex-end;
         }
-        .portfolio-card:hover .card-overlay { opacity: 1; }
+        .card-label h3 { font-family: 'Cormorant Garamond'; font-size: 2.5rem; font-weight: 300; }
+        .card-label span { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; }
 
-        /* 7. REVEAL ON SCROLL ELEMENTS */
-        .reveal { opacity: 0; transform: translateY(50px); transition: 1s var(--ease); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* 8. PRICING SECTION */
-        .offer-section {
-            background: var(--ink); color: white; padding: 140px 20px; text-align: center;
-        }
-        .price-big {
-            font-family: 'Playfair Display'; font-size: clamp(4rem, 15vw, 10rem);
-            color: var(--urgent); margin: 20px 0;
-        }
-        .old-price { text-decoration: line-through; opacity: 0.3; font-size: 0.4em; color: white; margin-right: 20px; }
-
-        /* 9. BUTTONS */
-        .btn {
-            padding: 22px 50px; background: var(--white); color: var(--ink);
-            text-decoration: none; text-transform: uppercase; letter-spacing: 2px;
-            font-weight: 600; font-size: 0.85rem; display: inline-block; transition: 0.4s;
-        }
-        .btn:hover { background: var(--gold); color: white; transform: translateY(-5px); }
-
-        /* 10. LIGHTBOX */
-        #lightbox {
+        /* --- THE PREVIEW SYSTEM --- */
+        #preview-box {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 2000; display: none;
-            align-items: center; justify-content: center;
+            background: var(--dark); z-index: 5000;
+            display: none; overflow-y: auto;
         }
-        #lightbox img { max-width: 90%; max-height: 85vh; border: 2px solid white; }
+        .close-btn {
+            position: fixed; top: 40px; right: 40px; font-size: 3rem;
+            cursor: pointer; z-index: 5001; mix-blend-mode: difference;
+        }
+
+        /* --- MAGNETIC BUTTON --- */
+        .magnetic-wrap {
+            display: inline-block; padding: 40px; margin-top: 50px;
+        }
+        .main-btn {
+            padding: 30px 80px; background: var(--light); color: var(--dark);
+            text-decoration: none; border-radius: 100px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 4px; display: inline-block;
+            transition: 0.2s; position: relative;
+        }
+
+        /* --- REVEAL ANIMATIONS --- */
+        .reveal { opacity: 0; transform: translateY(100px) skewY(5deg); transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0) skewY(0); }
+
     </style>
 </head>
 <body>
 
-    <div id="page-loader"></div>
+    <div class="grain"></div>
     <canvas id="canvas-bg"></canvas>
-    <div class="parallax-text" id="p-text">Therapy Design Boutique</div>
 
-    <nav><a href="contact.html">Begin A Project</a></nav>
+    <div class="floating-deal">
+        <p style="font-size: 0.6rem; letter-spacing: 2px; opacity: 0.6;">LIMITED SLOTS LEFT</p>
+        <p style="font-family: 'Cormorant Garamond'; font-size: 2rem;">$599 <span style="font-size: 0.8rem; opacity: 0.3; text-decoration: line-through;">$1,799</span></p>
+        <a href="contact.html" style="color: var(--gold); font-size: 0.7rem; text-decoration: none; font-weight: 600;">CLAIM OFFER →</a>
+    </div>
+
+    <nav>
+        <div class="logo">Ethera.</div>
+        <a href="contact.html" class="nav-cta">START PROJECT</a>
+    </nav>
 
     <header>
-        <div class="reveal">
-            <h1 class="hero-title">Websites for <br><i>Therapists</i></h1>
-            <p style="margin-bottom: 40px; font-size: 1.1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-                Bespoke digital sanctuaries designed to grow your clinical practice.
-            </p>
-            <a href="#portfolio" class="btn">View Gallery</a>
+        <span class="hero-tag">2025 Boutique Digital Studio</span>
+        <h1 class="hero-title">
+            <div class="reveal">Elevating the</div>
+            <div class="reveal"><i>Modern Practice</i></div>
+        </h1>
+        <p class="reveal" style="max-width: 500px; line-height: 1.8; opacity: 0.7; font-weight: 300;">
+            We design high-conversion digital sanctuaries for therapists who demand excellence and serenity in their online presence.
+        </p>
+        
+        <div class="magnetic-wrap reveal">
+            <a href="#work" class="main-btn" id="mag-btn">Explore Work</a>
         </div>
     </header>
 
-    <section class="portfolio-section" id="portfolio">
-        <h2 class="section-title reveal">Our Portfolio</h2>
-        <div class="portfolio-container">
-            <div class="portfolio-card reveal" onclick="openLightbox('healing.jpg')">
-                <img src="healing.jpg" alt="Design 1">
-                <div class="card-overlay"><h3>Modern Healing</h3><p>Full Design Case Study</p></div>
+    <section class="portfolio-section" id="work">
+        <div class="grid">
+            <div class="card-container reveal" onclick="viewFull('healing.jpg')">
+                <div class="image-wrap"><img src="healing.jpg" alt="Design 1"></div>
+                <div class="card-label">
+                    <h3>The Ritual</h3>
+                    <span>2025 Clinical Case</span>
+                </div>
             </div>
-            <div class="portfolio-card reveal" onclick="openLightbox('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
-                <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Design 2">
-                <div class="card-overlay"><h3>Clinical Professional</h3><p>Full Design Case Study</p></div>
+            <div class="card-container reveal" onclick="viewFull('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
+                <div class="image-wrap"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Design 2"></div>
+                <div class="card-label">
+                    <h3>Cognitive</h3>
+                    <span>Modern Professional</span>
+                </div>
             </div>
-            <div class="portfolio-card reveal" onclick="openLightbox('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
-                <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Design 3">
-                <div class="card-overlay"><h3>Soft Textures</h3><p>Full Design Case Study</p></div>
+            <div class="card-container reveal" onclick="viewFull('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
+                <div class="image-wrap"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Design 3"></div>
+                <div class="card-label">
+                    <h3>Serene Mind</h3>
+                    <span>Soft Textures</span>
+                </div>
             </div>
-            <div class="portfolio-card reveal" onclick="openLightbox('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
-                <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="Design 4">
-                <div class="card-overlay"><h3>Minimalist Growth</h3><p>Full Design Case Study</p></div>
+            <div class="card-container reveal" onclick="viewFull('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
+                <div class="image-wrap"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="Design 4"></div>
+                <div class="card-label">
+                    <h3>Growth Lab</h3>
+                    <span>Boutique Minimal</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="offer-section">
-        <div class="reveal">
-            <span style="text-transform: uppercase; letter-spacing: 5px; font-size: 0.75rem; opacity: 0.7;">Introductory Offer</span>
-            <div class="price-big"><span class="old-price">$1,799</span>$599</div>
-            <p style="margin-bottom: 40px; opacity: 0.7; max-width: 500px; margin-left: auto; margin-right: auto;">
-                A complete custom-coded clinical website. One-time payment. Lifetime ownership.
-            </p>
-            <a href="contact.html" class="btn" style="background: var(--urgent); color: white;">Secure This Rate</a>
-        </div>
-    </section>
-
-    <div id="lightbox" onclick="this.style.display='none'"><img id="lb-img"></div>
+    <div id="preview-box">
+        <span class="close-btn" onclick="closeFull()">&times;</span>
+        <img id="full-img" src="" style="width: 100%; height: auto;">
+    </div>
 
     <script>
-        // --- 1. SMOOTH PAGE TRANSITION ---
-        document.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', e => {
-                if (link.hostname === window.location.hostname && link.href.includes('.html')) {
-                    e.preventDefault();
-                    const target = link.href;
-                    document.body.classList.add('fade-out');
-                    setTimeout(() => { window.location.href = target; }, 600);
-                }
-            });
+        // 1. MAGNETIC BUTTON EFFECT
+        const mBtn = document.getElementById('mag-btn');
+        document.addEventListener('mousemove', (e) => {
+            const mWrap = mBtn.parentElement;
+            const rect = mWrap.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            if (Math.abs(x) < 100 && Math.abs(y) < 100) {
+                mBtn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+            } else {
+                mBtn.style.transform = `translate(0px, 0px)`;
+            }
         });
 
-        // --- 2. REVEAL ON SCROLL ---
+        // 2. SCROLL REVEALS
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) entry.target.classList.add('active');
@@ -216,19 +228,18 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // --- 3. PARALLAX TEXT MOVEMENT ---
-        window.addEventListener('scroll', () => {
-            const scroll = window.pageYOffset;
-            document.getElementById('p-text').style.transform = `translateX(${scroll * 0.15}px)`;
-        });
-
-        // --- 4. LIGHTBOX FUNCTION ---
-        function openLightbox(src) {
-            document.getElementById('lb-img').src = src;
-            document.getElementById('lightbox').style.display = 'flex';
+        // 3. FULL SCREEN VIEW
+        function viewFull(imgSrc) {
+            document.getElementById('full-img').src = imgSrc;
+            document.getElementById('preview-box').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeFull() {
+            document.getElementById('preview-box').style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
-        // --- 5. ANIMATED AURORA CANVAS ---
+        // 4. THE LIQUID CANVAS BACKGROUND
         const canvas = document.getElementById('canvas-bg');
         const ctx = canvas.getContext('2d');
         let w, h;
@@ -236,29 +247,28 @@
         window.addEventListener('resize', resize);
         resize();
 
-        const blobs = Array.from({length: 6}, () => ({
+        let circles = Array.from({length: 10}, () => ({
             x: Math.random() * w, y: Math.random() * h,
-            r: Math.random() * 300 + 200,
-            vx: Math.random() * 0.4 - 0.2, vy: Math.random() * 0.4 - 0.2,
-            color: ['#7d8c80', '#b2937d', '#d4c5b9'][Math.floor(Math.random() * 3)]
+            r: Math.random() * 400 + 200,
+            vx: Math.random() * 1 - 0.5, vy: Math.random() * 1 - 0.5,
+            c: ['#1a1c1e', '#2d1b1b', '#1b2d2a'][Math.floor(Math.random() * 3)]
         }));
 
-        function draw() {
+        function animate() {
             ctx.clearRect(0, 0, w, h);
-            ctx.filter = 'blur(90px)';
-            blobs.forEach(b => {
+            circles.forEach(c => {
+                c.x += c.vx; c.y += c.vy;
+                if(c.x < -c.r || c.x > w + c.r) c.vx *= -1;
+                if(c.y < -c.r || c.y > h + c.r) c.vy *= -1;
                 ctx.beginPath();
-                ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-                ctx.fillStyle = b.color;
-                ctx.globalAlpha = 0.3;
+                ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+                ctx.fillStyle = c.c;
+                ctx.globalAlpha = 0.5;
                 ctx.fill();
-                b.x += b.vx; b.y += b.vy;
-                if(b.x < 0 || b.x > w) b.vx *= -1;
-                if(b.y < 0 || b.y > h) b.vy *= -1;
             });
-            requestAnimationFrame(draw);
+            requestAnimationFrame(animate);
         }
-        draw();
+        animate();
     </script>
 </body>
 </html>
