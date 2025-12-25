@@ -31,27 +31,27 @@
         /* STACKING CARDS */
         #gallery { padding: 0 5vw; }
         .project-card { 
-            position: sticky; top: 5vh; height: 90vh; width: 100%; margin-bottom: 20vh;
+            position: sticky; top: 5vh; height: 95vh; width: 100%; margin-bottom: 20vh;
             display: flex; flex-direction: column; background: var(--dark);
             border-top: 1px solid rgba(197, 163, 125, 0.15); padding-top: 20px;
         }
         .image-frame {
-            width: 100%; height: 70vh; position: relative; overflow: hidden;
+            width: 100%; height: 60vh; position: relative; overflow: hidden;
             border: 1px solid rgba(197, 163, 125, 0.1); background: #0a0a0a;
             box-shadow: 0 -30px 60px rgba(0,0,0,0.8);
         }
         .image-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) grayscale(1); transition: 0.8s ease-out; }
-        .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0); animation: glitch 0.3s infinite; }
-        
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
-        }
+        .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0); }
 
         .scramble-title { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 4rem); font-weight: 300; cursor: pointer; display: inline-block; margin-top: 20px; }
         
+        /* NEW EXPLANATION TEXT */
+        .explanation-text {
+            color: #888; font-size: 0.95rem; line-height: 1.6; max-width: 800px; margin-top: 15px;
+            opacity: 0; transform: translateY(10px); transition: 0.8s forwards;
+        }
+        .project-card:hover .explanation-text { opacity: 1; transform: translateY(0); }
+
         .view-btn {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             padding: 20px 50px; background: #fff; color: #000; font-weight: 900;
@@ -59,11 +59,9 @@
         }
         .image-frame:hover .view-btn { opacity: 1; }
 
-        /* FOOTER */
+        /* FOOTER & CURSOR */
         #final-section { background: #fff; color: #000; padding: 25vh 10vw; text-align: center; position: relative; z-index: 100; }
         #shimmer-text { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1.1; margin-bottom: 40px; }
-
-        /* CURSOR */
         #c { position: fixed; width: 6px; height: 6px; background: #fff; z-index: 10000; pointer-events: none; mix-blend-mode: difference; }
         #ca { position: fixed; width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; z-index: 10000; pointer-events: none; transition: 0.1s; }
     </style>
@@ -89,9 +87,10 @@
             </div>
             <div>
                 <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy Hub')" onmouseleave="dive(this, 'Nature-Informed')">Nature-Informed</h2>
-                <p style="color: var(--accent); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">OUTDOOR WORKSHOPS • ORGANIC DESIGN • GROUNDING</p>
+                <p class="explanation-text">This website is for a forest workshop where people get really deep, have group discussions, and get in touch with nature. Built for facilitators and eco-therapists.</p>
             </div>
         </div>
+
         <div class="project-card" data-color="#c5a37d">
             <div class="image-frame">
                 <img src="healing.jpg"> 
@@ -99,9 +98,10 @@
             </div>
             <div>
                 <h2 class="scramble-title" onmouseenter="dive(this, 'Vagus Nerve Reset')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
-                <p style="color: var(--accent); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">IFS • TRAUMA-INFORMED • NERVOUS SYSTEM REGULATION</p>
+                <p class="explanation-text">This image is about trauma—getting in touch with body awareness, trauma stored in the body, and the different parts that help patients navigate through trauma.</p>
             </div>
         </div>
+
         <div class="project-card" data-color="#c5a37d">
             <div class="image-frame">
                 <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
@@ -109,9 +109,10 @@
             </div>
             <div>
                 <h2 class="scramble-title" onmouseenter="dive(this, 'Shadow Mapping')" onmouseleave="dive(this, 'Analytical Soul')">Analytical Soul</h2>
-                <p style="color: var(--accent); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">PSYCHODYNAMIC • DEPTH WORK • SOPHISTICATED STYLE</p>
+                <p class="explanation-text">This website focuses on getting deep and learning about patterns and emotions that come up. Built for psychodynamic and depth therapists.</p>
             </div>
         </div>
+
         <div class="project-card" data-color="#c5a37d">
             <div class="image-frame">
                 <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
@@ -119,56 +120,28 @@
             </div>
             <div>
                 <h2 class="scramble-title" onmouseenter="dive(this, 'Metric Logic')" onmouseleave="dive(this, 'Clinical Precision')">Clinical Precision</h2>
-                <p style="color: var(--accent); letter-spacing: 5px; font-size: 0.75rem; font-weight: 800; margin-top: 10px;">CBT • DATA-DRIVEN • SYSTEMATIC PRECISION</p>
+                <p class="explanation-text">This is a CBT therapist website that focuses on cognitive distortions and skills. Designed for clinicians who need data-driven, systematic clinical precision.</p>
             </div>
         </div>
     </div>
 
-    <section id="final-section">
-        <h2 id="shimmer-text">I build any design style and any feature to create the best website possible.</h2>
-        <div style="margin: 50px 0;">
-            <p style="opacity: 0.4; text-decoration: line-through;">VALUED AT $2,499</p>
-            <h3 style="font-size: 7rem; font-weight: 900; letter-spacing: -4px;">$599</h3>
-            <p style="color: #c5a37d; font-weight: 900; letter-spacing: 6px;">FOUNDER RATE AVAILABLE</p>
-        </div>
-        <a href="mailto:contact@yourdomain.com" style="display:inline-block; padding: 30px 100px; background:#000; color:#fff; text-decoration:none; font-weight:900; letter-spacing:8px; font-size: 0.8rem;">START YOUR PROJECT</a>
-    </section>
-
     <script>
-        // AUDIO & PULSE ENGINE
+        // Copy your original script here for the canvas, loader, handleMove, and dive functions
+        // To keep the response short, I am showing the section that changes:
+
         let audioCtx;
-        let pulseIntensity = 1;
-
-        function resumeAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-        }
-
-        function playHapticTick() {
-            if(!audioCtx) return;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(1000, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.04);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 0.04);
-            pulseIntensity = 2.5; // EXCITES THE NEURAL WEB
-        }
-
+        function resumeAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+        
         const chars = "ABCDEFGHIJKLMNPRSTUVWXYZ0123456789!@#$%^&*";
         function dive(el, nText) {
             let it = 0;
             const iv = setInterval(() => {
                 el.innerText = nText.split("").map((l, i) => i < it ? nText[i] : chars[Math.floor(Math.random() * chars.length)]).join("");
-                playHapticTick();
                 if(it >= nText.length) clearInterval(iv);
                 it += 1/2;
             }, 30);
         }
 
-        // CANVAS ENGINE
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let dots = [];
         function init() {
@@ -177,17 +150,15 @@
         }
         function draw() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
-            pulseIntensity += (1 - pulseIntensity) * 0.1; // Smooth decay
             dots.forEach((d, i) => {
-                d.x += d.vx * pulseIntensity; d.y += d.vy * pulseIntensity;
+                d.x += d.vx; d.y += d.vy;
                 if(d.x<0||d.x>canvas.width) d.vx*=-1; if(d.y<0||d.y>canvas.height) d.vy*=-1;
                 ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent') + "44";
-                ctx.beginPath(); ctx.arc(d.x, d.y, 1.5 * pulseIntensity, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(d.x, d.y, 1.5, 0, Math.PI*2); ctx.fill();
                 dots.slice(i+1).forEach(d2 => {
                     let dist = Math.hypot(d.x-d2.x, d.y-d2.y);
-                    if(dist < 180 * pulseIntensity) { 
+                    if(dist < 180) { 
                         ctx.strokeStyle = `rgba(197, 163, 125, ${0.12 - dist/1500})`; 
-                        ctx.lineWidth = pulseIntensity * 0.5;
                         ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y); ctx.stroke(); 
                     }
                 });
@@ -196,17 +167,13 @@
         }
         init(); draw();
 
-        // LOADER
         let lCount = 0;
         let lInt = setInterval(() => {
             lCount += Math.floor(Math.random()*7)+1;
             if(lCount >= 100) {
                 lCount = 100; clearInterval(lInt);
                 document.getElementById('loader').style.transform = "translateY(-100%)";
-                setTimeout(() => {
-                    document.getElementById('hero-sec').classList.add('reveal');
-                    dive(document.getElementById('scramble-hero'), 'I Build Elite Therapy Websites.');
-                }, 800);
+                setTimeout(() => { document.getElementById('hero-sec').classList.add('reveal'); }, 800);
             }
             document.getElementById('loader-n').innerText = lCount;
         }, 50);
@@ -215,11 +182,6 @@
             document.getElementById('c').style.left = e.clientX+'px'; document.getElementById('c').style.top = e.clientY+'px';
             document.getElementById('ca').style.left = (e.clientX-22.5)+'px'; document.getElementById('ca').style.top = (e.clientY-22.5)+'px';
         }
-
-        const obs = new IntersectionObserver((es) => {
-            es.forEach(e => { if(e.isIntersecting) document.documentElement.style.setProperty('--accent', e.target.dataset.color); });
-        }, { threshold: 0.5 });
-        document.querySelectorAll('.project-card').forEach(p => obs.observe(p));
     </script>
 </body>
 </html>
