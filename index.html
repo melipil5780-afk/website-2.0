@@ -4,77 +4,92 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sovereign | Clinical Web Architecture</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@100;400;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@100;400;700;900&display=swap" rel="stylesheet">
 <style>
     :root { --accent: #c5a37d; --dark: #050505; --text-sub: #888; }
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-    body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+    body { background: var(--dark); color: #fff; font-family: 'Montserrat', sans-serif; transition: background 1.2s ease; }
 
     /* LAYERS */
     #noise, #spotlight, #bg-canvas, #c, #ca { pointer-events: none; position: fixed; inset: 0; }
     #noise { background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.06; z-index: 1; }
     #bg-canvas { z-index: -1; background: #000; }
-    #spotlight { z-index: 2; background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.95) 100%); }
+    #spotlight { z-index: 2; background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.95) 100%); transition: opacity 0.5s; }
 
     /* LOADER */
     #loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1s cubic-bezier(1,0,0,1); }
     #loader-n { font-family: 'Cormorant Garamond'; font-size: 8vw; color: var(--accent); font-weight: 300; }
 
     /* HERO */
-    section { padding: 20vh 10vw; position: relative; z-index: 10; }
+    section { padding: 25vh 10vw; position: relative; z-index: 10; }
     .hero-tag { color: var(--accent); letter-spacing: 12px; font-size: 0.6rem; font-weight: 900; margin-bottom: 20px; display: block; opacity: 0; transition: 1s; }
     .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 8vw, 7.5rem); line-height: 0.9; font-weight: 300; margin-bottom: 40px; min-height: 1.2em; }
     .hero-sub { max-width: 600px; font-size: 1.1rem; opacity: 0; line-height: 1.8; border-left: 1px solid var(--accent); padding-left: 30px; transition: 1.5s 0.5s forwards; color: #888; }
     .reveal .hero-tag, .reveal .hero-sub { opacity: 0.6; }
 
     /* GALLERY HEADER */
-    .gallery-intro { padding: 10vh 10vw 5vh; text-align: left; border-bottom: 1px solid rgba(197, 163, 125, 0.1); }
-    .gallery-intro h2 { font-family: 'Cormorant Garamond'; font-size: 0.7rem; letter-spacing: 10px; color: var(--accent); text-transform: uppercase; }
+    .gallery-label { padding: 10vh 10vw 2vh; font-family: 'Cormorant Garamond'; font-size: 0.7rem; letter-spacing: 10px; color: var(--accent); text-transform: uppercase; z-index: 10; position: relative; }
 
-    /* STACKING CARDS */
+    /* STACKING CARDS (Desktop & Mobile) */
     #gallery { padding: 0 5vw; position: relative; z-index: 20; }
-    .project-card { position: sticky; top: 5vh; height: 85vh; width: 100%; margin-bottom: 25vh; display: flex; flex-direction: column; background: var(--dark); border-top: 1px solid rgba(197, 163, 125, 0.15); padding-top: 20px; transition: transform 0.5s ease; }
+    .project-card { 
+        position: sticky; 
+        top: 5vh; 
+        height: 85vh; 
+        width: 100%; 
+        margin-bottom: 20vh; 
+        display: flex; 
+        flex-direction: column; 
+        background: var(--dark); 
+        border-top: 1px solid rgba(197, 163, 125, 0.2); 
+        padding-top: 20px;
+        transition: transform 0.3s ease;
+    }
     
-    .image-frame { width: 100%; height: 55vh; position: relative; overflow: hidden; border: 1px solid rgba(197, 163, 125, 0.1); }
+    .image-frame { width: 100%; height: 50vh; position: relative; overflow: hidden; border: 1px solid rgba(197, 163, 125, 0.1); cursor: pointer; }
     .image-frame img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4) grayscale(1); transition: 0.8s ease-out; }
-    .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0); }
+    .project-card:hover .image-frame img { filter: brightness(0.9) grayscale(0); transform: scale(1.05); }
 
-    .scramble-title { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 4rem); font-weight: 300; margin-top: 20px; }
-    .explanation { color: #888; font-size: 0.95rem; margin-top: 10px; max-width: 750px; line-height: 1.6; }
+    .view-btn { 
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+        padding: 18px 35px; background: #fff; color: #000; font-weight: 900; 
+        letter-spacing: 3px; font-size: 0.6rem; opacity: 0; transition: 0.4s; 
+        z-index: 60; pointer-events: none; text-transform: uppercase;
+    }
+    .image-frame:hover .view-btn { opacity: 1; }
+
+    .scramble-title { font-family: 'Cormorant Garamond'; font-size: clamp(1.8rem, 5vw, 3.5rem); font-weight: 300; margin-top: 15px; }
+    .explanation { color: #888; font-size: 0.9rem; margin-top: 10px; max-width: 700px; line-height: 1.5; }
 
     /* FULLSCREEN MODAL */
-    #img-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 40px; opacity: 0; transition: 0.4s; }
+    #img-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: 0.4s; pointer-events: auto; }
     #img-modal.active { display: flex; opacity: 1; }
-    #modal-content { max-width: 90%; max-height: 90%; object-fit: contain; box-shadow: 0 0 50px rgba(0,0,0,1); border: 1px solid rgba(255,255,255,0.1); }
-    #modal-close { position: absolute; top: 40px; right: 40px; color: #fff; font-size: 2rem; cursor: pointer; font-weight: 100; font-family: sans-serif; transition: 0.3s; pointer-events: auto; }
-    #modal-close:hover { color: var(--accent); transform: rotate(90deg); }
+    #modal-content { max-width: 95%; max-height: 85%; object-fit: contain; border: 1px solid rgba(197, 163, 125, 0.3); }
+    #modal-close { position: absolute; top: 30px; right: 30px; color: #fff; font-size: 2.5rem; cursor: pointer; z-index: 10001; }
 
-    /* FINAL SECTION */
-    #final-section { background: #fff; color: #000; padding: 25vh 10vw; text-align: center; position: relative; z-index: 100; }
-    #final-h2 { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 40px; }
-
-    /* SPECIAL PULSE BUTTON */
-    .cta-btn { display: inline-block; padding: 30px 100px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 8px; font-size: 0.8rem; position: relative; pointer-events: auto; animation: pulse-shadow 3s infinite; transition: 0.5s; }
-    @keyframes pulse-shadow {
-        0% { box-shadow: 0 0 0 0 rgba(197, 163, 125, 0.4); }
-        70% { box-shadow: 0 0 0 30px rgba(197, 163, 125, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(197, 163, 125, 0); }
+    /* FINAL SECTION & SPECIAL AURA EFFECT */
+    #final-section { background: #fff; color: #000; padding: 25vh 10vw; text-align: center; position: relative; z-index: 100; transition: 1s; }
+    #final-h2 { font-family: 'Cormorant Garamond'; font-size: clamp(1.8rem, 5vw, 4rem); line-height: 1.1; margin-bottom: 40px; }
+    .cta-btn { display: inline-block; padding: 25px 70px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 6px; font-size: 0.8rem; position: relative; pointer-events: auto; transition: 0.4s; animation: pulse 2.5s infinite; }
+    
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2); }
+        70% { box-shadow: 0 0 0 20px rgba(197, 163, 125, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
     }
-    .cta-btn:hover { transform: translateY(-5px); background: var(--accent); }
 
     /* CURSOR */
     #c { width: 6px; height: 6px; background: #fff; z-index: 10001; mix-blend-mode: difference; border-radius: 50%; }
-    #ca { width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; z-index: 10001; transition: 0.1s; }
+    #ca { width: 40px; height: 40px; border: 1px solid var(--accent); border-radius: 50%; z-index: 10001; transition: 0.1s; }
 
-    /* MOBILE ADJUSTMENTS */
+    /* MOBILE SPECIFIC STACKING */
     @media (max-width: 768px) {
         * { cursor: auto !important; }
         #c, #ca, #spotlight { display: none !important; }
-        .project-card { position: relative; top: 0; height: auto; margin-bottom: 60px; padding-bottom: 40px; }
-        .image-frame { height: 45vh; }
-        .hero-h1 { font-size: 3.5rem; }
-        #final-section { padding: 15vh 5vw; }
-        .cta-btn { width: 100%; padding: 25px 0; }
+        .project-card { top: 2vh; height: 75vh; margin-bottom: 15vh; }
+        .image-frame { height: 40vh; }
+        .view-btn { opacity: 1; top: auto; bottom: 10px; transform: translateX(-50%); width: 90%; font-size: 0.5rem; padding: 12px; }
+        .hero-h1 { font-size: 3rem; }
     }
 </style>
 </head>
@@ -86,8 +101,8 @@
 <canvas id="bg-canvas"></canvas>
 <div id="c"></div><div id="ca"></div>
 
-<div id="img-modal">
-    <div id="modal-close" onclick="closeModal()">✕</div>
+<div id="img-modal" onclick="closeModal()">
+    <div id="modal-close">✕</div>
     <img id="modal-content" src="">
 </div>
 
@@ -97,75 +112,77 @@
     <p class="hero-sub">I build digital environments that mirror your clinical excellence. From somatic safety to analytical depth, your practice deserves structure.</p>
 </section>
 
-<div class="gallery-intro">
-    <h2>Clinical Architecture Gallery</h2>
-</div>
+<div class="gallery-label">Selected Architecture Gallery</div>
 
 <div id="gallery">
     <div class="project-card" data-color="#4a5d4a">
         <div class="image-frame" onclick="openModal('Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg')">
             <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
+            <div class="view-btn">View Full Architecture</div>
         </div>
         <div>
-            <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy Hub')" onmouseleave="dive(this, 'Nature-Informed')">Nature-Informed</h2>
-            <p class="explanation">A digital space designed to ground the nervous system before the session begins.</p>
+            <h2 class="scramble-title" onmouseenter="dive(this, 'Ecotherapy Hub')" onmouseleave="dive(this, 'The Grounded Space')">The Grounded Space</h2>
+            <p class="explanation">A digital environment built to regulate the nervous system through organic geometry and natural depth.</p>
         </div>
     </div>
 
     <div class="project-card" data-color="#c5a37d">
         <div class="image-frame" onclick="openModal('healing.jpg')">
             <img src="healing.jpg">
+            <div class="view-btn">View Full Architecture</div>
         </div>
         <div>
-            <h2 class="scramble-title" onmouseenter="dive(this, 'Vagus Nerve Reset')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
-            <p class="explanation">Focused on containment and predictability for trauma-informed care.</p>
+            <h2 class="scramble-title" onmouseenter="dive(this, 'Trauma Informed')" onmouseleave="dive(this, 'Somatic Safety')">Somatic Safety</h2>
+            <p class="explanation">Focused on containment and predictability. A safe digital entry point for somatic practices.</p>
         </div>
     </div>
 
     <div class="project-card" data-color="#7a1010">
         <div class="image-frame" onclick="openModal('Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg')">
             <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
+            <div class="view-btn">View Full Architecture</div>
         </div>
         <div>
-            <h2 class="scramble-title" onmouseenter="dive(this, 'Shadow Mapping')" onmouseleave="dive(this, 'Analytical Soul')">Analytical Soul</h2>
-            <p class="explanation">Reflecting the richness and complexity of depth psychology.</p>
+            <h2 class="scramble-title" onmouseenter="dive(this, 'Shadow Work')" onmouseleave="dive(this, 'Analytical Soul')">Analytical Soul</h2>
+            <p class="explanation">Architecture for depth psychology. Layered, mysterious, and intellectually resonant.</p>
         </div>
     </div>
 
     <div class="project-card" data-color="#c5a37d">
         <div class="image-frame" onclick="openModal('Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg')">
             <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+            <div class="view-btn">View Full Architecture</div>
         </div>
         <div>
-            <h2 class="scramble-title" onmouseenter="dive(this, 'Metric Logic')" onmouseleave="dive(this, 'Clinical Precision')">Clinical Precision</h2>
-            <p class="explanation">Clear, authoritative architecture for modern evidence-based clinics.</p>
+            <h2 class="scramble-title" onmouseenter="dive(this, 'CBT Logic')" onmouseleave="dive(this, 'Clinical Precision')">Clinical Precision</h2>
+            <p class="explanation">Clean, authoritative architecture that justifies high private-pay rates through expert design.</p>
         </div>
     </div>
 </div>
 
 <section id="final-section">
-    <h2 id="final-h2">I don't just build websites.<br>I architect the first step of your client's journey.</h2>
+    <h2 id="final-h2">I don't just build websites.<br>I architect the first step of the therapeutic journey.</h2>
     <div style="margin: 50px 0;">
-        <p style="opacity: 0.4; text-decoration: line-through; letter-spacing: 2px;">VALUED AT $2,499</p>
+        <p style="opacity: 0.4; text-decoration: line-through;">VALUED AT $2,499</p>
         <h3 style="font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; letter-spacing: -4px;">$599</h3>
         <p style="color: #c5a37d; font-weight: 900; letter-spacing: 6px;">FOUNDER RATE | LIMITED EDITION</p>
     </div>
-    <a href="mailto:contact@yourdomain.com" class="cta-btn">AUDIT MY PRACTICE SITE</a>
+    <a href="mailto:contact@yourdomain.com" class="cta-btn">AUDIT MY CURRENT SITE</a>
 </section>
 
 <script>
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     
-    // MODAL LOGIC
-    function openModal(imgSrc) {
-        document.getElementById('modal-content').src = imgSrc;
-        document.getElementById('img-modal').classList.add('active');
+    function openModal(src) {
+        document.getElementById('modal-content').src = src;
+        document.getElementById('img-modal').style.display = 'flex';
+        setTimeout(() => document.getElementById('img-modal').classList.add('active'), 10);
     }
     function closeModal() {
         document.getElementById('img-modal').classList.remove('active');
+        setTimeout(() => document.getElementById('img-modal').style.display = 'none', 400);
     }
 
-    // SCRAMBLE LOGIC
     function dive(el, nText) {
         let it = 0; clearInterval(el.iv);
         el.iv = setInterval(() => {
@@ -175,17 +192,29 @@
         }, 30);
     }
 
-    // MOUSE MOVE
     function handleMove(e) {
         document.getElementById('spotlight').style.setProperty('--x', e.clientX + 'px');
         document.getElementById('spotlight').style.setProperty('--y', e.clientY + 'px');
         document.getElementById('c').style.left = e.clientX+'px';
         document.getElementById('c').style.top = e.clientY+'px';
-        document.getElementById('ca').style.left = (e.clientX-22.5)+'px';
-        document.getElementById('ca').style.top = (e.clientY-22.5)+'px';
+        document.getElementById('ca').style.left = (e.clientX-20)+'px';
+        document.getElementById('ca').style.top = (e.clientY-20)+'px';
     }
 
-    // LOADER
+    window.addEventListener('scroll', () => {
+        const final = document.getElementById('final-section');
+        const spotlight = document.getElementById('spotlight');
+        const rect = final.getBoundingClientRect();
+        
+        if(rect.top < window.innerHeight / 2) {
+            spotlight.style.opacity = "0";
+            document.body.style.background = "#fff";
+        } else {
+            spotlight.style.opacity = "1";
+            document.body.style.background = "#050505";
+        }
+    });
+
     let lCount = 0;
     let lInt = setInterval(() => {
         lCount += Math.floor(Math.random()*10)+2;
@@ -194,13 +223,12 @@
             document.getElementById('loader').style.transform = "translateY(-100%)";
             setTimeout(() => {
                 document.getElementById('hero-sec').classList.add('reveal');
-                setTimeout(() => { dive(document.getElementById('scramble-hero'), 'The Elite Standard.'); }, 500);
+                setTimeout(() => { dive(document.getElementById('scramble-hero'), 'I Build Elite Therapy Websites.'); }, 500);
             }, 800);
         }
         document.getElementById('loader-n').innerText = lCount;
     }, 40);
 
-    // INTERSECTION COLOR CHANGE
     const obs = new IntersectionObserver((es) => {
         es.forEach(e => { if(e.isIntersecting) document.documentElement.style.setProperty('--accent', e.target.dataset.color); });
     }, { threshold: 0.5 });
