@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE SOVEREIGN | ARCHITECT</title>
+    <title>THE SOVEREIGN | BY A COUNSELOR</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@100;200;400&display=swap" rel="stylesheet">
     <style>
         :root { --accent: #c5a37d; --bg: #030303; --text: #ffffff; }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        
         body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-        /* --- THE STARS BACKGROUND (Visible on sides) --- */
+        /* --- BACKGROUND --- */
         #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 
         /* --- 0-100 LOADER --- */
@@ -21,85 +20,59 @@
             flex-direction: column; transition: opacity 1s ease;
         }
         #loader-number { font-family: 'Cormorant Garamond'; font-size: 8rem; color: var(--accent); font-weight: 200; }
-        .loader-bar { width: 0%; height: 1px; background: var(--accent); position: absolute; bottom: 20%; transition: width 0.1s linear; }
+        .loader-bar { width: 0%; height: 2px; background: var(--accent); position: absolute; bottom: 20%; transition: width 0.1s linear; }
 
         /* --- CURSOR --- */
         #cursor { width: 5px; height: 5px; background: #fff; position: fixed; border-radius: 50%; pointer-events: none; z-index: 99999; }
         #cursor-aura { width: 40px; height: 40px; border: 1px solid var(--accent); position: fixed; border-radius: 50%; pointer-events: none; z-index: 99998; transition: 0.15s ease-out; }
 
-        /* --- THE HEADER: WARM & WELCOMING --- */
-        header { 
-            height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10%; 
-            position: relative; z-index: 10;
-        }
-        .profile-container { display: flex; align-items: center; gap: 50px; margin-bottom: 40px; }
+        /* --- HEADER & HERO --- */
+        header { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 10%; position: relative; z-index: 10; }
+        .profile-container { display: flex; align-items: center; gap: 40px; margin-bottom: 35px; flex-wrap: wrap; }
         .profile-pic { 
-            width: 220px; height: 220px; border-radius: 50%; 
+            width: 180px; height: 180px; border-radius: 50%; 
             background: url('IMG_1860.jpeg') center/cover; 
             border: 1px solid var(--accent);
             box-shadow: 0 0 50px rgba(197, 163, 125, 0.2);
         }
-        header h1 { font-family: 'Cormorant Garamond'; font-size: 5.5rem; font-weight: 300; line-height: 1; letter-spacing: -2px; }
-        
-        /* REWRITTEN FOR WARMTH */
-        .hero-statement { 
-            max-width: 850px; font-size: 1.25rem; line-height: 1.8; 
-            color: rgba(255,255,255,0.85); margin-top: 35px; 
-            font-family: 'Cormorant Garamond'; font-style: italic;
-        }
-        .hero-statement b { color: var(--accent); font-weight: 400; font-style: normal; font-family: 'Montserrat'; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; }
+        .reveal-text span { opacity: 0; display: inline-block; transform: translateY(15px); animation: reveal 1s ease forwards; }
+        header h1 { font-family: 'Cormorant Garamond'; font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 300; line-height: 1; letter-spacing: -1px; }
+        .hero-statement { max-width: 900px; font-size: 1.35rem; line-height: 2; color: rgba(255,255,255,0.9); margin-top: 40px; font-family: 'Cormorant Garamond'; }
 
-        /* --- FLOATING GALLERY (Stars visible on sides) --- */
-        .stack-wrapper { position: relative; padding: 0 5%; }
-        .section { 
-            position: sticky; top: 0; width: 100%; height: 100vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; 
-            /* Background is now transparent to let stars show through on sides */
-            background: transparent; 
-        }
-        
-        /* The Card Frame */
+        /* --- STACKING ARCHIVE --- */
+        .stack-wrapper { position: relative; }
+        .section { position: sticky; top: 0; width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; background: transparent; }
         .image-card {
-            width: 90%; max-width: 1100px; height: 75vh;
-            background: rgba(10, 10, 10, 0.9); /* Dark semi-transparent center */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 40px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            width: 92%; max-width: 1050px; height: 72vh; background: rgba(255, 255, 255, 0.02); 
+            border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 25px; border-radius: 4px;
         }
-
-        .image-container { width: 100%; height: 80%; overflow: hidden; margin-bottom: 30px; }
+        .image-container { width: 100%; height: 78%; overflow: hidden; margin-bottom: 20px; }
         .image-container img { width: 100%; height: 100%; object-fit: contain; }
-
-        .content { text-align: center; }
-        .content h2 { font-family: 'Cormorant Garamond'; font-size: 3rem; font-weight: 300; color: var(--accent); margin-bottom: 15px; }
-        .btn { 
-            display: inline-block; padding: 15px 50px; border: 1px solid var(--accent); color: #fff; 
-            text-decoration: none; letter-spacing: 4px; text-transform: uppercase; font-size: 0.7rem; transition: 0.5s; 
-        }
+        .content h2 { font-family: 'Cormorant Garamond'; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 300; color: var(--accent); margin-bottom: 15px; }
+        .btn { display: inline-block; padding: 12px 40px; border: 1px solid var(--accent); color: #fff; text-decoration: none; letter-spacing: 4px; text-transform: uppercase; font-size: 0.7rem; transition: 0.5s; }
         .btn:hover { background: #fff; color: #000; }
 
-        /* --- THE FOOTER --- */
-        footer { 
-            position: relative; z-index: 100; min-height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; background: transparent; padding: 10% 5%;
-        }
-        .footer-heading { font-family: 'Cormorant Garamond'; font-size: 5rem; color: #fff; margin-bottom: 40px; font-weight: 300; text-align: center; }
-        .journey-link {
-            font-size: 1.3rem; letter-spacing: 15px; color: var(--accent); text-decoration: none;
-            text-transform: uppercase; padding: 25px 0; border-bottom: 1px solid var(--accent);
-            transition: 0.6s;
-        }
-        .journey-link:hover { color: #fff; border-color: #fff; letter-spacing: 20px; }
+        /* --- PROCESS OF PEACE --- */
+        .process-section { padding: 15vh 10%; position: relative; background: rgba(0,0,0,0.4); }
+        .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; margin-top: 80px; }
+        .process-item { border-left: 1px solid var(--accent); padding-left: 30px; }
+        .process-item h3 { font-family: 'Cormorant Garamond'; font-size: 2rem; font-weight: 300; margin-bottom: 20px; color: var(--accent); }
+        .process-item p { font-size: 1rem; line-height: 1.8; color: rgba(255,255,255,0.7); }
 
-        .portals { margin-top: 100px; display: flex; gap: 50px; }
-        .portals a { color: rgba(255,255,255,0.3); text-decoration: none; font-size: 0.75rem; letter-spacing: 4px; }
+        /* --- FOOTER --- */
+        footer { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10% 8%; }
+        .price-tag { font-family: 'Cormorant Garamond'; font-size: 6rem; color: var(--accent); line-height: 1; font-weight: 200; }
+        .no-monthly { font-size: 0.8rem; letter-spacing: 8px; text-transform: uppercase; color: var(--accent); margin-top: 20px; }
+        .journey-link { font-size: 1.2rem; letter-spacing: 12px; color: #fff; text-decoration: none; text-transform: uppercase; padding: 20px 0; border-bottom: 1px solid var(--accent); transition: 0.6s; margin-top: 60px;}
 
-        /* --- MODAL --- */
-        #modal { position: fixed; inset: 0; background: #000; z-index: 100000; display: none; padding: 20px; }
+        /* MODAL */
+        #modal { position: fixed; inset: 0; background: #000; z-index: 10000000; display: none; padding: 20px; }
         #modal iframe { width: 100%; height: 100%; border: none; }
-        .close { position: absolute; top: 20px; right: 30px; color: var(--accent); cursor: pointer; letter-spacing: 5px; z-index: 100001; }
+        .close { position: absolute; top: 20px; right: 30px; color: var(--accent); cursor: pointer; letter-spacing: 5px; font-size: 0.8rem; }
+
+        @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) { * { cursor: auto; } #cursor, #cursor-aura { display: none; } }
     </style>
 </head>
 <body>
@@ -108,124 +81,125 @@
         <div id="loader-number">0</div>
         <div class="loader-bar" id="loader-bar"></div>
     </div>
-
     <div id="canvas-container"><canvas id="starfield"></canvas></div>
-
     <div id="cursor"></div>
     <div id="cursor-aura"></div>
 
-    <div id="modal">
-        <span class="close" onclick="closeM()">RETURN TO SOVEREIGN</span>
-        <iframe id="frame"></iframe>
-    </div>
+    <div id="modal"><span class="close" onclick="closeM()">RETURN TO SOVEREIGN</span><iframe id="frame"></iframe></div>
 
     <header>
         <div class="profile-container">
             <div class="profile-pic"></div>
-            <h1>The Space Between <br>Who You Are</h1>
+            <h1 class="reveal-text" id="header-text">Digital Home <br>for Healing</h1>
         </div>
         <div class="hero-statement">
-            "I became a counselor because I believe the bravest thing a person can do is show up for themselves. 
-            Yet, I noticed so many brilliant therapists hide their warmth behind cold, generic directories. 
-            I am here to change that. I build digital sanctuaries that don't just list your credentials—they 
-            <b>let your clients feel your presence</b> before the first session even begins. 
-            Let’s create a home for your practice that feels as safe and inviting as your office."
+            "I am a <b>Mental Health Counselor</b> who works every day to help people navigate their darkest moments. In this field, I’ve seen that therapists are often unable to truly show who they are—hidden behind cold directories or generic templates. My dream is to help you find a place to finally be seen. I build digital homes where your identity is felt, giving your clients a <b>sensible belief</b> that they can begin the journey—transforming their <b>chapter of hell into a chapter of heaven.</b>"
         </div>
     </header>
 
     <div class="stack-wrapper">
         <div class="section">
             <div class="image-card">
-                <div class="image-container"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Clinical Precision"></div>
+                <div class="image-container"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="One"></div>
                 <div class="content"><h2>Clinical Precision</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="btn">Step Inside</a></div>
             </div>
         </div>
         <div class="section">
             <div class="image-card">
-                <div class="image-container"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="The Wild Self"></div>
+                <div class="image-container"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="Two"></div>
                 <div class="content"><h2>The Wild Self</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="btn">Step Inside</a></div>
             </div>
         </div>
         <div class="section">
             <div class="image-card">
-                <div class="image-container"><img src="Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpeg" alt="Somatic Resonance"></div>
+                <div class="image-container"><img src="Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpeg" alt="Three"></div>
                 <div class="content"><h2>Somatic Resonance</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="btn">Step Inside</a></div>
             </div>
         </div>
         <div class="section">
             <div class="image-card">
-                <div class="image-container"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Analytical Depth"></div>
+                <div class="image-container"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Four"></div>
                 <div class="content"><h2>Analytical Depth</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="btn">Step Inside</a></div>
             </div>
         </div>
     </div>
 
-    <footer>
-        <h2 class="footer-heading">Shall we begin?</h2>
-        <a href="booking.html" class="journey-link">Book a Discovery Call</a>
-        <div class="portals">
-            <a href="1099-1.html">1099 PORTAL I</a>
-            <a href="1099-2.html">1099 PORTAL II</a>
+    <div class="process-section">
+        <h2 class="content" style="font-family:'Cormorant Garamond'; font-size:3.5rem; font-weight:300; text-align:center;">The Process of Peace</h2>
+        <div class="process-grid">
+            <div class="process-item">
+                <h3>The Feeling</h3>
+                <p>We begin by finding the soul of your practice. We don't talk about buttons; we talk about the <b>feeling</b> you want a client to have the moment they land on your home.</p>
+            </div>
+            <div class="process-item">
+                <h3>The Architecture</h3>
+                <p>I build the digital walls and curate beautiful colors and designs. Every element is chosen to align perfectly with the specific type of practice you want to embody.</p>
+            </div>
+            <div class="process-item">
+                <h3>The Sovereignty</h3>
+                <p>I hand you the login. There are no monthly fees, no hidden hooks. The website becomes <b>fully yours</b>—a permanent sanctuary for your work.</p>
+            </div>
         </div>
+    </div>
+
+    <footer>
+        <h2 class="footer-heading">Own Your Presence.</h2>
+        <div class="mission-box">
+            Most agencies charge thousands or demand monthly fees that drain your practice. I believe therapists simply need a beautiful, honest option.
+        </div>
+        <div class="price-tag">$1,000</div>
+        <div class="no-monthly">ONE TIME. NO MONTHLY PAYMENTS. FULL OWNERSHIP.</div>
+        <a href="booking.html" class="journey-link">Claim Your Vision</a>
     </footer>
 
     <script>
-        // 0-100 Loader
+        // Staggered Text Logic
+        const h1 = document.getElementById('header-text');
+        const text = h1.innerHTML.split('');
+        h1.innerHTML = '';
+        text.forEach((char, i) => {
+            const span = document.createElement('span');
+            span.innerHTML = char === ' ' ? '&nbsp;' : char;
+            span.style.animationDelay = `${i * 0.05}s`;
+            h1.appendChild(span);
+        });
+
+        // 0-100 Loader + Bar
         let count = 0;
         const loaderNum = document.getElementById('loader-number');
         const loaderBar = document.getElementById('loader-bar');
-        const loader = document.getElementById('loader');
         const interval = setInterval(() => {
-            count++;
-            loaderNum.innerText = count;
-            loaderBar.style.width = count + "%";
+            count++; loaderNum.innerText = count; loaderBar.style.width = count + "%";
             if(count === 100) {
                 clearInterval(interval);
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 1000);
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => document.getElementById('loader').style.display = 'none', 1000);
             }
-        }, 25);
+        }, 20);
 
         // Starfield Canvas
         const canvas = document.getElementById('starfield');
         const ctx = canvas.getContext('2d');
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize);
-        resize();
+        window.addEventListener('resize', resize); resize();
         const stars = [];
-        for(let i=0; i<250; i++) {
-            stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*1.2, speed: Math.random()*0.4 });
+        for(let i=0; i<250; i++) { stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*1.2, speed: Math.random()*0.4 }); }
+        function animate() {
+            ctx.clearRect(0,0,canvas.width, canvas.height); ctx.fillStyle = "#fff";
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill(); s.y -= s.speed; if(s.y < 0) s.y = canvas.height; });
+            requestAnimationFrame(animate);
         }
-        function animateStars() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            ctx.fillStyle = "#fff";
-            stars.forEach(s => {
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill();
-                s.y -= s.speed; if(s.y < 0) s.y = canvas.height;
-            });
-            requestAnimationFrame(animateStars);
-        }
-        animateStars();
+        animate();
 
-        // Cursor
-        const c = document.getElementById('cursor');
-        const ca = document.getElementById('cursor-aura');
+        // Cursor Aura
+        const c = document.getElementById('cursor'); const ca = document.getElementById('cursor-aura');
         document.addEventListener('mousemove', (e) => {
             c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px';
             ca.style.left = (e.clientX - 20) + 'px'; ca.style.top = (e.clientY - 20) + 'px';
         });
 
-        // Modal
-        function openM(url) {
-            document.getElementById('frame').src = url;
-            document.getElementById('modal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-        function closeM() {
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('frame').src = "";
-            document.body.style.overflow = 'auto';
-        }
+        function openM(url) { document.getElementById('frame').src = url; document.getElementById('modal').style.display = 'block'; document.body.style.overflow = 'hidden'; }
+        function closeM() { document.getElementById('modal').style.display = 'none'; document.getElementById('frame').src = ""; document.body.style.overflow = 'auto'; }
     </script>
 </body>
 </html>
