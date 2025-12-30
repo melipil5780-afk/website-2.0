@@ -16,7 +16,7 @@
         display: flex; flex-direction: column; justify-content: center; align-items: center;
         transition: opacity 1.2s ease;
     }
-    #loader-pct { font-family: 'Cormorant Garamond'; font-size: 5rem; font-weight: 200; color: var(--accent); letter-spacing: -2px; }
+    #loader-pct { font-family: 'Cormorant Garamond'; font-size: 5rem; font-weight: 200; color: var(--accent); }
     .loader-bar { width: 180px; height: 1px; background: rgba(255,255,255,0.1); margin-top: 10px; position: relative; }
     .loader-progress { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); width: 0%; }
 
@@ -29,21 +29,17 @@
 
     section { padding: 15vh 12vw; position: relative; z-index: 10; }
 
-    .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 6.5vw, 6rem); font-weight: 300; line-height: 1.1; margin-bottom: 40px; }
-    .hero-h1 i { color: var(--accent); font-style: italic; }
-
     /* About Section: Warmth & Story */
-    #about { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 80px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15vh; }
+    #about { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 80px; align-items: center; padding-bottom: 10vh; }
     .profile-wrap { position: relative; width: 380px; height: 380px; }
     .profile-img { 
         width: 100%; height: 100%; border-radius: 50%; 
         background: url('IMG_1860.jpeg') center/cover; 
         border: 1px solid var(--accent);
-        filter: saturate(0.8) contrast(1.1);
     }
-    .profile-aura { position: absolute; inset: -20px; border-radius: 50%; background: radial-gradient(circle, rgba(197, 163, 125, 0.1) 0%, transparent 70%); animation: pulse 6s infinite; }
+    .profile-aura { position: absolute; inset: -15px; border-radius: 50%; background: radial-gradient(circle, rgba(197, 163, 125, 0.15) 0%, transparent 70%); animation: pulse 6s infinite; }
 
-    .about-text h2 { font-family: 'Cormorant Garamond'; font-size: 2.8rem; font-weight: 300; margin-bottom: 20px; }
+    .about-text h2 { font-family: 'Cormorant Garamond'; font-size: 3rem; font-weight: 300; margin-bottom: 20px; }
     .about-text p { font-size: 1.1rem; line-height: 2; font-weight: 200; color: var(--text-muted); margin-bottom: 20px; }
     .about-text b { color: var(--accent); font-weight: 400; }
 
@@ -51,36 +47,34 @@
     .project-card { 
         display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 15vh; align-items: center; 
     }
-    .img-box { height: 50vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); background: #000; }
-    .img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 1.5s ease; }
+    .img-box { height: 50vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+    .img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 1.5s ease; }
     .project-card:hover img { opacity: 1; transform: scale(1.05); }
 
     .info-box h4 { font-family: 'Cormorant Garamond'; font-size: 2.5rem; font-weight: 300; margin-bottom: 20px; }
-    .info-box p { font-size: 0.95rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 35px; }
+    .info-box p { font-size: 1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 35px; }
     
     .explore-btn { 
         display: inline-block; padding: 15px 40px; border: 1px solid var(--accent); 
-        color: var(--accent); text-decoration: none; font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase;
+        color: var(--accent); text-decoration: none; font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
         transition: 0.4s;
     }
     .explore-btn:hover { background: var(--accent); color: #000; }
 
-    /* Upscale Footer Button */
+    /* Upscale Footer */
     #footer { text-align: center; padding: 15vh 5vw; border-top: 1px solid rgba(255,255,255,0.05); }
-    .footer-title { font-family: 'Cormorant Garamond'; font-size: 3.5rem; font-weight: 300; margin-bottom: 40px; }
     .next-btn {
         padding: 25px 80px; border: 1px solid #fff; color: #fff; 
         text-decoration: none; letter-spacing: 8px; font-weight: 400; font-size: 0.9rem;
-        transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-        display: inline-block;
+        transition: 0.6s; display: inline-block;
     }
-    .next-btn:hover { background: #fff; color: #000; box-shadow: 0 0 40px rgba(255,255,255,0.15); letter-spacing: 12px; }
+    .next-btn:hover { background: #fff; color: #000; letter-spacing: 12px; }
 
     #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; padding: 25px; }
     #modal iframe { width: 100%; height: 100%; border: none; }
     .close-modal { position: absolute; top: 15px; right: 40px; color: var(--accent); cursor: pointer; letter-spacing: 3px; font-size: 0.8rem;}
 
-    @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.05); } }
+    @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.05); } }
     @media (max-width: 1000px) { #about, .project-card { grid-template-columns: 1fr; text-align: center; } .profile-wrap { margin: 0 auto; width: 300px; height: 300px; } }
 </style>
 </head>
@@ -100,19 +94,15 @@
     <iframe id="m-frame"></iframe>
 </div>
 
-<section>
-    <h1 class="hero-h1">We create <i>specialized</i> therapeutic websites that showcase who you truly are.</h1>
-</section>
-
 <section id="about">
     <div class="profile-wrap">
         <div class="profile-aura"></div>
         <div class="profile-img"></div>
     </div>
     <div class="about-text">
-        <h2>A Digital Taste of Presence</h2>
-        <p>I am a <b>Mental Health Counselor</b> and an architect of digital spaces. I noticed a gap: most private therapists are forced into generic boxes that strip away their clinical "flavor."</p>
-        <p>Your website shouldn't just list facts; it should be an <b>authentic extension of your practice</b>. I build sanctuaries where clients can feel the warmth and safety of your work before they ever send the first email.</p>
+        <h2>A Flavor of Presence</h2>
+        <p>I am a <b>Mental Health Counselor</b> who believes your digital space should be a warm invitation, not a cold directory. Most private therapists struggle to find a space that actually <b>tastes</b> like their presence.</p>
+        <p>I build sanctuaries where clients can feel the safety and nonjudgmental atmosphere of your work before the first session begins. Let’s showcase who you truly are.</p>
     </div>
 </section>
 
@@ -121,7 +111,7 @@
         <div class="img-box"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg"></div>
         <div class="info-box">
             <h4>Architecture Two</h4>
-            <p>Somatic Safety. A fluid, organic atmosphere designed for body-centered healing and nervous system regulation.</p>
+            <p>Somatic Safety. A grounding atmosphere designed to mirror body-focused healing and nervous system regulation.</p>
             <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
@@ -130,7 +120,7 @@
         <div class="img-box"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg"></div>
         <div class="info-box">
             <h4>Architecture Three</h4>
-            <p>Analytical Soul. An introspective "Know Thyself" architecture for depth-psychology and shadow work.</p>
+            <p>Analytical Soul. The "Know Thyself" sanctuary—a space for deep introspective work and modern depth psychology.</p>
             <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
@@ -139,7 +129,7 @@
         <div class="img-box"><img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg"></div>
         <div class="info-box">
             <h4>Architecture Four</h4>
-            <p>Clinical Clarity. A high-sovereignty, modern environment for evidence-based results and professional precision.</p>
+            <p>Clinical Precision. A high-clarity environment for evidence-based practice and professional sovereignty.</p>
             <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
@@ -148,19 +138,17 @@
         <div class="img-box"><img src="healing.jpg"></div>
         <div class="info-box">
             <h4>Architecture Five</h4>
-            <p>Healing Presence. A digital sanctuary built with soft tones to foster immediate safety and collaborative journeying.</p>
+            <p>Healing Presence. A soft, welcoming digital sanctuary designed to foster immediate safety and collaborative flow.</p>
             <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 </section>
 
 <footer id="footer">
-    <h2 class="footer-title">Ready to build your sanctuary?</h2>
     <a href="booking.html" class="next-btn">BEGIN THE JOURNEY</a>
 </footer>
 
 <script>
-    // Gold Loader
     let count = 0;
     const lP = document.getElementById('lp');
     const lT = document.getElementById('loader-pct');
@@ -175,7 +163,6 @@
         }
     }, 30);
 
-    // Warm Stars
     const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
@@ -183,7 +170,7 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         stars = [];
-        for(let i=0; i<160; i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.3, o: Math.random() });
+        for(let i=0; i<150; i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.2, o: Math.random() });
     }
     function draw() {
         ctx.fillStyle = '#030303'; ctx.fillRect(0,0,canvas.width,canvas.height);
