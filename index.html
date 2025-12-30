@@ -4,354 +4,488 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE SOVEREIGN | DIGITAL ARCHITECT</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
-
 <style>
 :root {
-    --accent: #c5a37d;
-    --bg: #030303;
-    --text: #ffffff;
-    --gold-gradient: linear-gradient(90deg, #c5a37d, #ffefba, #c5a37d);
+  --accent: #c5a37d;
+  --bg: #030303;
+  --text: #ffffff;
+  --gold-gradient: linear-gradient(90deg, #c5a37d, #ffefba, #c5a37d);
 }
-
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    cursor: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: none;
 }
-
 body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    letter-spacing: 0.015em;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
 }
 
-/* BACKGROUND */
+/* --- BACKGROUND --- */
 #canvas-container {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
 }
 
-/* LOADER */
+/* --- LOADER --- */
 #loader {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    z-index: 1000000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 1000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
-
 #loader-number {
-    font-family: 'Playfair Display';
-    font-size: 8rem;
-    color: var(--accent);
-    font-style: italic;
+  font-family: 'Playfair Display';
+  font-size: 8rem;
+  color: var(--accent);
+  font-weight: 200;
+  font-style: italic;
 }
-
 .loader-bar {
-    width: 0%;
-    height: 3px;
-    background: var(--accent);
-    position: absolute;
-    bottom: 20%;
-    box-shadow: 0 0 15px var(--accent);
+  width: 0%;
+  height: 3px;
+  background: var(--accent);
+  position: absolute;
+  bottom: 20%;
+  transition: width 0.05s linear;
+  box-shadow: 0 0 15px var(--accent);
 }
 
-/* CURSOR */
+/* --- CURSOR --- */
 #cursor {
-    width: 6px;
-    height: 6px;
-    background: #fff;
-    position: fixed;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 99999;
+  width: 6px;
+  height: 6px;
+  background: #fff;
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
 }
-
 #cursor-aura {
-    width: 45px;
-    height: 45px;
-    border: 1px solid var(--accent);
-    position: fixed;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 99998;
+  width: 45px;
+  height: 45px;
+  border: 1px solid var(--accent);
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+  transition: 0.1s ease-out;
 }
 
-/* HERO */
+/* --- HERO --- */
 header {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 0 12%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 12%;
+  position: relative;
+  z-index: 10;
 }
-
 .profile-container {
-    display: flex;
-    gap: 40px;
-    align-items: center;
-    flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
 }
-
 .profile-pic {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: url('IMG_1860.jpeg') center/cover;
-    border: 2px solid var(--accent);
-    box-shadow: 0 0 40px rgba(197,163,125,0.3);
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: url('IMG_1860.jpeg') center/cover;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 40px rgba(197, 163, 125, 0.3);
 }
-
 .reveal-text {
-    font-family: 'Playfair Display';
-    font-size: clamp(2.2rem, 7vw, 6rem);
-    font-weight: 400;
-    line-height: 1.2;
-    position: relative;
-    padding-bottom: 20px;
+  font-family: 'Playfair Display';
+  font-size: clamp(2.2rem, 7vw, 6rem);
+  font-weight: 400;
+  line-height: 1.2;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 20px;
 }
-
 .reveal-text span {
-    opacity: 0;
-    transform: translateY(15px);
-    display: inline-block;
-    animation: reveal 0.6s forwards;
+  opacity: 0;
+  display: inline-block;
+  transform: translateY(15px);
+  animation: reveal 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
 }
-
+.word {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 0.2em;
+}
 .gold-line {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    width: 0%;
-    background: var(--gold-gradient);
-    animation: growLine 1.5s 0.8s forwards;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--gold-gradient);
+  animation: growLine 1.5s 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
-
 .hero-statement {
-    max-width: 800px;
-    font-family: 'Playfair Display';
-    font-style: italic;
-    font-size: 1.3rem;
-    margin-top: 30px;
-    line-height: 2;
+  max-width: 800px;
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.85);
+  margin-top: 30px;
+  font-family: 'Playfair Display';
+  font-style: italic;
+  line-height: 2;
 }
 
-/* STACK SECTIONS */
+/* --- STACKING PROJECTS --- */
 .section {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 .image-card {
-    width: 90%;
-    max-width: 1100px;
-    height: 70vh;
-    background: rgba(10,10,10,0.9);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(197,163,125,0.2);
-    padding: 30px;
+  width: 90%;
+  max-width: 1100px;
+  height: 70vh;
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid rgba(197, 163, 125, 0.15);
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.image-container {
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.content h2 {
+  font-family: 'Playfair Display';
+  font-size: 2.2rem;
+  color: var(--accent);
+  margin-bottom: 15px;
+  font-weight: 300;
+}
+.btn {
+  display: inline-block;
+  padding: 10px 35px;
+  border: 1px solid var(--accent);
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-size: 0.7rem;
 }
 
-/* PROCESS */
+/* --- THE BLUEPRINT SECTION --- */
 .process-section {
-    padding: 15vh 10%;
+  padding: 15vh 10%;
+  position: relative;
 }
-
 .process-grid {
-    display: grid;
-    gap: 50px;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 50px;
+  margin-top: 60px;
 }
-
 .process-item {
-    border-left: 1px solid var(--accent);
-    padding-left: 30px;
+  border-left: 1px solid var(--accent);
+  padding-left: 30px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+.process-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.process-item h3 {
+  font-family: 'Playfair Display';
+  font-size: 2rem;
+  color: var(--accent);
+  margin-bottom: 15px;
+  font-weight: 300;
 }
 
-/* FOOTER – ADVANCED */
+/* --- FOOTER --- */
 footer {
-    min-height: 100vh;
-    position: relative;
-    text-align: center;
-    padding: 15vh 10%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 10%;
 }
-
-footer::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(circle at 50% 120%, rgba(197,163,125,0.25), transparent 60%),
-        linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.9));
-    z-index: -1;
-}
-
 .footer-price {
-    font-family: 'Playfair Display';
-    font-size: 6rem;
-    color: var(--accent);
+  font-family: 'Playfair Display';
+  font-size: 6rem;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 200;
 }
-
-.pricing-scope {
-    display: flex;
-    gap: 40px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 60px;
+.footer-scope {
+  margin: 20px 0;
 }
-
-.scope-item {
-    opacity: 0;
-    transform: translateY(40px) scale(0.98);
-    transition: 1.2s cubic-bezier(0.19,1,0.22,1);
-    border: 1px solid rgba(197,163,125,0.3);
-    padding: 30px;
-    background: rgba(10,10,10,0.6);
-    backdrop-filter: blur(12px);
-    position: relative;
+.footer-scope li {
+  list-style: none;
+  font-family: 'Playfair Display';
+  font-size: 1.2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+  margin-bottom: 12px;
 }
-
-.scope-item.revealed {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    box-shadow: 0 0 80px rgba(197,163,125,0.15);
+.footer-scope li.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
-
-.scope-item::after {
-    content:"";
-    position:absolute;
-    inset:-150%;
-    background: linear-gradient(120deg,transparent,rgba(255,239,186,0.08),transparent);
-    opacity:0;
+.footer-sub {
+  margin-bottom: 20px;
 }
-
-.scope-item:hover::after {
-    opacity:1;
-    animation:sweep 3s linear infinite;
-}
-
-.value-manifesto {
-    max-width: 900px;
-    margin: 120px auto;
-    font-family: 'Playfair Display';
-    font-style: italic;
-    font-size: 1.5rem;
-    line-height: 2;
-}
-
 .cta-button {
-    border: 1px solid var(--accent);
-    padding: 25px 60px;
-    color: #fff;
-    text-decoration: none;
-    letter-spacing: 5px;
+  padding: 25px 60px;
+  font-size: 1rem;
+  font-family: 'Inter';
+  letter-spacing: 5px;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 1px solid var(--accent);
+  transition: 0.5s;
+}
+.cta-button:hover {
+  background: var(--accent);
+  color: #000;
 }
 
-@keyframes reveal { to { opacity:1; transform:none; } }
-@keyframes growLine { to { width:100%; } }
-@keyframes sweep { from{transform:translate(-20%,-20%)} to{transform:translate(20%,20%)} }
+/* --- MODAL --- */
+#modal {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 10000000;
+  display: none;
+  padding: 20px;
+}
+#modal iframe {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--accent);
+}
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: var(--accent);
+  cursor: pointer;
+  letter-spacing: 5px;
+}
 
-@media(max-width:768px){
-    *{cursor:auto}
-    #cursor,#cursor-aura{display:none}
+/* --- AUDIO HOVER --- */
+#ambient-toggle {
+  display: inline-block;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-family: 'Inter';
+}
+
+/* --- ANIMATIONS --- */
+@keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+@keyframes growLine { to { width: 100%; } }
+@media (max-width: 768px) { 
+  * { cursor: auto; }
+  #cursor, #cursor-aura { display: none; }
+  header { padding: 0 8%; }
+  .footer-price { font-size: 4rem; }
 }
 </style>
 </head>
-
 <body>
 
+<!-- LOADER -->
 <div id="loader">
-    <div id="loader-number">0</div>
-    <div class="loader-bar" id="loader-bar"></div>
+  <div id="loader-number">0</div>
+  <div class="loader-bar" id="loader-bar"></div>
 </div>
 
+<!-- STARFIELD -->
 <div id="canvas-container"><canvas id="starfield"></canvas></div>
+
+<!-- CURSOR -->
 <div id="cursor"></div>
 <div id="cursor-aura"></div>
 
+<!-- MODAL -->
+<div id="modal"><span class="close" onclick="closeM()">[ EXIT ]</span><iframe id="frame"></iframe></div>
+
+<!-- AMBIENT AUDIO -->
+<audio id="ambient-hover" preload="auto">
+  <source src="ambient-soft.mp3" type="audio/mpeg">
+</audio>
+<span id="ambient-toggle">Hover here for soft ambient sound</span>
+
+<!-- HEADER -->
 <header>
-    <div class="profile-container">
-        <div class="profile-pic"></div>
-        <div class="reveal-text" id="main-header">Digital Home for Healing</div>
-    </div>
-    <div class="hero-statement">
-        I am a <b>Mental Health Counselor</b> who builds digital homes where identity is felt,
-        trust is immediate, and ownership is absolute.
-    </div>
+  <div class="profile-container">
+    <div class="profile-pic"></div>
+    <div class="reveal-text" id="main-header">Digital Home for Healing</div>
+  </div>
+  <div class="hero-statement">
+    "I am a <b>Mental Health Counselor</b> who works every day to help people navigate their darkest moments. In this field, I’ve seen that therapists are often unable to truly show who they are—hidden behind cold directories or generic templates. My dream is to help you find a place to finally be seen. I build digital homes where your identity is felt, giving your clients a <b>sensible belief</b> that they can begin the journey—transforming their <b>chapter of hell into a chapter of heaven.</b>"
+  </div>
 </header>
 
+<!-- STACKING PROJECTS -->
+<div class="stack-wrapper">
+  <div class="section"><div class="image-card"><div class="image-container"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg"></div><div class="content"><h2>Clinical Precision</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="btn">Step Inside</a></div></div></div>
+  <div class="section"><div class="image-card"><div class="image-container"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg"></div><div class="content"><h2>The Wild Self</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="btn">Step Inside</a></div></div></div>
+  <div class="section"><div class="image-card"><div class="image-container"><img src="Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpeg"></div><div class="content"><h2>Somatic Resonance</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="btn">Step Inside</a></div></div></div>
+  <div class="section"><div class="image-card"><div class="image-container"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg"></div><div class="content"><h2>Analytical Depth</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="btn">Step Inside</a></div></div></div>
+</div>
+
+<!-- PROCESS SECTION -->
+<div class="process-section">
+  <h2 class="reveal-text" id="process-header">The Blueprint of Ownership</h2>
+  <div class="process-grid">
+    <div class="process-item">
+      <h3>The Soul</h3>
+      <p>We begin by finding the resonance of your practice. We don't talk about buttons; we find the feeling you want a client to inhabit when they arrive.</p>
+    </div>
+    <div class="process-item">
+      <h3>The Structure</h3>
+      <p>I build the digital walls and curate beautiful colors and designs. We create a place that reflects your therapeutic authority and care.</p>
+    </div>
+    <div class="process-item">
+      <h3>The Key</h3>
+      <p>I hand you the login. No monthly rent. No corporate control. You gain total sovereignty over your digital presence, forever.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
 <footer>
-    <div class="footer-price">$1,000</div>
-
-    <div class="pricing-scope">
-        <div class="scope-item"><h4>Custom Design</h4><p>Designed entirely around you.</p></div>
-        <div class="scope-item"><h4>Full Ownership</h4><p>No platforms. No rent.</p></div>
-        <div class="scope-item"><h4>Free Hosting Assistance</h4><p>Launch without confusion.</p></div>
-    </div>
-
-    <div class="value-manifesto">
-        Most professionals spend thousands — or remain trapped in subscriptions.
-        <br><br>
-        This is a sovereign alternative.
-    </div>
-
-    <a href="booking.html" class="cta-button">Claim Your Digital Home</a>
+  <div class="footer-price">$1,000</div>
+  <ul class="footer-scope">
+    <li>Custom Design</li>
+    <li>Ownership + Source Files</li>
+    <li>Free Hosting Assistance Included</li>
+  </ul>
+  <div class="footer-sub">OWN YOUR SPACE • NO MONTHLY TETHER</div>
+  <a href="booking.html" class="cta-button">Claim Your Digital Home</a>
 </footer>
 
-<audio id="ambient-hover">
-    <source src="ambient-soft.mp3" type="audio/mpeg">
-</audio>
-
 <script>
-/* LOADER */
-let count=0;
-const ln=document.getElementById('loader-number');
-const lb=document.getElementById('loader-bar');
-const i=setInterval(()=>{
-    count+=4;
-    ln.textContent=count;
-    lb.style.width=count+"%";
-    if(count>=100){clearInterval(i);document.getElementById('loader').style.display="none";}
-},30);
+// LOADER
+let count = 0;
+const loaderNum = document.getElementById('loader-number');
+const loaderBar = document.getElementById('loader-bar');
+const interval = setInterval(() => {
+  count += 4; if(count > 100) count = 100;
+  loaderNum.innerText = count; loaderBar.style.width = count + "%";
+  if(count === 100) {
+    clearInterval(interval);
+    document.getElementById('loader').style.opacity = '0';
+    setTimeout(() => {
+      document.getElementById('loader').style.display = 'none';
+      revealText("main-header");
+      revealText("process-header");
+    }, 600);
+  }
+}, 30);
 
-/* SCROLL REVEAL */
-const items=document.querySelectorAll('.scope-item');
-const obs=new IntersectionObserver(e=>{
-    e.forEach(x=>{
-        if(x.isIntersecting){
-            x.target.classList.add('revealed');
-            obs.unobserve(x.target);
-        }
+// REVEAL TEXT
+function revealText(id) {
+  const el = document.getElementById(id);
+  const words = el.innerText.split(' ');
+  el.innerHTML = '';
+  words.forEach((word, wordIdx) => {
+    const wordSpan = document.createElement('span');
+    wordSpan.className = 'word';
+    word.split('').forEach((char, charIdx) => {
+      const charSpan = document.createElement('span');
+      charSpan.innerHTML = char;
+      charSpan.style.animationDelay = `${(wordIdx * 0.15) + (charIdx * 0.03)}s`;
+      wordSpan.appendChild(charSpan);
     });
-},{threshold:0.3});
-items.forEach(i=>obs.observe(i));
+    el.appendChild(wordSpan);
+    el.appendChild(document.createTextNode(' '));
+  });
+  const line = document.createElement('div');
+  line.className = 'gold-line';
+  el.appendChild(line);
+}
 
-/* AMBIENT SOUND */
-const amb=document.getElementById('ambient-hover');
-amb.volume=0.15;
-items.forEach(i=>{
-    i.onmouseenter=()=>{amb.currentTime=0;amb.play().catch(()=>{})};
-    i.onmouseleave=()=>{amb.pause();amb.currentTime=0};
+// STARFIELD
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resize); resize();
+const stars = [];
+for(let i=0; i<150; i++) { stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*1.2, speed: Math.random()*0.3 }); }
+function animate() {
+  ctx.clearRect(0,0,canvas.width, canvas.height); ctx.fillStyle = "#fff";
+  stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill(); s.y -= s.speed; if(s.y < 0) s.y = canvas.height; });
+  requestAnimationFrame(animate);
+}
+animate();
+
+// CURSOR
+const c = document.getElementById('cursor'); const ca = document.getElementById('cursor-aura');
+document.addEventListener('mousemove', (e) => {
+  c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px';
+  ca.style.left = (e.clientX - 22) + 'px'; ca.style.top = (e.clientY - 22) + 'px';
 });
-</script>
 
+// MODAL
+function openM(url) { document.getElementById('frame').src = url; document.getElementById('modal').style.display = 'block'; document.body.style.overflow = 'hidden'; }
+function closeM() { document.getElementById('modal').style.display = 'none'; document.getElementById('frame').src = ""; document.body.style.overflow = 'auto'; }
+
+// SCROLL FADE-IN FOR FOOTER & PROCESS ITEMS
+function handleScroll() {
+  document.querySelectorAll('.process-item, .footer-scope li').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight - 100) { el.classList.add('visible'); }
+  });
+}
+window.addEventListener('scroll', handleScroll);
+handleScroll();
+
+// AMBIENT AUDIO HOVER
+const ambientAudio = document.getElementById('ambient-hover');
+const ambientToggle = document.getElementById('ambient-toggle');
+ambientToggle.addEventListener('mouseenter', () => ambientAudio.play());
+ambientToggle.addEventListener('mouseleave', () => ambientAudio.pause());
+
+</script>
 </body>
 </html>
