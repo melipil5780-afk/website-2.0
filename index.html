@@ -10,209 +10,178 @@
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
     body { background: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* Deep Space Background */
+    /* Restoration of the Starfield Background */
     #space-canvas { position: fixed; inset: 0; z-index: -1; }
-    .vignette { position: fixed; inset: 0; background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 100%); z-index: 0; pointer-events: none; }
+    .vignette { position: fixed; inset: 0; background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.95) 100%); z-index: 0; pointer-events: none; }
 
     /* Custom Cursor */
     #c { width: 5px; height: 5px; background: #fff; z-index: 10001; position: fixed; border-radius: 50%; pointer-events: none; }
-    #ca { width: 40px; height: 40px; border: 0.5px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.25s cubic-bezier(0.2, 1, 0.2, 1); pointer-events: none;}
+    #ca { width: 35px; height: 35px; border: 0.5px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.1s ease-out; pointer-events: none;}
 
-    section { padding: 25vh 12vw; position: relative; z-index: 10; }
+    section { padding: 18vh 12vw; position: relative; z-index: 10; }
 
-    /* Hero Section */
-    .hero-container { max-width: 1200px; }
-    .kicker { color: var(--accent); letter-spacing: 14px; font-size: 0.7rem; font-weight: 400; text-transform: uppercase; margin-bottom: 30px; opacity: 0.8; }
-    .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(3rem, 7vw, 6.5rem); font-weight: 300; line-height: 1.1; margin-bottom: 40px; }
-    .hero-h1 i { font-style: italic; font-family: 'Cormorant Garamond'; color: var(--accent); }
-    .hero-p { font-size: 1.2rem; font-weight: 100; letter-spacing: 2px; color: var(--text-muted); max-width: 600px; line-height: 1.8; }
+    .kicker { color: var(--accent); letter-spacing: 12px; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 25px; }
+    .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(3rem, 7.5vw, 6.5rem); font-weight: 300; line-height: 1; margin-bottom: 40px; }
+    .hero-h1 i { color: var(--accent); }
 
-    /* The Integrated Profile */
-    #vision { display: flex; align-items: center; gap: 100px; border-top: 1px solid rgba(255,255,255,0.05); }
-    .profile-box { position: relative; flex: 0 0 450px; }
+    /* Perfect Circular Profile Integration */
+    #vision { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 100px; align-items: center; }
+    .profile-aura-wrap { position: relative; width: 420px; height: 420px; display: flex; align-items: center; justify-content: center; }
     .profile-img { 
-        width: 100%; aspect-ratio: 0.8 / 1; 
+        width: 100%; height: 100%; 
+        border-radius: 50%; 
         background: url('IMG_1860.jpeg') center/cover; 
-        filter: contrast(1.1) brightness(0.9);
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid rgba(197, 163, 125, 0.4);
+        position: relative; z-index: 2;
+        filter: contrast(1.05);
     }
-    .profile-caption { 
-        position: absolute; bottom: -30px; left: -30px; background: var(--bg); padding: 20px 40px; 
-        border: 1px solid var(--accent); font-family: 'Cormorant Garamond'; font-size: 1.5rem; font-style: italic;
+    .profile-glow {
+        position: absolute; inset: -40px; border-radius: 50%;
+        background: radial-gradient(circle, rgba(197, 163, 125, 0.18) 0%, transparent 70%);
+        animation: breathe 8s infinite ease-in-out;
     }
+    @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.1); opacity: 0.7; } }
 
-    .vision-content h2 { font-family: 'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 30px; }
-    .vision-content p { font-size: 1.15rem; line-height: 2.1; font-weight: 200; color: var(--text-muted); margin-bottom: 25px; }
-    .vision-content span { color: var(--accent); font-weight: 400; }
+    .vision-content h2 { font-family: 'Cormorant Garamond'; font-size: 3.5rem; font-weight: 300; margin-bottom: 30px; }
+    .vision-content p { font-size: 1.15rem; line-height: 2.2; font-weight: 100; color: var(--text-muted); margin-bottom: 25px; }
+    .vision-content span { color: #fff; font-weight: 400; }
 
-    /* Architecture Gallery */
-    .gallery-label { text-align: center; margin-bottom: 100px; }
-    .gallery-label h2 { font-family: 'Cormorant Garamond'; font-size: 3.5rem; font-weight: 300; }
-    
-    .project-strip { 
-        display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 80px; margin-bottom: 20vh; align-items: center; 
-        padding: 40px; border: 1px solid rgba(255,255,255,0.03); background: rgba(255,255,255,0.01);
-        transition: 0.6s;
+    /* Correct Mapping: Two, Three, Four, Five */
+    .project-card { 
+        display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 20vh; align-items: center; 
+        padding: 50px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.03);
     }
-    .project-strip:hover { background: rgba(197, 163, 125, 0.03); border-color: rgba(197, 163, 125, 0.2); }
-    
-    .preview-window { height: 65vh; overflow: hidden; position: relative; }
-    .preview-window img { width: 100%; height: 100%; object-fit: cover; transition: 1.2s cubic-bezier(0.2, 1, 0.2, 1); opacity: 0.8; }
-    .project-strip:hover img { transform: scale(1.03); opacity: 1; }
+    .preview-window { height: 55vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); background: #000; }
+    .preview-window img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s ease; opacity: 0.6; }
+    .project-card:hover img { opacity: 1; transform: scale(1.03); }
 
-    .project-info h3 { font-family: 'Cormorant Garamond'; font-size: 2.5rem; font-weight: 300; margin-bottom: 20px; }
-    .project-info p { font-weight: 100; font-size: 0.9rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 30px; letter-spacing: 1px; }
+    .project-info h3 { font-family: 'Cormorant Garamond'; font-size: 3rem; font-weight: 300; margin-bottom: 20px; }
+    .project-info p { font-size: 1rem; line-height: 1.9; color: var(--text-muted); font-weight: 100; margin-bottom: 35px; }
     
     .explore-btn { 
-        padding: 15px 35px; border: 0.5px solid var(--accent); color: #fff; text-decoration: none; 
-        font-size: 0.65rem; letter-spacing: 5px; text-transform: uppercase; transition: 0.4s;
+        display: inline-block; padding: 18px 45px; border: 1px solid var(--accent); 
+        color: #fff; text-decoration: none; font-size: 0.75rem; letter-spacing: 5px; text-transform: uppercase;
+        transition: 0.4s;
     }
-    .explore-btn:hover { background: var(--accent); color: #000; }
+    .explore-btn:hover { background: #fff; color: #000; border-color: #fff; }
 
-    /* Modal */
-    #modal-overlay { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; padding: 30px; }
-    #modal-overlay iframe { width: 100%; height: 100%; border: 1px solid rgba(197, 163, 125, 0.3); }
+    /* Modal Architecture */
+    #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; padding: 25px; }
+    #modal iframe { width: 100%; height: 100%; border: 1px solid var(--accent); }
     .close-modal { position: absolute; top: 15px; right: 40px; font-size: 0.7rem; letter-spacing: 4px; color: var(--accent); cursor: pointer; }
 
-    /* Final CTA */
-    #closing { text-align: center; background: #fff; color: #000; padding: 15vh 10vw; }
-    .final-price { font-family: 'Cormorant Garamond'; font-size: 5rem; margin-bottom: 10px; }
-    .start-btn { 
-        margin-top: 40px; padding: 25px 80px; background: #000; color: #fff; 
-        text-decoration: none; font-weight: 700; letter-spacing: 6px; display: inline-block;
-    }
-
-    @media (max-width: 1100px) { #vision, .project-strip { flex-direction: column; grid-template-columns: 1fr; } .profile-box { flex: none; width: 100%; } }
+    @media (max-width: 1100px) { #vision, .project-card { grid-template-columns: 1fr; } .profile-aura-wrap { width: 320px; height: 320px; margin: 0 auto; } }
 </style>
 </head>
 <body>
 
 <div id="c"></div><div id="ca"></div>
-<div class="vignette"></div>
 <canvas id="space-canvas"></canvas>
+<div class="vignette"></div>
 
-<div id="modal-overlay">
+<div id="modal">
     <span class="close-modal" onclick="closeM()">CLOSE ARCHITECTURE</span>
     <iframe id="m-frame"></iframe>
 </div>
 
 <section>
-    <div class="hero-container">
-        <p class="kicker">A Bespoke Extension of Your Practice</p>
-        <h1 class="hero-h1">We create <i>specialized</i> therapeutic websites that showcase who you are.</h1>
-        <p class="hero-p">Move beyond directory listings. Build a space where your clinical soul is felt before the first session begins.</p>
-    </div>
+    <p class="kicker">Bespoke Clinical Design</p>
+    <h1 class="hero-h1">We create <i>unique</i> therapeutic websites that showcase who you are.</h1>
 </section>
 
 <section id="vision">
-    <div class="profile-box">
+    <div class="profile-aura-wrap">
+        <div class="profile-glow"></div>
         <div class="profile-img"></div>
-        <div class="profile-caption">Sovereign Architecture</div>
     </div>
     <div class="vision-content">
         <h2>The Felt Sense</h2>
-        <p>A client’s journey doesn’t start in the chair; it starts the moment they find you online. Most directory profiles are rigid—they show your credentials, but they hide your <span>soul</span>.</p>
-        <p>I build unique digital sanctuaries that allow a person to feel what it is like to work with <span>you</span>. Through intentional design and atmospheric architecture, your website becomes a warm invitation to the therapeutic process itself.</p>
+        <p>A client’s journey begins the moment they find you online. I build digital sanctuaries where a person can <span>feel the warmth and presence of your work</span> before the first session begins.</p>
+        <p>I specialize in translating your unique clinical soul into a home that reflects you—moving beyond generic boxes into an <span>authentic architectural extension</span> of your practice.</p>
     </div>
 </section>
 
 <section>
-    <div class="gallery-label">
-        <p class="kicker">The Portfolio</p>
-        <h2>Digital Sanctuaries</h2>
-    </div>
-
-    <div class="project-strip">
-        <div class="preview-window">
-            <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
-        </div>
-        <div class="project-info">
-            <h3>The Grounded Space</h3>
-            <p>A structure focused on calm, earth-centered clinical approaches. Designed for stability and trust.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/one/')" class="explore-btn">Explore</a>
-        </div>
-    </div>
-
-    <div class="project-strip">
+    <div class="project-card">
         <div class="preview-window">
             <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
         </div>
         <div class="project-info">
-            <h3>Somatic Presence</h3>
-            <p>Fluid architecture that mirrors the somatic experience. Built for body-focused practitioners.</p>
+            <h3>Architecture Two</h3>
+            <p>A fluid, organic structure designed for somatic and body-centered practices. Built to mirror nervous system regulation.</p>
             <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">Explore</a>
         </div>
     </div>
 
-    <div class="project-strip">
+    <div class="project-card">
         <div class="preview-window">
             <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
         </div>
         <div class="project-info">
-            <h3>Analytical Soul</h3>
-            <p>A space for depth-work and introspection. High-contrast design for the modern analyst.</p>
+            <h3>Architecture Three</h3>
+            <p>A high-contrast, introspective space for depth-work and analytical psychology. Designed for the profound.</p>
             <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="explore-btn">Explore</a>
+        </div>
+    </div>
+
+    <div class="project-card">
+        <div class="preview-window">
+            <img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg">
+        </div>
+        <div class="project-info">
+            <h3>Architecture Four</h3>
+            <p>A structured, modern environment focusing on professional sovereignty and clinical precision.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">Explore</a>
+        </div>
+    </div>
+
+    <div class="project-card">
+        <div class="preview-window">
+            <img src="healing.jpg">
+        </div>
+        <div class="project-info">
+            <h3>Architecture Five</h3>
+            <p>A soft, welcoming digital sanctuary designed to foster immediate safety and collaborative healing.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">Explore</a>
         </div>
     </div>
 </section>
 
-<section id="closing">
-    <p style="letter-spacing:6px; font-weight:200;">TOTAL SOVEREIGNTY</p>
-    <div class="final-price">$1,099</div>
-    <p style="font-weight:200; opacity:0.6;">ONE-TIME INVESTMENT. NO SUBSCRIPTIONS.</p>
-    <a href="booking.html" class="start-btn">BEGIN YOUR ARCHITECTURE</a>
-</section>
-
 <script>
-    // Particle Space Logic
     const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
-    let particles = [];
-
+    let stars = [];
     function init() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        particles = [];
-        for(let i=0; i<120; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 1.5,
-                opacity: Math.random(),
-                speed: Math.random() * 0.3
-            });
-        }
+        stars = [];
+        for(let i=0; i<180; i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.3, o: Math.random() });
     }
-
-    function render() {
-        ctx.fillStyle = '#020202';
-        ctx.fillRect(0,0,canvas.width, canvas.height);
-        particles.forEach(p => {
-            ctx.fillStyle = `rgba(255,255,255,${p.opacity})`;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-            ctx.fill();
-            p.y -= p.speed;
-            if(p.y < 0) p.y = canvas.height;
+    function draw() {
+        ctx.fillStyle = '#020202'; ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = '#fff';
+        stars.forEach(s => {
+            ctx.globalAlpha = s.o;
+            ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill();
+            s.y -= 0.15; if(s.y < 0) s.y = canvas.height;
         });
-        requestAnimationFrame(render);
+        requestAnimationFrame(draw);
     }
-    init(); render();
+    init(); draw();
 
-    // Cursor
     window.addEventListener('mousemove', (e) => {
         document.getElementById('c').style.left = e.clientX + 'px';
         document.getElementById('c').style.top = e.clientY + 'px';
-        document.getElementById('ca').style.left = (e.clientX - 20) + 'px';
-        document.getElementById('ca').style.top = (e.clientY - 20) + 'px';
+        document.getElementById('ca').style.left = (e.clientX - 17) + 'px';
+        document.getElementById('ca').style.top = (e.clientY - 17) + 'px';
     });
 
     function openM(url) {
         document.getElementById('m-frame').src = url;
-        document.getElementById('modal-overlay').style.display = 'block';
+        document.getElementById('modal').style.display = 'block';
     }
     function closeM() {
-        document.getElementById('modal-overlay').style.display = 'none';
+        document.getElementById('modal').style.display = 'none';
         document.getElementById('m-frame').src = "";
     }
 </script>
