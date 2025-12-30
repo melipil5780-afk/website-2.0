@@ -3,153 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE SOVEREIGN | Private Practice Architect</title>
+    <title>THE SOVEREIGN | ARCHITECT</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@100;200;400&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #c5a37d; --bg: #030303; --text: #ffffff; --ease: cubic-bezier(0.16, 1, 0.3, 1); }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --accent: #c5a37d; --bg: #030303; --text: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         
-        /* Elite Cursor - Desktop Only */
-        @media (min-width: 1025px) {
-            * { cursor: none; }
-            #cursor { width: 6px; height: 6px; background: #fff; position: fixed; border-radius: 50%; pointer-events: none; z-index: 99999; }
-            #cursor-aura { width: 45px; height: 45px; border: 1px solid var(--accent); position: fixed; border-radius: 50%; pointer-events: none; z-index: 99998; transition: 0.15s var(--ease); }
+        body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+
+        /* --- THE STARS BACKGROUND (Visible on sides) --- */
+        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+
+        /* --- 0-100 LOADER --- */
+        #loader {
+            position: fixed; inset: 0; background: #000; z-index: 1000000;
+            display: flex; justify-content: center; align-items: center;
+            flex-direction: column; transition: opacity 1s ease;
         }
+        #loader-number { font-family: 'Cormorant Garamond'; font-size: 8rem; color: var(--accent); font-weight: 200; }
+        .loader-bar { width: 0%; height: 1px; background: var(--accent); position: absolute; bottom: 20%; transition: width 0.1s linear; }
 
-        body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; line-height: 1.6; }
+        /* --- CURSOR --- */
+        #cursor { width: 5px; height: 5px; background: #fff; position: fixed; border-radius: 50%; pointer-events: none; z-index: 99999; }
+        #cursor-aura { width: 40px; height: 40px; border: 1px solid var(--accent); position: fixed; border-radius: 50%; pointer-events: none; z-index: 99998; transition: 0.15s ease-out; }
 
-        /* --- Hero Section: Cinematic Entry --- */
+        /* --- THE HEADER: WARM & WELCOMING --- */
         header { 
-            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 10% 8%; 
-            background: radial-gradient(circle at 70% 30%, #0a0a0a, #030303);
-            position: relative;
+            height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 10%; 
+            position: relative; z-index: 10;
         }
-        .profile-container { display: flex; align-items: center; gap: 40px; z-index: 2; flex-wrap: wrap; opacity: 0; transform: translateY(20px); animation: reveal 1.2s var(--ease) forwards; }
+        .profile-container { display: flex; align-items: center; gap: 50px; margin-bottom: 40px; }
         .profile-pic { 
-            width: clamp(140px, 15vw, 200px); height: clamp(140px, 15vw, 200px); border-radius: 50%; 
+            width: 220px; height: 220px; border-radius: 50%; 
             background: url('IMG_1860.jpeg') center/cover; 
-            border: 0.5px solid var(--accent);
-            box-shadow: 0 0 40px rgba(197, 163, 125, 0.1);
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 50px rgba(197, 163, 125, 0.2);
         }
-        header h1 { 
-            font-family: 'Cormorant Garamond'; 
-            font-size: clamp(2.8rem, 8vw, 6rem); 
-            font-weight: 300; line-height: 1; letter-spacing: -1px;
-        }
+        header h1 { font-family: 'Cormorant Garamond'; font-size: 5.5rem; font-weight: 300; line-height: 1; letter-spacing: -2px; }
+        
+        /* REWRITTEN FOR WARMTH */
         .hero-statement { 
-            max-width: 700px; font-size: clamp(1rem, 4vw, 1.15rem); line-height: 1.9; 
-            color: rgba(255,255,255,0.65); margin-top: 50px; opacity: 0; 
-            animation: reveal 1.2s var(--ease) forwards 0.3s;
+            max-width: 850px; font-size: 1.25rem; line-height: 1.8; 
+            color: rgba(255,255,255,0.85); margin-top: 35px; 
+            font-family: 'Cormorant Garamond'; font-style: italic;
         }
-        .hero-statement b { color: var(--accent); font-weight: 400; }
+        .hero-statement b { color: var(--accent); font-weight: 400; font-style: normal; font-family: 'Montserrat'; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px; }
 
-        /* --- Stacking Gallery: The Presence --- */
-        .stack-wrapper { position: relative; }
+        /* --- FLOATING GALLERY (Stars visible on sides) --- */
+        .stack-wrapper { position: relative; padding: 0 5%; }
         .section { 
-            position: sticky; top: 0; width: 100%; height: 100vh; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            background: var(--bg); border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 40px 20px;
+            position: sticky; top: 0; width: 100%; height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; 
+            /* Background is now transparent to let stars show through on sides */
+            background: transparent; 
+        }
+        
+        /* The Card Frame */
+        .image-card {
+            width: 90%; max-width: 1100px; height: 75vh;
+            background: rgba(10, 10, 10, 0.9); /* Dark semi-transparent center */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
-        .image-container { 
-            width: clamp(280px, 85%, 1100px); height: clamp(250px, 55vh, 65vh); overflow: hidden; 
-            border: 1px solid rgba(255,255,255,0.08); 
-            margin-bottom: 30px; background: #000;
-            transition: transform 1.2s var(--ease);
-        }
-        .image-container img { width: 100%; height: 100%; object-fit: contain; filter: brightness(0.9); transition: 1s var(--ease); }
-        .section:hover img { filter: brightness(1); transform: scale(1.02); }
+        .image-container { width: 100%; height: 80%; overflow: hidden; margin-bottom: 30px; }
+        .image-container img { width: 100%; height: 100%; object-fit: contain; }
 
-        .content { text-align: center; width: 100%; }
-        .content h2 { 
-            font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 6vw, 3.5rem); 
-            font-weight: 300; color: var(--accent); margin-bottom: 25px; 
-        }
+        .content { text-align: center; }
+        .content h2 { font-family: 'Cormorant Garamond'; font-size: 3rem; font-weight: 300; color: var(--accent); margin-bottom: 15px; }
         .btn { 
-            display: inline-block; padding: 18px 50px; 
-            border: 0.5px solid var(--accent); color: #fff; 
-            text-decoration: none; letter-spacing: 5px; 
-            text-transform: uppercase; font-size: 0.75rem; 
-            transition: 0.5s var(--ease); background: transparent;
+            display: inline-block; padding: 15px 50px; border: 1px solid var(--accent); color: #fff; 
+            text-decoration: none; letter-spacing: 4px; text-transform: uppercase; font-size: 0.7rem; transition: 0.5s; 
         }
-        .btn:hover { background: #fff; color: #000; border-color: #fff; letter-spacing: 8px; }
+        .btn:hover { background: #fff; color: #000; }
 
-        /* --- Footer: Universal Handoff --- */
+        /* --- THE FOOTER --- */
         footer { 
-            position: relative; z-index: 100; min-height: 100vh; 
-            display: flex; flex-direction: column; justify-content: center; 
-            align-items: center; background: #000; padding: 10% 5%;
+            position: relative; z-index: 100; min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; background: transparent; padding: 10% 5%;
         }
-        .footer-heading { 
-            font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 7vw, 5rem); 
-            color: #fff; margin-bottom: 60px; font-weight: 300; text-align: center; line-height: 1.1;
-        }
+        .footer-heading { font-family: 'Cormorant Garamond'; font-size: 5rem; color: #fff; margin-bottom: 40px; font-weight: 300; text-align: center; }
         .journey-link {
-            font-size: clamp(0.9rem, 3vw, 1.2rem); letter-spacing: clamp(10px, 3vw, 20px); color: var(--accent); 
-            text-decoration: none; text-transform: uppercase; 
-            padding-bottom: 15px; border-bottom: 1px solid rgba(197, 163, 125, 0.3);
-            transition: 0.6s var(--ease);
+            font-size: 1.3rem; letter-spacing: 15px; color: var(--accent); text-decoration: none;
+            text-transform: uppercase; padding: 25px 0; border-bottom: 1px solid var(--accent);
+            transition: 0.6s;
         }
-        .journey-link:hover { color: #fff; border-bottom: 1px solid #fff; }
+        .journey-link:hover { color: #fff; border-color: #fff; letter-spacing: 20px; }
 
-        .portals { margin-top: 15vh; display: flex; flex-direction: row; gap: 40px; flex-wrap: wrap; justify-content: center; }
-        .portals a { color: rgba(255,255,255,0.25); text-decoration: none; font-size: 0.7rem; letter-spacing: 3px; transition: 0.3s; }
-        .portals a:hover { color: var(--accent); }
+        .portals { margin-top: 100px; display: flex; gap: 50px; }
+        .portals a { color: rgba(255,255,255,0.3); text-decoration: none; font-size: 0.75rem; letter-spacing: 4px; }
 
-        /* --- Archive Modal --- */
-        #modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 100000; display: none; padding: 2vh; }
-        #modal-container { width: 100%; height: 100%; border: 1px solid rgba(255,255,255,0.1); }
+        /* --- MODAL --- */
+        #modal { position: fixed; inset: 0; background: #000; z-index: 100000; display: none; padding: 20px; }
         #modal iframe { width: 100%; height: 100%; border: none; }
-        .close { position: absolute; top: 30px; right: 30px; color: var(--accent); background: #000; padding: 10px 20px; z-index: 100001; font-size: 0.7rem; border: 1px solid var(--accent); letter-spacing: 3px; }
-
-        @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+        .close { position: absolute; top: 20px; right: 30px; color: var(--accent); cursor: pointer; letter-spacing: 5px; z-index: 100001; }
     </style>
 </head>
 <body>
+
+    <div id="loader">
+        <div id="loader-number">0</div>
+        <div class="loader-bar" id="loader-bar"></div>
+    </div>
+
+    <div id="canvas-container"><canvas id="starfield"></canvas></div>
 
     <div id="cursor"></div>
     <div id="cursor-aura"></div>
 
     <div id="modal">
-        <span class="close" onclick="closeM()">CLOSE</span>
-        <div id="modal-container">
-            <iframe id="frame"></iframe>
-        </div>
+        <span class="close" onclick="closeM()">RETURN TO SOVEREIGN</span>
+        <iframe id="frame"></iframe>
     </div>
 
     <header>
         <div class="profile-container">
             <div class="profile-pic"></div>
-            <h1>A Digital Bridge <br>to Presence</h1>
+            <h1>The Space Between <br>Who You Are</h1>
         </div>
         <div class="hero-statement">
-            I entered this field to give therapists a real digital sanctuary. Most generic profiles fail to portray what it <b>actually feels like</b> to sit with you. I build high-end, warm designs that bridge the gap between clinical professionalism and true human connection.
+            "I became a counselor because I believe the bravest thing a person can do is show up for themselves. 
+            Yet, I noticed so many brilliant therapists hide their warmth behind cold, generic directories. 
+            I am here to change that. I build digital sanctuaries that don't just list your credentials—they 
+            <b>let your clients feel your presence</b> before the first session even begins. 
+            Let’s create a home for your practice that feels as safe and inviting as your office."
         </div>
     </header>
 
     <div class="stack-wrapper">
         <div class="section">
-            <div class="image-container"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Clinical Precision"></div>
-            <div class="content"><h2>Clinical Precision</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="btn">Taste the Atmosphere</a></div>
+            <div class="image-card">
+                <div class="image-container"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Clinical Precision"></div>
+                <div class="content"><h2>Clinical Precision</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="btn">Step Inside</a></div>
+            </div>
         </div>
         <div class="section">
-            <div class="image-container"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="The Wild Self"></div>
-            <div class="content"><h2>The Wild Self</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="btn">Taste the Atmosphere</a></div>
+            <div class="image-card">
+                <div class="image-container"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="The Wild Self"></div>
+                <div class="content"><h2>The Wild Self</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="btn">Step Inside</a></div>
+            </div>
         </div>
         <div class="section">
-            <div class="image-container"><img src="Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpeg" alt="Somatic Resonance"></div>
-            <div class="content"><h2>Somatic Resonance</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="btn">Taste the Atmosphere</a></div>
+            <div class="image-card">
+                <div class="image-container"><img src="Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpeg" alt="Somatic Resonance"></div>
+                <div class="content"><h2>Somatic Resonance</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="btn">Step Inside</a></div>
+            </div>
         </div>
         <div class="section">
-            <div class="image-container"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Analytical Depth"></div>
-            <div class="content"><h2>Analytical Depth</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="btn">Taste the Atmosphere</a></div>
+            <div class="image-card">
+                <div class="image-container"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Analytical Depth"></div>
+                <div class="content"><h2>Analytical Depth</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="btn">Step Inside</a></div>
+            </div>
         </div>
     </div>
 
     <footer>
-        <h2 class="footer-heading">Ready to redefine <br>your presence?</h2>
-        <a href="booking.html" class="journey-link">Begin The Journey</a>
+        <h2 class="footer-heading">Shall we begin?</h2>
+        <a href="booking.html" class="journey-link">Book a Discovery Call</a>
         <div class="portals">
             <a href="1099-1.html">1099 PORTAL I</a>
             <a href="1099-2.html">1099 PORTAL II</a>
@@ -157,17 +170,52 @@
     </footer>
 
     <script>
-        // Desktop Cursor Logic
-        if (window.innerWidth > 1024) {
-            const c = document.getElementById('cursor');
-            const ca = document.getElementById('cursor-aura');
-            document.addEventListener('mousemove', (e) => {
-                c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px';
-                ca.style.left = (e.clientX - 22) + 'px'; ca.style.top = (e.clientY - 22) + 'px';
-            });
-        }
+        // 0-100 Loader
+        let count = 0;
+        const loaderNum = document.getElementById('loader-number');
+        const loaderBar = document.getElementById('loader-bar');
+        const loader = document.getElementById('loader');
+        const interval = setInterval(() => {
+            count++;
+            loaderNum.innerText = count;
+            loaderBar.style.width = count + "%";
+            if(count === 100) {
+                clearInterval(interval);
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 1000);
+            }
+        }, 25);
 
-        // Modal Logic
+        // Starfield Canvas
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize);
+        resize();
+        const stars = [];
+        for(let i=0; i<250; i++) {
+            stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*1.2, speed: Math.random()*0.4 });
+        }
+        function animateStars() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = "#fff";
+            stars.forEach(s => {
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill();
+                s.y -= s.speed; if(s.y < 0) s.y = canvas.height;
+            });
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        // Cursor
+        const c = document.getElementById('cursor');
+        const ca = document.getElementById('cursor-aura');
+        document.addEventListener('mousemove', (e) => {
+            c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px';
+            ca.style.left = (e.clientX - 20) + 'px'; ca.style.top = (e.clientY - 20) + 'px';
+        });
+
+        // Modal
         function openM(url) {
             document.getElementById('frame').src = url;
             document.getElementById('modal').style.display = 'block';
