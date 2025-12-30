@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign | Final Aligned Edition</title>
+<title>Sovereign | Final Aligned Sanctuary</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@100;200;400&display=swap" rel="stylesheet">
 <style>
     :root { --accent: #c5a37d; --bg: #030303; --text-muted: rgba(255,255,255,0.7); }
@@ -30,8 +30,8 @@
 
     section { padding: 10vh 10vw; position: relative; z-index: 10; }
 
-    /* Header Section */
-    #about { display: flex; flex-wrap: wrap; gap: 60px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10vh; }
+    /* Profile Header */
+    #about { display: flex; flex-wrap: wrap; gap: 60px; align-items: center; padding-bottom: 10vh; border-bottom: 1px solid rgba(255,255,255,0.05); }
     .profile-wrap { position: relative; width: 300px; height: 300px; }
     .profile-img { width: 100%; height: 100%; border-radius: 50%; background: url('IMG_1860.jpeg') center/cover; border: 1px solid var(--accent); }
     .profile-aura { position: absolute; inset: -15px; border-radius: 50%; background: radial-gradient(circle, rgba(197, 163, 125, 0.15) 0%, transparent 70%); animation: pulse 6s infinite; }
@@ -39,9 +39,9 @@
     .about-text h2 { font-family: 'Cormorant Garamond'; font-size: 3rem; font-weight: 300; margin-bottom: 20px; }
     .about-text p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); max-width: 600px; }
 
-    /* UNIT LOCKING: Image + Text + Button are one single group */
+    /* Gallery Unit Alignment */
     .project-card { display: flex; flex-direction: column; gap: 30px; margin-bottom: 15vh; }
-    .img-box { width: 100%; height: 70vh; background: #080808; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center; overflow: hidden; }
+    .img-box { width: 100%; height: 75vh; background: #080808; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center; overflow: hidden; }
     .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
 
     .info-box { display: flex; flex-direction: column; gap: 15px; align-items: center; text-align: center; }
@@ -55,11 +55,12 @@
     }
     .explore-btn:hover { background: #fff; color: #000; border-color: #fff; }
 
+    /* Website Pop-up */
     #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; padding: 20px; }
     #modal iframe { width: 100%; height: 100%; border: none; }
     .close-modal { position: absolute; top: 20px; right: 30px; color: var(--accent); cursor: pointer; letter-spacing: 3px; font-size: 0.8rem; background: #000; padding: 10px; }
 
-    #footer { text-align: center; padding: 10vh 0; border-top: 1px solid rgba(255,255,255,0.05); }
+    #footer { text-align: center; padding: 12vh 0; border-top: 1px solid rgba(255,255,255,0.05); }
     .next-btn { padding: 25px 80px; border: 1px solid #fff; color: #fff; text-decoration: none; letter-spacing: 10px; font-size: 0.9rem; transition: 0.6s; }
 
     @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.05); } }
@@ -76,7 +77,7 @@
 <canvas id="space-canvas"></canvas>
 
 <div id="modal">
-    <span class="close-modal" onclick="closeM()">RETURN TO ARCHIVE</span>
+    <span class="close-modal" onclick="closeM()">RETURN TO GALLERY</span>
     <iframe id="m-frame"></iframe>
 </div>
 
@@ -94,25 +95,16 @@
 <section>
     
     <div class="project-card">
-        <div class="img-box"><img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg" alt="Clinical Precision"></div>
+        <div class="img-box"><img src="healing.jpg" alt="Somatic Trauma Visual"></div>
         <div class="info-box">
-            <h4>Clinical Precision</h4>
-            <p>A high-clarity, professional environment built for evidence-based practices.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">Taste the Atmosphere</a>
+            <h4>Somatic Resonance</h4>
+            <p>Grounding architecture for trauma-informed care and healing pathways.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
     <div class="project-card">
-        <div class="img-box"><img src="healing.jpg" alt="The Wild Self"></div>
-        <div class="info-box">
-            <h4>Returning to the Wild Self</h4>
-            <p>A soft sanctuary designed to foster a return to your natural essence.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">Taste the Atmosphere</a>
-        </div>
-    </div>
-
-    <div class="project-card">
-        <div class="img-box"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Analytical Depth"></div>
+        <div class="img-box"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Analytical Depth Visual"></div>
         <div class="info-box">
             <h4>Analytical Depth</h4>
             <p>The "Know Thyself" sanctuary for introspective depth-work.</p>
@@ -121,11 +113,20 @@
     </div>
 
     <div class="project-card">
-        <div class="img-box"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Somatic Resonance"></div>
+        <div class="img-box"><img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg" alt="Clinical Precision Visual"></div>
         <div class="info-box">
-            <h4>Somatic Resonance</h4>
-            <p>Structured sovereignty and modern clinical clarity.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">Taste the Atmosphere</a>
+            <h4>Clinical Precision</h4>
+            <p>Professional sovereignty and modern clinical clarity.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">Taste the Atmosphere</a>
+        </div>
+    </div>
+
+    <div class="project-card">
+        <div class="img-box"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Wild Self Visual"></div>
+        <div class="info-box">
+            <h4>Returning to the Wild Self</h4>
+            <p>A soft sanctuary designed to foster a return to your natural essence.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
