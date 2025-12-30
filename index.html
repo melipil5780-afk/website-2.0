@@ -11,7 +11,7 @@
     
     body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; -webkit-font-smoothing: antialiased; }
 
-    /* --- SOOTHING COSMIC BACKGROUND (Original Ultra-Slow Drift) --- */
+    /* --- BACKGROUND --- */
     #bg-canvas { z-index: -1; position: fixed; inset: 0; background: #000; }
     #bg-texture {
         position: fixed; inset: -50%; width: 200%; height: 200%; z-index: -1;
@@ -42,7 +42,7 @@
     .hero-sub { max-width: 600px; font-size: 1.1rem; opacity: 0; line-height: 1.8; border-left: 1px solid rgba(197,163,125,0.3); padding-left: 30px; transition: 1.5s 0.8s forwards; color: #ccc; margin-top: 40px;}
     .reveal .hero-sub, .reveal #hero-tag-top { opacity: 1; transform: translateY(0); }
 
-    /* --- GALLERY STACKING --- */
+    /* --- GALLERY --- */
     #gallery { padding: 0 5vw; position: relative; z-index: 20; }
     .project-card { 
         position: -webkit-sticky; position: sticky; top: 5vh; height: 85vh; width: 100%; margin-bottom: 20vh; 
@@ -50,30 +50,37 @@
         backdrop-filter: blur(25px); border-top: 1px solid rgba(197, 163, 125, 0.35); padding: 25px;
         box-shadow: 0 -30px 60px rgba(0,0,0,0.8);
     }
-    .image-frame { width: 100%; height: 55vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); position: relative; }
-    .image-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .fallback-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); transition: filter 0.8s; opacity: 1; }
-    .project-card:hover .fallback-img { filter: brightness(1); }
     
+    /* FIX: Ensure container clips the canvas */
+    .image-frame { width: 100%; height: 55vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); position: relative; background: #000; }
+    
+    /* FIX: Canvas starts invisible, fades in when ready */
+    .image-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; z-index: 2; }
+    .image-canvas.loaded { opacity: 1; }
+    
+    /* FIX: Fallback image sits behind, visible by default */
+    .fallback-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); z-index: 1; transition: opacity 1s; }
+    .project-card:hover .fallback-img { filter: brightness(1); }
+
     .view-label { 
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;
         letter-spacing: 5px; font-size: 0.7rem; font-weight: 900; opacity: 0; transition: 0.3s; pointer-events: none; 
         background: rgba(0,0,0,0.6); padding: 15px 25px; border: 1px solid var(--accent);
     }
     .project-card:hover .view-label { opacity: 1; }
 
-    /* --- FULL MODAL --- */
+    /* --- MODAL --- */
     #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; opacity: 0; transition: 0.5s; align-items: center; justify-content: center; flex-direction: column; }
     #modal.open { display: flex; opacity: 1; }
     #modal-canvas { width: 92vw; height: 85vh; max-width: 1600px; border: 1px solid rgba(197,163,125,0.3); box-shadow: 0 0 80px rgba(197,163,125,0.2); }
     #close-modal { position: fixed; top: 30px; right: 30px; font-size: 2.5rem; color: var(--accent); background: rgba(0,0,0,0.5); border: 1px solid var(--accent); border-radius: 50%; width: 60px; height: 60px; line-height: 55px; text-align: center; cursor: pointer; z-index: 10001; transition: 0.3s; }
 
-    /* --- MESSAGING & FINAL --- */
+    /* --- TEXT & CTA --- */
     .style-message { padding: 25vh 10vw; text-align: center; background: #000; position: relative; z-index: 30; }
     .shimmer-text { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 300; background: linear-gradient(90deg, #333, #fff, #333); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
     @keyframes shine { to { background-position: 200% center; } }
 
-    #final-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; position: relative; z-index: 100; transition: 1s; }
+    #final-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; position: relative; z-index: 100; }
     .cta-btn { display: inline-block; padding: 25px 70px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 5px; animation: pulse 2.5s infinite; }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4); } 70% { box-shadow: 0 0 0 25px rgba(197, 163, 125, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); } }
 
@@ -85,7 +92,6 @@
         #c, #ca, #spotlight { display: none !important; }
         .project-card { top: 2vh; height: 80vh; margin-bottom: 12vh; }
         .view-label { opacity: 1; top: 85%; width: 80%; text-align: center; }
-        .fallback-img { filter: brightness(1) !important; }
         #modal-canvas { width: 95vw; height: 70vh; }
     }
 </style>
@@ -167,29 +173,40 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 
 <script>
-    // === ULTRA-SOOTHING ORIGINAL STAR DRIFT BACKGROUND ===
-    const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
+    // 1. STAR BACKGROUND (Keep existing logic)
+    const bgCanvas = document.getElementById('bg-canvas');
+    const bgCtx = bgCanvas.getContext('2d');
     let dots = [], pulseProgress = 0;
+    
     function initBg() {
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        bgCanvas.width = window.innerWidth; 
+        bgCanvas.height = window.innerHeight;
         dots = Array.from({length: 90}, () => ({ 
-            x: Math.random()*canvas.width, y: Math.random()*canvas.height, 
-            vx: (Math.random()-0.5)*0.25, vy: (Math.random()-0.5)*0.25, r: Math.random()*1.8 + 0.8 
+            x: Math.random()*bgCanvas.width, 
+            y: Math.random()*bgCanvas.height, 
+            vx: (Math.random()-0.5)*0.25, 
+            vy: (Math.random()-0.5)*0.25, 
+            r: Math.random()*1.8 + 0.8 
         }));
     }
+    
     function drawBg() {
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        pulseProgress += 0.0018; // Extremely slow pulse
+        bgCtx.clearRect(0,0,bgCanvas.width, bgCanvas.height);
+        pulseProgress += 0.0018; 
         dots.forEach((d, i) => {
             d.x += d.vx; d.y += d.vy;
-            if(d.x<0||d.x>canvas.width) d.vx*=-1; if(d.y<0||d.y>canvas.height) d.vy*=-1;
-            ctx.fillStyle = "rgba(255, 255, 255, 0.9)"; ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2); ctx.fill();
+            if(d.x<0||d.x>bgCanvas.width) d.vx*=-1; 
+            if(d.y<0||d.y>bgCanvas.height) d.vy*=-1;
+            
+            bgCtx.fillStyle = "rgba(255, 255, 255, 0.9)"; 
+            bgCtx.beginPath(); bgCtx.arc(d.x, d.y, d.r, 0, Math.PI*2); bgCtx.fill();
+            
             for(let j=i+1; j<dots.length; j++){
                 let d2 = dots[j], dist = Math.hypot(d.x-d2.x, d.y-d2.y);
                 if(dist < 150){
                     let pulse = Math.sin((dist/150)-(pulseProgress*Math.PI*2));
-                    ctx.strokeStyle = `rgba(197,163,125,${0.25 - dist/150 + pulse*0.08})`;
-                    ctx.lineWidth = 0.8; ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y); ctx.stroke();
+                    bgCtx.strokeStyle = `rgba(197,163,125,${0.25 - dist/150 + pulse*0.08})`;
+                    bgCtx.lineWidth = 0.8; bgCtx.beginPath(); bgCtx.moveTo(d.x, d.y); bgCtx.lineTo(d2.x, d2.y); bgCtx.stroke();
                 }
             }
         });
@@ -198,7 +215,7 @@
     initBg(); drawBg();
     window.addEventListener('resize', initBg);
 
-    // === GENTLE BREATHING 3D SHADER FOR PREVIEWS & FULL ===
+    // 2. FIXED 3D SHADER LOGIC
     const imgSources = [
         'Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg',
         'healing.jpg',
@@ -209,7 +226,10 @@
     let currentModalRenderer = null;
 
     function createBreathingShader(canvas, imgSrc, baseAmp = 0.04, isModal = false) {
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+        // Safety check for WebGL
+        if (!window.WebGLRenderingContext) return;
+
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
@@ -217,67 +237,91 @@
         const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 10);
         camera.position.z = isModal ? 1.3 : 1.6;
 
-        const geometry = new THREE.PlaneGeometry(2, 2, 160, 160);
+        // Ensure texture loader handles cross-origin if needed
+        const loader = new THREE.TextureLoader();
+        loader.setCrossOrigin('anonymous');
 
-        const texture = new THREE.TextureLoader().load(imgSrc, () => {
-            canvas.parentElement.querySelector('.fallback-img').style.opacity = '0';
-        });
+        loader.load(
+            imgSrc, 
+            // On Load Success
+            function(texture) {
+                const geometry = new THREE.PlaneGeometry(2, 2, 128, 128);
+                const uniforms = {
+                    u_time: { value: 0 },
+                    u_texture: { value: texture },
+                    u_amp: { value: baseAmp },
+                    u_brightness: { value: isModal ? 1.0 : 0.8 } // Slightly brighter for visibility
+                };
 
-        const uniforms = {
-            u_time: { value: 0 },
-            u_texture: { value: texture },
-            u_amp: { value: baseAmp },
-            u_brightness: { value: isModal ? 1.0 : 0.4 }
-        };
+                const material = new THREE.ShaderMaterial({
+                    uniforms,
+                    vertexShader: `
+                        varying vec2 vUv;
+                        uniform float u_time;
+                        uniform float u_amp;
+                        void main() {
+                            vUv = uv;
+                            vec3 pos = position;
+                            // Gentle organic wave
+                            float wave = sin(pos.x * 3.0 + u_time * 0.8) * sin(pos.y * 2.0 + u_time * 0.5) * u_amp;
+                            pos.z += wave;
+                            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+                        }
+                    `,
+                    fragmentShader: `
+                        uniform sampler2D u_texture;
+                        uniform float u_brightness;
+                        varying vec2 vUv;
+                        void main() {
+                            vec4 color = texture2D(u_texture, vUv);
+                            color.rgb *= u_brightness;
+                            gl_FragColor = color;
+                        }
+                    `,
+                    transparent: true
+                });
 
-        const material = new THREE.ShaderMaterial({
-            uniforms,
-            vertexShader: `
-                varying vec2 vUv;
-                uniform float u_time;
-                uniform float u_amp;
-                void main() {
-                    vUv = uv;
-                    vec3 pos = position;
-                    float wave = sin(pos.x * 6.0 + u_time * 1.2) * sin(pos.y * 5.0 + u_time * 0.9) * u_amp;
-                    pos.z += wave;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+                const mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
+
+                // Reveal Canvas / Hide Fallback
+                canvas.classList.add('loaded');
+                if(!isModal) {
+                    const fallback = canvas.parentElement.querySelector('.fallback-img');
+                    if(fallback) fallback.style.opacity = '0'; 
                 }
-            `,
-            fragmentShader: `
-                uniform sampler2D u_texture;
-                uniform float u_brightness;
-                varying vec2 vUv;
-                void main() {
-                    vec4 color = texture2D(u_texture, vUv);
-                    color.rgb *= u_brightness;
-                    gl_FragColor = color;
+
+                // Animation Loop
+                function animate() {
+                    if (!renderer.domElement) return; // Clean exit
+                    uniforms.u_time.value += 0.015;
+                    renderer.render(scene, camera);
+                    requestAnimationFrame(animate);
                 }
-            `,
-            transparent: true
-        });
+                animate();
 
-        const mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
-
-        function animate() {
-            uniforms.u_time.value += 0.01;
-            renderer.render(scene, camera);
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        const container = canvas.closest('.project-card') || document.getElementById('modal');
-        container.addEventListener('mouseenter', () => {
-            uniforms.u_amp.value = baseAmp * 2.5;
-            uniforms.u_brightness.value = 1.0;
-        });
-        container.addEventListener('mouseleave', () => {
-            uniforms.u_amp.value = baseAmp;
-            uniforms.u_brightness.value = isModal ? 1.0 : 0.4;
-        });
+                // Hover Effects
+                const container = canvas.closest('.project-card') || document.getElementById('modal');
+                container.addEventListener('mouseenter', () => {
+                    uniforms.u_amp.value = baseAmp * 3.0; // Intensify on hover
+                    uniforms.u_brightness.value = 1.1;
+                });
+                container.addEventListener('mouseleave', () => {
+                    uniforms.u_amp.value = baseAmp;
+                    uniforms.u_brightness.value = isModal ? 1.0 : 0.8;
+                });
+            },
+            // On Progress
+            undefined,
+            // On Error (Keep fallback visible)
+            function(err) {
+                console.warn('Texture failed to load (CORS or path error):', imgSrc);
+                // We do nothing, so the fallback image remains visible
+            }
+        );
 
         window.addEventListener('resize', () => {
+            if(!renderer.domElement) return;
             camera.aspect = canvas.clientWidth / canvas.clientHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(canvas.clientWidth, canvas.clientHeight);
@@ -288,15 +332,19 @@
 
     // Initialize mini previews
     document.querySelectorAll('.image-canvas').forEach((c, i) => {
-        createBreathingShader(c, imgSources[i], 0.04 + i * 0.006);
+        createBreathingShader(c, imgSources[i], 0.05 + i * 0.01);
     });
 
     // Full modal on click
     document.querySelectorAll('.project-card').forEach((card, i) => {
         card.addEventListener('click', () => {
-            if (currentModalRenderer) currentModalRenderer.dispose();
+            if (currentModalRenderer) {
+                currentModalRenderer.dispose();
+                currentModalRenderer.forceContextLoss();
+            }
             const modalCanvas = document.getElementById('modal-canvas');
-            currentModalRenderer = createBreathingShader(modalCanvas, imgSources[i], 0.07, true);
+            currentModalRenderer = createBreathingShader(modalCanvas, imgSources[i], 0.08, true);
+            
             document.getElementById('modal').classList.add('open');
             document.body.style.overflow = 'hidden';
         });
@@ -305,15 +353,21 @@
     function closeModal() {
         document.getElementById('modal').classList.remove('open');
         document.body.style.overflow = 'auto';
-        if (currentModalRenderer) currentModalRenderer.dispose();
     }
 
-    // === ORIGINAL INTERACTIONS ===
+    // 3. UI INTERACTIONS
     function handleMove(e) {
-        document.getElementById('spotlight').style.setProperty('--x', e.clientX + 'px');
-        document.getElementById('spotlight').style.setProperty('--y', e.clientY + 'px');
-        document.getElementById('c').style.left = e.clientX+'px'; document.getElementById('c').style.top = e.clientY+'px';
-        document.getElementById('ca').style.left = (e.clientX-22)+'px'; document.getElementById('ca').style.top = (e.clientY-22)+'px';
+        const spot = document.getElementById('spotlight');
+        if(spot) {
+            spot.style.setProperty('--x', e.clientX + 'px');
+            spot.style.setProperty('--y', e.clientY + 'px');
+        }
+        const c = document.getElementById('c');
+        const ca = document.getElementById('ca');
+        if(c && ca) {
+            c.style.left = e.clientX+'px'; c.style.top = e.clientY+'px';
+            ca.style.left = (e.clientX-22)+'px'; ca.style.top = (e.clientY-22)+'px';
+        }
     }
 
     function revealText(text, container) {
@@ -323,7 +377,10 @@
         spans.forEach((span, i) => {
             setTimeout(() => {
                 span.classList.add('visible');
-                if(i === spans.length - 1) setTimeout(() => document.getElementById('hero-line').classList.add('line-active'), 500);
+                if(i === spans.length - 1) setTimeout(() => {
+                    const line = document.getElementById('hero-line');
+                    if(line) line.classList.add('line-active');
+                }, 500);
             }, i * 250);
         });
     }
@@ -344,8 +401,12 @@
     }, 30);
 
     window.addEventListener('scroll', () => {
-        const rect = document.getElementById('final-section').getBoundingClientRect();
-        document.getElementById('spotlight').style.opacity = rect.top < window.innerHeight/2 ? "0" : "1";
+        const finalSec = document.getElementById('final-section');
+        const spot = document.getElementById('spotlight');
+        if(finalSec && spot) {
+            const rect = finalSec.getBoundingClientRect();
+            spot.style.opacity = rect.top < window.innerHeight/2 ? "0" : "1";
+        }
     });
 </script>
 </body>
