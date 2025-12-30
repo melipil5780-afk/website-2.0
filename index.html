@@ -3,57 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign</title>
+<title>Sovereign | Therapeutic Digital Architecture</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@100;200;400&display=swap" rel="stylesheet">
 <style>
     :root { --accent: #c5a37d; --bg: #030303; --text-muted: rgba(255,255,255,0.7); }
-    * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    /* Cursor only shows on desktop */
+    @media (hover: hover) {
+        * { cursor: none; }
+        #c { width: 4px; height: 4px; background: #fff; z-index: 20001; position: fixed; border-radius: 50%; pointer-events: none; }
+        #ca { width: 35px; height: 35px; border: 0.5px solid var(--accent); border-radius: 50%; position: fixed; z-index: 20001; transition: 0.1s ease-out; pointer-events: none;}
+    }
+
     body { background: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* The 0-100 Loader */
+    /* The Gold 0-100 Loader */
     #loader {
         position: fixed; inset: 0; background: #000; z-index: 20000;
         display: flex; flex-direction: column; justify-content: center; align-items: center;
         transition: opacity 1.2s ease;
     }
-    #loader-pct { font-family: 'Cormorant Garamond'; font-size: 5rem; font-weight: 200; color: var(--accent); }
-    .loader-bar { width: 180px; height: 1px; background: rgba(255,255,255,0.1); margin-top: 10px; position: relative; }
+    #loader-pct { font-family: 'Cormorant Garamond'; font-size: clamp(3rem, 10vw, 5rem); font-weight: 200; color: var(--accent); }
+    .loader-bar { width: 150px; height: 1px; background: rgba(255,255,255,0.1); margin-top: 10px; position: relative; }
     .loader-progress { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); width: 0%; }
 
     #space-canvas { position: fixed; inset: 0; z-index: -1; }
     .vignette { position: fixed; inset: 0; background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.95) 100%); z-index: 0; pointer-events: none; }
 
-    /* Custom Cursor */
-    #c { width: 4px; height: 4px; background: #fff; z-index: 20001; position: fixed; border-radius: 50%; pointer-events: none; }
-    #ca { width: 35px; height: 35px; border: 0.5px solid var(--accent); border-radius: 50%; position: fixed; z-index: 20001; transition: 0.1s ease-out; pointer-events: none;}
+    section { padding: 10vh 8vw; position: relative; z-index: 10; }
 
-    section { padding: 15vh 12vw; position: relative; z-index: 10; }
+    /* Profile Section - Mobile Responsive */
+    #about { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 40px; align-items: center; }
+    .profile-wrap { position: relative; width: clamp(200px, 50vw, 350px); height: clamp(200px, 50vw, 350px); margin: 0 auto; }
+    .profile-img { 
+        width: 100%; height: 100%; border-radius: 50%; 
+        background: url('IMG_1860.jpeg') center/cover; 
+        border: 1px solid var(--accent);
+    }
+    .profile-aura { position: absolute; inset: -15px; border-radius: 50%; background: radial-gradient(circle, rgba(197, 163, 125, 0.2) 0%, transparent 70%); animation: pulse 6s infinite; }
 
-    /* Original Intro Style */
-    .hero-text h1 { font-family: 'Cormorant Garamond'; font-size: 4rem; font-weight: 200; line-height: 1.1; margin-bottom: 30px; }
-    .hero-text p { max-width: 600px; font-size: 1.1rem; font-weight: 200; color: var(--text-muted); line-height: 1.8; }
+    .about-text h2 { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 3rem); font-weight: 300; margin-bottom: 20px; }
+    .about-text p { font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; color: var(--text-muted); }
 
-    /* Project Alignment */
-    .project-card { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 20vh; align-items: center; }
-    .img-box { height: 55vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
-    .img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 1.5s ease; }
-    .project-card:hover img { opacity: 1; transform: scale(1.05); }
-
-    .info-box h4 { font-family: 'Cormorant Garamond'; font-size: 2.8rem; font-weight: 300; margin-bottom: 20px; color: var(--accent); }
-    .info-box p { font-size: 1rem; color: var(--text-muted); margin-bottom: 40px; line-height: 1.8; }
+    /* Project Cards - Mobile Responsive */
+    .project-card { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 12vh; align-items: center; }
+    .img-box { height: clamp(250px, 40vh, 50vh); overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #111; }
+    .img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 1.5s ease; }
+    
+    .info-box h4 { font-family: 'Cormorant Garamond'; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 300; margin-bottom: 15px; color: var(--accent); }
+    .info-box p { font-size: 0.95rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 25px; }
     
     .explore-btn { 
-        display: inline-block; padding: 18px 50px; border: 1px solid var(--accent); 
-        color: var(--accent); text-decoration: none; font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase;
+        display: inline-block; padding: 12px 30px; border: 1px solid var(--accent); 
+        color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
         transition: 0.4s;
     }
-    .explore-btn:hover { background: var(--accent); color: #000; }
 
-    /* The Wide Modal */
-    #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; }
-    #modal iframe { width: 100%; height: 100%; border: none; }
-    .close-modal { position: absolute; top: 30px; right: 50px; color: #fff; cursor: pointer; letter-spacing: 5px; font-size: 0.7rem; z-index: 10001; background: rgba(0,0,0,0.5); padding: 10px 20px;}
+    /* Mobile Breakpoint */
+    @media (max-width: 900px) {
+        #about, .project-card { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+        .img-box { order: -1; height: 300px; } /* Image always on top on mobile */
+        section { padding: 8vh 5vw; }
+        #ca, #c { display: none; } /* Hide custom cursor on mobile */
+    }
 
+    /* Modal / Iframe */
+    #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; padding: 10px; }
+    #modal iframe { width: 100%; height: 100%; border: none; border-radius: 8px; }
+    .close-modal { position: absolute; top: 20px; right: 20px; color: var(--accent); cursor: pointer; letter-spacing: 2px; font-size: 0.7rem; background: rgba(0,0,0,0.8); padding: 8px 15px; border-radius: 4px; }
+
+    #footer { text-align: center; padding: 10vh 5vw; border-top: 1px solid rgba(255,255,255,0.05); }
+    .next-btn {
+        padding: 20px 50px; border: 1px solid #fff; color: #fff; 
+        text-decoration: none; letter-spacing: 5px; font-weight: 400; font-size: 0.8rem;
+        transition: 0.6s; display: inline-block;
+    }
+
+    @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.05); } }
 </style>
 </head>
 <body>
@@ -72,51 +99,60 @@
     <iframe id="m-frame"></iframe>
 </div>
 
-<section class="hero-text">
-    <h1>Sovereign</h1>
-    <p>Architecture for the modern practitioner. Digital sanctuaries designed for depth, safety, and therapeutic presence.</p>
+<section id="about">
+    <div class="profile-wrap">
+        <div class="profile-aura"></div>
+        <div class="profile-img"></div>
+    </div>
+    <div class="about-text">
+        <h2>A Digital Bridge to Presence</h2>
+        <p>I am a <b>Mental Health Counselor</b> and architect of digital sanctuaries. I build spaces where clients can feel the <b>flavor and safety</b> of your presence before you ever meet.</p>
+    </div>
 </section>
 
 <section>
     <div class="project-card">
-        <div class="img-box"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg"></div>
+        <div class="img-box"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Somatic"></div>
         <div class="info-box">
-            <h4>Architecture Two</h4>
-            <p>Somatic Resonance. Grounding spaces for trauma-informed care and nervous system regulation.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">Explore</a>
+            <h4>Somatic Resonance</h4>
+            <p>Grounding architecture designed to mirror body-focused healing and nervous system regulation.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
     <div class="project-card">
-        <div class="img-box"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg"></div>
+        <div class="img-box"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Analytical"></div>
         <div class="info-box">
-            <h4>Architecture Three</h4>
-            <p>Analytical Depth. The "Know Thyself" design for depth-work and unconscious exploration.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="explore-btn">Explore</a>
+            <h4>Analytical Depth</h4>
+            <p>The "Know Thyself" sanctuary for introspective depth-work and unconscious exploration.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
     <div class="project-card">
-        <div class="img-box"><img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg"></div>
+        <div class="img-box"><img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg" alt="Clinical"></div>
         <div class="info-box">
-            <h4>Architecture Four</h4>
-            <p>Clinical Precision. High-clarity architecture for professional sovereignty and precision.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">Explore</a>
+            <h4>Clinical Precision</h4>
+            <p>A modern environment focusing on professional sovereignty and clinical clarity.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
     <div class="project-card">
-        <div class="img-box"><img src="healing.jpg"></div>
+        <div class="img-box"><img src="healing.jpg" alt="Wild Self"></div>
         <div class="info-box">
-            <h4>Architecture Five</h4>
-            <p>Returning to the Wild Self. A soft, expansive sanctuary for the soul's natural essence.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">Explore</a>
+            <h4>Returning to the Wild Self</h4>
+            <p>A soft sanctuary designed to foster a return to your natural, unburdened essence.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 </section>
 
+<footer id="footer">
+    <a href="booking.html" class="next-btn">BEGIN THE JOURNEY</a>
+</footer>
+
 <script>
-    // 0-100 Loader
     let count = 0;
     const lP = document.getElementById('lp');
     const lT = document.getElementById('loader-pct');
@@ -127,11 +163,10 @@
         if(count >= 100) {
             clearInterval(lS);
             document.getElementById('loader').style.opacity = '0';
-            setTimeout(() => document.getElementById('loader').style.display = 'none', 1200);
+            setTimeout(() => document.getElementById('loader').style.display = 'none', 1000);
         }
     }, 30);
 
-    // Stars
     const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
@@ -153,15 +188,16 @@
     }
     init(); draw();
 
-    // Cursor
-    window.addEventListener('mousemove', (e) => {
-        document.getElementById('c').style.left = e.clientX + 'px';
-        document.getElementById('c').style.top = e.clientY + 'px';
-        document.getElementById('ca').style.left = (e.clientX - 17) + 'px';
-        document.getElementById('ca').style.top = (e.clientY - 17) + 'px';
-    });
+    // Desktop Cursor Only
+    if (window.matchMedia("(hover: hover)").matches) {
+        window.addEventListener('mousemove', (e) => {
+            document.getElementById('c').style.left = e.clientX + 'px';
+            document.getElementById('c').style.top = e.clientY + 'px';
+            document.getElementById('ca').style.left = (e.clientX - 17) + 'px';
+            document.getElementById('ca').style.top = (e.clientY - 17) + 'px';
+        });
+    }
 
-    // Modal
     function openM(url) {
         document.getElementById('m-frame').src = url;
         document.getElementById('modal').style.display = 'block';
