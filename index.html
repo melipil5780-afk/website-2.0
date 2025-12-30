@@ -10,7 +10,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
     body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; -webkit-font-smoothing: antialiased; }
 
-    /* Backgrounds */
+    /* Interactive Backgrounds */
     #bg-canvas { z-index: -1; position: fixed; inset: 0; background: #000; }
     #noise { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.15; z-index: 1; pointer-events: none; mix-blend-mode: screen; }
     #spotlight { z-index: 2; position: fixed; inset: 0; background: radial-gradient(circle 450px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.95) 100%); pointer-events: none; }
@@ -21,40 +21,42 @@
     .word { opacity: 0; display: inline-block; transform: translateY(15px); transition: 0.8s ease; }
     .word.visible { opacity: 1; transform: translateY(0); }
 
-    /* About Me */
-    #about { display: flex; align-items: center; gap: 60px; background: rgba(10,10,10,0.5); border-top: 1px solid rgba(197,163,125,0.1); flex-wrap: wrap; padding: 10vh 10vw; }
+    /* The Vision Section */
+    #about { display: flex; align-items: center; gap: 60px; background: rgba(10,10,10,0.9); border-top: 1px solid rgba(197,163,125,0.1); flex-wrap: wrap; padding: 12vh 10vw; }
     .about-text { flex: 1; min-width: 320px; }
-    .about-text h2 { font-family: 'Cormorant Garamond'; font-size: 3rem; color: var(--accent); margin-bottom: 25px; }
-    .about-text p { line-height: 1.8; color: #bbb; margin-bottom: 20px; font-size: 1.05rem; }
-    .profile-circle { width: 350px; height: 350px; border-radius: 50%; border: 1px solid var(--accent); overflow: hidden; position: relative; background: #000; }
+    .about-text h2 { font-family: 'Cormorant Garamond'; font-size: 3.5rem; color: var(--accent); margin-bottom: 30px; font-weight: 300; }
+    .about-text p { line-height: 1.9; color: #ccc; margin-bottom: 25px; font-size: 1.15rem; font-weight: 300; letter-spacing: 0.5px; }
+    
+    .profile-circle { width: 380px; height: 380px; border-radius: 50%; border: 1px solid var(--accent); overflow: hidden; position: relative; box-shadow: 0 0 50px rgba(197, 163, 125, 0.15); background: #111; }
     #profile-canvas { width: 100%; height: 100%; }
 
-    /* Gallery */
+    /* 4-Site Gallery */
     #gallery { padding: 0 5vw; }
-    .project-card { position: sticky; top: 8vh; height: 82vh; width: 100%; margin-bottom: 25vh; background: #080808; border: 1px solid rgba(197, 163, 125, 0.25); padding: 25px; display: flex; flex-direction: column; box-shadow: 0 -20px 50px rgba(0,0,0,0.8); }
-    .image-frame { width: 100%; height: 55vh; overflow: hidden; position: relative; background: #111; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+    .project-card { position: sticky; top: 8vh; height: 85vh; width: 100%; margin-bottom: 25vh; background: #050505; border: 1px solid rgba(197, 163, 125, 0.2); padding: 30px; display: flex; flex-direction: column; }
+    .image-frame { width: 100%; height: 60vh; overflow: hidden; position: relative; background: #111; cursor: pointer; }
     .image-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .view-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); letter-spacing: 4px; font-size: 0.75rem; font-weight: 900; background: var(--accent); color: #000; padding: 18px 30px; opacity: 0; transition: 0.4s; z-index: 10; pointer-events: none; }
+    .view-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); letter-spacing: 4px; font-size: 0.8rem; font-weight: 900; background: var(--accent); color: #000; padding: 20px 40px; opacity: 0; transition: 0.4s; z-index: 10; pointer-events: none; }
     .project-card:hover .view-label { opacity: 1; }
 
-    /* Iframe Modal */
+    /* Modal Viewer */
     #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.5s; }
     #modal.open { display: flex; opacity: 1; }
-    #modal-frame { width: 94vw; height: 88vh; border: 1px solid var(--accent); background: #fff; }
-    #close-modal { position: fixed; top: 25px; right: 25px; background: #000; border: 1px solid var(--accent); color: var(--accent); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; z-index: 10001; }
+    #modal-frame { width: 95vw; height: 90vh; border: 1px solid var(--accent); background: #fff; }
+    #close-modal { position: fixed; top: 25px; right: 25px; background: #000; border: 1px solid var(--accent); color: var(--accent); width: 60px; height: 60px; border-radius: 50%; cursor: pointer; z-index: 10001; font-weight: 900; }
 
-    /* The Sale */
+    /* Sale Display */
     #final-section { background: #fff; color: #000; padding: 15vh 10vw; text-align: center; z-index: 100; position: relative; }
-    .sale-box { display: inline-block; padding: 30px; border: 1px solid #000; margin-bottom: 30px; }
-    .price-strike { text-decoration: line-through; opacity: 0.4; font-size: 1.5rem; margin-right: 20px; }
-    .price-now { font-size: 2.5rem; font-weight: 900; color: #b30000; }
-    .cta-btn { display: inline-block; padding: 22px 60px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 4px; border: 1px solid #000; }
+    .sale-box { display: inline-block; padding: 40px; border: 2px solid #000; margin-bottom: 30px; }
+    .price-strike { text-decoration: line-through; opacity: 0.3; font-size: 1.8rem; margin-right: 25px; font-weight: 300; }
+    .price-now { font-size: 3rem; font-weight: 900; color: #a30000; }
+    .cta-btn { display: inline-block; padding: 25px 70px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 5px; border: 2px solid #000; transition: 0.4s; }
+    .cta-btn:hover { background: #fff; color: #000; }
 
-    /* Cursor */
+    /* Mouse Cursor */
     #c { width: 6px; height: 6px; background: #fff; z-index: 10001; position: fixed; mix-blend-mode: difference; border-radius: 50%; pointer-events: none;}
-    #ca { width: 42px; height: 42px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.08s; pointer-events: none;}
+    #ca { width: 44px; height: 44px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.1s; pointer-events: none;}
 
-    @media (max-width: 900px) { #about { flex-direction: column; text-align: center; } .profile-circle { width: 280px; height: 280px; } #c, #ca, #spotlight { display: none; } }
+    @media (max-width: 900px) { #about { flex-direction: column-reverse; text-align: center; } .profile-circle { width: 300px; height: 300px; } #c, #ca, #spotlight { display: none; } }
 </style>
 </head>
 <body onmousemove="handleMove(event)">
@@ -68,58 +70,57 @@
     <iframe id="modal-frame" src=""></iframe>
 </div>
 
-<div id="noise"></div>
-<div id="spotlight"></div>
+<div id="noise"></div><div id="spotlight"></div>
 <canvas id="bg-canvas"></canvas>
 <div id="c"></div><div id="ca"></div>
 
 <section id="hero-sec">
-    <p style="color:var(--accent); letter-spacing:8px; font-weight:700; font-size:0.7rem; margin-bottom: 20px;">SOVEREIGN WEB ARCHITECTURE</p>
+    <p style="color:var(--accent); letter-spacing:8px; font-weight:700; font-size:0.75rem; margin-bottom: 25px;">SOVEREIGN WEB ARCHITECTURE</p>
     <h1 class="hero-h1" id="hero-text"></h1>
 </section>
 
 <section id="about">
+    <div class="about-text">
+        <h2>Beyond the Box</h2>
+        <p>Therapy is a deeply personal exchange, yet most practitioners are hidden behind the rigid, generic boxes of directory listings like Psychology Today. These sites show what you do, but they fail to show <strong>who you are</strong> and what it feels like to sit in a room with you.</p>
+        <p>I build digital sanctuaries that break the "elite" gatekeeping of high-end design. My mission is to give therapists a home that conveys their unique soul and clinical presence through tailored architecture—without the burden of endless subscriptions. One transparent fee. Total sovereignty.</p>
+    </div>
     <div class="profile-circle">
         <canvas id="profile-canvas"></canvas>
-    </div>
-    <div class="about-text">
-        <h2>The Vision</h2>
-        <p>I am a mental health counselor who saw a profound need. While common directories offer a space to be listed, private practitioners often lack a true digital home that showcases their unique clinical approach—unless they have thousands of dollars to spare.</p>
-        <p>My dream is to empower therapists to own their space online without the burden of "elite" price tags or high monthly subscriptions. I build websites that reflect the depth of your work with just one payment and a small annual fee for your domain. No hidden strings, just sovereignty.</p>
     </div>
 </section>
 
 <div id="gallery">
     <div class="project-card">
-        <div class="image-frame" onclick="openModal('https://melipil5780-afk.github.io/grounded-space')">
+        <div class="image-frame" onclick="openModal('https://melipil5780-afk.github.io/one/')">
             <canvas class="image-canvas"></canvas>
-            <div class="view-label">VIEW FULL WEBSITE</div>
+            <div class="view-label">VIEW FULL ARCHITECTURE</div>
         </div>
-        <h2 style="font-family:'Cormorant Garamond'; font-size: 2.5rem; margin-top: 25px;">The Grounded Space</h2>
+        <h2 style="font-family:'Cormorant Garamond'; font-size: 2.8rem; margin-top: 30px; font-weight: 300;">The Grounded Space</h2>
     </div>
 
     <div class="project-card">
-        <div class="image-frame" onclick="openModal('https://melipil5780-afk.github.io/somatic-safety')">
+        <div class="image-frame" onclick="openModal('https://melipil5780-afk.github.io/Two/')">
             <canvas class="image-canvas"></canvas>
-            <div class="view-label">VIEW FULL WEBSITE</div>
+            <div class="view-label">VIEW FULL ARCHITECTURE</div>
         </div>
-        <h2 style="font-family:'Cormorant Garamond'; font-size: 2.5rem; margin-top: 25px;">Somatic Safety</h2>
+        <h2 style="font-family:'Cormorant Garamond'; font-size: 2.8rem; margin-top: 30px; font-weight: 300;">Somatic Safety</h2>
     </div>
 
     <div class="project-card">
-        <div class="image-frame" onclick="openModal('https://melipil5780-afk.github.io/analytical-soul')">
+        <div class="image-frame" onclick="openModal('https://melipil5780-afk.github.io/Three/')">
             <canvas class="image-canvas"></canvas>
-            <div class="view-label">VIEW FULL WEBSITE</div>
+            <div class="view-label">VIEW FULL ARCHITECTURE</div>
         </div>
-        <h2 style="font-family:'Cormorant Garamond'; font-size: 2.5rem; margin-top: 25px;">Analytical Soul</h2>
+        <h2 style="font-family:'Cormorant Garamond'; font-size: 2.8rem; margin-top: 30px; font-weight: 300;">Analytical Soul</h2>
     </div>
 
     <div class="project-card">
-        <div class="image-frame" onclick="openModal('https://melipil5780-afk.github.io/clinical-precision')">
+        <div class="image-frame" onclick="openModal('https://melipil5780-afk.github.io/website-2.0/')">
             <canvas class="image-canvas"></canvas>
-            <div class="view-label">VIEW FULL WEBSITE</div>
+            <div class="view-label">VIEW FULL ARCHITECTURE</div>
         </div>
-        <h2 style="font-family:'Cormorant Garamond'; font-size: 2.5rem; margin-top: 25px;">Clinical Precision</h2>
+        <h2 style="font-family:'Cormorant Garamond'; font-size: 2.8rem; margin-top: 30px; font-weight: 300;">Clinical Precision</h2>
     </div>
 </div>
 
@@ -127,28 +128,28 @@
     <div class="sale-box">
         <span class="price-strike">$1499</span>
         <span class="price-now">$1099</span>
-        <p style="font-size: 0.8rem; letter-spacing: 2px; margin-top: 10px; font-weight: 700;">ONE-TIME ARCHITECTURE FEE</p>
+        <p style="font-size: 0.85rem; letter-spacing: 3px; margin-top: 15px; font-weight: 900;">ONE-TIME ARCHITECTURE FEE</p>
     </div>
-    <br>
+    <br><br>
     <a href="booking.html" class="cta-btn">START YOUR JOURNEY</a>
 </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
 <script>
-    // --- EXACT NAMES FROM YOUR GITHUB SCREENSHOTS ---
+    // These names match your exactly as shown in your GitHub screenshots
     const imgSources = [
         'Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg',
-        'healing.jpg',
         'Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg',
-        'Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg'
+        'Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg',
+        'Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg'
     ];
-    const myProfileImg = 'IMG_1860.jpeg'; 
+    // Your file in GitHub is "IMG_1860.jpeg" (with an e)
+    const myProfileImg = 'IMG_1860.jpeg';
 
     function create3D(canvas, imgSrc, isProfile = false) {
         const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 10);
         camera.position.z = 1.6;
@@ -172,9 +173,7 @@
         anim();
     }
 
-    // Initialize 4 Gallery Canvases + Profile
-    const canvases = document.querySelectorAll('.image-canvas');
-    canvases.forEach((c, i) => { if(imgSources[i]) create3D(c, imgSources[i]); });
+    document.querySelectorAll('.image-canvas').forEach((c, i) => { if(imgSources[i]) create3D(c, imgSources[i]); });
     create3D(document.getElementById('profile-canvas'), myProfileImg, true);
 
     function openModal(url) {
@@ -191,7 +190,7 @@
         document.getElementById('spotlight').style.setProperty('--x', e.clientX + 'px');
         document.getElementById('spotlight').style.setProperty('--y', e.clientY + 'px');
         document.getElementById('c').style.left = e.clientX+'px'; document.getElementById('c').style.top = e.clientY+'px';
-        document.getElementById('ca').style.left = (e.clientX-21)+'px'; document.getElementById('ca').style.top = (e.clientY-21)+'px';
+        document.getElementById('ca').style.left = (e.clientX-22)+'px'; document.getElementById('ca').style.top = (e.clientY-22)+'px';
     }
 
     let l = 0, iv = setInterval(() => {
@@ -199,10 +198,7 @@
         if(l >= 100) { 
             clearInterval(iv); 
             document.getElementById('loader').style.opacity = "0";
-            setTimeout(() => {
-                document.getElementById('loader').style.display = "none";
-                revealText("Depth. Presence. Sovereignty.", document.getElementById('hero-text'));
-            }, 1000);
+            setTimeout(() => { document.getElementById('loader').style.display = "none"; revealText("Depth. Presence. Sovereignty.", document.getElementById('hero-text')); }, 1000);
         }
     }, 35);
 
