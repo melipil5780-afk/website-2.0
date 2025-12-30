@@ -8,29 +8,19 @@
 <style>
     :root { --accent: #c5a37d; --dark: #000; }
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-    
     body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; -webkit-font-smoothing: antialiased; }
 
-    /* --- BACKGROUND --- */
     #bg-canvas { z-index: -1; position: fixed; inset: 0; background: #000; }
     #bg-texture {
         position: fixed; inset: -50%; width: 200%; height: 200%; z-index: -1;
-        background: 
-            radial-gradient(circle at 15% 25%, rgba(197, 163, 125, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 85% 75%, rgba(60, 100, 150, 0.15) 0%, transparent 50%);
-        animation: rotateBg 80s linear infinite;
-        pointer-events: none;
+        background: radial-gradient(circle at 15% 25%, rgba(197, 163, 125, 0.15) 0%, transparent 50%),
+                    radial-gradient(circle at 85% 75%, rgba(60, 100, 150, 0.15) 0%, transparent 50%);
+        animation: rotateBg 80s linear infinite; pointer-events: none;
     }
     @keyframes rotateBg { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     #noise { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.2; z-index: 1; pointer-events: none; mix-blend-mode: screen; }
-    
-    #spotlight { 
-        z-index: 2; position: fixed; inset: 0;
-        background: radial-gradient(circle 500px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.95) 100%); 
-        pointer-events: none;
-    }
+    #spotlight { z-index: 2; position: fixed; inset: 0; background: radial-gradient(circle 500px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.95) 100%); pointer-events: none; }
 
-    /* --- HERO --- */
     section { padding: 25vh 10vw; position: relative; z-index: 10; }
     #hero-tag-top { display: block; font-weight: 900; letter-spacing: 12px; font-size: 0.7rem; color: var(--accent); opacity: 0; transform: translateY(10px); transition: 1s 0.5s forwards; margin-bottom: 10px; }
     .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 8vw, 7rem); line-height: 1.1; font-weight: 300; margin-bottom: 20px; display: inline-block; position: relative; }
@@ -38,62 +28,34 @@
     .word.visible { opacity: 1; transform: translateY(0); }
     .bounce-line { width: 0%; height: 1px; background: var(--accent); position: absolute; bottom: -5px; left: 0; transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .line-active { width: 100%; }
-    
     .hero-sub { max-width: 600px; font-size: 1.1rem; opacity: 0; line-height: 1.8; border-left: 1px solid rgba(197,163,125,0.3); padding-left: 30px; transition: 1.5s 0.8s forwards; color: #ccc; margin-top: 40px;}
     .reveal .hero-sub, .reveal #hero-tag-top { opacity: 1; transform: translateY(0); }
 
-    /* --- GALLERY --- */
     #gallery { padding: 0 5vw; position: relative; z-index: 20; }
-    .project-card { 
-        position: -webkit-sticky; position: sticky; top: 5vh; height: 85vh; width: 100%; margin-bottom: 20vh; 
-        display: flex; flex-direction: column; background: rgba(5,5,5,0.96);
-        backdrop-filter: blur(25px); border-top: 1px solid rgba(197, 163, 125, 0.35); padding: 25px;
-        box-shadow: 0 -30px 60px rgba(0,0,0,0.8);
-    }
-    
-    /* FIX: Ensure container clips the canvas */
-    .image-frame { width: 100%; height: 55vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); position: relative; background: #000; }
-    
-    /* FIX: Canvas starts invisible, fades in when ready */
-    .image-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; z-index: 2; }
-    .image-canvas.loaded { opacity: 1; }
-    
-    /* FIX: Fallback image sits behind, visible by default */
-    .fallback-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); z-index: 1; transition: opacity 1s; }
+    .project-card { position: -webkit-sticky; position: sticky; top: 5vh; height: 85vh; width: 100%; margin-bottom: 20vh; display: flex; flex-direction: column; background: rgba(5,5,5,0.96); backdrop-filter: blur(25px); border-top: 1px solid rgba(197, 163, 125, 0.35); padding: 25px; box-shadow: 0 -30px 60px rgba(0,0,0,0.8); }
+    .image-frame { width: 100%; height: 55vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); position: relative; background: #111; }
+    .image-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1s; z-index: 2; }
+    .fallback-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); z-index: 1; transition: 0.5s; }
     .project-card:hover .fallback-img { filter: brightness(1); }
-
-    .view-label { 
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;
-        letter-spacing: 5px; font-size: 0.7rem; font-weight: 900; opacity: 0; transition: 0.3s; pointer-events: none; 
-        background: rgba(0,0,0,0.6); padding: 15px 25px; border: 1px solid var(--accent);
-    }
+    .view-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); letter-spacing: 5px; font-size: 0.7rem; font-weight: 900; opacity: 0; transition: 0.3s; pointer-events: none; background: rgba(0,0,0,0.6); padding: 15px 25px; border: 1px solid var(--accent); z-index: 10; }
     .project-card:hover .view-label { opacity: 1; }
 
-    /* --- MODAL --- */
-    #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; opacity: 0; transition: 0.5s; align-items: center; justify-content: center; flex-direction: column; }
+    #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; opacity: 0; transition: 0.5s; align-items: center; justify-content: center; }
     #modal.open { display: flex; opacity: 1; }
-    #modal-canvas { width: 92vw; height: 85vh; max-width: 1600px; border: 1px solid rgba(197,163,125,0.3); box-shadow: 0 0 80px rgba(197,163,125,0.2); }
-    #close-modal { position: fixed; top: 30px; right: 30px; font-size: 2.5rem; color: var(--accent); background: rgba(0,0,0,0.5); border: 1px solid var(--accent); border-radius: 50%; width: 60px; height: 60px; line-height: 55px; text-align: center; cursor: pointer; z-index: 10001; transition: 0.3s; }
+    #modal-canvas { width: 92vw; height: 85vh; border: 1px solid rgba(197,163,125,0.3); }
+    #close-modal { position: fixed; top: 30px; right: 30px; font-size: 2rem; color: var(--accent); background: none; border: 1px solid var(--accent); border-radius: 50%; width: 50px; height: 50px; cursor: pointer; z-index: 10001; }
 
-    /* --- TEXT & CTA --- */
-    .style-message { padding: 25vh 10vw; text-align: center; background: #000; position: relative; z-index: 30; }
-    .shimmer-text { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 300; background: linear-gradient(90deg, #333, #fff, #333); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
+    .style-message { padding: 25vh 10vw; text-align: center; }
+    .shimmer-text { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 6vw, 4.5rem); background: linear-gradient(90deg, #333, #fff, #333); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
     @keyframes shine { to { background-position: 200% center; } }
 
-    #final-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; position: relative; z-index: 100; }
-    .cta-btn { display: inline-block; padding: 25px 70px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 5px; animation: pulse 2.5s infinite; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4); } 70% { box-shadow: 0 0 0 25px rgba(197, 163, 125, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); } }
+    #final-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; z-index: 100; position: relative; }
+    .cta-btn { display: inline-block; padding: 20px 50px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 3px; }
 
-    /* CURSOR */
     #c { width: 6px; height: 6px; background: #fff; z-index: 10001; position: fixed; mix-blend-mode: difference; border-radius: 50%; pointer-events: none;}
-    #ca { width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.12s; pointer-events: none;}
+    #ca { width: 45px; height: 45px; border: 1px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.1s; pointer-events: none;}
 
-    @media (max-width: 768px) {
-        #c, #ca, #spotlight { display: none !important; }
-        .project-card { top: 2vh; height: 80vh; margin-bottom: 12vh; }
-        .view-label { opacity: 1; top: 85%; width: 80%; text-align: center; }
-        #modal-canvas { width: 95vw; height: 70vh; }
-    }
+    @media (max-width: 768px) { #c, #ca, #spotlight { display: none; } }
 </style>
 </head>
 <body onmousemove="handleMove(event)">
@@ -120,102 +82,52 @@
 </section>
 
 <div id="gallery">
-    <div class="project-card" data-img="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
+    <div class="project-card">
         <div class="image-frame">
             <canvas class="image-canvas"></canvas>
-            <img class="fallback-img" src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="The Grounded Space">
+            <img class="fallback-img" src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
             <div class="view-label">SEE FULL WEBSITE</div>
         </div>
-        <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">The Grounded Space</h2>
+        <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.5rem; margin-top: 20px;">The Grounded Space</h2>
     </div>
-    <div class="project-card" data-img="healing.jpg">
+    <div class="project-card">
         <div class="image-frame">
             <canvas class="image-canvas"></canvas>
-            <img class="fallback-img" src="healing.jpg" alt="Somatic Safety">
+            <img class="fallback-img" src="healing.jpg">
             <div class="view-label">SEE FULL WEBSITE</div>
         </div>
-        <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">Somatic Safety</h2>
+        <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.5rem; margin-top: 20px;">Somatic Safety</h2>
     </div>
-    <div class="project-card" data-img="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
+    <div class="project-card">
         <div class="image-frame">
             <canvas class="image-canvas"></canvas>
-            <img class="fallback-img" src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Analytical Soul">
+            <img class="fallback-img" src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
             <div class="view-label">SEE FULL WEBSITE</div>
         </div>
-        <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">Analytical Soul</h2>
+        <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.5rem; margin-top: 20px;">Analytical Soul</h2>
     </div>
-    <div class="project-card" data-img="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+    <div class="project-card">
         <div class="image-frame">
             <canvas class="image-canvas"></canvas>
-            <img class="fallback-img" src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Clinical Precision">
+            <img class="fallback-img" src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
             <div class="view-label">SEE FULL WEBSITE</div>
         </div>
-        <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">Clinical Precision</h2>
+        <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.5rem; margin-top: 20px;">Clinical Precision</h2>
     </div>
 </div>
 
 <div class="style-message">
-    <h2 class="shimmer-text">These are just 4 potential visions.</h2>
-    <p style="color: #666; margin-top: 25px; letter-spacing: 5px; font-weight: 900; font-size: 0.8rem; max-width: 600px; margin-inline: auto;">But I build whatever you imagine. You say it, and it will be created.</p>
+    <h2 class="shimmer-text">Built from your vision.</h2>
 </div>
 
 <section id="final-section">
-    <h2 style="font-family:'Cormorant Garamond'; font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 25px;">Ready to exist online?</h2>
-    <p style="margin-bottom: 40px; color: #555; max-width: 600px; margin-inline: auto;">Whether you have a full vision or just a name, I build your complete digital presence from scratch.</p>
-    <div style="margin-bottom: 60px;">
-        <p style="opacity: 0.3; text-decoration: line-through; letter-spacing: 3px;">VALUED AT $2,499</p>
-        <h3 style="font-size: clamp(4rem, 12vw, 7rem); font-weight: 900; letter-spacing: -4px;">$599</h3>
-        <p style="color: #c5a37d; font-weight: 900; letter-spacing: 6px;">FOUNDER RATE | LIMITED SLOTS</p>
-    </div>
-    <a href="booking.html" class="cta-btn">START MY WEBSITE FROM SCRATCH</a>
+    <h2 style="font-family:'Cormorant Garamond'; font-size: 3rem; margin-bottom: 20px;">Ready to exist online?</h2>
+    <a href="booking.html" class="cta-btn">START MY WEBSITE</a>
 </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-
 <script>
-    // 1. STAR BACKGROUND (Keep existing logic)
-    const bgCanvas = document.getElementById('bg-canvas');
-    const bgCtx = bgCanvas.getContext('2d');
-    let dots = [], pulseProgress = 0;
-    
-    function initBg() {
-        bgCanvas.width = window.innerWidth; 
-        bgCanvas.height = window.innerHeight;
-        dots = Array.from({length: 90}, () => ({ 
-            x: Math.random()*bgCanvas.width, 
-            y: Math.random()*bgCanvas.height, 
-            vx: (Math.random()-0.5)*0.25, 
-            vy: (Math.random()-0.5)*0.25, 
-            r: Math.random()*1.8 + 0.8 
-        }));
-    }
-    
-    function drawBg() {
-        bgCtx.clearRect(0,0,bgCanvas.width, bgCanvas.height);
-        pulseProgress += 0.0018; 
-        dots.forEach((d, i) => {
-            d.x += d.vx; d.y += d.vy;
-            if(d.x<0||d.x>bgCanvas.width) d.vx*=-1; 
-            if(d.y<0||d.y>bgCanvas.height) d.vy*=-1;
-            
-            bgCtx.fillStyle = "rgba(255, 255, 255, 0.9)"; 
-            bgCtx.beginPath(); bgCtx.arc(d.x, d.y, d.r, 0, Math.PI*2); bgCtx.fill();
-            
-            for(let j=i+1; j<dots.length; j++){
-                let d2 = dots[j], dist = Math.hypot(d.x-d2.x, d.y-d2.y);
-                if(dist < 150){
-                    let pulse = Math.sin((dist/150)-(pulseProgress*Math.PI*2));
-                    bgCtx.strokeStyle = `rgba(197,163,125,${0.25 - dist/150 + pulse*0.08})`;
-                    bgCtx.lineWidth = 0.8; bgCtx.beginPath(); bgCtx.moveTo(d.x, d.y); bgCtx.lineTo(d2.x, d2.y); bgCtx.stroke();
-                }
-            }
-        });
-        requestAnimationFrame(drawBg);
-    }
-    initBg(); drawBg();
-    window.addEventListener('resize', initBg);
-
-    // 2. FIXED 3D SHADER LOGIC
+    // --- FILENAMES MATCHED TO YOUR GITHUB (2025) ---
     const imgSources = [
         'Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg',
         'healing.jpg',
@@ -223,191 +135,82 @@
         'Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg'
     ];
 
-    let currentModalRenderer = null;
-
-    function createBreathingShader(canvas, imgSrc, baseAmp = 0.04, isModal = false) {
-        // Safety check for WebGL
-        if (!window.WebGLRenderingContext) return;
-
-        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-        renderer.setPixelRatio(window.devicePixelRatio);
+    function create3D(canvas, imgSrc, isModal = false) {
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(canvas.clientWidth, canvas.clientHeight);
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 10);
-        camera.position.z = isModal ? 1.3 : 1.6;
+        camera.position.z = isModal ? 1.4 : 1.7;
 
-        // Ensure texture loader handles cross-origin if needed
-        const loader = new THREE.TextureLoader();
-        loader.setCrossOrigin('anonymous');
-
-        loader.load(
-            imgSrc, 
-            // On Load Success
-            function(texture) {
-                const geometry = new THREE.PlaneGeometry(2, 2, 128, 128);
-                const uniforms = {
-                    u_time: { value: 0 },
-                    u_texture: { value: texture },
-                    u_amp: { value: baseAmp },
-                    u_brightness: { value: isModal ? 1.0 : 0.8 } // Slightly brighter for visibility
-                };
-
-                const material = new THREE.ShaderMaterial({
-                    uniforms,
-                    vertexShader: `
-                        varying vec2 vUv;
-                        uniform float u_time;
-                        uniform float u_amp;
-                        void main() {
-                            vUv = uv;
-                            vec3 pos = position;
-                            // Gentle organic wave
-                            float wave = sin(pos.x * 3.0 + u_time * 0.8) * sin(pos.y * 2.0 + u_time * 0.5) * u_amp;
-                            pos.z += wave;
-                            gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-                        }
-                    `,
-                    fragmentShader: `
-                        uniform sampler2D u_texture;
-                        uniform float u_brightness;
-                        varying vec2 vUv;
-                        void main() {
-                            vec4 color = texture2D(u_texture, vUv);
-                            color.rgb *= u_brightness;
-                            gl_FragColor = color;
-                        }
-                    `,
-                    transparent: true
-                });
-
-                const mesh = new THREE.Mesh(geometry, material);
-                scene.add(mesh);
-
-                // Reveal Canvas / Hide Fallback
-                canvas.classList.add('loaded');
-                if(!isModal) {
-                    const fallback = canvas.parentElement.querySelector('.fallback-img');
-                    if(fallback) fallback.style.opacity = '0'; 
-                }
-
-                // Animation Loop
-                function animate() {
-                    if (!renderer.domElement) return; // Clean exit
-                    uniforms.u_time.value += 0.015;
-                    renderer.render(scene, camera);
-                    requestAnimationFrame(animate);
-                }
-                animate();
-
-                // Hover Effects
-                const container = canvas.closest('.project-card') || document.getElementById('modal');
-                container.addEventListener('mouseenter', () => {
-                    uniforms.u_amp.value = baseAmp * 3.0; // Intensify on hover
-                    uniforms.u_brightness.value = 1.1;
-                });
-                container.addEventListener('mouseleave', () => {
-                    uniforms.u_amp.value = baseAmp;
-                    uniforms.u_brightness.value = isModal ? 1.0 : 0.8;
-                });
-            },
-            // On Progress
-            undefined,
-            // On Error (Keep fallback visible)
-            function(err) {
-                console.warn('Texture failed to load (CORS or path error):', imgSrc);
-                // We do nothing, so the fallback image remains visible
-            }
-        );
-
-        window.addEventListener('resize', () => {
-            if(!renderer.domElement) return;
-            camera.aspect = canvas.clientWidth / canvas.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        new THREE.TextureLoader().load(imgSrc, (tex) => {
+            const mat = new THREE.ShaderMaterial({
+                uniforms: { u_time: { value: 0 }, u_tex: { value: tex }, u_bright: { value: isModal ? 1.0 : 0.6 } },
+                vertexShader: `varying vec2 vUv; uniform float u_time; void main() { vUv = uv; vec3 p = position; p.z += sin(p.x * 4.0 + u_time) * 0.05; gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0); }`,
+                fragmentShader: `varying vec2 vUv; uniform sampler2D u_tex; uniform float u_bright; void main() { vec4 c = texture2D(u_tex, vUv); gl_FragColor = vec4(c.rgb * u_bright, c.a); }`,
+                transparent: true
+            });
+            scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2, 32, 32), mat));
+            canvas.style.opacity = "1";
         });
 
+        function anim() {
+            requestAnimationFrame(anim);
+            if(scene.children[0]) scene.children[0].material.uniforms.u_time.value += 0.02;
+            renderer.render(scene, camera);
+        }
+        anim();
         return renderer;
     }
 
-    // Initialize mini previews
-    document.querySelectorAll('.image-canvas').forEach((c, i) => {
-        createBreathingShader(c, imgSources[i], 0.05 + i * 0.01);
-    });
+    document.querySelectorAll('.image-canvas').forEach((c, i) => create3D(c, imgSources[i]));
 
-    // Full modal on click
+    let activeMod = null;
     document.querySelectorAll('.project-card').forEach((card, i) => {
-        card.addEventListener('click', () => {
-            if (currentModalRenderer) {
-                currentModalRenderer.dispose();
-                currentModalRenderer.forceContextLoss();
-            }
-            const modalCanvas = document.getElementById('modal-canvas');
-            currentModalRenderer = createBreathingShader(modalCanvas, imgSources[i], 0.08, true);
-            
+        card.onclick = () => {
+            if(activeMod) activeMod.dispose();
             document.getElementById('modal').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        });
+            activeMod = create3D(document.getElementById('modal-canvas'), imgSources[i], true);
+        };
     });
+    function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
-    function closeModal() {
-        document.getElementById('modal').classList.remove('open');
-        document.body.style.overflow = 'auto';
+    // Background & Effects
+    const bgC = document.getElementById('bg-canvas'), btx = bgC.getContext('2d');
+    let dots = [];
+    function initBg() {
+        bgC.width = window.innerWidth; bgC.height = window.innerHeight;
+        dots = Array.from({length: 80}, () => ({ x: Math.random()*bgC.width, y: Math.random()*bgC.height, vx: (Math.random()-0.5)*0.2, vy: (Math.random()-0.5)*0.2 }));
     }
-
-    // 3. UI INTERACTIONS
-    function handleMove(e) {
-        const spot = document.getElementById('spotlight');
-        if(spot) {
-            spot.style.setProperty('--x', e.clientX + 'px');
-            spot.style.setProperty('--y', e.clientY + 'px');
-        }
-        const c = document.getElementById('c');
-        const ca = document.getElementById('ca');
-        if(c && ca) {
-            c.style.left = e.clientX+'px'; c.style.top = e.clientY+'px';
-            ca.style.left = (e.clientX-22)+'px'; ca.style.top = (e.clientY-22)+'px';
-        }
-    }
-
-    function revealText(text, container) {
-        const words = text.split(" ");
-        container.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
-        const spans = container.querySelectorAll('.word');
-        spans.forEach((span, i) => {
-            setTimeout(() => {
-                span.classList.add('visible');
-                if(i === spans.length - 1) setTimeout(() => {
-                    const line = document.getElementById('hero-line');
-                    if(line) line.classList.add('line-active');
-                }, 500);
-            }, i * 250);
+    function draw() {
+        btx.clearRect(0,0,bgC.width, bgC.height);
+        dots.forEach(d => {
+            d.x += d.vx; d.y += d.vy;
+            if(d.x<0||d.x>bgC.width) d.vx*=-1; if(d.y<0||d.y>bgC.height) d.vy*=-1;
+            btx.fillStyle = "rgba(255,255,255,0.5)"; btx.beginPath(); btx.arc(d.x, d.y, 1, 0, 7); btx.fill();
         });
+        requestAnimationFrame(draw);
+    }
+    initBg(); draw();
+    window.onresize = initBg;
+
+    function handleMove(e) {
+        document.getElementById('spotlight').style.setProperty('--x', e.clientX + 'px');
+        document.getElementById('spotlight').style.setProperty('--y', e.clientY + 'px');
+        document.getElementById('c').style.left = e.clientX+'px'; document.getElementById('c').style.top = e.clientY+'px';
+        document.getElementById('ca').style.left = (e.clientX-22)+'px'; document.getElementById('ca').style.top = (e.clientY-22)+'px';
     }
 
-    let lCount = 0;
-    let lInt = setInterval(() => {
-        lCount += 5;
-        if(lCount >= 100) {
-            clearInterval(lInt);
-            document.getElementById('loader').style.opacity = "0";
-            setTimeout(() => {
-                document.getElementById('loader').style.display = "none";
-                document.getElementById('hero-sec').classList.add('reveal');
-                revealText('I Build Elite Therapy Websites.', document.getElementById('hero-text'));
-            }, 800);
-        }
-        document.getElementById('loader-n').innerText = lCount;
+    let l = 0, iv = setInterval(() => {
+        l += 5; document.getElementById('loader-n').innerText = l;
+        if(l >= 100) { clearInterval(iv); document.getElementById('loader').style.display = "none"; document.getElementById('hero-sec').classList.add('reveal'); revealText("I Build Elite Therapy Websites.", document.getElementById('hero-text')); }
     }, 30);
 
-    window.addEventListener('scroll', () => {
-        const finalSec = document.getElementById('final-section');
-        const spot = document.getElementById('spotlight');
-        if(finalSec && spot) {
-            const rect = finalSec.getBoundingClientRect();
-            spot.style.opacity = rect.top < window.innerHeight/2 ? "0" : "1";
-        }
-    });
+    function revealText(t, c) {
+        c.innerHTML = t.split(" ").map(w => `<span class="word">${w}</span>`).join(" ");
+        c.querySelectorAll('.word').forEach((s, i) => setTimeout(() => s.classList.add('visible'), i * 200));
+    }
 </script>
 </body>
 </html>
