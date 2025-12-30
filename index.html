@@ -6,16 +6,9 @@
     <title>THE SOVEREIGN | DIGITAL ARCHITECT</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --accent: #c5a37d; 
-            --bg: #030303; 
-            --text: #ffffff; 
-            --gold-gradient: linear-gradient(90deg, #c5a37d, #ffefba, #c5a37d); 
-        }
+        :root { --accent: #c5a37d; --bg: #030303; --text: #ffffff; --gold-gradient: linear-gradient(90deg, #c5a37d, #ffefba, #c5a37d); }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { 
-            background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; 
-        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
 
         /* --- BACKGROUND --- */
         #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
@@ -83,33 +76,92 @@
         /* --- THE BLUEPRINT SECTION --- */
         .process-section { padding: 15vh 10%; position: relative; }
         .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 50px; margin-top: 60px; }
-        .process-item { border-left: 1px solid var(--accent); padding-left: 30px; opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
+        .process-item { border-left: 1px solid var(--accent); padding-left: 30px; opacity: 0; transform: translateY(20px); transition: all 0.7s ease; }
         .process-item.visible { opacity: 1; transform: translateY(0); }
         .process-item h3 { font-family: 'Playfair Display'; font-size: 2rem; color: var(--accent); margin-bottom: 15px; font-weight: 300; }
 
-        /* --- FOOTER --- */
-        footer { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 10%; position: relative; }
-        .footer-price { font-family: 'Playfair Display'; font-size: 6rem; color: var(--accent); margin-bottom: 10px; font-weight: 200; background: linear-gradient(90deg, #c5a37d, #ffefba, #c5a37d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 2.5s infinite; }
-        .footer-sub { font-family: 'Playfair Display'; font-size: 1rem; color: rgba(255,255,255,0.8); margin-bottom: 20px; }
-        .footer-bullets { list-style: none; margin-bottom: 40px; opacity: 0; transform: translateY(20px); transition: 1s ease-out; }
-        .footer-bullets li { margin: 15px 0; font-size: 1.1rem; color: #fff; }
-        .footer-bullets.visible { opacity: 1; transform: translateY(0); }
-        .cta-button {
-            padding: 25px 60px; font-size: 1rem; font-family: 'Inter'; letter-spacing: 5px;
-            color: #fff; text-decoration: none; text-transform: uppercase;
-            border: 1px solid var(--accent); transition: 0.5s, transform 0.3s;
+        /* --- FOOTER PREMIUM --- */
+        footer {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10% 5%;
+            background: linear-gradient(180deg, #030303 0%, #111 100%);
+            overflow: hidden;
         }
-        .cta-button:hover { background: var(--accent); color: #000; transform: scale(1.05); }
 
-        /* --- MODAL --- */
-        #modal { position: fixed; inset: 0; background: #000; z-index: 10000000; display: none; padding: 20px; }
-        #modal iframe { width: 100%; height: 100%; border: 1px solid var(--accent); }
-        .close { position: absolute; top: 20px; right: 30px; color: var(--accent); cursor: pointer; letter-spacing: 5px; }
+        .footer-content { position: relative; z-index: 2; }
 
-        /* --- ANIMATIONS --- */
+        .footer-price {
+            font-family: 'Playfair Display';
+            font-size: 6rem;
+            font-weight: 200;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #c5a37d, #ffefba, #c5a37d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 1000px 100%;
+            animation: shimmer 2.5s infinite linear;
+        }
+
+        .footer-sub { font-family: 'Playfair Display'; color: rgba(255,255,255,0.8); margin-bottom: 40px; font-style: italic; }
+
+        .footer-bullets { list-style: none; margin-bottom: 50px; padding: 0; }
+        .footer-bullets li {
+            font-size: 1.2rem;
+            margin: 15px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            color: #fff;
+            transition: all 0.7s ease;
+            position: relative;
+        }
+        .footer-bullets li::before {
+            content: '✔';
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        .footer-bullets.visible li { opacity: 1; transform: translateY(0); }
+
+        .cta-button {
+            padding: 25px 60px;
+            font-size: 1rem;
+            font-family: 'Inter';
+            letter-spacing: 5px;
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            border: 1px solid var(--accent);
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 2;
+        }
+        .cta-button:hover {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* Footer particles canvas */
+        #footer-particles {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
         @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
         @keyframes growLine { to { width: 100%; } }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        @keyframes shimmer {
+            0% { background-position: -500px 0; }
+            100% { background-position: 500px 0; }
+        }
+
         @media (max-width: 768px) { 
             * { cursor: auto; } #cursor, #cursor-aura { display: none; }
             header { padding: 0 8%; }
@@ -165,19 +217,25 @@
         </div>
     </div>
 
-    <!-- FOOTER -->
+    <!-- Ambient Audio -->
+    <audio id="ambient-audio" loop>
+        <source src="ambient-soft.mp3" type="audio/mpeg">
+    </audio>
+
     <footer>
-        <div class="footer-price">$1,000</div>
-        <ul class="footer-bullets">
-            <li>Custom Design Tailored to Your Practice</li>
-            <li>Ownership + Source Files Forever</li>
-            <li>Free Hosting Assistance Included</li>
-        </ul>
-        <div class="footer-sub">OWN YOUR SPACE • NO MONTHLY TETHER</div>
-        <a href="booking.html" class="cta-button">Claim Your Digital Home</a>
-        <audio id="ambient-audio" loop>
-            <source src="ambient-soft.mp3" type="audio/mpeg">
-        </audio>
+        <div class="footer-content">
+            <div class="footer-price">$1,000</div>
+            <div class="footer-sub">OWN YOUR SPACE • NO MONTHLY TETHER</div>
+
+            <ul class="footer-bullets">
+                <li>Custom Design</li>
+                <li>Ownership + Source Files</li>
+                <li>Free Hosting Assistance Included</li>
+            </ul>
+
+            <a href="booking.html" class="cta-button">Claim Your Digital Home</a>
+        </div>
+        <canvas id="footer-particles"></canvas>
     </footer>
 
     <script>
@@ -243,26 +301,34 @@
         });
 
         // MODAL
-        function openM(url) { document.getElementById('frame').src = url; document.getElementById('modal').style.display = 'block'; }
+        function openM(url) { document.getElementById('modal').style.display = 'flex'; document.getElementById('frame').src = url; }
         function closeM() { document.getElementById('modal').style.display = 'none'; document.getElementById('frame').src = ''; }
 
-        // SCROLL-TRIGGERED REVEAL FOR PROCESS ITEMS
+        // Process Items Scroll Reveal
         const items = document.querySelectorAll('.process-item');
-        const bullets = document.querySelector('.footer-bullets');
-        const options = { threshold: 0.1 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) entry.target.classList.add('visible');
-            });
-        }, options);
-        items.forEach(i => observer.observe(i));
-        observer.observe(bullets);
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.3 });
+        items.forEach(item => observer.observe(item));
 
-        // AMBIENT AUDIO TOGGLE
+        // Footer Ambient Audio
         const audio = document.getElementById('ambient-audio');
-        document.querySelector('footer').addEventListener('mouseenter', ()=> { audio.play().catch(()=>{}); });
-        document.querySelector('footer').addEventListener('mouseleave', ()=> { audio.pause(); });
+        const footer = document.querySelector('footer');
+        footer.addEventListener('mouseenter', ()=>{ audio.play().catch(()=>{}); });
+        footer.addEventListener('mouseleave', ()=>{ audio.pause(); });
 
+        // Footer Bullet Reveal
+        const bullets = document.querySelector('.footer-bullets');
+        const bulletObserver = new IntersectionObserver(entries => { entries.forEach(entry => { if(entry.isIntersecting) bullets.classList.add('visible'); }); }, { threshold: 0.2 });
+        bulletObserver.observe(bullets);
+
+        // Footer Particles
+        const fCanvas = document.getElementById('footer-particles'); const fCtx = fCanvas.getContext('2d');
+        function resizeFooter(){ fCanvas.width = window.innerWidth; fCanvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeFooter); resizeFooter();
+        const fParticles = []; for(let i=0;i<80;i++){ fParticles.push({x:Math.random()*fCanvas.width,y:Math.random()*fCanvas.height,radius:Math.random()*2+1,speed:Math.random()*0.3,alpha:Math.random()*0.5+0.3}); }
+        function animateFooter(){ fCtx.clearRect(0,0,fCanvas.width,fCanvas.height); fParticles.forEach(p=>{ fCtx.beginPath(); fCtx.arc(p.x,p.y,p.radius,0,Math.PI*2); fCtx.fillStyle=`rgba(197,163,125,${p.alpha})`; fCtx.fill(); p.y-=p.speed; if(p.y<0)p.y=fCanvas.height; }); requestAnimationFrame(animateFooter); }
+        animateFooter();
     </script>
 
 </body>
