@@ -1,48 +1,212 @@
-<section>
-    
-    <div class="project-card">
-        <div class="img-box">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE SOVEREIGN | ARCHITECT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@100;200;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #c5a37d; --bg: #030303; --text: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        
+        body { background: var(--bg); color: var(--text); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+
+        /* --- CUSTOM CURSOR --- */
+        #cursor { width: 5px; height: 5px; background: #fff; position: fixed; border-radius: 50%; pointer-events: none; z-index: 99999; }
+        #cursor-aura { width: 40px; height: 40px; border: 1px solid var(--accent); position: fixed; border-radius: 50%; pointer-events: none; z-index: 99998; transition: 0.15s ease-out; }
+
+        /* --- MASSIVE HERO HEADER --- */
+        header { 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            padding: 0 10%; 
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .profile-container { display: flex; align-items: center; gap: 50px; margin-bottom: 40px; }
+        .profile-pic { 
+            width: 250px; height: 250px; 
+            border-radius: 50%; 
+            background: url('IMG_1860.jpeg') center/cover; 
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 30px rgba(197, 163, 125, 0.2);
+        }
+        header h1 { 
+            font-family: 'Cormorant Garamond'; 
+            font-size: 5.5rem; 
+            font-weight: 300; 
+            line-height: 1; 
+            letter-spacing: -2px;
+        }
+        header p { 
+            font-size: 1.2rem; 
+            letter-spacing: 8px; 
+            text-transform: uppercase; 
+            color: var(--accent); 
+            margin-top: 20px;
+        }
+
+        /* --- PROJECT SECTIONS: FULL ALIGNMENT --- */
+        .section { 
+            position: relative; 
+            width: 100%; 
+            min-height: 110vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding: 10vh 0;
+        }
+        .image-container { 
+            width: 85%; 
+            height: 75vh; 
+            overflow: hidden; 
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 40px;
+        }
+        .image-container img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            filter: grayscale(30%);
+            transition: 1s ease;
+        }
+        .section:hover img { filter: grayscale(0%); transform: scale(1.03); }
+
+        .content { text-align: center; max-width: 800px; }
+        .content h2 { 
+            font-family: 'Cormorant Garamond'; 
+            font-size: 4rem; 
+            font-weight: 300; 
+            color: var(--accent);
+            margin-bottom: 25px;
+        }
+        .btn { 
+            display: inline-block; 
+            padding: 22px 70px; 
+            border: 1px solid var(--accent); 
+            color: #fff; 
+            text-decoration: none; 
+            letter-spacing: 5px; 
+            text-transform: uppercase; 
+            font-size: 0.8rem;
+            transition: 0.5s;
+        }
+        .btn:hover { background: #fff; color: #000; border-color: #fff; }
+
+        /* --- MODAL --- */
+        #modal { position: fixed; inset: 0; background: #000; z-index: 100000; display: none; padding: 30px; }
+        #modal iframe { width: 100%; height: 100%; border: none; }
+        .close { position: absolute; top: 30px; right: 40px; color: var(--accent); cursor: pointer; letter-spacing: 5px; }
+
+        /* --- FOOTER --- */
+        footer { 
+            padding: 15vh 10%; 
+            text-align: center; 
+            background: #000; 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+        }
+        .journey-btn { 
+            font-size: 1.5rem; 
+            letter-spacing: 15px; 
+            border-bottom: 1px solid #fff; 
+            padding-bottom: 10px; 
+            text-decoration: none; 
+            color: #fff;
+            transition: 0.5s;
+        }
+        .journey-btn:hover { color: var(--accent); border-color: var(--accent); }
+        
+        .portals { margin-top: 80px; display: flex; justify-content: center; gap: 50px; }
+        .portals a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.7rem; letter-spacing: 3px; }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-aura"></div>
+
+    <div id="modal">
+        <span class="close" onclick="closeM()">CLOSE ARCHIVE</span>
+        <iframe id="frame"></iframe>
+    </div>
+
+    <header>
+        <div class="profile-container">
+            <div class="profile-pic"></div>
+            <h1>A Digital Bridge <br>to Presence</h1>
+        </div>
+        <p>Mental Health Counselor & Architect</p>
+    </header>
+
+    <div class="section">
+        <div class="image-container">
             <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Clinical Precision">
         </div>
-        <div class="info-box">
-            <h4>Clinical Precision</h4>
-            <p>Practical, evidence-based toolkits to reclaim control over your thoughts and your life.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">Taste the Atmosphere</a>
+        <div class="content">
+            <h2>Clinical Precision</h2>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="btn">Taste the Atmosphere</a>
         </div>
     </div>
 
-    <div class="project-card">
-        <div class="img-box">
+    <div class="section">
+        <div class="image-container">
             <img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="The Wild Self">
         </div>
-        <div class="info-box">
-            <h4>The Wild Self</h4>
-            <p>An immersion into breath, shadow, and primal earth to rediscover your natural essence.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">Taste the Atmosphere</a>
+        <div class="content">
+            <h2>The Wild Self</h2>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="btn">Taste the Atmosphere</a>
         </div>
     </div>
 
-    <div class="project-card">
-        <div class="img-box">
-            <img src="Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpeg" alt="Healing Pathways">
+    <div class="section">
+        <div class="image-container">
+            <img src="Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpeg" alt="Somatic Resonance">
         </div>
-        <div class="info-box">
-            <h4>Somatic Resonance</h4>
-            <p>Compassionate trauma-informed care for childhood wounds and nervous system regulation.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">Taste the Atmosphere</a>
-        </div>
-    </div>
-
-    <div class="project-card">
-        <div class="img-box">
-            <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Know Thyself">
-        </div>
-        <div class="info-box">
-            <h4>Analytical Depth</h4>
-            <p>A space for depth and insight, exploring the hidden stories beneath the symptoms.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="explore-btn">Taste the Atmosphere</a>
+        <div class="content">
+            <h2>Somatic Resonance</h2>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="btn">Taste the Atmosphere</a>
         </div>
     </div>
 
-</section>
+    <div class="section">
+        <div class="image-container">
+            <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Analytical Depth">
+        </div>
+        <div class="content">
+            <h2>Analytical Depth</h2>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="btn">Taste the Atmosphere</a>
+        </div>
+    </div>
 
+    <footer>
+        <a href="booking.html" class="journey-btn">BEGIN THE JOURNEY</a>
+        <div class="portals">
+            <a href="1099-1.html">PORTAL I (1099)</a>
+            <a href="1099-2.html">PORTAL II (1099)</a>
+        </div>
+    </footer>
+
+    <script>
+        const c = document.getElementById('cursor');
+        const ca = document.getElementById('cursor-aura');
+        document.addEventListener('mousemove', (e) => {
+            c.style.left = e.clientX + 'px';
+            c.style.top = e.clientY + 'px';
+            ca.style.left = (e.clientX - 20) + 'px';
+            ca.style.top = (e.clientY - 20) + 'px';
+        });
+
+        function openM(url) {
+            document.getElementById('frame').src = url;
+            document.getElementById('modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeM() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('frame').src = "";
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>
