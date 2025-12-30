@@ -3,92 +3,85 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign | Specialized Therapeutic Architecture</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@100;200;400;700&display=swap" rel="stylesheet">
+<title>Sovereign | Therapeutic Digital Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@100;200;400&display=swap" rel="stylesheet">
 <style>
-    :root { --accent: #c5a37d; --bg: #020202; --text-muted: rgba(255,255,255,0.6); }
+    :root { --accent: #c5a37d; --bg: #030303; --text-muted: rgba(255,255,255,0.7); }
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
     body { background: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* Restoration of Loader */
+    /* The Gold 0-100 Loader */
     #loader {
         position: fixed; inset: 0; background: #000; z-index: 20000;
         display: flex; flex-direction: column; justify-content: center; align-items: center;
-        transition: opacity 1s ease;
+        transition: opacity 1.2s ease;
     }
-    #loader-pct { font-family: 'Cormorant Garamond'; font-size: 5rem; font-weight: 100; color: var(--accent); }
-    .loader-bar { width: 200px; height: 1px; background: rgba(255,255,255,0.1); margin-top: 20px; position: relative; }
-    .loader-progress { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); width: 0%; transition: 0.1s; }
+    #loader-pct { font-family: 'Cormorant Garamond'; font-size: 5rem; font-weight: 200; color: var(--accent); letter-spacing: -2px; }
+    .loader-bar { width: 180px; height: 1px; background: rgba(255,255,255,0.1); margin-top: 10px; position: relative; }
+    .loader-progress { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); width: 0%; }
 
     #space-canvas { position: fixed; inset: 0; z-index: -1; }
     .vignette { position: fixed; inset: 0; background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.95) 100%); z-index: 0; pointer-events: none; }
 
     /* Custom Cursor */
-    #c { width: 5px; height: 5px; background: #fff; z-index: 20001; position: fixed; border-radius: 50%; pointer-events: none; }
+    #c { width: 4px; height: 4px; background: #fff; z-index: 20001; position: fixed; border-radius: 50%; pointer-events: none; }
     #ca { width: 35px; height: 35px; border: 0.5px solid var(--accent); border-radius: 50%; position: fixed; z-index: 20001; transition: 0.1s ease-out; pointer-events: none;}
 
-    section { padding: 18vh 12vw; position: relative; z-index: 10; }
+    section { padding: 15vh 12vw; position: relative; z-index: 10; }
 
-    .kicker { color: var(--accent); letter-spacing: 12px; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 25px; }
-    .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(3rem, 7.5vw, 6.5rem); font-weight: 300; line-height: 1; margin-bottom: 40px; }
-    .hero-h1 i { color: var(--accent); }
+    .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(2.5rem, 6.5vw, 6rem); font-weight: 300; line-height: 1.1; margin-bottom: 40px; }
+    .hero-h1 i { color: var(--accent); font-style: italic; }
 
-    /* Profile Section */
-    #vision { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 100px; align-items: center; }
-    .profile-aura-wrap { position: relative; width: 420px; height: 420px; }
+    /* About Section: Warmth & Story */
+    #about { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 80px; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15vh; }
+    .profile-wrap { position: relative; width: 380px; height: 380px; }
     .profile-img { 
         width: 100%; height: 100%; border-radius: 50%; 
         background: url('IMG_1860.jpeg') center/cover; 
-        border: 1px solid rgba(197, 163, 125, 0.4);
-        position: relative; z-index: 2;
+        border: 1px solid var(--accent);
+        filter: saturate(0.8) contrast(1.1);
     }
-    .profile-glow {
-        position: absolute; inset: -40px; border-radius: 50%;
-        background: radial-gradient(circle, rgba(197, 163, 125, 0.18) 0%, transparent 70%);
-        animation: breath 8s infinite ease-in-out;
-    }
+    .profile-aura { position: absolute; inset: -20px; border-radius: 50%; background: radial-gradient(circle, rgba(197, 163, 125, 0.1) 0%, transparent 70%); animation: pulse 6s infinite; }
 
-    .vision-content h2 { font-family: 'Cormorant Garamond'; font-size: 3.5rem; font-weight: 300; margin-bottom: 20px; }
-    .vision-content h3 { font-size: 0.8rem; letter-spacing: 5px; color: var(--accent); margin-bottom: 30px; text-transform: uppercase; }
-    .vision-content p { font-size: 1.15rem; line-height: 2.2; font-weight: 100; color: var(--text-muted); margin-bottom: 25px; }
-    
-    /* Corrected Mapping Gallery */
+    .about-text h2 { font-family: 'Cormorant Garamond'; font-size: 2.8rem; font-weight: 300; margin-bottom: 20px; }
+    .about-text p { font-size: 1.1rem; line-height: 2; font-weight: 200; color: var(--text-muted); margin-bottom: 20px; }
+    .about-text b { color: var(--accent); font-weight: 400; }
+
+    /* Gallery Alignment */
     .project-card { 
         display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 15vh; align-items: center; 
-        padding: 50px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.03);
     }
-    .preview-window { height: 50vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
-    .preview-window img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s ease; opacity: 0.7; }
+    .img-box { height: 50vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); background: #000; }
+    .img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 1.5s ease; }
     .project-card:hover img { opacity: 1; transform: scale(1.05); }
 
-    .project-info h4 { font-family: 'Cormorant Garamond'; font-size: 2.5rem; font-weight: 300; margin-bottom: 15px; color: var(--accent); }
+    .info-box h4 { font-family: 'Cormorant Garamond'; font-size: 2.5rem; font-weight: 300; margin-bottom: 20px; }
+    .info-box p { font-size: 0.95rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 35px; }
     
     .explore-btn { 
         display: inline-block; padding: 15px 40px; border: 1px solid var(--accent); 
-        color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 5px; transition: 0.4s;
+        color: var(--accent); text-decoration: none; font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase;
+        transition: 0.4s;
     }
-    .explore-btn:hover { background: #fff; color: #000; border-color: #fff; }
+    .explore-btn:hover { background: var(--accent); color: #000; }
 
-    /* Redesigned Premium Footer */
-    #footer-cta { 
-        text-align: center; padding: 15vh 5vw; border-top: 1px solid rgba(255,255,255,0.05);
-        background: linear-gradient(to bottom, transparent, rgba(197, 163, 125, 0.05));
+    /* Upscale Footer Button */
+    #footer { text-align: center; padding: 15vh 5vw; border-top: 1px solid rgba(255,255,255,0.05); }
+    .footer-title { font-family: 'Cormorant Garamond'; font-size: 3.5rem; font-weight: 300; margin-bottom: 40px; }
+    .next-btn {
+        padding: 25px 80px; border: 1px solid #fff; color: #fff; 
+        text-decoration: none; letter-spacing: 8px; font-weight: 400; font-size: 0.9rem;
+        transition: 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        display: inline-block;
     }
-    .final-headline { font-family: 'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 20px; }
-    .investment { font-size: 1rem; letter-spacing: 8px; color: var(--accent); margin-bottom: 50px; }
-    .next-page-btn {
-        padding: 25px 80px; background: transparent; border: 1px solid #fff;
-        color: #fff; text-decoration: none; font-weight: 600; letter-spacing: 6px;
-        transition: 0.5s; position: relative; overflow: hidden;
-    }
-    .next-page-btn:hover { background: #fff; color: #000; box-shadow: 0 0 50px rgba(255,255,255,0.2); }
+    .next-btn:hover { background: #fff; color: #000; box-shadow: 0 0 40px rgba(255,255,255,0.15); letter-spacing: 12px; }
 
     #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; padding: 25px; }
-    #modal iframe { width: 100%; height: 100%; border: 1px solid var(--accent); }
+    #modal iframe { width: 100%; height: 100%; border: none; }
     .close-modal { position: absolute; top: 15px; right: 40px; color: var(--accent); cursor: pointer; letter-spacing: 3px; font-size: 0.8rem;}
 
-    @keyframes breath { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.1); opacity: 0.7; } }
-    @media (max-width: 1100px) { #vision, .project-card { grid-template-columns: 1fr; } .profile-aura-wrap { width: 300px; height: 300px; margin: 0 auto; } }
+    @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.05); } }
+    @media (max-width: 1000px) { #about, .project-card { grid-template-columns: 1fr; text-align: center; } .profile-wrap { margin: 0 auto; width: 300px; height: 300px; } }
 </style>
 </head>
 <body>
@@ -103,97 +96,86 @@
 <div class="vignette"></div>
 
 <div id="modal">
-    <span class="close-modal" onclick="closeM()">CLOSE ARCHITECTURE</span>
+    <span class="close-modal" onclick="closeM()">RETURN TO SANCTUARY</span>
     <iframe id="m-frame"></iframe>
 </div>
 
 <section>
-    <p class="kicker">The Sovereign Vision</p>
-    <h1 class="hero-h1">We create <i>unique</i> therapeutic websites that showcase who you are.</h1>
+    <h1 class="hero-h1">We create <i>specialized</i> therapeutic websites that showcase who you truly are.</h1>
 </section>
 
-<section id="vision">
-    <div class="profile-aura-wrap">
-        <div class="profile-glow"></div>
+<section id="about">
+    <div class="profile-wrap">
+        <div class="profile-aura"></div>
         <div class="profile-img"></div>
     </div>
-    <div class="vision-content">
-        <h3>Mental Health Counselor & Architect</h3>
-        <h2>The Clinical Soul</h2>
-        <p>As a <b>Mental Health Counselor</b>, I understand that your digital presence is the first room a client enters. It shouldn't be a cold, generic directory—it should be a sanctuary.</p>
-        <p>My vision is to bridge the gap between clinical excellence and digital atmosphere. I build spaces where your <b>unique therapeutic voice</b> is felt immediately, creating safety before the first session even begins.</p>
+    <div class="about-text">
+        <h2>A Digital Taste of Presence</h2>
+        <p>I am a <b>Mental Health Counselor</b> and an architect of digital spaces. I noticed a gap: most private therapists are forced into generic boxes that strip away their clinical "flavor."</p>
+        <p>Your website shouldn't just list facts; it should be an <b>authentic extension of your practice</b>. I build sanctuaries where clients can feel the warmth and safety of your work before they ever send the first email.</p>
     </div>
 </section>
 
 <section>
     <div class="project-card">
-        <div class="preview-window">
-            <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
-        </div>
-        <div class="project-info">
-            <h4>Somatic Resonance</h4>
-            <p>An architecture of the body. Designed for practitioners focused on somatic experiencing and nervous system regulation.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">EXPLORE TWO</a>
+        <div class="img-box"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg"></div>
+        <div class="info-box">
+            <h4>Architecture Two</h4>
+            <p>Somatic Safety. A fluid, organic atmosphere designed for body-centered healing and nervous system regulation.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
     <div class="project-card">
-        <div class="preview-window">
-            <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
-        </div>
-        <div class="project-info">
-            <h4>Analytical Depth</h4>
-            <p>The "Know Thyself" sanctuary. A high-contrast space designed for depth-work and the exploration of the unconscious.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="explore-btn">EXPLORE THREE</a>
+        <div class="img-box"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg"></div>
+        <div class="info-box">
+            <h4>Architecture Three</h4>
+            <p>Analytical Soul. An introspective "Know Thyself" architecture for depth-psychology and shadow work.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
     <div class="project-card">
-        <div class="preview-window">
-            <img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg">
-        </div>
-        <div class="project-info">
-            <h4>Clinical Precision</h4>
-            <p>A structured, modern environment focusing on professional sovereignty and clinical clarity for the modern practice.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">EXPLORE FOUR</a>
+        <div class="img-box"><img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg"></div>
+        <div class="info-box">
+            <h4>Architecture Four</h4>
+            <p>Clinical Clarity. A high-sovereignty, modern environment for evidence-based results and professional precision.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
     <div class="project-card">
-        <div class="preview-window">
-            <img src="healing.jpg">
-        </div>
-        <div class="project-info">
-            <h4>Healing Presence</h4>
-            <p>A digital sanctuary designed to foster immediate safety through soft palettes and collaborative architectural flow.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">EXPLORE FIVE</a>
+        <div class="img-box"><img src="healing.jpg"></div>
+        <div class="info-box">
+            <h4>Architecture Five</h4>
+            <p>Healing Presence. A digital sanctuary built with soft tones to foster immediate safety and collaborative journeying.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 </section>
 
-<footer id="footer-cta">
-    <h2 class="final-headline">Establish Your Sovereignty</h2>
-    <p class="investment">THE $1,099 ONE-TIME INVESTMENT</p>
-    <a href="booking.html" class="next-page-btn">BEGIN THE JOURNEY</a>
+<footer id="footer">
+    <h2 class="footer-title">Ready to build your sanctuary?</h2>
+    <a href="booking.html" class="next-btn">BEGIN THE JOURNEY</a>
 </footer>
 
 <script>
-    // Loader Logic
-    let pct = 0;
-    const loaderPct = document.getElementById('loader-pct');
-    const loaderBar = document.getElementById('lp');
-    const loadInt = setInterval(() => {
-        pct++;
-        loaderPct.innerText = pct;
-        loaderBar.style.width = pct + "%";
-        if(pct >= 100) {
-            clearInterval(loadInt);
+    // Gold Loader
+    let count = 0;
+    const lP = document.getElementById('lp');
+    const lT = document.getElementById('loader-pct');
+    const lS = setInterval(() => {
+        count += 2;
+        lP.style.width = count + "%";
+        lT.innerText = count;
+        if(count >= 100) {
+            clearInterval(lS);
             document.getElementById('loader').style.opacity = '0';
-            setTimeout(() => document.getElementById('loader').style.display = 'none', 1000);
+            setTimeout(() => document.getElementById('loader').style.display = 'none', 1200);
         }
-    }, 20);
+    }, 30);
 
-    // Starfield Restoration
+    // Warm Stars
     const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
@@ -201,15 +183,15 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         stars = [];
-        for(let i=0; i<180; i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.3, o: Math.random() });
+        for(let i=0; i<160; i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.3, o: Math.random() });
     }
     function draw() {
-        ctx.fillStyle = '#020202'; ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = '#030303'; ctx.fillRect(0,0,canvas.width,canvas.height);
         ctx.fillStyle = '#fff';
         stars.forEach(s => {
             ctx.globalAlpha = s.o;
             ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill();
-            s.y -= 0.15; if(s.y < 0) s.y = canvas.height;
+            s.y -= 0.1; if(s.y < 0) s.y = canvas.height;
         });
         requestAnimationFrame(draw);
     }
