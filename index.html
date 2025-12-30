@@ -6,12 +6,20 @@
     <title>THE SOVEREIGN | DIGITAL ARCHITECT</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #c5a37d; --bg: #030303; --text: #ffffff; --gold-gradient: linear-gradient(90deg, #c5a37d, #ffefba, #c5a37d); }
+        :root { 
+            --accent: #c5a37d; 
+            --bg: #030303; 
+            --text: #ffffff; 
+            --gold-gradient: linear-gradient(90deg, #c5a37d, #ffefba, #c5a37d); 
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; overflow-x: hidden; line-height: 1.6; }
-
-        /* --- BACKGROUND --- */
-        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden; 
+            line-height: 1.6; 
+        }
 
         /* --- LOADER --- */
         #loader {
@@ -19,6 +27,7 @@
             display: flex; justify-content: center; align-items: center;
             flex-direction: column; transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
         }
+        #loader.hide { opacity: 0; pointer-events: none; }
         #loader-number { font-family: 'Playfair Display'; font-size: 8rem; color: var(--accent); font-weight: 200; font-style: italic; }
         .loader-bar { width: 0%; height: 3px; background: var(--accent); position: absolute; bottom: 20%; transition: width 0.05s linear; box-shadow: 0 0 15px var(--accent); }
 
@@ -35,7 +44,6 @@
             border: 2px solid var(--accent);
             box-shadow: 0 0 40px rgba(197, 163, 125, 0.3);
         }
-
         .reveal-text { 
             font-family: 'Playfair Display'; 
             font-size: clamp(2.2rem, 7vw, 6rem); 
@@ -47,12 +55,7 @@
         }
         .reveal-text span { opacity: 0; display: inline-block; transform: translateY(15px); animation: reveal 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
         .word { display: inline-block; white-space: nowrap; margin-right: 0.2em; }
-
-        .gold-line {
-            position: absolute; bottom: 0; left: 0; width: 0%; height: 2px;
-            background: var(--gold-gradient);
-            animation: growLine 1.5s 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-        }
+        .gold-line { position: absolute; bottom: 0; left: 0; width: 0%; height: 2px; background: var(--gold-gradient); animation: growLine 1.5s 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
 
         .hero-statement { 
             max-width: 800px; font-size: 1.3rem; font-weight: 300; 
@@ -63,16 +66,11 @@
 
         /* --- STACKING PROJECTS --- */
         .section { position: sticky; top: 0; width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; }
-        .image-card {
-            width: 90%; max-width: 1100px; height: 70vh; background: rgba(10, 10, 10, 0.9); 
-            border: 1px solid rgba(197, 163, 125, 0.15); backdrop-filter: blur(20px);
-            padding: 30px; border-radius: 4px; display: flex; flex-direction: column; align-items: center;
-        }
+        .image-card { width: 90%; max-width: 1100px; height: 70vh; background: rgba(10, 10, 10, 0.9); border: 1px solid rgba(197, 163, 125, 0.15); backdrop-filter: blur(20px); padding: 30px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; }
         .image-container { width: 100%; height: 70%; overflow: hidden; margin-bottom: 20px; }
         .image-container img { width: 100%; height: 100%; object-fit: contain; }
         .content h2 { font-family: 'Playfair Display'; font-size: 2.2rem; color: var(--accent); margin-bottom: 15px; font-weight: 300; }
-        .btn { display: inline-block; padding: 10px 35px; border: 1px solid var(--accent); color: #fff; text-decoration: none; letter-spacing: 4px; text-transform: uppercase; font-size: 0.7rem; transition: 0.3s; }
-        .btn:hover { box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent); transform: scale(1.05); }
+        .btn { display: inline-block; padding: 10px 35px; border: 1px solid var(--accent); color: #fff; text-decoration: none; letter-spacing: 4px; text-transform: uppercase; font-size: 0.7rem; }
 
         /* --- THE BLUEPRINT SECTION --- */
         .process-section { padding: 15vh 10%; position: relative; }
@@ -81,29 +79,22 @@
         .process-item.show { opacity: 1; transform: translateY(0); }
         .process-item h3 { font-family: 'Playfair Display'; font-size: 2rem; color: var(--accent); margin-bottom: 15px; font-weight: 300; }
 
-        /* --- PRICING SECTION --- */
-        #pricing-section { text-align: center; margin-top: 80px; opacity: 0; transform: translateY(20px); transition: 1s ease; }
+        /* --- FOOTER & PRICING --- */
+        #pricing-section { 
+            text-align: center; margin-top: 80px; 
+            display: flex; justify-content: center; flex-direction: column; align-items: center; 
+            opacity: 0; transform: translateY(20px); transition: 1s ease; position: relative; z-index: 10;
+        }
         #pricing-section.show { opacity: 1; transform: translateY(0); }
+        .pricing-container { max-width: 600px; width: 100%; display: flex; flex-direction: column; gap: 25px; align-items: center; position: relative; }
         .pricing-price { font-family: 'Playfair Display'; font-size: 6rem; color: var(--accent); margin-bottom: 10px; font-weight: 200; }
-        .pricing-bullets { list-style: none; margin: 20px 0; padding: 0; }
-        .pricing-bullets li { font-size: 1.2rem; margin-bottom: 10px; color: rgba(255,255,255,0.9); }
-
-        /* --- FOOTER --- */
-        footer { position: relative; overflow: hidden; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 10%; background: linear-gradient(180deg, #030303 0%, #111 100%); }
-        #footer-particles { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-        .cta-button {
-            padding: 25px 60px; font-size: 1rem; font-family: 'Inter'; letter-spacing: 5px;
-            color: #fff; text-decoration: none; text-transform: uppercase;
-            border: 1px solid var(--accent); transition: 0.5s;
-            position: relative; z-index: 1; 
-            animation: pulse 2s infinite;
-        }
+        .pricing-bullets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; font-size: 1.2rem; color: rgba(255,255,255,0.9); }
+        .footer-sub { font-size: 1rem; color: rgba(255,255,255,0.85); max-width: 450px; }
+        .cta-button { margin-top: 15px; padding: 25px 60px; font-size: 1rem; font-family: 'Inter'; letter-spacing: 5px; color: #fff; text-decoration: none; text-transform: uppercase; border: 1px solid var(--accent); transition: 0.5s; }
         .cta-button:hover { background: var(--accent); color: #000; }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 10px var(--accent); }
-            50% { transform: scale(1.05); box-shadow: 0 0 20px var(--accent); }
-        }
-        .footer-sub { margin-top: 15px; font-size: 1rem; color: rgba(255,255,255,0.85); }
+
+        /* FOOTER PARTICLES */
+        #footer-particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
 
         @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
         @keyframes growLine { to { width: 100%; } }
@@ -121,12 +112,10 @@
         <div id="loader-number">0</div>
         <div class="loader-bar" id="loader-bar"></div>
     </div>
-    
+
     <div id="canvas-container"><canvas id="starfield"></canvas></div>
     <div id="cursor"></div>
     <div id="cursor-aura"></div>
-
-    <div id="modal"><span class="close" onclick="closeM()">[ EXIT ]</span><iframe id="frame"></iframe></div>
 
     <header>
         <div class="profile-container">
@@ -163,37 +152,42 @@
         </div>
     </div>
 
-    <!-- PRICING -->
+    <!-- PRICING / FOOTER -->
     <div id="pricing-section">
-        <div class="pricing-price">$1,000</div>
-        <ul class="pricing-bullets">
-            <li>Custom design tailored to your identity</li>
-            <li>Full ownership + source files</li>
-            <li>Free hosting assistance included</li>
-        </ul>
-        <div class="footer-sub">Your one-time investment. No monthly subscriptions. Professional website, fully yours.</div>
-        <a href="booking.html" class="cta-button">Claim Your Digital Home</a>
+        <canvas id="footer-particles"></canvas>
+        <div class="pricing-container">
+            <div class="pricing-price">$1,000</div>
+            <ul class="pricing-bullets">
+                <li>Custom design tailored to your identity</li>
+                <li>Full ownership + source files</li>
+                <li>Free hosting assistance included</li>
+            </ul>
+            <div class="footer-sub">Your one-time investment. No monthly subscriptions. Professional website, fully yours.</div>
+            <a href="booking.html" class="cta-button">Claim Your Digital Home</a>
+        </div>
     </div>
 
-    <!-- FOOTER PARTICLES -->
-    <canvas id="footer-particles"></canvas>
+    <div id="modal"><span class="close" onclick="closeM()">[ EXIT ]</span><iframe id="frame"></iframe></div>
 
     <script>
         // LOADER
         let count = 0;
         const loaderNum = document.getElementById('loader-number');
         const loaderBar = document.getElementById('loader-bar');
+
         const interval = setInterval(() => {
             count += 4; if(count > 100) count = 100;
             loaderNum.innerText = count; loaderBar.style.width = count + "%";
+
             if(count === 100) {
                 clearInterval(interval);
-                document.getElementById('loader').style.opacity = '0';
+                const loader = document.getElementById('loader');
+                loader.classList.add('hide');
                 setTimeout(() => {
-                    document.getElementById('loader').style.display = 'none';
+                    loader.style.display = 'none';
                     revealText("main-header");
                     revealText("process-header");
-                    showOnScroll();
+                    showProcessItems();
                     showPricing();
                 }, 600);
             }
@@ -227,7 +221,7 @@
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize); resize();
         const stars = [];
-        for(let i=0; i<150; i++) { stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*1.2, speed: Math.random()*0.3 }); }
+        for(let i=0; i<150; i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*1.2, speed: Math.random()*0.3 });
         function animate() {
             ctx.clearRect(0,0,canvas.width, canvas.height); ctx.fillStyle = "#fff";
             stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill(); s.y -= s.speed; if(s.y < 0) s.y = canvas.height; });
@@ -246,44 +240,43 @@
         function openM(url) { document.getElementById('frame').src = url; document.getElementById('modal').style.display = 'block'; document.body.style.overflow = 'hidden'; }
         function closeM() { document.getElementById('modal').style.display = 'none'; document.getElementById('frame').src = ""; document.body.style.overflow = 'auto'; }
 
-        // SCROLL TRIGGERED FADE-IN
-        function showOnScroll() {
+        // SCROLL FADE-IN
+        function showProcessItems() {
             const items = document.querySelectorAll('.process-item');
             window.addEventListener('scroll', () => {
                 items.forEach(item => {
-                    if(item.getBoundingClientRect().top < window.innerHeight - 100) item.classList.add('show');
+                    const rect = item.getBoundingClientRect();
+                    if(rect.top < window.innerHeight - 150) item.classList.add('show');
                 });
             });
         }
-
-        // PRICING FADE-IN
         function showPricing() {
             const pricing = document.getElementById('pricing-section');
             window.addEventListener('scroll', () => {
-                if(pricing.getBoundingClientRect().top < window.innerHeight - 150) pricing.classList.add('show');
+                const rect = pricing.getBoundingClientRect();
+                if(rect.top < window.innerHeight - 100) pricing.classList.add('show');
             });
         }
 
         // FOOTER PARTICLES
-        const fCanvas = document.getElementById('footer-particles'); const fCtx = fCanvas.getContext('2d');
-        function resizeF() { fCanvas.width = window.innerWidth; fCanvas.height = document.getElementById('pricing-section').offsetHeight + 400; }
-        window.addEventListener('resize', resizeF); resizeF();
-        const fParticles = [];
-        for(let i=0; i<80; i++) fParticles.push({ x: Math.random()*fCanvas.width, y: Math.random()*fCanvas.height, size: Math.random()*2, speed: Math.random()*0.2 });
-        function animateF() {
-            fCtx.clearRect(0,0,fCanvas.width,fCanvas.height);
-            fParticles.forEach(p => { fCtx.beginPath(); fCtx.arc(p.x, p.y, p.size, 0, Math.PI*2); fCtx.fillStyle = "rgba(197,163,125,0.5)"; fCtx.fill(); p.y -= p.speed; if(p.y<0)p.y=fCanvas.height; });
-            requestAnimationFrame(animateF);
+        const fpCanvas = document.getElementById('footer-particles'); const fpCtx = fpCanvas.getContext('2d');
+        function resizeFP() { fpCanvas.width = window.innerWidth; fpCanvas.height = window.innerHeight/2; }
+        window.addEventListener('resize', resizeFP); resizeFP();
+        const fStars = [];
+        for(let i=0;i<80;i++) fStars.push({x: Math.random()*fpCanvas.width, y: Math.random()*fpCanvas.height, size: Math.random()*1.5, speed: Math.random()*0.2 });
+        function animateFP() {
+            fpCtx.clearRect(0,0,fpCanvas.width, fpCanvas.height); fpCtx.fillStyle = "#fff";
+            fStars.forEach(s => { fpCtx.beginPath(); fpCtx.arc(s.x,s.y,s.size,0,Math.PI*2); fpCtx.fill(); s.y -= s.speed; if(s.y<0)s.y=fpCanvas.height; });
+            requestAnimationFrame(animateFP);
         }
-        animateF();
+        animateFP();
 
         // AMBIENT AUDIO
         const audio = new Audio('ambient-soft.mp3');
-        document.querySelectorAll('.pricing-bullets li').forEach(li => {
-            li.addEventListener('mouseenter', () => { audio.currentTime=0; audio.play(); });
-            li.addEventListener('mouseleave', () => { audio.pause(); });
-        });
+        audio.loop = true;
+        const pricingSection = document.getElementById('pricing-section');
+        pricingSection.addEventListener('mouseenter', () => audio.play());
+        pricingSection.addEventListener('mouseleave', () => audio.pause());
     </script>
-
 </body>
 </html>
