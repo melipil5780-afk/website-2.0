@@ -29,53 +29,54 @@
 
     section { padding: 15vh 12vw; position: relative; z-index: 10; }
 
-    /* About Section: Warmth & Story */
+    /* About Section: Warm & Flavorful */
     #about { display: grid; grid-template-columns: 0.7fr 1.3fr; gap: 80px; align-items: center; padding-bottom: 10vh; }
-    .profile-wrap { position: relative; width: 380px; height: 380px; }
+    .profile-wrap { position: relative; width: 350px; height: 350px; }
     .profile-img { 
         width: 100%; height: 100%; border-radius: 50%; 
         background: url('IMG_1860.jpeg') center/cover; 
         border: 1px solid var(--accent);
     }
-    .profile-aura { position: absolute; inset: -15px; border-radius: 50%; background: radial-gradient(circle, rgba(197, 163, 125, 0.15) 0%, transparent 70%); animation: pulse 6s infinite; }
+    .profile-aura { position: absolute; inset: -15px; border-radius: 50%; background: radial-gradient(circle, rgba(197, 163, 125, 0.2) 0%, transparent 70%); animation: pulse 6s infinite; }
 
     .about-text h2 { font-family: 'Cormorant Garamond'; font-size: 3rem; font-weight: 300; margin-bottom: 20px; }
-    .about-text p { font-size: 1.1rem; line-height: 2; font-weight: 200; color: var(--text-muted); margin-bottom: 20px; }
+    .about-text p { font-size: 1.1rem; line-height: 2.1; font-weight: 200; color: var(--text-muted); margin-bottom: 20px; }
     .about-text b { color: var(--accent); font-weight: 400; }
 
     /* Gallery Alignment */
     .project-card { 
         display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 15vh; align-items: center; 
     }
-    .img-box { height: 50vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
-    .img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 1.5s ease; }
-    .project-card:hover img { opacity: 1; transform: scale(1.05); }
+    .img-box { height: 50vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); background: #111; position: relative;}
+    .img-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.75; transition: 1.5s ease; }
+    .project-card:hover img { opacity: 1; transform: scale(1.03); }
 
-    .info-box h4 { font-family: 'Cormorant Garamond'; font-size: 2.5rem; font-weight: 300; margin-bottom: 20px; }
+    .info-box h4 { font-family: 'Cormorant Garamond'; font-size: 2.5rem; font-weight: 300; margin-bottom: 20px; color: var(--accent); }
     .info-box p { font-size: 1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 35px; }
     
     .explore-btn { 
-        display: inline-block; padding: 15px 40px; border: 1px solid var(--accent); 
-        color: var(--accent); text-decoration: none; font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+        display: inline-block; padding: 16px 45px; border: 1px solid var(--accent); 
+        color: #fff; text-decoration: none; font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
         transition: 0.4s;
     }
-    .explore-btn:hover { background: var(--accent); color: #000; }
+    .explore-btn:hover { background: #fff; color: #000; border-color: #fff; }
 
-    /* Upscale Footer */
+    /* Footer: The Journey Button */
     #footer { text-align: center; padding: 15vh 5vw; border-top: 1px solid rgba(255,255,255,0.05); }
     .next-btn {
-        padding: 25px 80px; border: 1px solid #fff; color: #fff; 
-        text-decoration: none; letter-spacing: 8px; font-weight: 400; font-size: 0.9rem;
-        transition: 0.6s; display: inline-block;
+        padding: 28px 90px; border: 1px solid #fff; color: #fff; 
+        text-decoration: none; letter-spacing: 10px; font-weight: 400; font-size: 0.9rem;
+        transition: 0.7s cubic-bezier(0.19, 1, 0.22, 1); display: inline-block;
     }
-    .next-btn:hover { background: #fff; color: #000; letter-spacing: 12px; }
+    .next-btn:hover { background: #fff; color: #000; box-shadow: 0 0 50px rgba(255,255,255,0.1); }
 
+    /* Modal Architecture */
     #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; padding: 25px; }
     #modal iframe { width: 100%; height: 100%; border: none; }
     .close-modal { position: absolute; top: 15px; right: 40px; color: var(--accent); cursor: pointer; letter-spacing: 3px; font-size: 0.8rem;}
 
     @keyframes pulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.05); } }
-    @media (max-width: 1000px) { #about, .project-card { grid-template-columns: 1fr; text-align: center; } .profile-wrap { margin: 0 auto; width: 300px; height: 300px; } }
+    @media (max-width: 1000px) { #about, .project-card { grid-template-columns: 1fr; text-align: center; } .profile-wrap { margin: 0 auto; width: 280px; height: 280px; } }
 </style>
 </head>
 <body>
@@ -94,51 +95,55 @@
     <iframe id="m-frame"></iframe>
 </div>
 
+<section>
+    <h1 class="hero-h1">We create <i>inviting</i> digital spaces that showcase the flavor of your work.</h1>
+</section>
+
 <section id="about">
     <div class="profile-wrap">
         <div class="profile-aura"></div>
         <div class="profile-img"></div>
     </div>
     <div class="about-text">
-        <h2>A Flavor of Presence</h2>
-        <p>I am a <b>Mental Health Counselor</b> who believes your digital space should be a warm invitation, not a cold directory. Most private therapists struggle to find a space that actually <b>tastes</b> like their presence.</p>
-        <p>I build sanctuaries where clients can feel the safety and nonjudgmental atmosphere of your work before the first session begins. Let’s showcase who you truly are.</p>
+        <h2>A Digital Bridge to Safety</h2>
+        <p>As a <b>Mental Health Counselor</b>, I understand that your website is the first "room" a client enters. It shouldn't feel like a cold directory—it should feel like an <b>extension of your therapeutic presence</b>.</p>
+        <p>I build sanctuaries that move beyond simple information. I focus on the <b>flavor and atmosphere</b> of your practice, allowing clients to feel the safety of your work before you ever meet.</p>
     </div>
 </section>
 
 <section>
     <div class="project-card">
-        <div class="img-box"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg"></div>
+        <div class="img-box"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Somatic Resonance"></div>
         <div class="info-box">
-            <h4>Architecture Two</h4>
-            <p>Somatic Safety. A grounding atmosphere designed to mirror body-focused healing and nervous system regulation.</p>
+            <h4>Somatic Resonance</h4>
+            <p>A grounding, fluid atmosphere designed to mirror body-focused healing and nervous system safety.</p>
             <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
     <div class="project-card">
-        <div class="img-box"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg"></div>
+        <div class="img-box"><img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg" alt="Clinical Precision"></div>
         <div class="info-box">
-            <h4>Architecture Three</h4>
-            <p>Analytical Soul. The "Know Thyself" sanctuary—a space for deep introspective work and modern depth psychology.</p>
+            <h4>Clinical Precision</h4>
+            <p>A high-clarity, professional environment built for evidence-based practices and modern clinical sovereignty.</p>
             <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
     <div class="project-card">
-        <div class="img-box"><img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg"></div>
+        <div class="img-box"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Analytical Depth"></div>
         <div class="info-box">
-            <h4>Architecture Four</h4>
-            <p>Clinical Precision. A high-clarity environment for evidence-based practice and professional sovereignty.</p>
+            <h4>Analytical Depth</h4>
+            <p>The "Know Thyself" sanctuary—an introspective architecture designed for depth-work and the therapeutic journey.</p>
             <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
 
     <div class="project-card">
-        <div class="img-box"><img src="healing.jpg"></div>
+        <div class="img-box"><img src="healing.jpg" alt="Healing Presence"></div>
         <div class="info-box">
-            <h4>Architecture Five</h4>
-            <p>Healing Presence. A soft, welcoming digital sanctuary designed to foster immediate safety and collaborative flow.</p>
+            <h4>Healing Presence</h4>
+            <p>A soft, welcoming digital sanctuary designed to foster an immediate sense of safety and collaborative flow.</p>
             <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">Taste the Atmosphere</a>
         </div>
     </div>
@@ -149,6 +154,7 @@
 </footer>
 
 <script>
+    // 0-100 Loader Logic
     let count = 0;
     const lP = document.getElementById('lp');
     const lT = document.getElementById('loader-pct');
@@ -159,10 +165,11 @@
         if(count >= 100) {
             clearInterval(lS);
             document.getElementById('loader').style.opacity = '0';
-            setTimeout(() => document.getElementById('loader').style.display = 'none', 1200);
+            setTimeout(() => document.getElementById('loader').style.display = 'none', 1000);
         }
-    }, 30);
+    }, 25);
 
+    // Warm Stars Animation
     const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
@@ -184,6 +191,7 @@
     }
     init(); draw();
 
+    // Custom Cursor Movement
     window.addEventListener('mousemove', (e) => {
         document.getElementById('c').style.left = e.clientX + 'px';
         document.getElementById('c').style.top = e.clientY + 'px';
@@ -191,6 +199,7 @@
         document.getElementById('ca').style.top = (e.clientY - 17) + 'px';
     });
 
+    // Modal Controls
     function openM(url) {
         document.getElementById('m-frame').src = url;
         document.getElementById('modal').style.display = 'block';
