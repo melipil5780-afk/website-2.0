@@ -10,13 +10,22 @@
     * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
     body { background: var(--bg); color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* Restoration of the Starfield Background */
+    /* Restoration of Loader */
+    #loader {
+        position: fixed; inset: 0; background: #000; z-index: 20000;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+        transition: opacity 1s ease;
+    }
+    #loader-pct { font-family: 'Cormorant Garamond'; font-size: 5rem; font-weight: 100; color: var(--accent); }
+    .loader-bar { width: 200px; height: 1px; background: rgba(255,255,255,0.1); margin-top: 20px; position: relative; }
+    .loader-progress { position: absolute; left: 0; top: 0; height: 100%; background: var(--accent); width: 0%; transition: 0.1s; }
+
     #space-canvas { position: fixed; inset: 0; z-index: -1; }
     .vignette { position: fixed; inset: 0; background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.95) 100%); z-index: 0; pointer-events: none; }
 
     /* Custom Cursor */
-    #c { width: 5px; height: 5px; background: #fff; z-index: 10001; position: fixed; border-radius: 50%; pointer-events: none; }
-    #ca { width: 35px; height: 35px; border: 0.5px solid var(--accent); border-radius: 50%; position: fixed; z-index: 10001; transition: 0.1s ease-out; pointer-events: none;}
+    #c { width: 5px; height: 5px; background: #fff; z-index: 20001; position: fixed; border-radius: 50%; pointer-events: none; }
+    #ca { width: 35px; height: 35px; border: 0.5px solid var(--accent); border-radius: 50%; position: fixed; z-index: 20001; transition: 0.1s ease-out; pointer-events: none;}
 
     section { padding: 18vh 12vw; position: relative; z-index: 10; }
 
@@ -24,56 +33,70 @@
     .hero-h1 { font-family: 'Cormorant Garamond'; font-size: clamp(3rem, 7.5vw, 6.5rem); font-weight: 300; line-height: 1; margin-bottom: 40px; }
     .hero-h1 i { color: var(--accent); }
 
-    /* Perfect Circular Profile Integration */
+    /* Profile Section */
     #vision { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 100px; align-items: center; }
-    .profile-aura-wrap { position: relative; width: 420px; height: 420px; display: flex; align-items: center; justify-content: center; }
+    .profile-aura-wrap { position: relative; width: 420px; height: 420px; }
     .profile-img { 
-        width: 100%; height: 100%; 
-        border-radius: 50%; 
+        width: 100%; height: 100%; border-radius: 50%; 
         background: url('IMG_1860.jpeg') center/cover; 
         border: 1px solid rgba(197, 163, 125, 0.4);
         position: relative; z-index: 2;
-        filter: contrast(1.05);
     }
     .profile-glow {
         position: absolute; inset: -40px; border-radius: 50%;
         background: radial-gradient(circle, rgba(197, 163, 125, 0.18) 0%, transparent 70%);
-        animation: breathe 8s infinite ease-in-out;
+        animation: breath 8s infinite ease-in-out;
     }
-    @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.1); opacity: 0.7; } }
 
-    .vision-content h2 { font-family: 'Cormorant Garamond'; font-size: 3.5rem; font-weight: 300; margin-bottom: 30px; }
+    .vision-content h2 { font-family: 'Cormorant Garamond'; font-size: 3.5rem; font-weight: 300; margin-bottom: 20px; }
+    .vision-content h3 { font-size: 0.8rem; letter-spacing: 5px; color: var(--accent); margin-bottom: 30px; text-transform: uppercase; }
     .vision-content p { font-size: 1.15rem; line-height: 2.2; font-weight: 100; color: var(--text-muted); margin-bottom: 25px; }
-    .vision-content span { color: #fff; font-weight: 400; }
-
-    /* Correct Mapping: Two, Three, Four, Five */
+    
+    /* Corrected Mapping Gallery */
     .project-card { 
-        display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 20vh; align-items: center; 
+        display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-bottom: 15vh; align-items: center; 
         padding: 50px; background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.03);
     }
-    .preview-window { height: 55vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); background: #000; }
-    .preview-window img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s ease; opacity: 0.6; }
-    .project-card:hover img { opacity: 1; transform: scale(1.03); }
+    .preview-window { height: 50vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+    .preview-window img { width: 100%; height: 100%; object-fit: cover; transition: 1.5s ease; opacity: 0.7; }
+    .project-card:hover img { opacity: 1; transform: scale(1.05); }
 
-    .project-info h3 { font-family: 'Cormorant Garamond'; font-size: 3rem; font-weight: 300; margin-bottom: 20px; }
-    .project-info p { font-size: 1rem; line-height: 1.9; color: var(--text-muted); font-weight: 100; margin-bottom: 35px; }
+    .project-info h4 { font-family: 'Cormorant Garamond'; font-size: 2.5rem; font-weight: 300; margin-bottom: 15px; color: var(--accent); }
     
     .explore-btn { 
-        display: inline-block; padding: 18px 45px; border: 1px solid var(--accent); 
-        color: #fff; text-decoration: none; font-size: 0.75rem; letter-spacing: 5px; text-transform: uppercase;
-        transition: 0.4s;
+        display: inline-block; padding: 15px 40px; border: 1px solid var(--accent); 
+        color: #fff; text-decoration: none; font-size: 0.7rem; letter-spacing: 5px; transition: 0.4s;
     }
     .explore-btn:hover { background: #fff; color: #000; border-color: #fff; }
 
-    /* Modal Architecture */
+    /* Redesigned Premium Footer */
+    #footer-cta { 
+        text-align: center; padding: 15vh 5vw; border-top: 1px solid rgba(255,255,255,0.05);
+        background: linear-gradient(to bottom, transparent, rgba(197, 163, 125, 0.05));
+    }
+    .final-headline { font-family: 'Cormorant Garamond'; font-size: 4rem; font-weight: 300; margin-bottom: 20px; }
+    .investment { font-size: 1rem; letter-spacing: 8px; color: var(--accent); margin-bottom: 50px; }
+    .next-page-btn {
+        padding: 25px 80px; background: transparent; border: 1px solid #fff;
+        color: #fff; text-decoration: none; font-weight: 600; letter-spacing: 6px;
+        transition: 0.5s; position: relative; overflow: hidden;
+    }
+    .next-page-btn:hover { background: #fff; color: #000; box-shadow: 0 0 50px rgba(255,255,255,0.2); }
+
     #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; padding: 25px; }
     #modal iframe { width: 100%; height: 100%; border: 1px solid var(--accent); }
-    .close-modal { position: absolute; top: 15px; right: 40px; font-size: 0.7rem; letter-spacing: 4px; color: var(--accent); cursor: pointer; }
+    .close-modal { position: absolute; top: 15px; right: 40px; color: var(--accent); cursor: pointer; letter-spacing: 3px; font-size: 0.8rem;}
 
-    @media (max-width: 1100px) { #vision, .project-card { grid-template-columns: 1fr; } .profile-aura-wrap { width: 320px; height: 320px; margin: 0 auto; } }
+    @keyframes breath { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.1); opacity: 0.7; } }
+    @media (max-width: 1100px) { #vision, .project-card { grid-template-columns: 1fr; } .profile-aura-wrap { width: 300px; height: 300px; margin: 0 auto; } }
 </style>
 </head>
 <body>
+
+<div id="loader">
+    <div id="loader-pct">0</div>
+    <div class="loader-bar"><div class="loader-progress" id="lp"></div></div>
+</div>
 
 <div id="c"></div><div id="ca"></div>
 <canvas id="space-canvas"></canvas>
@@ -85,7 +108,7 @@
 </div>
 
 <section>
-    <p class="kicker">Bespoke Clinical Design</p>
+    <p class="kicker">The Sovereign Vision</p>
     <h1 class="hero-h1">We create <i>unique</i> therapeutic websites that showcase who you are.</h1>
 </section>
 
@@ -95,9 +118,10 @@
         <div class="profile-img"></div>
     </div>
     <div class="vision-content">
-        <h2>The Felt Sense</h2>
-        <p>A client’s journey begins the moment they find you online. I build digital sanctuaries where a person can <span>feel the warmth and presence of your work</span> before the first session begins.</p>
-        <p>I specialize in translating your unique clinical soul into a home that reflects you—moving beyond generic boxes into an <span>authentic architectural extension</span> of your practice.</p>
+        <h3>Mental Health Counselor & Architect</h3>
+        <h2>The Clinical Soul</h2>
+        <p>As a <b>Mental Health Counselor</b>, I understand that your digital presence is the first room a client enters. It shouldn't be a cold, generic directory—it should be a sanctuary.</p>
+        <p>My vision is to bridge the gap between clinical excellence and digital atmosphere. I build spaces where your <b>unique therapeutic voice</b> is felt immediately, creating safety before the first session even begins.</p>
     </div>
 </section>
 
@@ -107,9 +131,9 @@
             <img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
         </div>
         <div class="project-info">
-            <h3>Architecture Two</h3>
-            <p>A fluid, organic structure designed for somatic and body-centered practices. Built to mirror nervous system regulation.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">Explore</a>
+            <h4>Somatic Resonance</h4>
+            <p>An architecture of the body. Designed for practitioners focused on somatic experiencing and nervous system regulation.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="explore-btn">EXPLORE TWO</a>
         </div>
     </div>
 
@@ -118,9 +142,9 @@
             <img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
         </div>
         <div class="project-info">
-            <h3>Architecture Three</h3>
-            <p>A high-contrast, introspective space for depth-work and analytical psychology. Designed for the profound.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="explore-btn">Explore</a>
+            <h4>Analytical Depth</h4>
+            <p>The "Know Thyself" sanctuary. A high-contrast space designed for depth-work and the exploration of the unconscious.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="explore-btn">EXPLORE THREE</a>
         </div>
     </div>
 
@@ -129,9 +153,9 @@
             <img src="Screenshot_24-12-2025_124151_melipil5780-afk.github.io.jpeg">
         </div>
         <div class="project-info">
-            <h3>Architecture Four</h3>
-            <p>A structured, modern environment focusing on professional sovereignty and clinical precision.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">Explore</a>
+            <h4>Clinical Precision</h4>
+            <p>A structured, modern environment focusing on professional sovereignty and clinical clarity for the modern practice.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="explore-btn">EXPLORE FOUR</a>
         </div>
     </div>
 
@@ -140,14 +164,36 @@
             <img src="healing.jpg">
         </div>
         <div class="project-info">
-            <h3>Architecture Five</h3>
-            <p>A soft, welcoming digital sanctuary designed to foster immediate safety and collaborative healing.</p>
-            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">Explore</a>
+            <h4>Healing Presence</h4>
+            <p>A digital sanctuary designed to foster immediate safety through soft palettes and collaborative architectural flow.</p>
+            <a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="explore-btn">EXPLORE FIVE</a>
         </div>
     </div>
 </section>
 
+<footer id="footer-cta">
+    <h2 class="final-headline">Establish Your Sovereignty</h2>
+    <p class="investment">THE $1,099 ONE-TIME INVESTMENT</p>
+    <a href="booking.html" class="next-page-btn">BEGIN THE JOURNEY</a>
+</footer>
+
 <script>
+    // Loader Logic
+    let pct = 0;
+    const loaderPct = document.getElementById('loader-pct');
+    const loaderBar = document.getElementById('lp');
+    const loadInt = setInterval(() => {
+        pct++;
+        loaderPct.innerText = pct;
+        loaderBar.style.width = pct + "%";
+        if(pct >= 100) {
+            clearInterval(loadInt);
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => document.getElementById('loader').style.display = 'none', 1000);
+        }
+    }, 20);
+
+    // Starfield Restoration
     const canvas = document.getElementById('space-canvas');
     const ctx = canvas.getContext('2d');
     let stars = [];
