@@ -21,7 +21,64 @@
             line-height: 1.6; 
         }
 
-        /* (All previous styles remain unchanged – loader, cursor, hero, projects, process, etc.) */
+        /* --- LOADER --- */
+        #loader {
+            position: fixed; inset: 0; background: #000; z-index: 1000000;
+            display: flex; justify-content: center; align-items: center;
+            flex-direction: column; transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        #loader.hide { opacity: 0; pointer-events: none; }
+        #loader-number { font-family: 'Playfair Display'; font-size: 8rem; color: var(--accent); font-weight: 200; font-style: italic; }
+        .loader-bar { width: 0%; height: 3px; background: var(--accent); position: absolute; bottom: 20%; transition: width 0.05s linear; box-shadow: 0 0 15px var(--accent); }
+
+        /* --- CURSOR --- */
+        #cursor { width: 6px; height: 6px; background: #fff; position: fixed; border-radius: 50%; pointer-events: none; z-index: 99999; }
+        #cursor-aura { width: 45px; height: 45px; border: 1px solid var(--accent); position: fixed; border-radius: 50%; pointer-events: none; z-index: 99998; transition: 0.1s ease-out; }
+
+        /* --- HERO --- */
+        header { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 12%; position: relative; z-index: 10; }
+        .profile-container { display: flex; align-items: center; gap: 40px; margin-bottom: 40px; flex-wrap: wrap; }
+        .profile-pic { 
+            width: 150px; height: 150px; border-radius: 50%; 
+            background: url('IMG_1860.jpeg') center/cover no-repeat; 
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 40px rgba(197, 163, 125, 0.3);
+        }
+        .reveal-text { 
+            font-family: 'Playfair Display'; 
+            font-size: clamp(2.2rem, 7vw, 6rem); 
+            font-weight: 400; 
+            line-height: 1.2; 
+            display: inline-block;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        .reveal-text span { opacity: 0; display: inline-block; transform: translateY(15px); animation: reveal 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        .word { display: inline-block; white-space: nowrap; margin-right: 0.2em; }
+        .gold-line { position: absolute; bottom: 0; left: 0; width: 0%; height: 2px; background: var(--gold-gradient); animation: growLine 1.5s 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
+
+        .hero-statement { 
+            max-width: 800px; font-size: 1.3rem; font-weight: 300; 
+            color: rgba(255,255,255,0.85); margin-top: 30px; 
+            font-family: 'Playfair Display'; font-style: italic;
+            line-height: 2;
+        }
+
+        /* --- STACKING PROJECTS --- */
+        .section { position: sticky; top: 0; width: 100%; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        .image-card { width: 90%; max-width: 1100px; height: 70vh; background: rgba(10, 10, 10, 0.9); border: 1px solid rgba(197, 163, 125, 0.15); backdrop-filter: blur(20px); padding: 30px; border-radius: 4px; display: flex; flex-direction: column; align-items: center; }
+        .image-container { width: 100%; height: 70%; overflow: hidden; margin-bottom: 20px; border-radius: 4px; }
+        .image-container img { width: 100%; height: 100%; object-fit: cover; }
+        .content h2 { font-family: 'Playfair Display'; font-size: 2.2rem; color: var(--accent); margin-bottom: 15px; font-weight: 300; }
+        .btn { display: inline-block; padding: 10px 35px; border: 1px solid var(--accent); color: #fff; text-decoration: none; letter-spacing: 4px; text-transform: uppercase; font-size: 0.7rem; transition: 0.3s; }
+        .btn:hover { background: var(--accent); color: #000; }
+
+        /* --- THE BLUEPRINT SECTION --- */
+        .process-section { padding: 15vh 10%; position: relative; }
+        .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 50px; margin-top: 60px; }
+        .process-item { border-left: 1px solid var(--accent); padding-left: 30px; opacity: 0; transform: translateY(30px); transition: 1s ease; }
+        .process-item.show { opacity: 1; transform: translateY(0); }
+        .process-item h3 { font-family: 'Playfair Display'; font-size: 2rem; color: var(--accent); margin-bottom: 15px; font-weight: 300; }
 
         /* --- PRICING / FINAL SECTION --- */
         #pricing-section { 
@@ -117,11 +174,99 @@
             transform: scale(1.05);
         }
 
-        /* (Rest of styles and media queries unchanged) */
+        .copyright-notice {
+            margin-top: 80px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        /* --- MODAL --- */
+        #modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000000; display: none; padding: 20px; }
+        #modal iframe { width: 100%; height: 100%; border: 1px solid var(--accent); border-radius: 4px; }
+        .close { position: absolute; top: 30px; right: 40px; color: var(--accent); cursor: pointer; letter-spacing: 5px; font-size: 1rem; font-weight: 600; }
+
+        /* --- ANIMATIONS --- */
+        @keyframes reveal { to { opacity: 1; transform: translateY(0); } }
+        @keyframes growLine { to { width: 100%; } }
+
+        @media (max-width: 768px) { 
+            * { cursor: auto; } 
+            #cursor, #cursor-aura { display: none; }
+            header { padding: 0 8%; }
+            .pricing-price { font-size: 4.5rem; }
+            #pricing-section { padding: 15vh 8%; }
+            .profile-container { flex-direction: column; text-align: center; }
+        }
     </style>
 </head>
 <body>
-    <!-- (All previous HTML unchanged – loader, starfield, header, projects, process) -->
+
+    <div id="loader">
+        <div id="loader-number">0</div>
+        <div class="loader-bar" id="loader-bar"></div>
+    </div>
+
+    <div id="canvas-container"><canvas id="starfield"></canvas></div>
+    <div id="cursor"></div>
+    <div id="cursor-aura"></div>
+
+    <header>
+        <div class="profile-container">
+            <div class="profile-pic"></div>
+            <div class="reveal-text" id="main-header">Digital Home for Healing</div>
+        </div>
+        <div class="hero-statement">
+            "I am a <b>Mental Health Counselor</b> who works every day to help people navigate their darkest moments. In this field, I’ve seen that therapists are often unable to truly show who they are—hidden behind cold directories or generic templates. My dream is to help you find a place to finally be seen. I build digital homes where your identity is felt, giving your clients a <b>sensible belief</b> that they can begin the journey—transforming their <b>chapter of hell into a chapter of heaven.</b>"
+        </div>
+    </header>
+
+    <div class="stack-wrapper">
+        <div class="section">
+            <div class="image-card">
+                <div class="image-container"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Clinical Precision"></div>
+                <div class="content"><h2>Clinical Precision</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Four/')" class="btn">Step Inside</a></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="image-card">
+                <div class="image-container"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="The Wild Self"></div>
+                <div class="content"><h2>The Wild Self</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Five/')" class="btn">Step Inside</a></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="image-card">
+                <div class="image-container"><img src="Screenshot_24-12-2025_12415_melipil5780-afk.github.io.jpeg" alt="Somatic Resonance"></div>
+                <div class="content"><h2>Somatic Resonance</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Two/')" class="btn">Step Inside</a></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="image-card">
+                <div class="image-container"><img src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Analytical Depth"></div>
+                <div class="content"><h2>Analytical Depth</h2><a href="javascript:void(0)" onclick="openM('https://melipil5780-afk.github.io/Three/')" class="btn">Step Inside</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="process-section">
+        <h2 class="reveal-text" id="process-header">The Blueprint of Ownership</h2>
+        <div class="process-grid">
+            <div class="process-item">
+                <h3>The Soul</h3>
+                <p>We begin by finding the resonance of your practice. We don't talk about buttons; we find the feeling you want a client to inhabit when they arrive.</p>
+            </div>
+            <div class="process-item">
+                <h3>The Structure</h3>
+                <p>I build the digital walls and curate beautiful colors and designs. We create a place that reflects your therapeutic authority and care.</p>
+            </div>
+            <div class="process-item">
+                <h3>The Key</h3>
+                <p>I hand you the login. No monthly rent. No corporate control. You gain total sovereignty over your digital presence, forever.</p>
+            </div>
+        </div>
+    </div>
 
     <section id="pricing-section">
         <canvas id="footer-particles"></canvas>
@@ -135,9 +280,161 @@
             </ul>
             <div class="footer-sub">One payment. Eternal ownership.<br>A digital house that finally feels like <i>you</i>.</div>
             <a href="booking.html" class="cta-button">Claim Your Digital Home</a>
+            <div class="copyright-notice">© 2025 THE SOVEREIGN. All rights reserved.</div>
         </div>
     </section>
 
-    <!-- (Modal and script remain exactly the same) -->
+    <div id="modal"><span class="close" onclick="closeM()">[ EXIT ]</span><iframe id="frame"></iframe></div>
+
+    <script>
+        // LOADER
+        let count = 0;
+        const loaderNum = document.getElementById('loader-number');
+        const loaderBar = document.getElementById('loader-bar');
+        const interval = setInterval(() => {
+            count += 4; if(count > 100) count = 100;
+            loaderNum.innerText = count; loaderBar.style.width = count + "%";
+            if(count === 100) {
+                clearInterval(interval);
+                const loader = document.getElementById('loader');
+                loader.classList.add('hide');
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    revealText("main-header");
+                    revealText("process-header");
+                    initScrollAnimations();
+                }, 600);
+            }
+        }, 30);
+
+        // REVEAL TEXT
+        function revealText(id) {
+            const el = document.getElementById(id);
+            const words = el.innerText.split(' ');
+            el.innerHTML = '';
+            words.forEach((word, wordIdx) => {
+                const wordSpan = document.createElement('span');
+                wordSpan.className = 'word';
+                word.split('').forEach((char, charIdx) => {
+                    const charSpan = document.createElement('span');
+                    charSpan.innerHTML = char === ' ' ? '&nbsp;' : char;
+                    charSpan.style.animationDelay = `${(wordIdx * 0.15) + (charIdx * 0.03)}s`;
+                    wordSpan.appendChild(charSpan);
+                });
+                el.appendChild(wordSpan);
+                el.appendChild(document.createTextNode(' '));
+            });
+            const line = document.createElement('div');
+            line.className = 'gold-line';
+            el.appendChild(line);
+        }
+
+        // STARFIELD
+        const canvas = document.getElementById('starfield');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+        const stars = [];
+        for(let i = 0; i < 150; i++) {
+            stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 1.2, speed: Math.random() * 0.3 });
+        }
+        function animateStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#fff";
+            stars.forEach(s => {
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                s.y -= s.speed;
+                if(s.y < 0) s.y = canvas.height;
+            });
+            requestAnimationFrame(animateStars);
+        }
+        animateStars();
+
+        // CURSOR
+        const c = document.getElementById('cursor');
+        const ca = document.getElementById('cursor-aura');
+        document.addEventListener('mousemove', (e) => {
+            c.style.left = e.clientX + 'px'; c.style.top = e.clientY + 'px';
+            ca.style.left = (e.clientX - 22) + 'px'; ca.style.top = (e.clientY - 22) + 'px';
+        });
+
+        // MODAL
+        function openM(url) { 
+            document.getElementById('frame').src = url; 
+            document.getElementById('modal').style.display = 'block'; 
+            document.body.style.overflow = 'hidden'; 
+        }
+        function closeM() { 
+            document.getElementById('modal').style.display = 'none'; 
+            document.getElementById('frame').src = ""; 
+            document.body.style.overflow = 'auto'; 
+        }
+
+        // SCROLL ANIMATIONS
+        function initScrollAnimations() {
+            const processItems = document.querySelectorAll('.process-item');
+            const pricingSection = document.getElementById('pricing-section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        if(entry.target.classList.contains('process-item')) {
+                            entry.target.classList.add('show');
+                        }
+                        if(entry.target === pricingSection) {
+                            pricingSection.classList.add('show');
+                        }
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            processItems.forEach(item => observer.observe(item));
+            observer.observe(pricingSection);
+        }
+
+        // FOOTER PARTICLES
+        const pricingSection = document.getElementById('pricing-section');
+        const fpCanvas = document.getElementById('footer-particles');
+        const fpCtx = fpCanvas.getContext('2d');
+        
+        function resizeFP() {
+            fpCanvas.width = pricingSection.clientWidth;
+            fpCanvas.height = pricingSection.clientHeight;
+        }
+        window.addEventListener('resize', resizeFP);
+        resizeFP();
+
+        const fStars = [];
+        for(let i = 0; i < 50; i++) {
+            fStars.push({
+                x: Math.random() * fpCanvas.width,
+                y: Math.random() * fpCanvas.height,
+                size: Math.random() * 1 + 0.5,
+                speed: Math.random() * 0.1 + 0.05
+            });
+        }
+
+        function animateFP() {
+            fpCtx.clearRect(0, 0, fpCanvas.width, fpCanvas.height);
+            fpCtx.fillStyle = "#fff";
+            fStars.forEach(s => {
+                fpCtx.beginPath();
+                fpCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                fpCtx.fill();
+                s.y -= s.speed;
+                if(s.y < 0) s.y = fpCanvas.height;
+            });
+            requestAnimationFrame(animateFP);
+        }
+        animateFP();
+
+        // AMBIENT AUDIO
+        const audio = new Audio('ambient-soft.mp3');
+        audio.loop = true;
+        pricingSection.addEventListener('mouseenter', () => audio.play().catch(() => {}));
+        pricingSection.addEventListener('mouseleave', () => audio.pause());
+    </script>
 </body>
 </html>
