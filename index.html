@@ -11,24 +11,22 @@
     
     body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; -webkit-font-smoothing: antialiased; }
 
-    /* --- MAIN 3D BACKGROUND (Vanta.js - Cosmic Alive Feel) --- */
-    #vanta-bg { position: fixed; inset: 0; z-index: -2; }
-
-    /* --- COSMIC OVERLAYS (Preserved from original) --- */
+    /* --- ORIGINAL COSMIC BACKGROUND (Restored & Enhanced - Easy on Eyes) --- */
+    #bg-canvas { z-index: -1; position: fixed; inset: 0; background: #000; }
     #bg-texture {
         position: fixed; inset: -50%; width: 200%; height: 200%; z-index: -1;
         background: 
             radial-gradient(circle at 15% 25%, rgba(197, 163, 125, 0.2) 0%, transparent 45%),
             radial-gradient(circle at 85% 75%, rgba(60, 100, 150, 0.2) 0%, transparent 45%);
-        animation: rotateBg 50s linear infinite;
-        pointer-events: none; opacity: 0.6;
+        animation: rotateBg 60s linear infinite;
+        pointer-events: none;
     }
     @keyframes rotateBg { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    #noise { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.3; z-index: 1; pointer-events: none; }
+    #noise { position: fixed; inset: 0; background: url('https://www.transparenttextures.com/patterns/stardust.png'); opacity: 0.25; z-index: 1; pointer-events: none; mix-blend-mode: screen; }
     
     #spotlight { 
         z-index: 2; position: fixed; inset: 0;
-        background: radial-gradient(circle 450px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.98) 100%); 
+        background: radial-gradient(circle 500px at var(--x, 50%) var(--y, 50%), transparent 0%, rgba(0,0,0,0.95) 100%); 
         pointer-events: none;
     }
 
@@ -50,11 +48,12 @@
         position: -webkit-sticky; position: sticky; top: 5vh; height: 85vh; width: 100%; margin-bottom: 20vh; 
         display: flex; flex-direction: column; background: rgba(5,5,5,0.96);
         backdrop-filter: blur(25px); border-top: 1px solid rgba(197, 163, 125, 0.35); padding: 25px;
-        box-shadow: 0 -30px 60px rgba(0,0,0,0.8); cursor: pointer;
+        box-shadow: 0 -30px 60px rgba(0,0,0,0.8);
     }
     .image-frame { width: 100%; height: 55vh; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); position: relative; }
-    .image-canvas { position: absolute; inset: 0; width: 100%; height: 100%; filter: brightness(0.4); transition: filter 0.8s; }
-    .project-card:hover .image-canvas { filter: brightness(1); }
+    .image-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .fallback-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.4); transition: filter 0.8s; opacity: 1; }
+    .project-card:hover .fallback-img { filter: brightness(1); }
     
     .view-label { 
         position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
@@ -63,25 +62,18 @@
     }
     .project-card:hover .view-label { opacity: 1; }
 
-    /* --- FULL MODAL (Now 3D Alive!) --- */
-    #modal { 
-        position: fixed; inset: 0; background: #000; z-index: 10000; display: none; opacity: 0; transition: opacity 0.6s; 
-        align-items: center; justify-content: center; flex-direction: column;
-    }
+    /* --- FULL MODAL (Large & Alive) --- */
+    #modal { position: fixed; inset: 0; background: #000; z-index: 10000; display: none; opacity: 0; transition: 0.5s; overflow: hidden; align-items: center; justify-content: center; flex-direction: column; }
     #modal.open { display: flex; opacity: 1; }
-    #modal-canvas { width: 90vw; height: 80vh; max-width: 1400px; max-height: 900px; border: 1px solid rgba(197,163,125,0.3); }
-    #close-modal { 
-        position: fixed; top: 30px; right: 30px; font-size: 2.5rem; color: var(--accent); 
-        background: rgba(0,0,0,0.5); border: 1px solid var(--accent); border-radius: 50%;
-        width: 60px; height: 60px; line-height: 55px; text-align: center; cursor: pointer; z-index: 10001; transition: 0.3s;
-    }
+    #modal-canvas { width: 92vw; height: 85vh; max-width: 1600px; border: 1px solid rgba(197,163,125,0.3); box-shadow: 0 0 80px rgba(197,163,125,0.2); }
+    #close-modal { position: fixed; top: 30px; right: 30px; font-size: 2.5rem; color: var(--accent); background: rgba(0,0,0,0.5); border: 1px solid var(--accent); border-radius: 50%; width: 60px; height: 60px; line-height: 55px; text-align: center; cursor: pointer; z-index: 10001; transition: 0.3s; }
 
     /* --- MESSAGING & FINAL --- */
     .style-message { padding: 25vh 10vw; text-align: center; background: #000; position: relative; z-index: 30; }
     .shimmer-text { font-family: 'Cormorant Garamond'; font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 300; background: linear-gradient(90deg, #333, #fff, #333); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
     @keyframes shine { to { background-position: 200% center; } }
 
-    #final-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; position: relative; z-index: 100; }
+    #final-section { background: #fff; color: #000; padding: 20vh 10vw; text-align: center; position: relative; z-index: 100; transition: 1s; }
     .cta-btn { display: inline-block; padding: 25px 70px; background: #000; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: 5px; animation: pulse 2.5s infinite; }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4); } 70% { box-shadow: 0 0 0 25px rgba(197, 163, 125, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); } }
 
@@ -93,7 +85,7 @@
         #c, #ca, #spotlight { display: none !important; }
         .project-card { top: 2vh; height: 80vh; margin-bottom: 12vh; }
         .view-label { opacity: 1; top: 85%; width: 80%; text-align: center; }
-        #modal-canvas { width: 95vw; height: 70vh; }
+        .fallback-img { filter: brightness(1) !important; }
     }
 </style>
 </head>
@@ -103,18 +95,13 @@
     <div id="loader-n" style="font-family:'Cormorant Garamond'; font-size:8vw; color:var(--accent);">0</div>
 </div>
 
-<div id="vanta-bg"></div>
+<div id="modal"><button id="close-modal" onclick="closeModal()">✕</button><canvas id="modal-canvas"></canvas></div>
+
 <div id="bg-texture"></div>
 <div id="noise"></div>
 <div id="spotlight"></div>
+<canvas id="bg-canvas"></canvas>
 <div id="c"></div><div id="ca"></div>
-
-<!-- Full 3D Modal -->
-<div id="modal">
-    <button id="close-modal" onclick="closeModal()">✕</button>
-    <canvas id="modal-canvas"></canvas>
-    <h2 id="modal-title" style="margin-top: 30px; font-family: 'Cormorant Garamond'; font-size: 3rem; font-weight: 300;"></h2>
-</div>
 
 <section id="hero-sec">
     <span id="hero-tag-top">DIGITAL ARCHITECTURE</span>
@@ -126,20 +113,36 @@
 </section>
 
 <div id="gallery">
-    <div class="project-card" data-img="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" data-title="The Grounded Space">
-        <div class="image-frame"><canvas class="image-canvas"></canvas><div class="view-label">SEE FULL WEBSITE</div></div>
+    <div class="project-card" data-img="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg">
+        <div class="image-frame">
+            <canvas class="image-canvas"></canvas>
+            <img class="fallback-img" src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="The Grounded Space">
+            <div class="view-label">SEE FULL WEBSITE</div>
+        </div>
         <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">The Grounded Space</h2>
     </div>
-    <div class="project-card" data-img="healing.jpg" data-title="Somatic Safety">
-        <div class="image-frame"><canvas class="image-canvas"></canvas><div class="view-label">SEE FULL WEBSITE</div></div>
+    <div class="project-card" data-img="healing.jpg">
+        <div class="image-frame">
+            <canvas class="image-canvas"></canvas>
+            <img class="fallback-img" src="healing.jpg" alt="Somatic Safety">
+            <div class="view-label">SEE FULL WEBSITE</div>
+        </div>
         <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">Somatic Safety</h2>
     </div>
-    <div class="project-card" data-img="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" data-title="Analytical Soul">
-        <div class="image-frame"><canvas class="image-canvas"></canvas><div class="view-label">SEE FULL WEBSITE</div></div>
+    <div class="project-card" data-img="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg">
+        <div class="image-frame">
+            <canvas class="image-canvas"></canvas>
+            <img class="fallback-img" src="Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg" alt="Analytical Soul">
+            <div class="view-label">SEE FULL WEBSITE</div>
+        </div>
         <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">Analytical Soul</h2>
     </div>
-    <div class="project-card" data-img="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" data-title="Clinical Precision">
-        <div class="image-frame"><canvas class="image-canvas"></canvas><div class="view-label">SEE FULL WEBSITE</div></div>
+    <div class="project-card" data-img="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg">
+        <div class="image-frame">
+            <canvas class="image-canvas"></canvas>
+            <img class="fallback-img" src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Clinical Precision">
+            <div class="view-label">SEE FULL WEBSITE</div>
+        </div>
         <h2 style="font-family: 'Cormorant Garamond'; font-size: 2.8rem; margin-top: 25px; font-weight: 300;">Clinical Precision</h2>
     </div>
 </div>
@@ -161,217 +164,188 @@
 </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
 
 <script>
-// === MAIN COSMIC 3D BACKGROUND (Vanta.js) ===
-VANTA.WAVES({
-  el: "#vanta-bg",
-  mouseControls: true,
-  touchControls: true,
-  gyroControls: true,
-  minHeight: 200.00,
-  minWidth: 200.00,
-  highlightColor: 0xc5a37d,
-  midtoneColor: 0x3a6073,
-  lowlightColor: 0x172a3a,
-  baseColor: 0x000000,
-  amplitudeFactor: 2.0,
-  shininess: 50.00,
-  waveSpeed: 0.30,
-  zoom: 0.65
-});
-VANTA.FOG({
-  el: "#vanta-bg",
-  highlightColor: 0xc5a37d,
-  midtoneColor: 0x88a0c0,
-  lowlightColor: 0x1a2a3a,
-  baseColor: 0x000000,
-  blurFactor: 0.5,
-  speed: 1.0,
-  zoom: 1.5
-});
-VANTA.NET({
-  el: "#vanta-bg",
-  mouseControls: false,
-  touchControls: false,
-  points: 10,
-  maxDistance: 30,
-  spacing: 20,
-  color: 0xc5a37d,
-  backgroundAlpha: 0.6
-});
-
-// === 3D SHADER FOR MINI + FULL ===
-const imgSources = [
-    'Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg',
-    'healing.jpg',
-    'Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg',
-    'Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg'
-];
-const titles = ['The Grounded Space', 'Somatic Safety', 'Analytical Soul', 'Clinical Precision'];
-
-let currentModalShader = null; // To destroy old when opening new
-
-function init3DCanvas(canvasEl, imgSrc, ampBase = 0.05, isModal = false) {
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasEl, alpha: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(canvasEl.clientWidth, canvasEl.clientHeight);
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, canvasEl.clientWidth / canvasEl.clientHeight, 0.1, 10);
-    camera.position.z = isModal ? 1.2 : 1.5;
-
-    const geometry = new THREE.PlaneGeometry(2, 2, 128, 128);
-
-    const texture = new THREE.TextureLoader().load(imgSrc);
-
-    const uniforms = {
-        u_time: { value: 0 },
-        u_texture: { value: texture },
-        u_amp: { value: ampBase },
-        u_freq: { value: 3.0 },
-        u_brightness: { value: isModal ? 0.9 : 0.4 }
-    };
-
-    const material = new THREE.ShaderMaterial({
-        uniforms,
-        vertexShader: `
-            varying vec2 vUv;
-            uniform float u_time;
-            uniform float u_amp;
-            uniform float u_freq;
-
-            float snoise(vec2 v) {
-                // Simple noise for organic feel
-                return sin(v.x * u_freq + u_time) * sin(v.y * u_freq + u_time * 0.7) * u_amp;
-            }
-
-            void main() {
-                vUv = uv;
-                vec3 pos = position;
-                float noise = snoise(pos.xy * 4.0);
-                pos.z += noise + sin(u_time * 0.8 + length(pos.xy)) * u_amp * 0.6;
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-            }
-        `,
-        fragmentShader: `
-            uniform sampler2D u_texture;
-            uniform float u_brightness;
-            varying vec2 vUv;
-            void main() {
-                vec4 tex = texture2D(u_texture, vUv);
-                tex.rgb *= u_brightness;
-                gl_FragColor = tex;
-            }
-        `,
-        transparent: true
-    });
-
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-
-    let time = 0;
-    function animate() {
-        time += 0.01;
-        uniforms.u_time.value = time;
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate);
+    // === ORIGINAL COSMIC DOTS BACKGROUND (Restored - Soothing & Easy on Eyes) ===
+    const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
+    let dots = [], pulseProgress = 0;
+    function initBg() {
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        dots = Array.from({length: 100}, () => ({ 
+            x: Math.random()*canvas.width, y: Math.random()*canvas.height, 
+            vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4, r: Math.random()*2 + 1 
+        }));
     }
-    animate();
+    function drawBg() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        pulseProgress += 0.003;
+        dots.forEach((d, i) => {
+            d.x += d.vx; d.y += d.vy;
+            if(d.x<0||d.x>canvas.width) d.vx*=-1; if(d.y<0||d.y>canvas.height) d.vy*=-1;
+            ctx.fillStyle = "rgba(255, 255, 255, 0.8)"; ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2); ctx.fill();
+            for(let j=i+1; j<dots.length; j++){
+                let d2 = dots[j], dist = Math.hypot(d.x-d2.x, d.y-d2.y);
+                if(dist < 160){
+                    let pulse = Math.sin((dist/160)-(pulseProgress*Math.PI*2));
+                    ctx.strokeStyle = `rgba(197,163,125,${0.3 - dist/160 + pulse*0.15})`;
+                    ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d2.x, d2.y); ctx.stroke();
+                }
+            }
+        });
+        requestAnimationFrame(drawBg);
+    }
+    initBg(); drawBg();
+    window.addEventListener('resize', initBg);
 
-    // Hover interaction
-    const container = canvasEl.closest(isModal ? '#modal' : '.project-card');
-    container.addEventListener('mouseenter', () => {
-        uniforms.u_amp.value = ampBase * 2.5;
-        uniforms.u_brightness.value = 1.0;
-    });
-    container.addEventListener('mouseleave', () => {
-        uniforms.u_amp.value = ampBase;
-        uniforms.u_brightness.value = isModal ? 0.9 : 0.4;
-    });
+    // === GENTLE 3D WAVE SHADER (Visible Images + Alive Breathing) ===
+    const imgSources = [
+        'Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg',
+        'healing.jpg',
+        'Screenshot_24-12-2025_122136_melipil5780-afk.github.io.jpeg',
+        'Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg'
+    ];
 
-    // Resize
-    window.addEventListener('resize', () => {
-        camera.aspect = canvasEl.clientWidth / canvasEl.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(canvasEl.clientWidth, canvasEl.clientHeight);
-    });
+    let currentModal = null;
 
-    return { renderer, scene }; // Return for cleanup if needed
-}
+    function createShader(canvas, imgSrc, baseAmp = 0.04, isModal = false) {
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
 
-// Init mini previews
-document.querySelectorAll('.image-canvas').forEach((canvas, i) => {
-    init3DCanvas(canvas, imgSources[i], 0.04 + i * 0.01);
-});
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 10);
+        camera.position.z = isModal ? 1.3 : 1.6;
 
-// Open full alive modal
-document.querySelectorAll('.project-card').forEach((card, i) => {
-    card.addEventListener('click', () => {
-        const img = imgSources[i];
-        const title = titles[i];
-        document.getElementById('modal-title').textContent = title;
+        const geometry = new THREE.PlaneGeometry(2, 2, 160, 160);
 
-        // Clean previous
-        if (currentModalShader) {
-            currentModalShader.renderer.dispose();
+        const texture = new THREE.TextureLoader().load(imgSrc, () => {
+            // Hide fallback when texture loads
+            canvas.parentElement.querySelector('.fallback-img').style.opacity = '0';
+        });
+
+        const uniforms = {
+            u_time: { value: 0 },
+            u_texture: { value: texture },
+            u_amp: { value: baseAmp },
+            u_brightness: { value: isModal ? 1.0 : 0.4 }
+        };
+
+        const material = new THREE.ShaderMaterial({
+            uniforms,
+            vertexShader: `
+                varying vec2 vUv;
+                uniform float u_time;
+                uniform float u_amp;
+                void main() {
+                    vUv = uv;
+                    vec3 pos = position;
+                    float wave = sin(pos.x * 8.0 + u_time * 1.5) * sin(pos.y * 6.0 + u_time * 1.2) * u_amp;
+                    pos.z += wave;
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform sampler2D u_texture;
+                uniform float u_brightness;
+                varying vec2 vUv;
+                void main() {
+                    vec4 color = texture2D(u_texture, vUv);
+                    color.rgb *= u_brightness;
+                    gl_FragColor = color;
+                }
+            `,
+            transparent: true
+        });
+
+        const mesh = new THREE.Mesh(geometry, material);
+        scene.add(mesh);
+
+        function animate(time) {
+            uniforms.u_time.value = time * 0.001;
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
         }
+        animate();
 
-        const modalCanvas = document.getElementById('modal-canvas');
-        currentModalShader = init3DCanvas(modalCanvas, img, 0.08, true);
+        const card = canvas.closest('.project-card') || canvas.parentElement;
+        card.addEventListener('mouseenter', () => {
+            uniforms.u_amp.value = baseAmp * 2.8;
+            uniforms.u_brightness.value = 1.0;
+        });
+        card.addEventListener('mouseleave', () => {
+            uniforms.u_amp.value = baseAmp;
+            uniforms.u_brightness.value = isModal ? 1.0 : 0.4;
+        });
 
-        document.getElementById('modal').classList.add('open');
-        document.body.style.overflow = 'hidden';
-    });
-});
+        window.addEventListener('resize', () => {
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        });
 
-function closeModal() {
-    document.getElementById('modal').classList.remove('open');
-    document.body.style.overflow = 'auto';
-}
-
-// === ORIGINAL SCRIPTS (cursor, loader, text reveal, etc.) ===
-function handleMove(e) {
-    document.getElementById('spotlight').style.setProperty('--x', e.clientX + 'px');
-    document.getElementById('spotlight').style.setProperty('--y', e.clientY + 'px');
-    document.getElementById('c').style.left = e.clientX+'px'; document.getElementById('c').style.top = e.clientY+'px';
-    document.getElementById('ca').style.left = (e.clientX-22)+'px'; document.getElementById('ca').style.top = (e.clientY-22)+'px';
-}
-
-function revealText(text, container) {
-    const words = text.split(" ");
-    container.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
-    const spans = container.querySelectorAll('.word');
-    spans.forEach((span, i) => {
-        setTimeout(() => {
-            span.classList.add('visible');
-            if(i === spans.length - 1) setTimeout(() => document.getElementById('hero-line').classList.add('line-active'), 500);
-        }, i * 250);
-    });
-}
-
-let lCount = 0;
-let lInt = setInterval(() => {
-    lCount += 5;
-    if(lCount >= 100) {
-        clearInterval(lInt);
-        document.getElementById('loader').style.opacity = "0";
-        setTimeout(() => {
-            document.getElementById('loader').style.display = "none";
-            document.getElementById('hero-sec').classList.add('reveal');
-            revealText('I Build Elite Therapy Websites.', document.getElementById('hero-text'));
-        }, 800);
+        return renderer;
     }
-    document.getElementById('loader-n').innerText = lCount;
-}, 30);
 
-window.addEventListener('scroll', () => {
-    const rect = document.getElementById('final-section').getBoundingClientRect();
-    document.getElementById('spotlight').style.opacity = rect.top < window.innerHeight/2 ? "0" : "1";
-});
+    // Init mini previews
+    document.querySelectorAll('.image-canvas').forEach((c, i) => createShader(c, imgSources[i], 0.04 + i*0.008));
+
+    // Full modal
+    document.querySelectorAll('.project-card').forEach((card, i) => {
+        card.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentModal) currentModal.dispose();
+            const modalCanvas = document.getElementById('modal-canvas');
+            currentModal = createShader(modalCanvas, imgSources[i], 0.07, true);
+            document.getElementById('modal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    function closeModal() {
+        document.getElementById('modal').classList.remove('open');
+        document.body.style.overflow = 'auto';
+        if (currentModal) currentModal.dispose();
+    }
+
+    // === ORIGINAL SCRIPTS ===
+    function handleMove(e) {
+        document.getElementById('spotlight').style.setProperty('--x', e.clientX + 'px');
+        document.getElementById('spotlight').style.setProperty('--y', e.clientY + 'px');
+        document.getElementById('c').style.left = e.clientX+'px'; document.getElementById('c').style.top = e.clientY+'px';
+        document.getElementById('ca').style.left = (e.clientX-22)+'px'; document.getElementById('ca').style.top = (e.clientY-22)+'px';
+    }
+
+    function revealText(text, container) {
+        const words = text.split(" ");
+        container.innerHTML = words.map(w => `<span class="word">${w}</span>`).join(" ");
+        const spans = container.querySelectorAll('.word');
+        spans.forEach((span, i) => {
+            setTimeout(() => {
+                span.classList.add('visible');
+                if(i === spans.length - 1) setTimeout(() => document.getElementById('hero-line').classList.add('line-active'), 500);
+            }, i * 250);
+        });
+    }
+
+    let lCount = 0;
+    let lInt = setInterval(() => {
+        lCount += 5;
+        if(lCount >= 100) {
+            clearInterval(lInt);
+            document.getElementById('loader').style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById('loader').style.display = "none";
+                document.getElementById('hero-sec').classList.add('reveal');
+                revealText('I Build Elite Therapy Websites.', document.getElementById('hero-text'));
+            }, 800);
+        }
+        document.getElementById('loader-n').innerText = lCount;
+    }, 30);
+
+    window.addEventListener('scroll', () => {
+        const rect = document.getElementById('final-section').getBoundingClientRect();
+        document.getElementById('spotlight').style.opacity = rect.top < window.innerHeight/2 ? "0" : "1";
+    });
 </script>
 </body>
 </html>
