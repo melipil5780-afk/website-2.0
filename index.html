@@ -4,186 +4,276 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE SOVEREIGN | DIGITAL ARCHITECT</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
-
 <style>
-:root {
-  --accent: #c5a37d;
-  --bg: #030303;
-  --text: #ffffff;
-  --gold-gradient: linear-gradient(90deg, #c5a37d, #ffefba, #c5a37d);
+:root { 
+    --accent: #c5a37d; 
+    --bg: #030303; 
+    --text: #ffffff; 
+    --gold-gradient: linear-gradient(90deg, #c5a37d, #ffefba, #c5a37d); 
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+body { 
+    background: var(--bg); 
+    color: var(--text); 
+    font-family: 'Inter', sans-serif; 
+    overflow-x: hidden; 
+    line-height: 1.6; 
 }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-  line-height: 1.6;
-}
-
-/* Loader */
+/* — LOADER — */
 #loader {
-  position: fixed;
-  inset: 0;
-  background: #000;
-  z-index: 1000000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+    position: fixed; inset: 0; background: #000; z-index: 1000000;
+    display: flex; justify-content: center; align-items: center;
+    flex-direction: column; transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
+#loader.hide { opacity: 0; pointer-events: none; }
+#loader-number { font-family: 'Playfair Display'; font-size: 8rem; color: var(--accent); font-weight: 200; font-style: italic; }
+.loader-bar { width: 0%; height: 3px; background: var(--accent); position: absolute; bottom: 20%; transition: width 0.05s linear; box-shadow: 0 0 15px var(--accent); }
 
-#loader-number {
-  font-family: 'Playfair Display', serif;
-  font-size: 8rem;
-  color: var(--accent);
-  font-weight: 200;
-  font-style: italic;
-}
+/* — CURSOR — */
+#cursor { width: 6px; height: 6px; background: #fff; position: fixed; border-radius: 50%; pointer-events: none; z-index: 99999; mix-blend-mode: difference; }
+#cursor-aura { width: 45px; height: 45px; border: 1px solid var(--accent); position: fixed; border-radius: 50%; pointer-events: none; z-index: 99998; transition: 0.1s ease-out; transform: translate(-50%, -50%); }
 
-.loader-bar {
-  width: 0%;
-  height: 3px;
-  background: var(--accent);
-  position: absolute;
-  bottom: 20%;
-}
+/* — STARFIELD — */
+#canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; pointer-events: none; }
 
-/* Hero */
-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 12%;
-}
-
-.profile-container {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-}
+/* — HERO — */
+header { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 12%; position: relative; z-index: 10; }
+.profile-container { display: flex; align-items: center; gap: 60px; margin-bottom: 40px; flex-wrap: wrap; }
 
 .profile-pic {
-  width: 220px;
-  height: 340px;
-  border-radius: 6px;
-  background: url('profile.png') center/contain no-repeat;
-  border: 1px solid var(--accent);
+    width: 200px; height: 200px; border-radius: 50%;
+    background: url('IMG_1860.jpeg') center/cover no-repeat;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 30px rgba(197, 163, 125, 0.4);
+    position: relative;
 }
+
+/* Gold Ring Glow */
+.profile-pic::after {
+    content: ''; position: absolute; inset: -10px; border-radius: 50%;
+    border: 1px solid rgba(197, 163, 125, 0.2); animation: pulse 4s infinite;
+}
+
+@keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.2); opacity: 0; } }
 
 .reveal-text {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2.2rem, 7vw, 6rem);
-  font-weight: 400;
-  line-height: 1.2;
-  position: relative;
-  padding-bottom: 20px;
-}
-
-.gold-line {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: var(--gold-gradient);
+    font-family: 'Playfair Display';
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    position: relative;
 }
 
 .hero-statement {
-  max-width: 760px;
-  font-size: 1.25rem;
-  font-weight: 300;
-  color: rgba(255,255,255,0.85);
-  margin-top: 30px;
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
-  line-height: 2;
+    max-width: 800px; font-size: 1.15rem; font-weight: 300;
+    color: rgba(255,255,255,0.7); margin-top: 30px;
+    font-family: 'Inter'; line-height: 1.8;
+}
+.hero-statement b { color: var(--accent); font-weight: 400; }
+
+/* — STACKING PROJECTS — */
+.section { position: relative; width: 100%; min-height: 80vh; display: flex; justify-content: center; align-items: center; padding: 50px 0; }
+
+.image-card { 
+    width: 90%; max-width: 1000px; height: 60vh; 
+    background: rgba(15, 15, 15, 0.6); 
+    border: 1px solid rgba(197, 163, 125, 0.1); 
+    backdrop-filter: blur(15px); padding: 20px; 
+    border-radius: 8px; display: flex; flex-direction: column;
+    transition: transform 0.6s ease;
 }
 
-/* Pricing */
-#pricing-section {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10vh 10%;
-  text-align: center;
+.image-card:hover { transform: scale(1.02); border-color: var(--accent); }
+
+.image-container { width: 100%; height: 80%; overflow: hidden; border-radius: 4px; position: relative; }
+.image-container img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(40%); transition: 0.8s; }
+.image-card:hover img { filter: grayscale(0%); }
+
+.card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 20px; }
+.card-footer h2 { font-family: 'Playfair Display'; font-size: 1.8rem; font-weight: 300; }
+
+.btn { 
+    padding: 12px 30px; border: 1px solid var(--accent); color: #fff; 
+    text-decoration: none; letter-spacing: 2px; text-transform: uppercase; 
+    font-size: 0.75rem; transition: 0.4s; background: transparent;
+}
+.btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px var(--accent); }
+
+/* — THE BLUEPRINT SECTION — */
+.process-section { padding: 15vh 10%; position: relative; z-index: 10; text-align: center; }
+.process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 80px; text-align: left; }
+
+.process-item { border-top: 1px solid rgba(197, 163, 125, 0.3); padding-top: 30px; opacity: 0; transform: translateY(30px); transition: 1s ease; }
+.process-item.show { opacity: 1; transform: translateY(0); }
+.process-item h3 { font-family: 'Playfair Display'; font-size: 1.8rem; color: var(--accent); margin-bottom: 15px; font-weight: 400; }
+.process-item p { font-size: 0.95rem; color: #aaa; font-weight: 300; }
+
+/* — PRICING / FINAL SECTION — */
+#pricing-section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10vh 10%; text-align: center; position: relative;}
+
+.pricing-container { opacity: 0; transform: scale(0.9); transition: 1.5s ease; }
+#pricing-section.show .pricing-container { opacity: 1; transform: scale(1); }
+
+.pricing-price { 
+    font-family: 'Playfair Display'; font-size: 7rem; font-weight: 200; 
+    background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+    background-size: 200% auto; animation: shimmer 4s linear infinite;
 }
 
-.pricing-price {
-  font-family: 'Playfair Display', serif;
-  font-size: 4.5rem;
-  font-weight: 200;
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+@keyframes shimmer { to { background-position: 200% center; } }
 
-.cta-button {
-  margin-top: 30px;
-  padding: 20px 50px;
-  font-size: 0.9rem;
-  letter-spacing: 4px;
-  border: 1px solid var(--accent);
-  color: #fff;
-  text-decoration: none;
+.pricing-bullets { list-style: none; margin: 40px 0; font-size: 1.1rem; color: rgba(255,255,255,0.6); }
+.pricing-bullets li { margin-bottom: 10px; letter-spacing: 1px; }
+
+.cta-button { 
+    display: inline-block; padding: 25px 60px; font-size: 0.9rem; letter-spacing: 5px; 
+    color: #fff; text-decoration: none; text-transform: uppercase; 
+    border: 1px solid var(--accent); transition: 0.5s; 
+}
+.cta-button:hover { background: var(--accent); color: #000; box-shadow: 0 0 40px rgba(197, 163, 125, 0.3); }
+
+/* — MODAL — */
+#modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000000; display: none; padding: 40px; }
+#modal iframe { width: 100%; height: 100%; border: 1px solid var(--accent); border-radius: 4px; }
+.close { position: absolute; top: 20px; right: 40px; color: var(--accent); cursor: pointer; letter-spacing: 5px; font-weight: 600; }
+
+@media (max-width: 768px) {
+    header { padding: 0 8%; text-align: center; }
+    .profile-container { flex-direction: column; gap: 30px; }
+    .pricing-price { font-size: 4rem; }
+    #cursor, #cursor-aura { display: none; }
+    * { cursor: auto; }
 }
 </style>
 </head>
-
 <body>
 
 <div id="loader">
-  <div id="loader-number">0</div>
-  <div class="loader-bar" id="loader-bar"></div>
+    <div id="loader-number">0</div>
+    <div class="loader-bar" id="loader-bar"></div>
 </div>
 
-<header>
-  <div class="profile-container">
-    <div class="profile-pic"></div>
-    <div class="reveal-text">
-      Digital Home for Healing
-      <div class="gold-line"></div>
-    </div>
-  </div>
+<div id="canvas-container"><canvas id="starfield"></canvas></div>
+<div id="cursor"></div>
+<div id="cursor-aura"></div>
 
-  <div class="hero-statement">
-    This is not a website. It is a place your clients feel before they understand.
-  </div>
+<header>
+    <div class="profile-container">
+        <div class="profile-pic"></div>
+        <div class="reveal-text" id="main-header">Digital Home <br>for Healing</div>
+    </div>
+    <div class="hero-statement">
+        "I am a <b>Mental Health Counselor</b> helping people navigate their darkest moments. Therapists are often hidden behind generic templates. I build digital homes where your identity is felt, giving clients a <b>sensible belief</b> that they can begin the journey—transforming their <b>chapter of hell into heaven.</b>"
+    </div>
 </header>
 
+<div class="stack-wrapper">
+    <div class="section">
+        <div class="image-card">
+            <div class="image-container"><img src="Screenshot_24-12-2025_122627_melipil5780-afk.github.io.jpeg" alt="Clinical Precision"></div>
+            <div class="card-footer"><h2>Clinical Precision</h2><button onclick="openM('https://melipil5780-afk.github.io/Four/')" class="btn">Step Inside</button></div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="image-card">
+            <div class="image-container"><img src="Screenshot_24-12-2025_131027_melipil5780-afk.github.io.jpeg" alt="The Wild Self"></div>
+            <div class="card-footer"><h2>The Wild Self</h2><button onclick="openM('https://melipil5780-afk.github.io/Five/')" class="btn">Step Inside</button></div>
+        </div>
+    </div>
+</div>
+
+<div class="process-section">
+    <h2 class="reveal-text" style="font-size: 3rem;">The Blueprint of Ownership</h2>
+    <div class="process-grid">
+        <div class="process-item">
+            <h3>The Soul</h3>
+            <p>We begin by finding the resonance of your practice. We don't talk about buttons; we find the feeling you want a client to inhabit when they arrive.</p>
+        </div>
+        <div class="process-item">
+            <h3>The Structure</h3>
+            <p>I build the digital walls and curate designs that reflect your therapeutic authority and care.</p>
+        </div>
+        <div class="process-item">
+            <h3>The Key</h3>
+            <p>I hand you the login. No monthly rent. No corporate control. You gain total sovereignty over your digital presence, forever.</p>
+        </div>
+    </div>
+</div>
+
 <section id="pricing-section">
-  <div>
-    <div class="pricing-price">$3k–$5k</div>
-    <a href="booking.html" class="cta-button">Claim Your Digital Home</a>
-  </div>
+    <div class="pricing-container">
+        <div class="pricing-price">$1,000</div>
+        <ul class="pricing-bullets">
+            <li>Custom design tailored to your identity</li>
+            <li>Full ownership + source files forever</li>
+            <li>Free hosting assistance included</li>
+        </ul>
+        <a href="booking.html" class="cta-button">Claim Your Home</a>
+    </div>
 </section>
 
+<div id="modal"><span class="close" onclick="closeM()">[ EXIT ]</span><iframe id="frame"></iframe></div>
+
 <script>
+// Loader Logic
 let count = 0;
 const loaderNum = document.getElementById('loader-number');
 const loaderBar = document.getElementById('loader-bar');
-
 const interval = setInterval(() => {
-  count += 4;
-  loaderNum.innerText = count;
-  loaderBar.style.width = count + "%";
-  if (count >= 100) {
-    clearInterval(interval);
-    document.getElementById('loader').style.display = 'none';
-  }
+    count += 2; if(count > 100) count = 100;
+    loaderNum.innerText = count; loaderBar.style.width = count + "%";
+    if(count === 100) {
+        clearInterval(interval);
+        document.getElementById('loader').classList.add('hide');
+        setTimeout(() => initScrollAnimations(), 800);
+    }
 }, 30);
+
+// Starfield Logic
+const canvas = document.getElementById('starfield');
+const ctx = canvas.getContext('2d');
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resize); resize();
+const stars = [];
+for(let i = 0; i < 150; i++) {
+    stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, z: Math.random() * 2 });
+}
+function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s => {
+        s.y -= 0.2 * s.z; if(s.y < 0) s.y = canvas.height;
+        ctx.fillStyle = `rgba(255,255,255,${0.3 * s.z})`;
+        ctx.fillRect(s.x, s.y, s.z, s.z);
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+
+// Cursor Follow
+const cursor = document.getElementById('cursor'); const aura = document.getElementById('cursor-aura');
+document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px';
+    aura.style.left = e.clientX + 'px'; aura.style.top = e.clientY + 'px';
+});
+
+// Scroll Reveal
+function initScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) entry.target.classList.add('show');
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.process-item, #pricing-section').forEach(el => observer.observe(el));
+}
+
+// Modal
+function openM(url){ document.getElementById('modal').style.display='block'; document.getElementById('frame').src=url; }
+function closeM(){ document.getElementById('modal').style.display='none'; document.getElementById('frame').src=''; }
 </script>
 
 </body>
